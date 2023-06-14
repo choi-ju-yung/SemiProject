@@ -15,7 +15,7 @@
 <script nomodule
 	src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 <script src="<%=request.getContextPath()%>/js/jquery-3.7.0.min.js"></script>
-<script src="<%=request.getContextPath()%>/js/common/header.js"></script>
+
 <title>중고 거래 HiFive</title>
 </head>
 
@@ -233,3 +233,4 @@ if (cookies != null) {
       </div>
     </header>
     </header>
+    <script src="<%=request.getContextPath()%>/js/common/header.js"></script>
