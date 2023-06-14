@@ -18,7 +18,6 @@ public class Member {
 //	private String email;
 //	private String nickName;
 //	private Date enrollDate;
-	//
 	   private String userId;
 	   private String email;
 	   private String nickName;
