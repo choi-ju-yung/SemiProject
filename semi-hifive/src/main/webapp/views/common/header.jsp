@@ -44,7 +44,7 @@ if (cookies != null) {
           <div class="loginSerivce">
             <a href="<%=request.getContextPath()%>/loginView.do" id="login">로그인</a>
             <a href="<%=request.getContextPath()%>/enrollMember.do" id="enroll">회원가입</a>
-            <a href="http://www.naver.com" id="service">고객센터</a>
+            <a href="<%=request.getContextPath()%>/service/boardList.do?notice=Y" id="service">고객센터</a>
           </div>
          <%}else{ %>
                  <div id="headerContainer">
