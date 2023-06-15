@@ -1,0 +1,144 @@
+@charset "UTF-8";
+
+/* 페이지 버튼 */
+      .pageAll {
+            /* border: 1px solid saddlebrown; */
+            /* margin-top: 20px; */
+            margin-bottom: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .page {
+            display: inline-block;
+            padding: 0;
+            margin: 0;
+        }
+
+        .page li {
+            display: inline;
+        }
+
+        .page li a {
+            color: #313030;
+            float: left;
+            margin: 5px;
+            padding: 5px 10px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 700;
+        }
+        
+        .page li a:active {
+            transform: scale(0.9);
+            
+        }
+
+        .page li a:hover:not(.nowPage) {
+            background-color: #eeeeee;
+            /* color: white; */
+            border-radius: 7px;
+        }
+
+        .nowPage{
+            background-color: #20C997;
+            border-radius: 7px;
+            color: white !important;
+        }
+        
+        section {
+        display: flex;
+      }
+
+      .mypageMain {
+        /* border: 1px solid lightcoral; */
+        width: 1050px;
+        height: auto;
+      }
+
+      .mypageMainHeader {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 25px;
+      }
+
+      .mypageMainHeader>h3{
+        font-size: 23px;
+        color: #313030;
+      }
+
+      /* 구매내역 헤더 div */
+      .sortContainer {
+        display: flex;
+        margin-right: 10px;
+      }
+
+      .sort {
+        font-size: 12px;
+        color: #8F8F8F !important;
+        padding-left: 5px;
+        padding-right: 5px;
+      }
+
+      /* 구매내역 목록 div */
+      .productAll {
+        margin-bottom: 40px;
+      }
+
+      .product {
+        /* border: 1px solid palevioletred; */
+        height: 160px;
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .product img {
+        width: 160px;
+        height: 160px;
+      }
+
+      .proContent {
+        padding-top: 3px;
+        padding-left: 20px;
+        width: 825px;
+      }
+
+      .proContent>h3 {
+        font-size: 25px;
+      }
+
+      .aTag {
+        text-decoration: none;
+        color: #313030;
+      }
+
+      .aTag:hover {
+        text-decoration: underline;
+        text-underline-position: under;
+      }
+
+      .contentMargin {
+        margin-top: 6px;
+        margin-bottom: 83px;
+      }
+
+      .productTitle {
+        font-size: 19px;
+      }
+
+      .grayFont {
+        color: #afafaf;
+        font-weight: 400;
+      }
+
+      .buyDate {
+        padding-top: 5px;
+        padding-right: 15px;
+        display: flex;
+        justify-content: right;
+        color: #afafaf;
+        font-size: 12px;
+      }
