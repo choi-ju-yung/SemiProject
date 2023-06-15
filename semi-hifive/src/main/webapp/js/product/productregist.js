@@ -4,6 +4,8 @@
 // }
 
 
+const context = "http://localhost:9090/semi-hifive";
+
 // 사진 불러오기 작업 
 
 let prouductImgCnt = 0; 
@@ -295,8 +297,6 @@ function placeRedirect(x) {
 
 
 
-
-
 // ==== 설명 글자수 세주는 작업=====
 $(".explan").keyup(e => { // 해당 텍스트부분을 입력할 때
     $(".countExpaln").text($(e.target).val().length+"/40");
@@ -308,3 +308,215 @@ $(".explan").keyup(e => { // 해당 텍스트부분을 입력할 때
     }
     $(".countExpaln").text($(e.target).val().length + "/2000");
 })
+
+
+// -------------------------------------------------------------------------------------------------------------------
+
+
+// 상품태그 검색 관련 js
+const dataList = ["빨간색", "파란색", "노란색", "검정색", "빨강","빨대","빨지마","빨빨이","빨래","빨적","빨망","빨리와","빨각모","빨공","빨명","빨사"];
+let registTagList=[];
+
+const $searchTag = document.querySelector("#searchTag");
+const $autoComplete = document.querySelector(".autocomplete");
+
+let nowIndex = 0;
+let matchDataList;
+$searchTag.onkeyup = (event) => {
+  // 검색어
+  const value = $searchTag.value.trim();
+
+  // 자동완성 필터링
+  matchDataList = value
+    ? dataList.filter((label) => label.includes(value))
+    : [];
+
+
+  switch (event.keyCode) {
+    // UP KEY
+    case 38:
+      nowIndex = Math.max(nowIndex - 1, 0);
+      break;
+
+    // DOWN KEY
+    case 40:
+      nowIndex = Math.min(nowIndex + 1, matchDataList.length - 1);
+      // document.querySelector("#searchTag").value = matchDataList[nowIndex];
+      break;
+
+    // ENTER KEY
+    case 13:
+      document.querySelector("#searchTag").value = matchDataList[nowIndex] || "";
+
+      const key = document.getElementById("searchTag").value;
+      
+      const aa = document.getElementById("registTag>li label");
+      
+
+      if((key != "") && (!registTagList.includes(key))){
+
+        if(registTagList.length >= 5){
+        alert("태그는 최대 5개까지만 추가 가능합니다.");
+        document.querySelector("#searchTag").value ="";  // 연관검색창 닫기
+        break;
+      }
+
+        registTagList.push(key);
+        const $li = document.createElement("li");
+        
+                
+        document.getElementById("searchTag").after($li);
+        const $button1 = document.createElement("label");
+        const $button2 = document.createElement("button");
+
+        const $img = document.createElement("img");
+        $img.height="20";
+        $img.width="20";
+        $img.src=context+"/images/productregist/xbutton.png";
+
+        $img.addEventListener("click",e=>{  // 해당 이미지 클릭시
+          
+          for(let i = 0; i < registTagList.length; i++) { // 저장해놓은 키워드배열에서 값 삭제하고 개수 줄임
+                if(registTagList[i] == e.target.parentElement.previousElementSibling.innerHTML)  {
+                  registTagList.splice(i, 1);
+                  break;
+                  }
+                }
+           $(e.target).parent().parent().remove(); // li밑 label+button 밑 img까지 삭제
+          });
+
+        $button2.appendChild($img);
+        $button1.innerHTML=key;
+
+        $li.appendChild($button1);
+        $li.appendChild($button2);
+
+        var input1 = document.createElement('input');  
+        input1.setAttribute("type", "hidden");
+        input1.setAttribute("name", "data1");
+        input1.setAttribute("value", key);
+        
+        $li.appendChild(input1);
+      }     
+      
+      // 초기화
+      nowIndex = 0;
+      matchDataList.length = 0;
+      document.querySelector("#searchTag").value =""; // 연관검색창 닫기
+      break;
+    
+    case 27: // esc 눌렀을때 입력창 초기화 및 관련검색어 창 닫기
+      document.querySelector("#searchTag").value =""; 
+      matchDataList.length = 0;
+
+    // 그외 다시 초기화
+    default:
+      nowIndex = 0;
+      break;
+
+  }
+
+  // 리스트 보여주기
+  showList(matchDataList, value, nowIndex);
+};
+
+const showList = (data, value, nowIndex) => {
+  // 정규식으로 변환
+  const regex = new RegExp(`(${value})`, "g");
+  
+  $autoComplete.innerHTML = data
+    .map(
+      (label, index) => `
+      <div class='${nowIndex === index ? "active" : ""}'>
+        ${label.replace(regex, "<label>$1</label>")}
+      </div>
+    `
+    )
+    .join("");
+};
+
+
+$autoComplete.addEventListener("click",e=>{  // 관련검색어 클릭했을경우
+
+  let clickAnswer = e.target.innerHTML.trim();
+  
+  for(let i=0; i<=10; i++){
+    clickAnswer = clickAnswer.replace("<label>","");
+    clickAnswer = clickAnswer.replace("</label>","");
+  }
+
+  document.querySelector("#searchTag").value = clickAnswer;
+
+   const key = document.getElementById("searchTag").value;
+      
+      const aa = document.getElementById("registTag>li label");
+      
+      if(registTagList.length >= 5){
+        alert("태그는 최대 5개까지만 추가 가능합니다.");
+        document.querySelector("#searchTag").value ="";  // 연관검색창 닫기
+        return;
+      }
+
+      if((key != "") && (!registTagList.includes(key))){
+        registTagList.push(key);
+        const $li = document.createElement("li");
+        
+ 
+        document.getElementById("ex").appendChild($li);
+        const $button1 = document.createElement("label");
+        const $button2 = document.createElement("button");
+        /*const $button2 = $("<button>").css({"border":"none", "background-color":"transparent"});
+		*/
+		
+
+        const $img = document.createElement("img");
+        $img.height="20";
+        $img.width="20";
+        $img.src=context+"/images/productregist/xbutton.png";
+
+        $button2.appendChild($img);
+
+
+        $button1.innerHTML=key;
+
+        $li.appendChild($button1);
+        $li.appendChild($button2);
+  
+  		
+  	
+        $img.addEventListener("click",e=>{  // 해당 이미지 클릭시
+          $(e.target).parent().parent().remove(); // li밑 label+button 밑 img까지 삭제
+
+          for(let i = 0; i < registTagList.length; i++) { // 저장해놓은 키워드배열에서 값 삭제하고 개수 줄임
+                if(registTagList[i] == e.target.parentElement.previousElementSibling.innerHTML)  {
+                  registTagList.splice(i, 1);
+                  break;
+                  }
+              }
+       });
+
+       
+
+      document.querySelector("#searchTag").dispatchEvent(new KeyboardEvent("keyup",{keyCode: 13})); // 엔터 한번 발생
+      $("#searchTag").val("");   // document.querySelector("#searchTag").value =""; 
+      $("#searchTag").focus();   // document.getElementById("searchTag").focus(); 
+
+  }})
+
+
+/*$("#searchTag").on("focus",
+    function(){
+      $(".autocomplete").css({
+      "display":"block"
+    });
+});*/
+
+/*$("#searchTag").on("blur",
+    function(){
+      $(".autocomplete").css({
+      "display":"none"
+    });
+});*/
+
+
+

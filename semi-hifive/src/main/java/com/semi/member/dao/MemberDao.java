@@ -74,17 +74,18 @@ public class MemberDao {
 	//public static 하는 이유 : 다른 패키지에서도 이 메소드 사용하기 위해서
 	public static Member getMember(ResultSet rs) throws SQLException{ 
 		return Member.builder()
-				.userId(rs.getString("user_id"))
-				.email(rs.getString("email"))
-				.nickName(rs.getString("nickname"))
-				.password(rs.getString("password"))
-				.userName(rs.getString("user_name"))
-//				.age(rs.getInt("age"))
-//				.gender(rs.getString("gender").charAt(0))
-//				.hobby(rs.getString("hobby")!=null?rs.getString("hobby").split(","):null)
-				.enrollDate(rs.getDate("enroll_date"))
-				.build();
+	            .userId(rs.getString("user_Id"))
+	            .email(rs.getString("email"))
+	            .nickName(rs.getString("nickname"))
+	            .password(rs.getString("password"))
+	            .userName(rs.getString("user_name"))
+	            .declareCount(rs.getInt("declare_Count"))
+	            .enrollDate(rs.getDate("enroll_Date"))
+	            .auth(rs.getString("auth"))
+	            .temperature(rs.getDouble("temperature"))
+	            .profileImg(rs.getString("profile_Img"))
+	            .build();
+		//	.gender(rs.getString("gender").charAt(0))
+		//	.hobby(rs.getString("hobby")!=null?rs.getString("hobby").split(","):null)
 	}
-	
-	
 }	

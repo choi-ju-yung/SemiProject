@@ -140,10 +140,25 @@
         <h3 class="countExpaln">0/2000</h3>
         <hr>
 
+
         <div class="relativeTag">
             <h4 class="h4Size">상품태그 </h4>
-            <input type="text" placeholder="연관 태그를 입력해주세요">
+            <input type="text" id="searchTag" placeholder="연관 태그를 입력해주세요" autocomplete="on">
+            <div id="ex">
+            	
+            </div>
         </div>
+        
+        
+        <div class="autocomplete" ></div>
+
+<!--     	<div id="divRegistTag">
+     	 	<ul id="registTag">
+
+     	 	</ul>
+   		 </div> -->
+        
+        
         <br>
         <div class="pp">
             <p>- 태그는 검색의 부가정보로 사용 되지만, 검색 결과 노출을 보장하지는 않습니다.</p>
@@ -160,7 +175,7 @@
 
 
         <!-- 내부 js파일 호출 -->
-        <script src="<%=request.getContextPath()%>/js/productregist.js"></script>   
+        <script src="<%=request.getContextPath()%>/js/product/productregist.js"></script>   
         
  		<%
 		} else { 
@@ -174,7 +189,6 @@
     </section>
 
 	
-    
     
     
     
