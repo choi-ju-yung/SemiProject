@@ -218,81 +218,57 @@ redirect(0);
 });
 // -------------------------------------------------------------------------------------------------------------------
 
-// 지역 카테고리 선택하는 작업
-var placeGroups = document.querySelectorAll(".mainPlace option").length
+// 거래지역 선택 (api 코드)
+function sample6_execDaumPostcode() {
+        new daum.Postcode({
+            oncomplete: function(data) {
+                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
 
-// var groups = document.frm1.aca_coo.options.length
-console.log(placeGroups);
-var placeGroup = new Array(placeGroups)
+                // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                var addr = ''; // 주소 변수
+                var extraAddr = ''; // 참고항목 변수
 
-for (i = 0; i < placeGroups; i++) {
-    placeGroup[i] = new Array()
-}
+                //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                    addr = data.roadAddress;
+                } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                    addr = data.jibunAddress;
+                }
 
-placeGroup[0][0] = new Option("카테고리를 선택");
-placeGroup[1][0] = new Option("카테고리를 선택");
-placeGroup[1][1] = new Option("전체");
-placeGroup[1][2] = new Option("상희");
-placeGroup[1][3] = new Option("하의");
-placeGroup[2][0] = new Option("카테고리를 선택");
-placeGroup[2][1] = new Option("전체");
-placeGroup[2][2] = new Option("신발");
-placeGroup[2][3] = new Option("모자");
-placeGroup[2][4] = new Option("가방");
-placeGroup[2][5] = new Option("기타잡화");
-placeGroup[3][0] = new Option("카테고리를 선택");
-placeGroup[3][1] = new Option("전체");
-placeGroup[3][2] = new Option("TV");
-placeGroup[3][3] = new Option("세탁기");
-placeGroup[3][4] = new Option("냉장고");
-placeGroup[3][5] = new Option("주방가전");
-placeGroup[4][0] = new Option("카테고리를 선택");
-placeGroup[4][1] = new Option("전체");
-placeGroup[4][2] = new Option("데스크탑");
-placeGroup[4][3] = new Option("노트북");
-placeGroup[4][4] = new Option("기타 주변기기");
-placeGroup[5][0] = new Option("카테고리를 선택");
-placeGroup[5][1] = new Option("전체");
-placeGroup[5][2] = new Option("가구");
-placeGroup[5][3] = new Option("인테리어");
-placeGroup[6][0] = new Option("카테고리를 선택");
-placeGroup[6][1] = new Option("전체");
-placeGroup[6][2] = new Option("주방용품");
-placeGroup[6][3] = new Option("식품");
-placeGroup[6][4] = new Option("생활잡화");
-placeGroup[7][0] = new Option("카테고리를 선택");
-placeGroup[7][1] = new Option("전체");
-placeGroup[7][2] = new Option("골프");
-placeGroup[7][3] = new Option("등산용품");
-placeGroup[7][4] = new Option("캠핑용품");
-placeGroup[8][0] = new Option("카테고리를 선택");
-placeGroup[8][1] = new Option("전체");
-placeGroup[8][2] = new Option("교육용품");
-placeGroup[8][3] = new Option("소설/만화책");
-placeGroup[8][4] = new Option("문구/사무용품");
-placeGroup[8][5] = new Option("기타잡화");
-placeGroup[9][0] = new Option("카테고리를 선택");
-placeGroup[9][1] = new Option("전체");
-placeGroup[9][2] = new Option("중고차");
-placeGroup[9][3] = new Option("오토바이");
-placeGroup[10][0] = new Option("카테고리를 선택");
-placeGroup[10][1] = new Option("무료나눔");
-placeGroup[11][0] = new Option("카테고리를 선택");
-placeGroup[11][1] = new Option("기타");
+                // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+                if(data.userSelectedType === 'R'){
+                    // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                    // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                    if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                        extraAddr += data.bname;
+                    }
+                    // 건물명이 있고, 공동주택일 경우 추가한다.
+                    if(data.buildingName !== '' && data.apartment === 'Y'){
+                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                    }
+                    // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+                    if(extraAddr !== ''){
+                        extraAddr = ' (' + extraAddr + ')';
+                    }
+                    // 조합된 참고항목을 해당 필드에 넣는다.
+                    document.getElementById("sample6_extraAddress").value = extraAddr;
+                
+                } else {
+                    document.getElementById("sample6_extraAddress").value = '';
+                }
 
-
-var placeTemp = document.querySelector(".middlePlace")
-
-function placeRedirect(x) {
-    for (m = placeTemp.options.length - 1; m > 0; m--)placeTemp.options[m] = null;
-    for (i = 0; i < placeGroup[x].length; i++) {
-        placeTemp.options[i] = new Option(placeGroup[x][i].value)
+                // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                document.getElementById('sample6_postcode').value = data.zonecode;
+                document.getElementById("sample6_address").value = addr;
+                // 커서를 상세주소 필드로 이동한다.
+                document.getElementById("sample6_detailAddress").focus();
+            }
+        }).open();
     }
-	
-}
 
 
-	placeRedirect(0);
+
 // -------------------------------------------------------------------------------------------------------------------
 
 
@@ -364,15 +340,14 @@ $searchTag.onkeyup = (event) => {
         registTagList.push(key);
         const $li = document.createElement("li");
         
-                
-        document.getElementById("searchTag").after($li);
+        document.getElementById("relativeTagDiv").appendChild($li);
         const $button1 = document.createElement("label");
         const $button2 = document.createElement("button");
 
         const $img = document.createElement("img");
-        $img.height="20";
-        $img.width="20";
-        $img.src=context+"/images/productregist/xbutton.png";
+        $img.height="15";
+        $img.width="15";
+        $img.src=context+"/images/productregist/xbtn.png";
 
         $img.addEventListener("click",e=>{  // 해당 이미지 클릭시
           
@@ -461,8 +436,7 @@ $autoComplete.addEventListener("click",e=>{  // 관련검색어 클릭했을경�
         registTagList.push(key);
         const $li = document.createElement("li");
         
- 
-        document.getElementById("ex").appendChild($li);
+        document.getElementById("relativeTagDiv").appendChild($li);
         const $button1 = document.createElement("label");
         const $button2 = document.createElement("button");
         /*const $button2 = $("<button>").css({"border":"none", "background-color":"transparent"});
@@ -470,9 +444,9 @@ $autoComplete.addEventListener("click",e=>{  // 관련검색어 클릭했을경�
 		
 
         const $img = document.createElement("img");
-        $img.height="20";
-        $img.width="20";
-        $img.src=context+"/images/productregist/xbutton.png";
+        $img.height="15";
+        $img.width="15";
+        $img.src=context+"/images/productregist/xbtn.png";
 
         $button2.appendChild($img);
 
