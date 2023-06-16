@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-<<<<<<< HEAD
 	<name>semi-hifive</name>
-=======
-	<name>semiproject_hifive</name>
->>>>>>> branch 'KCE' of https://github.com/choi-ju-yung/SemiProject.git
+
 	<comment></comment>
 	<projects>
 	</projects>
