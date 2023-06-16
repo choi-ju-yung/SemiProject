@@ -302,7 +302,7 @@ h3{
     font-size: 20px;    
     text-indent: 16px;
     border: 1px solid #cccccc;
-    width: 81%;
+    width: 30%;
     height: 60px;
     margin-left: 68px;  
     margin-bottom: -10px;
@@ -354,5 +354,94 @@ h3{
     justify-content:end;
 } 
 
+/* ========================================================== */
+
+.autocomplete>div.active {  
+  background: #e0e5f6;
+  color: #000;
+}
+
+.autocomplete>div {   /* 자동으로 나오는 검색어들 스타일 */
+  /* background: #f1f3f499;  */
+  background: white; 
+
+  /*padding: .2rem .6rem; */   /*  각 검색어들마다 패딩값줌 */
+  padding: 10px 10px;
+}
+
+.autocomplete label {
+    color: #20c997;
+}
 
 
+/* 만들어진 li태그 .없애기 */
+/* #registTag {
+  display: flex;
+  list-style:none;
+  margin-top:20px;
+  margin-left:200px;
+}
+
+#registTag>li{
+  margin: 10px;
+  border: solid 1px gray;
+  border-radius: 20px; 
+} */
+
+
+#relativeTagDiv{
+	display: flex;
+}
+
+#relativeTagDiv>li{
+	display: flex;
+	height:30px;
+	border: none;
+	border-radius:20px;
+	align-items:center;
+	margin-left : 5px;
+	margin-right: 5px;
+	background-color: rgb(244, 244, 250);
+}
+
+#relativeTagDiv>li>label{
+	margin-left: 10px;
+	margin-right: 10px;
+	font-weight: 600;
+}
+
+#relativeTagDiv>li>button{
+	margin-right: 10px;
+	background-color: rgb(244, 244, 250);
+	border: none;
+}
+
+
+#relativeTagDiv>li *{
+/* 	justify-content: center; */
+	align-items: center;
+}
+
+.autocomplete{   /* 자동으로 나오는 검색어들 스타일 */
+    height : 200px;
+    width : 385px;
+    overflow: auto;
+    margin-left: 210px;
+    margin-top: 10px;
+    position: absolute; 
+    /* 자동으로 나오는 검색어들을 글씨들 위에 겹쳐서 보이기위해서 아래깔리는 부분을 부모 위에올라가는 부분이 자식 */
+    /* 자식부분에는 : position : absolute */
+    /* 부모부분에는 : position : relative */
+} 
+
+.autocomplete>div{
+	 border-left : solid 2px whitesmoke;
+}
+
+.autocomplete div:last-child{
+	 border-bottom : solid 2px whitesmoke;
+}
+
+#searchTag{
+	margin-right: 10px;
+}
