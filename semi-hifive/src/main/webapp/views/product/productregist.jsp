@@ -4,7 +4,6 @@
 
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/css/product/productregist.css" />
-<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script> <!-- 다음 주소 api 사용 -->
 <%@ include file="/views/common/header.jsp"%>
 
 
@@ -84,12 +83,25 @@
         <hr>
 
         <div class="place">
-            <h4 class="h4Size">거래지역 *</h4>
-			<input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기">
-			<input type="hidden" id="sample6_postcode" placeholder="우편번호">
-			<input type="text" id="sample6_address" placeholder="주소">
-			<input type="hidden" id="sample6_detailAddress" placeholder="상세주소">
-			<input type="hidden" id="sample6_extraAddress" placeholder="참고항목">
+            <h4 class="h4Size">지역 *</h4>
+            <form name="pl">
+                <select class="mainPlace" onchange="placeRedirect(this.selectedIndex);">
+                    <option value="0">카테고리를 선택해주세요</option>
+                    <option value="1">패션의류</option>
+                    <option value="2">패션잡화</option>
+                    <option value="3">가전제품</option>
+                    <option value="4">pc/모바일</option>
+                    <option value="5">가구/인테리어</option>
+                    <option value="6">리빙/생활</option>
+                    <option value="7">스포츠/레저</option>
+                    <option value="8">도서/음반/문구</option>
+                    <option value="9">차량/오토바이</option>
+                    <option value="10">무료나눔</option>
+                    <option value="11">기타</option>
+                </select>
+                <select class="middlePlace" onchange="placeRedirect1(this.selectedIndex);">
+                </select>
+            </form>
         </div>
         <hr>
 
@@ -132,7 +144,7 @@
         <div class="relativeTag">
             <h4 class="h4Size">상품태그 </h4>
             <input type="text" id="searchTag" placeholder="연관 태그를 입력해주세요" autocomplete="on">
-            <div id="relativeTagDiv">
+            <div id="ex">
             	
             </div>
         </div>
@@ -149,8 +161,6 @@
         
         <br>
         <div class="pp">
-        	<p>- 태그는 최대 5개까지 선택 가능합니다. </p>
-        	<p>- 선택된 태그는 x버튼을 클릭하면 삭제됩니다. </p>
             <p>- 태그는 검색의 부가정보로 사용 되지만, 검색 결과 노출을 보장하지는 않습니다.</p>
             <p>- 검색 광고는 태그정보를 기준으로 노출됩니다.</p>
             <p>- 상품과 직접 관련이 없는 다른 상품명, 브랜드, 스팸성 키워드 등을 입력하면 노출이 중단되거나 상품이 삭제될 수 있습니다.</p>
