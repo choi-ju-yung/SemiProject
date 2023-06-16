@@ -70,7 +70,8 @@
                 ></ion-icon>
                 <span> 판매하기</span>
               </a>
-              <a href="">
+              <%if(loginMember != null){%>
+              <a href="<%=request.getContextPath()%>/myPage/myPageMain.do?userId=<%=loginMember.getUserId() %>" >
                 <ion-icon name="person-outline" class="myIcon"></ion-icon>
                 내정보
               </a>
@@ -78,6 +79,16 @@
                 <ion-icon name="heart-outline" class="heartIcon"></ion-icon>
                 찜한상품
               </a>
+              <%} else {%>
+              	<a href="<%=request.getContextPath()%>/productRegist.do" >
+                <ion-icon name="person-outline" class="myIcon"></ion-icon>
+                내정보
+              </a>
+              <a href="<%=request.getContextPath()%>/productRegist.do">
+                <ion-icon name="heart-outline" class="heartIcon"></ion-icon>
+                찜한상품
+              </a>
+              <%} %>
             </div>
           </div>
           <div class="categoryNrank">

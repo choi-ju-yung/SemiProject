@@ -48,7 +48,7 @@ public class MemberLoginServlet extends HttpServlet {
 		Member loginMember = new MemberService()
 				.selectByUserIdAndPw(userId, password);
 		
-		System.out.println(loginMember);
+		//System.out.println(loginMember);
 		
 
 		// loginMember null을 기준으로 로그인처리 여부를 결정할 수 있음
