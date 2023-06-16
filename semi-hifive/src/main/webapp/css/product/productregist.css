@@ -78,7 +78,7 @@
 }
 
 /* 모든 - 스타일 */
-hr{
+section hr{
     margin-top: 30px;
     margin-bottom: 30px;
     background:gainsboro;
@@ -118,25 +118,14 @@ hr{
 .cate {
     display: flex;
     align-items: center;
-    padding-top: 10px;
+   
 }
 
 .h4Size{
 	font-size: 24px;
 }
 
-/* 지역 문구 */
-.place>h4{
-    margin-right: 100px;
-} 
 
-
-/* 지역 문구와 select까지 가로로 출력하기 위한 설정 */
-.place {
-    display: flex;
-    align-items: center;
-    padding-top: 10px;
-}
 
 /* 카테고리와 지역 부분 select 꾸미기 */
 select{
@@ -164,6 +153,39 @@ select{
     transition: 0.3s ease all;
 }
 
+
+/* ============ 거래지역 스타일 적용 =================== */
+.productPlace {
+	display: flex;
+	align-items: center;
+}
+
+.productPlace>h4{
+	margin-right:110px;
+}
+
+/* 우편번호 찾기 버튼 */
+.productPlace>input[type=button]{
+	border: 1px solid #cccccc;
+	margin-right:20px;
+	font-size: 20px;    
+    text-indent: 16px;
+	width: 20%;
+    height: 40px;
+}
+
+/* 주소 찾아지는 text 부분 */
+.productPlace>input[type=text]{
+	font-size: 20px;    
+    text-indent: 16px;
+    border: 1px solid #cccccc;
+    width: 40%;
+    height: 40px;
+}
+
+
+
+
 /* ======== 상태 스타일 꾸미기 ======== */
 .productStatus>h4{
     margin-right: 140px;
@@ -172,7 +194,6 @@ select{
 .productStatus{
     display: flex;
     align-items: center;
-    padding-top: 10px;
 }
 
 .productStatus label {
@@ -226,7 +247,6 @@ select{
 .price {
     display: flex;
     align-items: center;
-    padding-top: 10px;
 }
 
 /* 가격 입력창 문구 */
@@ -257,7 +277,6 @@ select{
 /* 설명 문구와 input태그까지 가로로 출력하기 위한 설정 */
 .explan {
     display: flex;
-    padding-top: 10px;
 }
 
 /* 설명 입력창 문구 */
@@ -276,9 +295,8 @@ select{
 /* 0/2000 문구 스타일 */
 h3{
     display: flex;
-    justify-content: end;
-    padding-right: 40px;
-    padding-bottom: 10px;
+    justify-content: flex-end;
+	padding-right: 20px;
 }
 /* ====================================== 여기까지가 설명 스타일임 */
 
@@ -294,7 +312,6 @@ h3{
 .relativeTag {
     display: flex;
     align-items: center;
-    padding-top: 10px;
 }
 
 /* 상품태그 입력창 문구 */
@@ -302,7 +319,7 @@ h3{
     font-size: 20px;    
     text-indent: 16px;
     border: 1px solid #cccccc;
-    width: 81%;
+    width: 30%;
     height: 60px;
     margin-left: 68px;  
     margin-bottom: -10px;
@@ -317,7 +334,7 @@ h3{
 }
 
 .pp p{
-    margin-top: 13px;
+    margin-top: 5px;
 }
 /* ====================================== 여기까지가 연관태그 스타일임 */
 
@@ -354,5 +371,94 @@ h3{
     justify-content:end;
 } 
 
+/* ========================================================== */
+
+.autocomplete>div.active {  
+  background: #e0e5f6;
+  color: #000;
+}
+
+.autocomplete>div {   /* 자동으로 나오는 검색어들 스타일 */
+  /* background: #f1f3f499;  */
+  background: white; 
+
+  /*padding: .2rem .6rem; */   /*  각 검색어들마다 패딩값줌 */
+  padding: 10px 10px;
+}
+
+.autocomplete label {
+    color: #20c997;
+}
 
 
+/* 만들어진 li태그 .없애기 */
+/* #registTag {
+  display: flex;
+  list-style:none;
+  margin-top:20px;
+  margin-left:200px;
+}
+
+#registTag>li{
+  margin: 10px;
+  border: solid 1px gray;
+  border-radius: 20px; 
+} */
+
+
+#relativeTagDiv{
+	display: flex;
+}
+
+#relativeTagDiv>li{
+	display: flex;
+	height:30px;
+	border: none;
+	border-radius:20px;
+	align-items:center;
+	margin-left : 5px;
+	margin-right: 5px;
+	background-color: rgb(244, 244, 250);
+}
+
+#relativeTagDiv>li>label{
+	margin-left: 10px;
+	margin-right: 10px;
+	font-weight: 600;
+}
+
+#relativeTagDiv>li>button{
+	margin-right: 10px;
+	background-color: rgb(244, 244, 250);
+	border: none;
+}
+
+
+#relativeTagDiv>li *{
+/* 	justify-content: center; */
+	align-items: center;
+}
+
+.autocomplete{   /* 자동으로 나오는 검색어들 스타일 */
+    height : 200px;
+    width : 385px;
+    overflow: auto;
+    margin-left: 210px;
+    margin-top: 10px;
+    position: absolute; 
+    /* 자동으로 나오는 검색어들을 글씨들 위에 겹쳐서 보이기위해서 아래깔리는 부분을 부모 위에올라가는 부분이 자식 */
+    /* 자식부분에는 : position : absolute */
+    /* 부모부분에는 : position : relative */
+} 
+
+.autocomplete>div{
+	 border-left : solid 2px whitesmoke;
+}
+
+.autocomplete div:last-child{
+	 border-bottom : solid 2px whitesmoke;
+}
+
+#searchTag{
+	margin-right: 10px;
+}
