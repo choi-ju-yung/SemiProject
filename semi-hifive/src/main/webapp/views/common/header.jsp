@@ -81,7 +81,7 @@
               </div>
             </div>
             <div class="memberIcon">
-              <a href="">
+              <a href="<%=request.getContextPath()%>/productRegist.do">
                 <ion-icon
                   name="storefront-outline"
                   class="storeIcon"
