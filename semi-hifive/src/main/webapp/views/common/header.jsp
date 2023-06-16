@@ -1,5 +1,10 @@
+<%@page import="com.semi.category.model.vo.CategoryDto"%>
+<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+	List<CategoryDto> categorylist = (List)request.getAttribute("categorylist");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -118,7 +123,7 @@
           </div>
           <div class="categoryNrank">
             <input type="checkbox" id="menuIcon" />
-            <label for="menuIcon">
+            <label for="menuIcon" class="headercategorybtn">
               <span></span>
               <span></span>
               <span></span>
@@ -127,6 +132,11 @@
             <div id="menuList">
               <ul>
                 <li><a href="<%=request.getContextPath()%>/categoryproductlist.do" id="category0">전체</a></li>
+                <%-- <%if(categorylist.isEmpty()) {%>
+                
+                <%for(CategoryDto c : categorylist){%>
+                	<li><a href=""><%=c.getCategoryname()%></a></li>
+                <%} }%>  --%>
                 <li><a href="#" id="category1">카테고리1</a></li>
                 <li><a href="#" id="category2">카테고리2</a></li>
                 <li><a href="#" id="category3">카테고리3</a></li>

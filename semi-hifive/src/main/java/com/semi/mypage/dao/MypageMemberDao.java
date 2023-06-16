@@ -94,7 +94,7 @@ public class MypageMemberDao {
 			try {
 				pstmt=conn.prepareStatement(sql.getProperty("updateMember"));
 				pstmt.setString(1, msp.getNickName());
-				pstmt.setString(2, msp.getIntroduce());
+//				pstmt.setString(2, msp.getIntroduce());
 				pstmt.setString(3, msp.getUserId());
 				result=pstmt.executeUpdate();
 			}catch(SQLException e) {
