@@ -1,14 +1,19 @@
 package com.semi.productpage.dao;
 
+import static com.semi.common.JDBCTemplate.close;
+
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
-import static com.semi.common.JDBCTemplate.*;
+
 import com.semi.productpage.model.vo.Product;
+import com.semi.productpage.model.vo.ProductComment;
 
 public class ProductDao {
 
@@ -42,11 +47,47 @@ public class ProductDao {
 			close(rs);
 			close(pstmt);
 		}return p;
-		
+	}
+	
+	public int productPageComment(Connection conn, ProductComment pc) {
+		PreparedStatement pstmt=null;
+		int result=0;
+		try {
+			pstmt=conn.prepareStatement(sql.getProperty("productPageComment"));
+			pstmt.setString(1,pc.getUserId());
+			pstmt.setInt(2, pc.getProductId());			
+			pstmt.setInt(3,pc.getCommentLevel());
+			pstmt.setString(4,pc.getContent());
+			pstmt.setString(5,pc.getCommentRef()==0?null:
+								String.valueOf(pc.getCommentRef()));
+			result=pstmt.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}return result;
+	}
+	
+	public List<ProductComment> selectBoardComment(Connection conn,int id){
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		List<ProductComment> list=new ArrayList();
+		try {
+			pstmt=conn.prepareStatement(sql.getProperty("selectProductComment"));
+			pstmt.setInt(1, id);
+			rs=pstmt.executeQuery();
+			while(rs.next())
+				list.add(getProductComment(rs));
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rs);
+			close(pstmt);
+		}return list;
 	}
 
 	
-	public static Product getProduct(ResultSet rs) throws SQLException{
+	private Product getProduct(ResultSet rs) throws SQLException{
 		return Product.builder()
 				.productId(rs.getInt("product_id"))
 				.userId(rs.getString("user_id"))
@@ -63,4 +104,18 @@ public class ProductDao {
 				.areaId(rs.getInt("goonguarea_id"))
 				.build();
 	}
+	
+	private ProductComment getProductComment(ResultSet rs) throws SQLException{
+		return ProductComment.builder()
+				.userId(rs.getString("user_id"))
+				.productId(rs.getInt("product_id"))
+				.commentNo(rs.getInt("product_comment_no"))
+				.commentLevel(rs.getInt("product_comment_level"))
+				.content(rs.getString("product_comment_content"))
+				.commentRef(rs.getInt("product_comment_ref"))
+				.enrollDate(rs.getDate("product_comment_date"))
+				.build();
+	}
+	
+	
 }

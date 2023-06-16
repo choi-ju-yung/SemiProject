@@ -1,5 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@page import="com.semi.category.model.vo.CategoryDto"%>
+<%@page import="java.util.List"%>
+
+<%
+	List<CategoryDto> categorylist = (List)request.getAttribute("categorylist");
+%>
+
 <%@ page import="com.semi.member.model.vo.Member" %>
  <%
 	Member loginMember = (Member) session.getAttribute("loginMember");//여기 로그인멤버
@@ -46,16 +53,29 @@
 
 
 <title>중고 거래 HiFive</title>
+
 </head>
+
 <body>
 <header>
+		<%if(loginMember == null){%>
         <div id="headerContainer">
-        <div id="fixedContainer">
-          <div class="loginSerivce">
-            <a href="<%=request.getContextPath()%>/loginView.do" id="login">로그인</a>
-            <a href="<%=request.getContextPath()%>/enrollMember.do" id="enroll">회원가입</a>
-            <a href="<%=request.getContextPath()%>/service/boardList.do?notice=Y" id="service">고객센터</a>
+	        <div id="fixedContainer">
+	          <div class="loginSerivce">
+	            <a href="<%=request.getContextPath()%>/loginView.do" id="login">로그인</a>
+	            <a href="<%=request.getContextPath()%>/enrollMember.do" id="enroll">회원가입</a>
+	            <a href="<%=request.getContextPath()%>/service/boardList.do?notice=Y" id="service">고객센터</a>
+	          </div>
+	   <%}else{ %>
+        <div id="headerContainer">
+	        <div id="fixedContainer">
+			<div class="loginSerivce">
+				<a href="#" onclick="location.replace('<%=request.getContextPath()%>/logout.do')" id="logout">로그아웃</a> 
+				<a href="<%=request.getContextPath()%>/service/boardList.do?notice=Y" id="service">고객센터</a>
+			</div>	
+		<% }%> 
           </div>
+          
           <div class="headerMain">
             <div class="logo">
               <a href="">
@@ -81,7 +101,7 @@
               </div>
             </div>
             <div class="memberIcon">
-              <a href="">
+              <a href="<%=request.getContextPath()%>/productRegist.do">
                 <ion-icon
                   name="storefront-outline"
                   class="storeIcon"
@@ -111,7 +131,7 @@
           </div>
           <div class="categoryNrank">
             <input type="checkbox" id="menuIcon" />
-            <label for="menuIcon">
+            <label for="menuIcon" class="headercategorybtn">
               <span></span>
               <span></span>
               <span></span>
@@ -119,7 +139,12 @@
 
             <div id="menuList">
               <ul>
-                <li><a href="#" id="category0">전체</a></li>
+                <li><a href="<%=request.getContextPath()%>/categoryproductlist.do" id="category0">전체</a></li>
+                <%-- <%if(categorylist.isEmpty()) {%>
+                
+                <%for(CategoryDto c : categorylist){%>
+                	<li><a href=""><%=c.getCategoryname()%></a></li>
+                <%} }%>  --%>
                 <li><a href="#" id="category1">카테고리1</a></li>
                 <li><a href="#" id="category2">카테고리2</a></li>
                 <li><a href="#" id="category3">카테고리3</a></li>

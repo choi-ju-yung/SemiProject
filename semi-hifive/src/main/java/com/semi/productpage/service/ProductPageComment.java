@@ -1,7 +1,6 @@
-package com.semi.productpage.controller;
+package com.semi.productpage.service;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,21 +8,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.semi.productpage.model.vo.Product;
 import com.semi.productpage.model.vo.ProductComment;
-import com.semi.productpage.service.ProductPageService;
 
 /**
- * Servlet implementation class ProductPageServlet
+ * Servlet implementation class ProductPageComment
  */
-@WebServlet("/productpage")
-public class ProductPageServlet extends HttpServlet {
+@WebServlet("/insertComment")
+public class ProductPageComment extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ProductPageServlet() {
+    public ProductPageComment() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,18 +29,24 @@ public class ProductPageServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//Product테이블 데이터 가져오기
-		int id=4;
-		Product p=new ProductPageService().selectProduct(id);
+		ProductComment pc=ProductComment.builder()
+				.productId(Integer.parseInt(request.getParameter("productId")))
+				.commentLevel(Integer.parseInt(request.getParameter("level")))
+				.userId(request.getParameter("userId"))
+				.content(request.getParameter("content"))
+				.commentRef(Integer.parseInt(request.getParameter("CommentRef")))
+				.build();
+		int result=new ProductPageService().productPageComment(pc);
 		
-		//댓글 가져오기
-		List<ProductComment> comments=new ProductPageService().selectComment(id);
-		
-		//데이터 저장
-		request.setAttribute("comments", comments);
-		request.setAttribute("product",p);
-		//출력할 화면 선택
-		request.getRequestDispatcher("/views/productpage/ProductPage.jsp").forward(request, response);
+		String view;
+		if(result>0) {
+			view = request.getContextPath()+"/productpage?no="+pc.getProductId();
+			response.sendRedirect(view);
+		}else {			
+//			request.setAttribute("loc", "/board/boardView.do?no="+bc.getBoardRef());
+//			view="/views/common/msg.jsp";
+//			request.getRequestDispatcher(view).forward(request,response);
+		}
 	}
 
 	/**

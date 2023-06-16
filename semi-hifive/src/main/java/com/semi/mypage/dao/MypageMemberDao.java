@@ -88,6 +88,7 @@ public class MypageMemberDao {
 		}
 		
 		
+
 //		public int updateMember(Connection conn, MemberShopPage msp) {
 //			PreparedStatement pstmt=null;
 //			int result=0;
