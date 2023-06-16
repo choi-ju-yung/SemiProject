@@ -29,8 +29,25 @@
 
 <title>중고 거래 HiFive</title>
 </head>
+<%@ page import="com.semi.member.model.vo.Member" %>
+<%
+Member loginMember = (Member)session.getAttribute("loginMember");//여기 로그인멤버
+
+Cookie[] cookies = request.getCookies(); // 존재하는 쿠키들 다 갖고옴
+String saveId = null;
+if (cookies != null) {
+	for (Cookie c : cookies) {
+		if (c.getName().equals("saveId")) {
+	saveId = c.getValue();
+	break;
+		}
+	}
+}
+%>
+
 <body>
 <header>
+		<%if(loginMember == null){%>
         <div id="headerContainer">
         <div id="fixedContainer">
           <div class="loginSerivce">
@@ -38,6 +55,16 @@
             <a href="<%=request.getContextPath()%>/enrollMember.do" id="enroll">회원가입</a>
             <a href="<%=request.getContextPath()%>/service/boardList.do?notice=Y" id="service">고객센터</a>
           </div>
+         <%}else{ %>
+                 <div id="headerContainer">
+        <div id="fixedContainer">
+		<div class="loginSerivce">
+			<a href="#" onclick="location.replace('<%=request.getContextPath()%>/logout.do')" id="logout">로그아웃</a> 
+			<a href="http://www.naver.com" id="service">고객센터</a>
+		</div>	
+			
+		<% }%> 
+          
           <div class="headerMain">
             <div class="logo">
               <a href="">
@@ -63,7 +90,7 @@
               </div>
             </div>
             <div class="memberIcon">
-              <a href="">
+              <a href="<%=request.getContextPath()%>/productRegist.do">
                 <ion-icon
                   name="storefront-outline"
                   class="storeIcon"

@@ -17,7 +17,7 @@ public class ProductComment {
 	private int commentNo;
 	private int commentLevel;
 	private String content;
-	private int conmmentRef;
+	private int commentRef;
 	private Date enrollDate;
 
 }

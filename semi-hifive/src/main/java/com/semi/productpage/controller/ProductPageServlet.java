@@ -1,6 +1,7 @@
 package com.semi.productpage.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.semi.productpage.model.vo.Product;
+import com.semi.productpage.model.vo.ProductComment;
 import com.semi.productpage.service.ProductPageService;
 
 /**
@@ -33,8 +35,12 @@ public class ProductPageServlet extends HttpServlet {
 		//Product테이블 데이터 가져오기
 		int id=4;
 		Product p=new ProductPageService().selectProduct(id);
-				
+		
+		//댓글 가져오기
+		List<ProductComment> comments=new ProductPageService().selectComment(id);
+		
 		//데이터 저장
+		request.setAttribute("comments", comments);
 		request.setAttribute("product",p);
 		//출력할 화면 선택
 		request.getRequestDispatcher("/views/productpage/ProductPage.jsp").forward(request, response);
