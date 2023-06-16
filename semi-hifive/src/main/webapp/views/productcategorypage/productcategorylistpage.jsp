@@ -452,20 +452,19 @@
                 />
                 <p id="productName"><%=p.getProducttitle()%></p>
                 <p id="productPrice"><%=p.getPrice()%>
-                <span><%if(p.getElapsedtime() / 1000 < 60) {
-                		p.getElapsedtime() / 1000 + "초 전";
-                	}else if(p.getElapsedtime() / 1000 < 3600){
-                		p.getElapsedtime() / 1000 + "분 전";
-                	}else if(p.getElapsedtime() / 1000 < 86500){
-                		p.getElapsedtime() / 1000 + "시간 전";
-                	}else if(p.getElapsedtime() / 1000 < 2592000){
-                		p.getElapsedtime() / 1000 + "일 전";
-                	}else if(p.getElapsedtime() / 1000 < 31536000){
-                		p.getElapsedtime() / 1000 + "개월 전";
-                	}else{
-                		p.getElapsedtime() / 1000 + "년 전";
-                	}
-                }%></span></p>
+                <span><%if(p.getElapsedtime() < 60){%>
+               		<%=p.getElapsedtime()+ "초 전"%>
+               	<%}else if(p.getElapsedtime() >= 60 && p.getElapsedtime() < 3600) {%>
+               	<%=(p.getElapsedtime() / 60) + "분 전"%>
+               	<%}else if(p.getElapsedtime() >= 3600 && p.getElapsedtime() < 86400) {%>
+               		<%=(p.getElapsedtime() / 60) / 60  + "시간 전"%>
+               	<%}else if(p.getElapsedtime() >= 86400 && p.getElapsedtime() < 2592000) {%>
+               		<%=(p.getElapsedtime() / 60) / 60 / 24 + "일 전"%>
+               	<%}else if(p.getElapsedtime() >= 2592000 && p.getElapsedtime() < 31536000) {%>
+               		<%=(p.getElapsedtime() / 60) / 60 / 24 / 30 + "개월 전"%>
+               	<%}else{%>
+               		<%=(p.getElapsedtime() / 60) / 60 / 24 / 30 / 12 + "년 전"%>
+               	<%} %></span></p>
                 <p id="productPlace">
                   <i class="bi bi-geo-alt"></i>
                   <%=p.getGoonguareaid()%>
