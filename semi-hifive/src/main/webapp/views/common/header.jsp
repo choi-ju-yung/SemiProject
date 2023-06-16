@@ -15,7 +15,7 @@
 <script nomodule
 	src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 <script src="<%=request.getContextPath()%>/js/jquery-3.7.0.min.js"></script>
-<script src="<%=request.getContextPath()%>/js/common/header.js"></script>
+
 <title>중고 거래 HiFive</title>
 </head>
 
@@ -44,7 +44,7 @@ if (cookies != null) {
           <div class="loginSerivce">
             <a href="<%=request.getContextPath()%>/loginView.do" id="login">로그인</a>
             <a href="<%=request.getContextPath()%>/enrollMember.do" id="enroll">회원가입</a>
-            <a href="http://www.naver.com" id="service">고객센터</a>
+            <a href="<%=request.getContextPath()%>/service/boardList.do?notice=Y" id="service">고객센터</a>
           </div>
          <%}else{ %>
                  <div id="headerContainer">
@@ -233,3 +233,4 @@ if (cookies != null) {
       </div>
     </header>
     </header>
+    <script src="<%=request.getContextPath()%>/js/common/header.js"></script>
