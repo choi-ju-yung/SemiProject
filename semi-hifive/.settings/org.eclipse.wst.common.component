@@ -11,17 +11,14 @@
         
         
         <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
+        <wb-resource deploy-path="/" source-path="/src/main/java"/>
+        <wb-resource deploy-path="/" source-path="/src/main/resources"/>
                                                 
         
         
         
         
         <property name="context-root" value="semi-hifive"/>
-                                                
-        
-        
-        
-        
         <property name="java-output-path" value="/semi-hifive/src/main/webapp/WEB-INF/classes"/>
                                             
     
