@@ -75,15 +75,6 @@
 			</div>	
 		<% }%> 
           </div>
-         <%}else{ %>
-                 <div id="headerContainer">
-        <div id="fixedContainer">
-		<div class="loginSerivce">
-			<a href="#" onclick="location.replace('<%=request.getContextPath()%>/logout.do')" id="logout">로그아웃</a> 
-			<a href="http://www.naver.com" id="service">고객센터</a>
-		</div>	
-			
-		<% }%> 
           
           <div class="headerMain">
             <div class="logo">
