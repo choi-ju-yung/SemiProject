@@ -6,6 +6,7 @@
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/service/boardList.css">
 <%
 	List<Board> boardList=(List)request.getAttribute("boardLsit");
+	System.out.println(boardList);
 	char notice='Y';
 	if(boardList!=null&&boardList.get(0).getNoticeYn()=='N') notice='N';
 %>
