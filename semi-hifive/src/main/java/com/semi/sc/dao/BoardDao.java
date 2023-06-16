@@ -38,7 +38,7 @@ public class BoardDao {
 				.boardDate(rs.getDate("board_date"))
 				.boardCategory(rs.getString("board_category"))
 				.noticeYn(rs.getString("notice_yn").charAt(0))
-				.boardRenamedFileName(rs.getString("board_file"))
+				.boardRenamedFileName(rs.getString("board_original_filename"))
 				.build();
 	}
 	
@@ -71,7 +71,8 @@ public class BoardDao {
 		ResultSet rs=null;
 		List<Board> boards=new ArrayList();
 		try {
-			pstmt=conn.prepareStatement("SELECT * FROM (SELECT ROWNUM AS RNUM, B.* FROM (SELECT * FROM BOARD WHERE NOTICE_YN='Y' ORDER BY BOARD_DATE DESC) B) WHERE RNUM BETWEEN 1 AND 10");
+			pstmt=conn.prepareStatement("select * from board");
+			System.out.println("sql문");
 			//SELECT * FROM (SELECT ROWNUM AS RNUM, B.*
 			//FROM (SELECT * FROM BOARD WHERE NOTICE_YN=? ORDER BY BOARD_DATE DESC) B)
 			//WHERE RNUM BETWEEN ? AND ?
@@ -79,6 +80,7 @@ public class BoardDao {
 //			pstmt.setInt(2, 1);
 //			pstmt.setInt(3, 10);
 			rs=pstmt.executeQuery();
+			System.out.println("resultset");
 			while(rs.next()) {
 				boards.add(getBoard(rs));
 			}
