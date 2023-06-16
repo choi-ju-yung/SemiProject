@@ -4,7 +4,7 @@
 <%@ page import="com.semi.mypage.model.vo.ShopPage" %>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/mypage/myPageCategory.css" />
 <%
-	Member mypageMember = (Member)request.getAttribute("mypageMember");
+ 	Member m=(Member)session.getAttribute("loginMember"); // 로그인멤버 세션
 %>
 <section>
 	<!-- 왼쪽 카테고리 section -->
@@ -19,21 +19,21 @@
 		</div>
 		<div class="mypage">
 			<h2>
-				<a href="<%=request.getContextPath()%>/myPage/myPageMain.do?userId=<%=mypageMember.getUserId()%>">마이페이지</a>
+				<a href="<%=request.getContextPath()%>/myPage/myPageMain.do?userId=<%=m.getUserId()%>">마이페이지</a>
 			</h2>
 		</div>
 		<div class="myInfo">
 			<h3 class="mypageMargin">나의 쇼핑정보</h3>
 			<ul>
-				<li class="mypageMargin"><a href="<%=request.getContextPath()%>/myPage/buyList.do?userId=<%=mypageMember.getUserId()%>" class="mypageAll">구매 내역</a></li>
-				<li class="mypageMargin"><a href="" class="mypageAll">판매 내역</a></li>
-				<li class="mypageMargin"><a href="" class="mypageAll">찜한 상품</a></li>
+				<li class="mypageMargin"><a href="<%=request.getContextPath()%>/myPage/buyList.do?userId=<%=m.getUserId()%>" class="mypageAll">구매 내역</a></li>
+				<li class="mypageMargin"><a href="<%=request.getContextPath()%>/myPage/sellList.do?userId=<%=m.getUserId()%>" class="mypageAll">판매 내역</a></li>
+				<li class="mypageMargin"><a href="<%=request.getContextPath()%>/myPage/wishList.do?userId=<%=m.getUserId()%>" class="mypageAll">찜한 상품</a></li>
 			</ul>
 		</div>
 		<div class="myprofileInfo">
 			<h3 class="mypageMargin">내 정보</h3>
 			<ul>
-				<li class="mypageMargin"><a href="<%=request.getContextPath()%>/mypage/mypageUpdate.do?userId=<%=mypageMember.getUserId()%>" class="mypageAll">회원정보
+				<li class="mypageMargin"><a href="<%=request.getContextPath()%>/mypage/mypageUpdate.do?userId=<%=m.getUserId()%>" class="mypageAll">회원정보
 						관리</a></li>
 				<li class="mypageMargin"><a href="" class="mypageAll">회원탈퇴</a></li>
 			</ul>

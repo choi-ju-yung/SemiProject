@@ -88,21 +88,22 @@ public class MypageMemberDao {
 		}
 		
 		
-		public int updateMember(Connection conn, MemberShopPage msp) {
-			PreparedStatement pstmt=null;
-			int result=0;
-			try {
-				pstmt=conn.prepareStatement(sql.getProperty("updateMember"));
-				pstmt.setString(1, msp.getNickName());
+
+//		public int updateMember(Connection conn, MemberShopPage msp) {
+//			PreparedStatement pstmt=null;
+//			int result=0;
+//			try {
+//				pstmt=conn.prepareStatement(sql.getProperty("updateMember"));
+//				pstmt.setString(1, msp.getNickName());
 //				pstmt.setString(2, msp.getIntroduce());
-				pstmt.setString(3, msp.getUserId());
-				result=pstmt.executeUpdate();
-			}catch(SQLException e) {
-				e.printStackTrace();
-			}finally {
-				close(pstmt);
-			}return result;
-		}
+//				pstmt.setString(3, msp.getUserId());
+//				result=pstmt.executeUpdate();
+//			}catch(SQLException e) {
+//				e.printStackTrace();
+//			}finally {
+//				close(pstmt);
+//			}return result;
+//		}
 		
 		public int updateProfileImg(Connection conn, Member m) {
 			PreparedStatement pstmt=null;

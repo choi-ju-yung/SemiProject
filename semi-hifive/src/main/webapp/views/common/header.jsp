@@ -1,10 +1,29 @@
-<%@page import="com.semi.category.model.vo.CategoryDto"%>
-<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@page import="com.semi.category.model.vo.CategoryDto"%>
+<%@page import="java.util.List"%>
+
 <%
 	List<CategoryDto> categorylist = (List)request.getAttribute("categorylist");
 %>
+
+<%@ page import="com.semi.member.model.vo.Member" %>
+ <%
+	Member loginMember = (Member) session.getAttribute("loginMember");//여기 로그인멤버
+	
+	Cookie[] cookies = request.getCookies(); // 존재하는 쿠키들 다 갖고옴
+	String saveId = null;
+	if (cookies != null) {
+	   for (Cookie c : cookies) {
+	      if (c.getName().equals("saveId")) {
+	   saveId = c.getValue();
+	   break;
+	      }
+	   }
+	}
+%>    
+    
+    
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,22 +51,9 @@
 	src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 <script src="<%=request.getContextPath()%>/js/jquery-3.7.0.min.js"></script>
 
+
 <title>중고 거래 HiFive</title>
-<%@ page import="com.semi.member.model.vo.Member" %>
-<%
-	Member loginMember = (Member) session.getAttribute("loginMember");//여기 로그인멤버
-	
-	Cookie[] cookies = request.getCookies(); // 존재하는 쿠키들 다 갖고옴
-	String saveId = null;
-	if (cookies != null) {
-		for (Cookie c : cookies) {
-			if (c.getName().equals("saveId")) {
-		saveId = c.getValue();
-		break;
-			}
-		}
-	}
-%>
+
 </head>
 <body>
 <header>
@@ -57,17 +63,17 @@
 	          <div class="loginSerivce">
 	            <a href="<%=request.getContextPath()%>/loginView.do" id="login">로그인</a>
 	            <a href="<%=request.getContextPath()%>/enrollMember.do" id="enroll">회원가입</a>
-	            <a href="http://www.naver.com" id="service">고객센터</a>
+	            <a href="<%=request.getContextPath()%>/service/boardList.do?notice=Y" id="service">고객센터</a>
 	          </div>
-	         <%}else{ %>
-	                 <div id="headerContainer">
+	   <%}else{ %>
+        <div id="headerContainer">
 	        <div id="fixedContainer">
 			<div class="loginSerivce">
 				<a href="#" onclick="location.replace('<%=request.getContextPath()%>/logout.do')" id="logout">로그아웃</a> 
-				<a href="http://www.naver.com" id="service">고객센터</a>
+				<a href="<%=request.getContextPath()%>/service/boardList.do?notice=Y" id="service">고객센터</a>
 			</div>	
-			
 		<% }%> 
+          </div>
           <div class="headerMain">
             <div class="logo">
               <a href="">
@@ -259,6 +265,5 @@
           <div class="rpCount">0</div>
         </div>
       </div>
-    </header>
     </header>
     <script src="<%=request.getContextPath()%>/js/common/header.js"></script>

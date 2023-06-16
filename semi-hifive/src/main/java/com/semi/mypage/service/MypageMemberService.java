@@ -68,12 +68,12 @@ public class MypageMemberService {
 	}
 	
 //	회원정보수정 -> 닉네임, 상점소개글
-	public int updateMember(MemberShopPage msp) {
-		Connection conn = getConnection();
-		int result = dao.updateMember(conn, msp);
-		close(conn);
-		return result;
-	}
+//	public int updateMember(MemberShopPage msp) {
+//		Connection conn = getConnection();
+//		int result = dao.updateMember(conn, msp);
+//		close(conn);
+//		return result;
+//	}
 	
 	
 }

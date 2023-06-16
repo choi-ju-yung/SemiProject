@@ -137,11 +137,11 @@ $(".inputTitle").keyup(e => { // 해당 텍스트부분을 입력할 때
 // 카테고리 선택하는 작업
 
 // var groups = $("#aca_coo ").options.length;
-var groups = document.querySelectorAll(".mainCate option").length
+/*var groups = document.querySelectorAll(".mainCate option").length*/
 
 // var groups = document.frm1.aca_coo.options.length
 
-var group = new Array(groups)
+/*var group = new Array(groups)
 
 for (i = 0; i < groups; i++) {
     group[i] = new Array()
@@ -206,16 +206,18 @@ function redirect(x) {
     for (i = 0; i < group[x].length; i++) {
         temp.options[i] = new Option(group[x][i].value)
     }
-}
+}*/
 
-redirect(0);
+/*redirect(0);*/
 /* document.querySelector(".mainCate").addEventListener("focus",e=>{
 	$(e.target).find("option").first().css("display","none");
 	*/
- document.querySelector(".mainCate").addEventListener("focus",e=>{
+/* document.querySelector(".mainCate").addEventListener("focus",e=>{
 	$(e.target).find("option").first().css("display","none");	
-	
-});
+});*/
+
+
+
 // -------------------------------------------------------------------------------------------------------------------
 
 // 거래지역 선택 (api 코드)
@@ -290,7 +292,7 @@ $(".explan").keyup(e => { // 해당 텍스트부분을 입력할 때
 
 
 // 상품태그 검색 관련 js
-const dataList = ["빨간색", "파란색", "노란색", "검정색", "빨강","빨대","빨지마","빨빨이","빨래","빨적","빨망","빨리와","빨각모","빨공","빨명","빨사"];
+const dataList = ["#빨간색", "#파란색", "#노란색", "#검정색", "#빨강","#빨대","#빨지마","#빨빨이","#빨래","#빨적","#빨망","#빨리와","#빨각모","#빨공","#빨명","#빨사"];
 let registTagList=[];
 
 const $searchTag = document.querySelector("#searchTag");
@@ -491,6 +493,19 @@ $autoComplete.addEventListener("click",e=>{  // 관련검색어 클릭했을경�
       "display":"none"
     });
 });*/
+
+
+
+/*============>  #키 입력 못하도록 설정*/
+$(document).ready(function(){
+  $("#searchTag").keypress(function(e){
+      if(event.key == '#'){
+        e.preventDefault();
+        e.returnValue = false;
+      }
+  }); 
+});
+/*=============================*/
 
 
 

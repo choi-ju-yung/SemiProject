@@ -1,4 +1,4 @@
-package com.semi.member.controller;
+package com.semi.productregist.controller;
 
 import java.io.IOException;
 
@@ -13,11 +13,11 @@ import com.semi.member.model.vo.Member;
 
 
 @WebServlet("/productRegist.do")
-public class ProductRegistrationServlet extends HttpServlet {
+public class ProductRegistServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 
-    public ProductRegistrationServlet() {
+    public ProductRegistServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -36,6 +36,10 @@ public class ProductRegistrationServlet extends HttpServlet {
 			 * request.getRequestDispatcher("/views/product/productregist.jsp")
 			 * .forward(request, response);
 			 */
+			
+			
+			
+			
 			response.sendRedirect(request.getContextPath()+"/views/product/productregist.jsp"); 
 		}
 	}

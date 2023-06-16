@@ -9,16 +9,20 @@
 
 
     <section>
+    	 
         <%
 		if (loginMember != null) { // 로그인된상태에서 직접 login.view 화면으로 갔을때 로그인페이지가 아닌 메인화면으로 이동되는 예외처리
 		%> 
+		
+		<form action="<%=request.getContextPath()%>/productRegistEnd.do" class="container" method="post">
+		
         <div class="information">
             <div>
                 <h3>기본정보</h3>
                 <p>*필수항목</p>
             </div>
-            <hr>
         </div>
+        <hr>
 
         <div class="productImg">
             <div class="letters">
@@ -83,11 +87,11 @@
         </div>
         <hr>
 
-        <div class="place">
+        <div class="productPlace">
             <h4 class="h4Size">거래지역 *</h4>
 			<input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기">
+			<input type="text" id="sample6_address" placeholder="주소" readonly>
 			<input type="hidden" id="sample6_postcode" placeholder="우편번호">
-			<input type="text" id="sample6_address" placeholder="주소">
 			<input type="hidden" id="sample6_detailAddress" placeholder="상세주소">
 			<input type="hidden" id="sample6_extraAddress" placeholder="참고항목">
         </div>
@@ -132,9 +136,9 @@
         <div class="relativeTag">
             <h4 class="h4Size">상품태그 </h4>
             <input type="text" id="searchTag" placeholder="연관 태그를 입력해주세요" autocomplete="on">
-            <div id="relativeTagDiv">
-            	
-            </div>
+            <div id="relativeTagDiv">    	
+        </div>
+        
         </div>
         
         
@@ -176,6 +180,7 @@
 		<%
 		} 	
 		%> 
+		</form>
     </section>
 
 	

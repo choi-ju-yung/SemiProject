@@ -4,7 +4,9 @@
 <%@ include file="/views/mypage/myPageCategory.jsp" %>
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/css/mypage/myPageMain.css" />
-
+<%
+	Member mypageMember = (Member)request.getAttribute("mypageMember");
+%>
 <!-- section -->
 
         <!-- 오른쪽 section -->
