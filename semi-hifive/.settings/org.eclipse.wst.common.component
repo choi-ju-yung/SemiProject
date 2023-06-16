@@ -17,6 +17,11 @@
         
         
         
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
+                                        
+        
+        
         
         <property name="context-root" value="semi-hifive"/>
         <property name="java-output-path" value="/semi-hifive/src/main/webapp/WEB-INF/classes"/>
