@@ -26,7 +26,7 @@
 <script nomodule
 	src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 <script src="<%=request.getContextPath()%>/js/jquery-3.7.0.min.js"></script>
-<script src="<%=request.getContextPath()%>/js/common/header.js"></script>
+
 <title>중고 거래 HiFive</title>
 </head>
 <body>
@@ -34,9 +34,9 @@
         <div id="headerContainer">
         <div id="fixedContainer">
           <div class="loginSerivce">
-            <a href="" id="login">로그인</a>
-            <a href="" id="enroll">회원가입</a>
-            <a href="" id="service">고객센터</a>
+            <a href="<%=request.getContextPath()%>/loginView.do" id="login">로그인</a>
+            <a href="<%=request.getContextPath()%>/enrollMember.do" id="enroll">회원가입</a>
+            <a href="<%=request.getContextPath()%>/service/boardList.do?notice=Y" id="service">고객센터</a>
           </div>
           <div class="headerMain">
             <div class="logo">
@@ -215,3 +215,4 @@
       </div>
     </header>
     </header>
+    <script src="<%=request.getContextPath()%>/js/common/header.js"></script>
