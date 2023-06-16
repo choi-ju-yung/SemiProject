@@ -5,6 +5,8 @@
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/mypage/myPageUpdate.css" />
 <%
 	ShopPage shoppagemember = (ShopPage)request.getAttribute("shoppagemember");
+	Member mypageMember = (Member)request.getAttribute("mypageMember");
+
 %>
 <!-- 오른쪽 회원정보관리 section -->
         <div class="mypageMain">

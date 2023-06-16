@@ -1,28 +1,23 @@
 package com.semi.mypage.controller;
 
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.semi.mypage.model.vo.MemberShopPage;
-import com.semi.mypage.model.vo.ShopPage;
-import com.semi.mypage.service.MypageMemberService;
-
 /**
- * Servlet implementation class UpdateEndMember
+ * Servlet implementation class WishListServlet
  */
-@WebServlet("/member/updateEndMemeber.do")
-public class UpdateEndMember extends HttpServlet {
+@WebServlet("/myPage/wishList.do")
+public class WishListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public UpdateEndMember() {
+    public WishListServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,12 +26,8 @@ public class UpdateEndMember extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		MemberShopPage msp = MemberShopPage.builder()
-//				.userId(request.getParameter("myPageUserId"))
-//				.nickName(request.getParameter("myPageNickname"))
-//				.introduce(request.getParameter("myPageIntroduce"))
-//				.build();
-//		int result = new MypageMemberService().updateMember(msp);
+		// 찜목록
+		request.getRequestDispatcher("/views/mypage/wishList.jsp").forward(request, response);
 	}
 
 	/**

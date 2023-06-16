@@ -1,7 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="java.util.List, com.semi.mypage.model.vo.Product" %>
 <%@ include file="/views/common/header.jsp"%>
 <%@ include file="/views/mypage/myPageCategory.jsp" %>
+<%
+	List<Product> product = (List)request.getAttribute("sellProduct");
+	int countAll = (int)request.getAttribute("countAll");
+	int countStatusSell = (int)request.getAttribute("countStatusSell");
+	int countStatusRes = (int)request.getAttribute("countStatusRes");
+	int countStatusSol = (int)request.getAttribute("countStatusSol");
+%>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/mypage/sellList.css" />
 <script src="<%=request.getContextPath()%>/js/mypage/sellList.js"></script>
 
@@ -14,25 +22,27 @@
 
         <!-- 판매상태 아이콘 div -->
         <div class="buttonAll">
-            <button class="nowButton">전체 3</button>
-            <button>판매중 1</button>
-            <button>예약중 1</button>
-            <button>판매완료 1</button>
+            <button class="nowButton">전체 <%=countAll %></button>
+            <button>판매중 <%=countStatusSell %></button>
+            <button>예약중 <%=countStatusRes %></button>
+            <button>판매완료 <%=countStatusSol %></button>
         </div>
 
         <!-- 판매내역 목록 div -->
         <div class="productAll">
+        <%if(!product.isEmpty()) {
+        	for(Product p : product){%>
             <div class="product">
                 <a href=""><img src="./img/구매목록img/예시 이미지.jpg" alt=""></a>
                 <div class="proContent">
                     <h5 class="grayFont"><a href="" class="aTag grayFont">의류</a> &rsaquo; <a href=""
                             class="aTag grayFont">상의</a></h5>
-                    <h4 class="contentMargin"><a href="" class="aTag productTitle">상품명을 작성해주세요.</a></h4>
-                    <h3>35,000원</h3>
+                    <h4 class="contentMargin"><a href="" class="aTag productTitle"><%=p.getExplanation() %></a></h4>
+                    <h3><%=p.getPrice() %>원</h3>
                 </div>
                 <div class="count">
                     <ion-icon name="heart" class="interestIcon"></ion-icon><span>40</span>
-                    <ion-icon name="eye" class="viewIcon"></ion-icon><span>16,000</span>
+                    <ion-icon name="eye" class="viewIcon"></ion-icon><span><%=p.getViewCount() %></span>
                 </div>
                 <div class="buttonNcategory">
                     <div class="updateDelete">
@@ -40,122 +50,19 @@
                         <button class="delMem openBtn" id="popup_open_btn">삭제</button>
                     </div>
                     <div class="selectNow">
-                        <select class="select">
-                            <option selected value="sell" data-color="#20C997">판매중</option>
-                            <option value="reservation" data-color="#FFD800">예약중</option>
-                            <option value="soldOut" data-color="#cccccc">판매완료</option>
+                        <select class="<%=p.getSellStatus().equals("판매중")?"selectIng":p.getSellStatus().equals("예약중")?"selectRes":"selectSol"%>">
+                            <option value="sell" data-color="#20C997" <%=p.getSellStatus().equals("판매중")?"selected":""%>>판매중</option>
+                            <option value="reservation" data-color="#FFD800" <%=p.getSellStatus().equals("예약중")?"selected":""%>>예약중</option>
+                            <option value="soldOut" data-color="#cccccc" <%=p.getSellStatus().equals("판매완료")?"selected":""%>>판매완료</option>
                         </select>
                     </div>
                 </div>
             </div>
             <hr color="#eeeeee" noshade style="margin-top: 23px; margin-bottom: 23px;" />
-            <div class="product">
-                <a href=""><img src="./img/구매목록img/예시 이미지.jpg" alt=""></a>
-                <div class="proContent">
-                    <h5 class="grayFont"><a href="" class="aTag grayFont">의류</a> &rsaquo; <a href=""
-                            class="aTag grayFont">상의</a></h5>
-                    <h4 class="contentMargin"><a href="" class="aTag productTitle">상품명을 작성해주세요.</a></h4>
-                    <h3>35,000원</h3>
-                </div>
-                <div class="count">
-                    <ion-icon name="heart" class="interestIcon"></ion-icon><span>40</span>
-                    <ion-icon name="eye" class="viewIcon"></ion-icon><span>16,000</span>
-                </div>
-                <div class="buttonNcategory">
-                    <div class="updateDelete">
-                        <button>수정</button>
-                        <button class="delMem openBtn" id="popup_open_btn">삭제</button>
-                    </div>
-                    <div class="selectNow">
-                        <select class="select">
-                            <option selected value="sell" data-color="#20C997">판매중</option>
-                            <option value="reservation" data-color="#FFD800">예약중</option>
-                            <option value="soldOut" data-color="#cccccc">판매완료</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <hr color="#eeeeee" noshade style="margin-top: 23px; margin-bottom: 23px;" />
-            <div class="product">
-                <a href=""><img src="./img/구매목록img/예시 이미지.jpg" alt=""></a>
-                <div class="proContent">
-                    <h5 class="grayFont"><a href="" class="aTag grayFont">의류</a> &rsaquo; <a href=""
-                            class="aTag grayFont">상의</a></h5>
-                    <h4 class="contentMargin"><a href="" class="aTag productTitle">상품명을 작성해주세요.</a></h4>
-                    <h3>35,000원</h3>
-                </div>
-                <div class="count">
-                    <ion-icon name="heart" class="interestIcon"></ion-icon><span>40</span>
-                    <ion-icon name="eye" class="viewIcon"></ion-icon><span>16,000</span>
-                </div>
-                <div class="buttonNcategory">
-                    <div class="updateDelete">
-                        <button>수정</button>
-                        <button class="delMem openBtn" id="popup_open_btn">삭제</button>
-                    </div>
-                    <div class="selectNow">
-                        <select class="select">
-                            <option selected value="sell" data-color="#20C997">판매중</option>
-                            <option value="reservation" data-color="#FFD800">예약중</option>
-                            <option value="soldOut" data-color="#cccccc">판매완료</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <hr color="#eeeeee" noshade style="margin-top: 23px; margin-bottom: 23px;" />
-            <div class="product">
-                <a href=""><img src="./img/구매목록img/예시 이미지.jpg" alt=""></a>
-                <div class="proContent">
-                    <h5 class="grayFont"><a href="" class="aTag grayFont">의류</a> &rsaquo; <a href=""
-                            class="aTag grayFont">상의</a></h5>
-                    <h4 class="contentMargin"><a href="" class="aTag productTitle">상품명을 작성해주세요.</a></h4>
-                    <h3>35,000원</h3>
-                </div>
-                <div class="count">
-                    <ion-icon name="heart" class="interestIcon"></ion-icon><span>40</span>
-                    <ion-icon name="eye" class="viewIcon"></ion-icon><span>16,000</span>
-                </div>
-                <div class="buttonNcategory">
-                    <div class="updateDelete">
-                        <button>수정</button>
-                        <button class="delMem openBtn" id="popup_open_btn">삭제</button>
-                    </div>
-                    <div class="selectNow">
-                        <select class="select">
-                            <option selected value="sell" data-color="#20C997">판매중</option>
-                            <option value="reservation" data-color="#FFD800">예약중</option>
-                            <option value="soldOut" data-color="#cccccc">판매완료</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <hr color="#eeeeee" noshade style="margin-top: 23px; margin-bottom: 23px;" />
-            <div class="product">
-                <a href=""><img src="./img/구매목록img/예시 이미지.jpg" alt=""></a>
-                <div class="proContent">
-                    <h5 class="grayFont"><a href="" class="aTag grayFont">의류</a> &rsaquo; <a href=""
-                            class="aTag grayFont">상의</a></h5>
-                    <h4 class="contentMargin"><a href="" class="aTag productTitle">상품명을 작성해주세요.</a></h4>
-                    <h3>35,000원</h3>
-                </div>
-                <div class="count">
-                    <ion-icon name="heart" class="interestIcon"></ion-icon><span>40</span>
-                    <ion-icon name="eye" class="viewIcon"></ion-icon><span>16,000</span>
-                </div>
-                <div class="buttonNcategory">
-                    <div class="updateDelete">
-                        <button>수정</button>
-                        <button class="delMem openBtn" id="popup_open_btn">삭제</button>
-                    </div>
-                    <div class="selectNow">
-                        <select class="select">
-                            <option selected value="sell" data-color="#20C997">판매중</option>
-                            <option value="reservation" data-color="#FFD800">예약중</option>
-                            <option value="soldOut" data-color="#cccccc">판매완료</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
+        <%}
+        } else { %>
+        	<span>판매중인 상품이 없습니다.</span>
+        <%} %>
         </div>
         <!-- 페이지 버튼 -->
         <div class="pageAll">

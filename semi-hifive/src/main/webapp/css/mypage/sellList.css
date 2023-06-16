@@ -266,12 +266,13 @@
             height: 20px;
             top: 133px;
             display: flex;
-            justify-content: center;
+            justify-content: end;
             align-items: center;
         }
 
         .count span {
             color: #8F8F8F;
+            padding-left: 2px;
         }
 
         .count ion-icon {
@@ -284,7 +285,6 @@
 
         .interestIcon {
             padding-bottom: 2px;
-            padding-right: 1px;
         }
 
         /* *****수정, 삭제 버튼***** */
@@ -329,10 +329,27 @@
             top: 100px;
             margin-left: 10px;
         }
-
+		
+		.selectIng{
+		 	border: 2px solid #20C997;
+			color: #20C997;
+            background-color: white;
+		}
+		
+		.selectRes{
+		 	border: 2px solid #FFD800;
+			color: #FFD800;
+            background-color: white;
+		}
+		
+		.selectSol{
+		 	border: 2px solid #cccccc;
+			color: #cccccc;
+            background-color: white;
+		}
+		
         .selectNow>select {
             padding: 7px 33px 7px 16px;
-            border: 2px solid #20C997;
 
             display: inline-block;
 
@@ -340,7 +357,7 @@
             /* 화살표 위치 */
             background-size: 30px;
             /* 화살표 크기 */
-            background-color: #20C997;
+            /* background-color: #20C997; */
 
             border-radius: 30px;
             box-sizing: border-box;
@@ -349,7 +366,5 @@
             appearance: none;
             font-size: 16px;
             font-weight: 700;
-            color: #20C997;
-            background-color: white;
             outline: none;
         }
