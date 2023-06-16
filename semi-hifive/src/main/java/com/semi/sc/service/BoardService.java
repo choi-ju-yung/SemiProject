@@ -23,6 +23,15 @@ public class BoardService {
 		close(conn);
 		return boardList;
 	}
+
+	public int insertBoard(Board b) {
+		Connection conn=getConnection();
+		int result=dao.insertBoard(conn, b);
+		if(result>0) commit(conn);
+		else rollback(conn);
+		close(conn);
+		return result;
+	}
 	
 	
 }

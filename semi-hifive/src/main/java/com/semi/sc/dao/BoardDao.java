@@ -1,5 +1,7 @@
 package com.semi.sc.dao;
 
+import static com.semi.common.JDBCTemplate.close;
+
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
@@ -11,7 +13,6 @@ import java.util.List;
 import java.util.Properties;
 
 import com.semi.sc.model.dto.Board;
-import static com.semi.common.JDBCTemplate.*;
 public class BoardDao {
 	private final Properties sql=new Properties();
 	{
@@ -71,14 +72,13 @@ public class BoardDao {
 		ResultSet rs=null;
 		List<Board> boards=new ArrayList();
 		try {
-			pstmt=conn.prepareStatement("select * from board");
-			System.out.println("sql문");
+			pstmt=conn.prepareStatement(sql.getProperty("selectBoardList"));
 			//SELECT * FROM (SELECT ROWNUM AS RNUM, B.*
 			//FROM (SELECT * FROM BOARD WHERE NOTICE_YN=? ORDER BY BOARD_DATE DESC) B)
 			//WHERE RNUM BETWEEN ? AND ?
-//			pstmt.setString(1, noticeYN);
-//			pstmt.setInt(2, 1);
-//			pstmt.setInt(3, 10);
+			pstmt.setString(1, noticeYN);
+			pstmt.setInt(2, cPage);
+			pstmt.setInt(3, numPerpage);
 			rs=pstmt.executeQuery();
 			System.out.println("resultset");
 			while(rs.next()) {
@@ -92,6 +92,35 @@ public class BoardDao {
 			close(pstmt);
 		}
 		return boards;
+	}
+
+	public int insertBoard(Connection conn, Board b) {
+		PreparedStatement pstmt=null;
+		int result=0;
+		try {
+			pstmt=conn.prepareStatement(sql.getProperty("insertBoard"));
+			//INSERT INTO BOARD VALUES(SEQ_BOARD_NO.NEXTVAL,?,?,?,DEFAULT,?,?,?,?)
+			//write, title, content, category, noticeYN, orifile, renamefile
+			pstmt.setString(1, b.getBoardWriter());
+			pstmt.setString(2, b.getBoardTitle());
+			pstmt.setString(3, b.getBoardContent());
+			pstmt.setString(4, b.getBoardCategory());
+			pstmt.setString(5, String.valueOf(b.getNoticeYn()));
+			pstmt.setString(6, b.getBoardOriginalFileName());
+			pstmt.setString(7, b.getBoardRenamedFileName());
+			
+			result=pstmt.executeUpdate();
+			if(result>0) {
+				System.out.println("정상 추가 되었습니다.");
+			}else {
+				System.out.println("업데이트 실패했습니다");
+			}
+		}catch(SQLException e){
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return result;
 	}
 
 }

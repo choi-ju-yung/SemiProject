@@ -16,7 +16,7 @@
 }
 /* 게시글 목록 부분 */
 .boardContainer{
-    height: 130px;
+    height: auto;
     width: 1050px;
 }
 /* 게시글 목록 테이블 */

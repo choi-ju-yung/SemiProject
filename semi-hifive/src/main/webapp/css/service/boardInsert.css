@@ -14,8 +14,18 @@ div.writeTitle{
 .titleGroup{
     margin-left: 10px;
 }
-/* 문의글 카테고리 선택 */
+/* 게시판 카테고리 선택 */
 .titleSelect{
+    margin-right: 10px;
+    margin-bottom: 10px;
+    height: 25px;
+    width: 100px;
+    text-align: center;
+    border-radius: 5px;
+}
+/* 문의글 카테고리 선택 */
+.QASelect{
+	display:none;
     margin-right: 10px;
     height: 25px;
     width: 100px;

@@ -232,5 +232,4 @@ if (cookies != null) {
         </div>
       </div>
     </header>
-    </header>
     <script src="<%=request.getContextPath()%>/js/common/header.js"></script>

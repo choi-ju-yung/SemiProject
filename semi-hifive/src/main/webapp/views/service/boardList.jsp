@@ -5,9 +5,8 @@
 <!-- 게시글 스타일 적용 -->
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/service/boardList.css">
 <%
-	List<Board> boardList=(List)request.getAttribute("boardLsit");
-	System.out.println(boardList);
-	char notice='Y';
+	List<Board> boardList=(List)request.getAttribute("boardList"); //게시판 리스트
+	char notice='Y'; //게시판 구분하는 기본값 지정
 	if(boardList!=null&&boardList.get(0).getNoticeYn()=='N') notice='N';
 %>
 <section>
@@ -58,4 +57,5 @@
       </div>
     </div>
 </section>
+
 <%@ include file="/views/common/footer.jsp" %>

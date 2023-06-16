@@ -3,10 +3,12 @@
 /* 헤더 아래 부분 */
 section {
   display: flex;
+  height:auto;
 }
 
 .ServiceCenter {
   width: 1050px;
+  height: auto;
 }
 
 /* 고객센터 메뉴 부분 */
