@@ -1,5 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="com.semi.member.model.vo.Member" %>
+ <%
+	Member loginMember = (Member) session.getAttribute("loginMember");//여기 로그인멤버
+	
+	Cookie[] cookies = request.getCookies(); // 존재하는 쿠키들 다 갖고옴
+	String saveId = null;
+	if (cookies != null) {
+	   for (Cookie c : cookies) {
+	      if (c.getName().equals("saveId")) {
+	   saveId = c.getValue();
+	   break;
+	      }
+	   }
+	}
+%>    
+    
+    
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,6 +43,7 @@
 <script nomodule
 	src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 <script src="<%=request.getContextPath()%>/js/jquery-3.7.0.min.js"></script>
+
 
 <title>중고 거래 HiFive</title>
 </head>
@@ -97,7 +115,8 @@ if (cookies != null) {
                 ></ion-icon>
                 <span> 판매하기</span>
               </a>
-              <a href="">
+              <%if(loginMember != null){%>
+              <a href="<%=request.getContextPath()%>/myPage/myPageMain.do?userId=<%=loginMember.getUserId() %>" >
                 <ion-icon name="person-outline" class="myIcon"></ion-icon>
                 내정보
               </a>
@@ -105,6 +124,16 @@ if (cookies != null) {
                 <ion-icon name="heart-outline" class="heartIcon"></ion-icon>
                 찜한상품
               </a>
+              <%} else {%>
+              	<a href="<%=request.getContextPath()%>/productRegist.do" >
+                <ion-icon name="person-outline" class="myIcon"></ion-icon>
+                내정보
+              </a>
+              <a href="<%=request.getContextPath()%>/productRegist.do">
+                <ion-icon name="heart-outline" class="heartIcon"></ion-icon>
+                찜한상품
+              </a>
+              <%} %>
             </div>
           </div>
           <div class="categoryNrank">
@@ -240,6 +269,5 @@ if (cookies != null) {
           <div class="rpCount">0</div>
         </div>
       </div>
-    </header>
     </header>
     <script src="<%=request.getContextPath()%>/js/common/header.js"></script>

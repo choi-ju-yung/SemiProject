@@ -14,6 +14,7 @@ import com.semi.member.model.vo.Member;
 
 
 public class MemberDao {
+
 	private Properties sql=new Properties(); // Properties 파일객체 만듬
 	{
 		String path=MemberDao.class.getResource("/sql/member/member_sql.properties").getPath();
@@ -88,4 +89,4 @@ public class MemberDao {
 		//	.gender(rs.getString("gender").charAt(0))
 		//	.hobby(rs.getString("hobby")!=null?rs.getString("hobby").split(","):null)
 	}
-}	
+}

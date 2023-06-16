@@ -9,10 +9,13 @@
 
 
     <section>
-    	<form>
+    	 
         <%
 		if (loginMember != null) { // 로그인된상태에서 직접 login.view 화면으로 갔을때 로그인페이지가 아닌 메인화면으로 이동되는 예외처리
 		%> 
+		
+		<form action="<%=request.getContextPath()%>/productRegistEnd.do" class="container" method="post">
+		
         <div class="information">
             <div>
                 <h3>기본정보</h3>
