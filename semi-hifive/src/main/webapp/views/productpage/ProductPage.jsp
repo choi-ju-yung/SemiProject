@@ -1,7 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-pageEncoding="UTF-8"%> <%@ include file="/views/common/header.jsp" %> <%@ page
-import="com.semi.productpage.model.vo.Product" %> <% Product
-p=(Product)request.getAttribute("product"); %>
+pageEncoding="UTF-8"%> 
+<%@ include file="/views/common/header.jsp" %> 
+<%@ page import="com.semi.productpage.model.vo.Product,
+java.util.List,com.semi.productpage.model.vo.ProductComment" %> 
+<% 
+Product p=(Product)request.getAttribute("product"); 
+List<ProductComment> comments=(List)request.getAttribute("comments");
+%>
+
 <link
   rel="stylesheet"
   href="<%=request.getContextPath()%>/css/productpage/productPage.css"
@@ -259,22 +265,26 @@ p=(Product)request.getAttribute("product"); %>
     <h4>댓글</h4>
 
     <hr />
+    <%if(comments!=null){ 
+			for(ProductComment pc:comments){%>
     <div class="cmtContainer">
       <div class="cmtProfile">
         <a href="">
           <img
+          	name="userProfile"
             src="<%=request.getContextPath()%>/images/productpage/댓글1.jpg"
             alt=""
           />
         </a>
-        <a href="" class="cmtUser"><p>user02</p></a>
+        <a href="" class="cmtUser" name="userId"><p><%=pc.getUserId()%></p></a>
       </div>
-      <p class="cmt">거래원합니다~</p>
-      <span class="time">2023.05.15 15:25</span>
-      <!-- <a href="" class="writeCmt">답글쓰기</a> -->
+      <p class="cmt" name="content"><%=pc.getContent()%></p>
+      <span class="time" name="enrollDate"><%=pc.getEnrollDate() %></span>
       <button class="writeCmt">답글쓰기</button>
       <hr color="#eeeeee" noshade />
     </div>
+    <%} %>
+		<%} %>
     <div id="arrow"></div>
     <div class="reComment">
       <div class="cmtProfile">
@@ -293,45 +303,17 @@ p=(Product)request.getAttribute("product"); %>
       <a href="" class="writeCmt">답글쓰기</a>
       <hr color="#eeeeee" noshade />
     </div>
-
-    <div class="cmtContainer">
-      <div class="cmtProfile">
-        <a href="">
-          <img
-            src="<%=request.getContextPath()%>/images/productpage/댓글2.jpg"
-            alt=""
-          />
-        </a>
-        <a href="" class="cmtUser"><p>user03</p></a>
-      </div>
-      <p class="cmt">팔렸나요?</p>
-      <span class="time">2023.05.16 17:24</span>
-      <a href="" class="writeCmt">답글쓰기</a>
-      <hr color="#eeeeee" noshade />
-    </div>
-    <div class="reComment">
-      <div class="cmtProfile">
-        <a href="">
-          <img
-            src="<%=request.getContextPath()%>/images/productpage/프로필.jpg"
-            alt=""
-          />
-        </a>
-        <a href="" class="cmtUser"
-          >user01 <span id="rcmtWriter">작성자</span>
-        </a>
-      </div>
-      <p id="a"><span>user03님</span>에게 달린 답글</p>
-      <p class="cmt">연락주세요</p>
-      <span class="time">2023.05.15 15:30</span>
-      <a href="" class="writeCmt">답글쓰기</a>
-      <hr color="#eeeeee" noshade />
-    </div>
+	<form action="<%=request.getContextPath() %>/insertComment;" method="post">
     <div id="textContainer">
-      <textarea id="cmtText" placeholder="댓글을 입력하세요"></textarea>
+      <textarea id="cmtText" placeholder="댓글을 입력하세요" name="content"></textarea>
       <span>0/100</span><br />
-      <button id="cmtBtn">등록</button>
+      <input type="hidden" name="productId" value="<%=p.getProductId()%>">
+	  <input type="hidden" name="level" value="1">
+	  <input type="hidden" name="userId" value="<%-- <%=loginMember!=null?loginMember.getUserId():""%> --%><%=p.getUserId()%>">
+	  <input type="hidden" name="CommentRef" value="0">
+      <button type="submit" id="cmtBtn" >등록</button>
     </div>
+    </form>
   </div>
   <div id="relateProduct">
     <h2>연관상품</h2>
