@@ -16,9 +16,10 @@
 	</div>
 	<!-- 회원정보관리 div -->
 	<div class="updateMember">
+	<form id="updateUserFrm" method="post" enctype="multipart/form-data">
 		<div class="infoMem">
 			<img
-				src="<%=request.getContextPath()%>/images/mypage/<%=infoMS.getProfileImg()%>"
+				src="<%=request.getContextPath()%>/upload/profileImg/<%=infoMS.getProfileImg()%>"
 				alt="" style="width: 170px; height: 170px;" class="profileImg">
 			<div class="nickNprofileImg">
 				<div class="nicknameCon">
@@ -27,14 +28,12 @@
 				<div class="profileButton">
 					<button class="profileImgUpdate">이미지 변경</button>
 					<button class="profileImgDel">삭제</button>
-					<input type="file" accept=".jpg, .png" class="profileImgInput">
+					<input type="file" accept=".jpg, .png" class="profileImgInput" name="uploadProfile">
 				</div>
 			</div>
 		</div>
 		<!-- 프로필 수정 input -->
 		<hr width="1050px" color="#313030" noshade style="margin-top: 35px;" />
-
-		<form id="updateUserFrm" method="post">
 			<div class="profileUPdateInput">
 				<div class="profilePart">
 					<h4>이메일</h4>
@@ -114,7 +113,13 @@
 } --%>
 
 const updateMember=()=>{
-	$("#updateUserFrm").attr("action","<%=request.getContextPath()%>/member/updateEndMemeber.do").submit();
+	/* const form = new FormData();
+	const fileInput = $(".profileImgInput");
+	$.each(fileInput[0].files, (i,f)=>{
+		form.append("profileImg" + i,f);
+	}); */
+	
+	$("#updateUserFrm").attr("action","<%=request.getContextPath()%>/member/updateEndMember.do").submit();
 } 
 </script>
 <script src="<%=request.getContextPath()%>/js/mypage/myPageUpdate.js"></script>

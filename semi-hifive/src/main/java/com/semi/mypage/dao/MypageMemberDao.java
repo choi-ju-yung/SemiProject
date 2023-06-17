@@ -111,7 +111,8 @@ public class MypageMemberDao {
 			try {
 				pstmt=conn.prepareStatement(sql.getProperty("updateMemberNickname"));
 				pstmt.setString(1, m.getNickName());
-				pstmt.setString(2, m.getUserId());
+				pstmt.setString(2, m.getProfileImg());
+				pstmt.setString(3, m.getUserId());
 				result=pstmt.executeUpdate();
 			}catch(SQLException e) {
 				e.printStackTrace();
