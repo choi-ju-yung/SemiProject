@@ -14,7 +14,7 @@
 	<div class="ServiceCenter">
       <h2 class="ServicetHead">공지사항</h2>
       <% if(loginMember!=null&&loginMember.getUserId().equals("admin")){ %>
-      <button class="contentBtn" onclick="location.href='<%=request.getContextPath()%>'">글 작성</button>
+      <button class="contentBtn" onclick="location.href='<%=request.getContextPath()%>/service/boardInsert.do'">글 작성</button>
       <% } %>
       <% if(notice=='N'){ %>
       	<div class="QACategory">
@@ -29,7 +29,7 @@
         <% if(boardList!=null){ %>
 	        <% for(Board b:boardList){ %>
 		        <% if(notice=='Y'){ %>
-					<tr onclick="location.href='<%=request.getContextPath()%>/service/boardContent.do?boardNo='">
+					<tr onclick="location.href='<%=request.getContextPath()%>/service/boardContent.do?boardNo=<%=b.getBoardNo() %>'">
 						<td><%=b.getBoardNo() %></td>
 						<td class="noticeTitle"><%=b.getBoardTitle() %></td>
 						<td><%=b.getBoardDate() %></td>
@@ -38,7 +38,7 @@
 						<td colspan="3"></td>
 					</tr>
 					<% }else{ %>
-					<tr onclick="location.href='<%=request.getContextPath()%>/service/boardContent.do?boardNo='">
+					<tr onclick="location.href='<%=request.getContextPath()%>/service/boardContent.do?boardNo=<%=b.getBoardNo() %>'">
 						<td><%=b.getBoardNo() %></td>
 						<td class="QATitle">[<%=b.getBoardCategory() %>]<%=b.getBoardTitle() %></td>
 					</tr>

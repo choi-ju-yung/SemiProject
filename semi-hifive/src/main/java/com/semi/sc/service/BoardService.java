@@ -32,6 +32,13 @@ public class BoardService {
 		close(conn);
 		return result;
 	}
+
+	public Board selectBoardContent(int boardNo) {
+		Connection conn=getConnection();
+		Board b=dao.selectBoardContent(conn, boardNo);
+		close(conn);
+		return b;
+	}
 	
 	
 }
