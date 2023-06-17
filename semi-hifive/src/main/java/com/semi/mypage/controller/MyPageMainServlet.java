@@ -35,7 +35,6 @@ public class MyPageMainServlet extends HttpServlet {
 			throws ServletException, IOException {
 		String userId = request.getParameter("userId");
 		MemberShopPage m = new MypageMemberService().selectByUserId(userId);
-		System.out.println("MyPageMain서블릿" + m);
 		
 		// 암호화
 

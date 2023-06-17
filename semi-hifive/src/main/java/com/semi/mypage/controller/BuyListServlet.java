@@ -1,6 +1,8 @@
 package com.semi.mypage.controller;
 
 import java.io.IOException;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -8,9 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.semi.member.model.vo.Member;
+import com.semi.mypage.model.vo.ProductList;
 import com.semi.mypage.model.vo.ShopPage;
 import com.semi.mypage.service.MypageMemberService;
-import com.semi.mypage.service.ShopPageService;
+import com.semi.mypage.service.MypageProductService;
 
 /**
  * Servlet implementation class BuyListServlet
@@ -31,11 +34,13 @@ public class BuyListServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		String userId = request.getParameter("userId");
-//		Member m = new MypageMemberService().selectByUserId(userId);
-//		request.setAttribute("mypageMember", m);
-//		
-//		request.getRequestDispatcher("/views/mypage/buyList.jsp").forward(request, response);
+		String userId = request.getParameter("userId");
+		
+//		구매목록 가져오기
+		List<ProductList> p = new MypageProductService().selectBuyListByUserId(userId);
+		request.setAttribute("buyProduct", p);
+		
+		request.getRequestDispatcher("/views/mypage/buyList.jsp").forward(request, response);
 	}
 
 	/**

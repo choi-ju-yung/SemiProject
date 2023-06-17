@@ -12,7 +12,6 @@ import com.semi.member.model.vo.Member;
 import com.semi.mypage.model.vo.MemberShopPage;
 import com.semi.mypage.model.vo.ShopPage;
 import com.semi.mypage.service.MypageMemberService;
-import com.semi.mypage.service.ShopPageService;
 
 /**
  * Servlet implementation class MypageUpdateServlet

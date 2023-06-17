@@ -61,20 +61,6 @@
 				<button class="checkDB" onclick="fn_updatePassword();">비밀번호
 					변경</button>
 			</div>
-			<!-- <hr width="1050px" color="#eee" />
-                    <div class="profileUPdateInput">
-                        <div class="profilePart">
-                            <h4>새 비밀번호</h4>
-                        </div>
-                        <input type="text" placeholder="영문 대소문자/숫자/특수기호 모두 포함, 8글자 이상" class="inputCss">
-                    </div>
-                    <hr width="1050px" color="#eee" />
-                    <div class="profileUPdateInput">
-                        <div class="profilePart">
-                            <h4>새 비밀번호 확인</h4>
-                        </div>
-                        <input type="text" placeholder="" class="inputCss">
-                    </div> -->
 			<hr width="1050px" color="#eee" />
 			<div class="profileUPdateInput">
 				<div class="profilePart">

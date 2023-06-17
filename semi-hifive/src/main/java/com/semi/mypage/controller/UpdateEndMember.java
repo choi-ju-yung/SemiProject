@@ -61,7 +61,7 @@ public class UpdateEndMember extends HttpServlet {
 			loc="/mypage/mypageUpdate.do?userId="+m.getUserId();
 		} else {
 			// 실패
-			msg="회원정보 수정실패했습니다. 다시 시도하세요";
+			msg="회원정보 수정에 실패했습니다.";
 			loc="/mypage/mypageUpdate.do?userId="+m.getUserId();
 		}
 		request.setAttribute("msg", msg);
