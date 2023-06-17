@@ -29,7 +29,10 @@ public class CategoryDao {
 	public static CategoryDto getcategory(ResultSet rs) throws SQLException {
 		return CategoryDto.builder()
 				.categoryid(rs.getString("CATEGORY_ID"))
-				.categoryname(rs.getString("CATEGORY_NAME")).build();
+				.categoryname(rs.getString("CATEGORY_NAME"))
+				.subcategoryname(rs.getString("SUBCATEGORY_NAME"))
+				.categoryid_1(rs.getString("CATEGORY_ID_1"))
+				.build();	
 	}
 	
 	public List<CategoryDto> CategoryList(Connection conn){
@@ -51,4 +54,24 @@ public class CategoryDao {
 		}
 		return categorylist;
 	}
+	
+	public CategoryDto SelectCategoryList(Connection conn, String categoryname ) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		CategoryDto selectcategorylist = null;
+		try {
+			pstmt = conn.prepareStatement(sql.getProperty("SelectCategoryList"));
+			pstmt.setString(1, categoryname);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				selectcategorylist = getcategory(rs);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rs);
+			close(pstmt);
+		}return selectcategorylist;
+	}
+	
 }

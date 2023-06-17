@@ -439,7 +439,7 @@ $(document).ready(function() {
     loadPageData(page);
   });
   
-  function loadPageData(page) {
+/*function loadPageData(page) {
     $.ajax({
       url: '/categoryproductlist.do', // 서버 API 주소로 변경해야 합니다.
       type: 'GET',
@@ -454,28 +454,5 @@ $(document).ready(function() {
         console.error(error);
       }
     });
-  }
+  }*/
 });
-
-/*// jQuery를 사용하여 문서가 로드될 때 실행되는 함수입니다.
-$(document).ready(function() {
-  // 태그를 클릭했을 때 실행되는 함수를 등록합니다.
-  $('#pimgWraper').click(function() {
-    // 서버로 요청을 보내는 코드를 작성합니다.
-    // 여기에 AJAX 요청이나 $.ajax() 함수 등을 사용하여 서버로 요청할 수 있습니다.
-    // 예를 들면:
-    $.ajax({
-      url: "/productpage.do'", // 서블릿의 URL을 입력합니다.
-      method: "GET", // 요청 메서드를 선택합니다 (GET 또는 POST).
-      data: {PRODUCT_ID: 'value' }, // 요청에 필요한 데이터를 전달합니다.
-      success: function(response) {
-        // 서버 응답이 성공적으로 도착한 경우 실행될 코드를 작성합니다.
-        console.log(response);
-      },
-      error: function(xhr, status, error) {
-        // 서버 요청이 실패한 경우 실행될 코드를 작성합니다.
-        console.error(error);
-      }
-    });
-  });
-});*/

@@ -3,10 +3,6 @@
 <%@page import="com.semi.category.model.vo.CategoryDto"%>
 <%@page import="java.util.List"%>
 
-<%
-	List<CategoryDto> categorylist = (List)request.getAttribute("categorylist");
-%>
-
 <%@ page import="com.semi.member.model.vo.Member" %>
  <%
 	Member loginMember = (Member) session.getAttribute("loginMember");//여기 로그인멤버
@@ -22,8 +18,9 @@
 	   }
 	}
 %>    
-    
-    
+<%
+	List<CategoryDto> categorylist = (List)request.getAttribute("categorylist");
+%>   
 <!DOCTYPE html>
 <html>
 <head>
@@ -139,22 +136,22 @@
 
             <div id="menuList">
               <ul>
-                <li><a href="<%=request.getContextPath()%>/categoryproductlist.do" id="category0">전체</a></li>
-                <%-- <%if(categorylist.isEmpty()) {%>
-                
-                <%for(CategoryDto c : categorylist){%>
-                	<li><a href=""><%=c.getCategoryname()%></a></li>
-                <%} }%>  --%>
-                <li><a href="#" id="category1">카테고리1</a></li>
-                <li><a href="#" id="category2">카테고리2</a></li>
-                <li><a href="#" id="category3">카테고리3</a></li>
-                <li><a href="#" id="category4">카테고리4</a></li>
-                <li><a href="#" id="category5">카테고리5</a></li>
-                <li><a href="#" id="category6">카테고리6</a></li>
-                <li><a href="#" id="category7">카테고리7</a></li>
-                <li><a href="#" id="category8">카테고리8</a></li>
-                <li><a href="#" id="category9">카테고리9</a></li>
-                <li><a href="#" id="category10">카테고리10</a></li>
+              <li><a href="<%=request.getContextPath()%>/categoryproductlist.do" id="category0">전체</a></li>
+              	<%if(categorylist.isEmpty()){%>
+              		
+              	<%}else{
+        	  		for(CategoryDto c : categorylist){%>
+                <li><a href="<%=request.getContextPath()%>/serachcategory.do?CATEGORY_ID=<%=c.getCategoryid()%>" id="category1">패션의류</a></li>
+                <li><a href="#" id="category2">패션잡화</a></li>
+                <li><a href="#" id="category3">가전제품</a></li>
+                <li><a href="" id="category4">PC/모바일</a></li>
+                <li><a href="#" id="category5">가구/인테리어</a></li>
+                <li><a href="#" id="category6">리빙/생활</a></li>
+                <li><a href="#" id="category7">스포츠/레저</a></li>
+                <li><a href="#" id="category8">도서/음반/문구</a></li>
+                <li><a href="#" id="category9">차량/오토바이</a></li>
+                <li><a href="#" id="category10">기타</a></li>
+                <%}} %>
               </ul>
             </div>
             <div class="sideMenu" id="sideMenu-category1">

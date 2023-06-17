@@ -1,8 +1,6 @@
 package com.semi.category.controller;
 
 import java.io.IOException;
-import java.util.List;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,16 +11,16 @@ import com.semi.category.model.vo.CategoryDto;
 import com.semi.category.service.CategoryService;
 
 /**
- * Servlet implementation class HeaderCategoryServlet
+ * Servlet implementation class SelectCategoryListServlet
  */
-@WebServlet("/serachcategory.do")
-public class HeaderCategoryServlet extends HttpServlet {
+@WebServlet("/selectcategorylist.do")
+public class SelectCategoryListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public HeaderCategoryServlet() {
+    public SelectCategoryListServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,10 +29,13 @@ public class HeaderCategoryServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		List<CategoryDto> categorylist = new CategoryService().CategoryList();
-		System.out.println(categorylist);
-		request.setAttribute("categorylist", categorylist);
-		request.getRequestDispatcher("/views/common/header.jsp").forward(request, response);
+		String categoryname = getInitParameter("CATEGORY_ID");
+		
+		CategoryDto selectcategorylist = new CategoryService().SelectCategoryList(categoryname);
+		
+		request.setAttribute("selectcategorylist", selectcategorylist);
+		request.getRequestDispatcher("/views/productcategorypage/productcategorylistpage.jsp").forward(request, response);
+		
 		
 	}
 

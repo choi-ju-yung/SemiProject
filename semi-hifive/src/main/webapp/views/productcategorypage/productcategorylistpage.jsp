@@ -46,6 +46,11 @@
                 <b>카테고리</b>
                 <i class="bi bi-caret-down-fill"></i>
               </span>
+             <%--  <%if(categorylist.isEmpty()) {%>
+                
+                <%for(CategoryDto c : categorylist){%>
+                	<li><a href=""><%=c.getCategoryname()%></a></li>
+                <%} }%>  --%>
               <div class="collapse" id="pddCategory">
                 <div id="pddContainer">
                   <ul>

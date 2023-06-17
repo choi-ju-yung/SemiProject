@@ -41,7 +41,7 @@ public class ProductChartPageDao {
 		.viewcount(rs.getInt("VIEW_COUNT"))
 		.explanation(rs.getString("EXPLANATION"))
 		.keyword(rs.getString("KEYWORD"))
-		.subcategoryid(rs.getInt("SUBCATEGORY_ID"))
+		.subcategoryname(rs.getString("SUBCATEGORY_NAME"))
 		.goonguareaid(rs.getInt("GOONGUAREA_ID")).build();
 	}
 	

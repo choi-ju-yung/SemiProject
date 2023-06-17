@@ -23,7 +23,7 @@ public class ProductDto {
 	private int viewcount;
 	private String explanation;
 	private String keyword;
-	private int subcategoryid;
+	private String subcategoryname;
 	private int goonguareaid;
 	
 }
