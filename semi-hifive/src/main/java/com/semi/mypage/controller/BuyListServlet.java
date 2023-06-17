@@ -31,11 +31,11 @@ public class BuyListServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String userId = request.getParameter("userId");
-		Member m = new MypageMemberService().selectByUserId(userId);
-		request.setAttribute("mypageMember", m);
-		
-		request.getRequestDispatcher("/views/mypage/buyList.jsp").forward(request, response);
+//		String userId = request.getParameter("userId");
+//		Member m = new MypageMemberService().selectByUserId(userId);
+//		request.setAttribute("mypageMember", m);
+//		
+//		request.getRequestDispatcher("/views/mypage/buyList.jsp").forward(request, response);
 	}
 
 	/**

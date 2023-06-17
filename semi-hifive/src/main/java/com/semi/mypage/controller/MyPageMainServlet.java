@@ -8,10 +8,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.semi.member.model.vo.Member;
-import com.semi.mypage.model.vo.ShopPage;
+import com.semi.mypage.dao.MypageMemberDao;
+import com.semi.mypage.model.vo.MemberShopPage;
 import com.semi.mypage.service.MypageMemberService;
-import com.semi.mypage.service.ShopPageService;
 
 /**
  * Servlet implementation class MyPageMain
@@ -35,7 +34,7 @@ public class MyPageMainServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String userId = request.getParameter("userId");
-		Member m = new MypageMemberService().selectByUserId(userId);
+		MemberShopPage m = new MypageMemberService().selectByUserId(userId);
 		System.out.println("MyPageMain서블릿" + m);
 		
 		// 암호화

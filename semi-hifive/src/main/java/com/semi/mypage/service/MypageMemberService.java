@@ -23,31 +23,13 @@ public class MypageMemberService {
 		return list;
 	}
 	
-//	아이디, 비밀번호로 유저조회
-//	public Member selectByUserIdAndPw(String userId,String password) {
-//		Connection conn=getConnection();
-//		Member m=memDao.selectByUserIdAndPw(conn,userId,password);
-//		close(conn);
-//		return m;
-//	}
-	
 // 아이디로 유저조회
-	public Member selectByUserId(String userId) {
+	public MemberShopPage selectByUserId(String userId) {
 		Connection conn = getConnection();
-		Member m = dao.selectByUserId(conn, userId);
+		MemberShopPage m = dao.selectByUserId(conn, userId);
 		close(conn);
 		return m;
 	}
-	
-//	유저 닉네임, 상점소개글 수정
-//	public int updateMember(Member m) {
-//		Connection conn=getConnection();
-//		int result=dao.updateMember(conn,m);
-//		if(result>0) commit(conn);
-//		else rollback(conn);
-//		close(conn);
-//		return result;
-//	}
 	
 //	유저 프로필 이미지 수정
 	public int updateProfileImg(Member m) {
@@ -67,13 +49,23 @@ public class MypageMemberService {
 		return m;
 	}
 	
-//	회원정보수정 -> 닉네임, 상점소개글
-//	public int updateMember(MemberShopPage msp) {
-//		Connection conn = getConnection();
-//		int result = dao.updateMember(conn, msp);
-//		close(conn);
-//		return result;
-//	}
+//	유저 정보 수정(닉네임, 소개글)
+	public int updateMemberNickname(MemberShopPage m) {
+		Connection conn = getConnection();
+		int result = dao.updateMemberNickname(conn, m);
+		if(result>0) commit(conn);
+		else rollback(conn);
+		close(conn);
+		return result;
+	}
 	
+	public int updateMemberIntroduce(MemberShopPage m) {
+		Connection conn = getConnection();
+		int result = dao.updateMemberIntroduce(conn, m);
+		if(result>0) commit(conn);
+		else rollback(conn);
+		close(conn);
+		return result;
+	}
 	
 }

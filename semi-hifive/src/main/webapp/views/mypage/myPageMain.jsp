@@ -2,10 +2,11 @@
     pageEncoding="UTF-8"%>
 <%@ include file="/views/common/header.jsp"%>
 <%@ include file="/views/mypage/myPageCategory.jsp" %>
+<%@ page import="com.semi.mypage.model.vo.MemberShopPage" %>
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/css/mypage/myPageMain.css" />
 <%
-	Member mypageMember = (Member)request.getAttribute("mypageMember");
+	MemberShopPage mypageMember = (MemberShopPage)request.getAttribute("mypageMember");
 %>
 <!-- section -->
 
