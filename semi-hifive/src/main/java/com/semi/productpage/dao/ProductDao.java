@@ -49,26 +49,7 @@ public class ProductDao {
 		}return p;
 	}
 	
-	public int productPageComment(Connection conn, ProductComment pc) {
-		PreparedStatement pstmt=null;
-		int result=0;
-		try {
-			pstmt=conn.prepareStatement(sql.getProperty("productPageComment"));
-			pstmt.setString(1,pc.getUserId());
-			pstmt.setInt(2, pc.getProductId());			
-			pstmt.setInt(3,pc.getCommentLevel());
-			pstmt.setString(4,pc.getContent());
-			pstmt.setString(5,pc.getCommentRef()==0?null:
-								String.valueOf(pc.getCommentRef()));
-			result=pstmt.executeUpdate();
-		}catch(SQLException e) {
-			e.printStackTrace();
-		}finally {
-			close(pstmt);
-		}return result;
-	}
-	
-	public List<ProductComment> selectBoardComment(Connection conn,int id){
+	public List<ProductComment> selectProductComment(Connection conn,int id){
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
 		List<ProductComment> list=new ArrayList();
@@ -86,6 +67,44 @@ public class ProductDao {
 		}return list;
 	}
 
+	
+	public int insertProductComment(Connection conn, ProductComment pc) {
+		PreparedStatement pstmt=null;
+		int result=0;
+		try {
+			pstmt=conn.prepareStatement(sql.getProperty("insertProductComment"));
+			pstmt.setString(1,pc.getUserId());
+			pstmt.setInt(2, pc.getProductId());			
+			pstmt.setInt(3,pc.getCommentLevel());
+			pstmt.setString(4,pc.getContent());
+			pstmt.setString(5,pc.getCommentRef()==0?null:
+								String.valueOf(pc.getCommentRef()));
+			pstmt.setString(6,pc.getNickName());
+			result=pstmt.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}return result;
+	}
+	
+	public int changeProductComment(Connection conn, ProductComment pc, int cn) {
+		PreparedStatement pstmt=null;
+		int result=0;
+		try {
+			pstmt=conn.prepareStatement(sql.getProperty("changeProductComment"));						
+			pstmt.setString(1,pc.getContent());
+			pstmt.setInt(2,cn);
+			pstmt.setInt(3, pc.getProductId());
+			result=pstmt.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}return result;
+	}
+	
+	
 	
 	private Product getProduct(ResultSet rs) throws SQLException{
 		return Product.builder()
@@ -109,6 +128,7 @@ public class ProductDao {
 		return ProductComment.builder()
 				.userId(rs.getString("user_id"))
 				.productId(rs.getInt("product_id"))
+				.nickName(rs.getString("nickname"))
 				.commentNo(rs.getInt("product_comment_no"))
 				.commentLevel(rs.getInt("product_comment_level"))
 				.content(rs.getString("product_comment_content"))

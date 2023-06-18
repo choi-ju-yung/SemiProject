@@ -47,6 +47,8 @@ public class BoardInsertServlet extends HttpServlet {
 				.boardCategory(mr.getParameter("QACategory"))
 				.boardTitle(mr.getParameter("boardTitle"))
 				.boardContent(mr.getParameter("boardContent"))
+				.boardOriginalFileName(mr.getParameter("boardOriginalFile"))
+				.boardRenamedFileName(renamedFilename)
 				.build();
 		
 		int result=new BoardService().insertBoard(b);

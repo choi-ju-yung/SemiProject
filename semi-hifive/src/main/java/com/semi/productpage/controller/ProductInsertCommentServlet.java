@@ -1,4 +1,4 @@
-package com.semi.productpage.service;
+package com.semi.productpage.controller;
 
 import java.io.IOException;
 
@@ -9,18 +9,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.semi.productpage.model.vo.ProductComment;
+import com.semi.productpage.service.ProductPageService;
 
 /**
  * Servlet implementation class ProductPageComment
  */
 @WebServlet("/insertComment")
-public class ProductPageComment extends HttpServlet {
+public class ProductInsertCommentServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ProductPageComment() {
+    public ProductInsertCommentServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,9 +35,10 @@ public class ProductPageComment extends HttpServlet {
 				.commentLevel(Integer.parseInt(request.getParameter("level")))
 				.userId(request.getParameter("userId"))
 				.content(request.getParameter("content"))
-				.commentRef(Integer.parseInt(request.getParameter("CommentRef")))
+				.commentRef(Integer.parseInt(request.getParameter("commentRef")))
+				.nickName(request.getParameter("nickName"))
 				.build();
-		int result=new ProductPageService().productPageComment(pc);
+		int result=new ProductPageService().insertProductComment(pc);
 		
 		String view;
 		if(result>0) {

@@ -1,37 +1,27 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="com.semi.sc.model.dto.Board" %>
 <%@ include file="/views/common/header.jsp" %>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/service/boardContent.css">
 <section>
 <%@ include file="/views/service/serviceCategory.jsp" %>
-<%
-	Board b=(Board)request.getAttribute("board"); //게시판 객체
-
-%>
 	<div class="ServiceCenter">
 		<div class="boardContent">
 			<div class="contentTitle">
-				<%if(b.getNoticeYn()=='Y'){ %>
-				<h2><%=b.getBoardTitle() %></h2>
-				<%}else{ %>
-				<h2>[<%=b.getBoardCategory() %>]<%=b.getBoardTitle() %></h2>
-				<%} %>
+				<h2>boardTitle</h2>
 				<button class="backBtn"
 					onclick="location.href=''">뒤로 가기</button>
 			</div>
 			<div class="content">
                 <input type="hidden" name="boardNo" value="boardNo">
 				<div class="contentTop">
-                     <p>작성자 : <%=b.getBoardWriter() %></p>
-                     <p><%=b.getBoardDate() %></p>
+                     <p>작성자 : 이벤트담당자</p>
+                     <p>2023/04/25</p>
                 </div>
-				<p><%=b.getBoardContent() %></p>
-				<p></p>
+				<p>Q. 자주하는 질문1</p>
+				<p>A. 이렇게 해결해보세요</p>
 				<img
 					src="https://mblogthumb-phinf.pstatic.net/MjAyMjA2MTBfMjM3/MDAxNjU0ODM2MTEzODc5.rStmvGhTIUIZ_eshzIy-2Dv3hbMDgU5xMEgBe_8hxkEg.JLYYhiefyMgFUHAM0J3x5qlmGhxjaRgEBCVDWboxHKsg.PNG.papapapower/Desktop_Screenshot_2022.06.10_-_13.36.22.51.png?type=w800"
 					alt="">
-				
 			</div>
 			<!-- 자주하는 질문은 댓글 없음 -->
 			<div class="commentWrite">
