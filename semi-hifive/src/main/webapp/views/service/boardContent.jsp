@@ -27,7 +27,7 @@
                      <p><%=b.getBoardDate() %></p>
                 </div>
 				<p><%=b.getBoardContent() %></p>
-				<p><%=b.getBoardRenamedFileName() %></p>
+				<p></p>
 				<img
 					src="https://mblogthumb-phinf.pstatic.net/MjAyMjA2MTBfMjM3/MDAxNjU0ODM2MTEzODc5.rStmvGhTIUIZ_eshzIy-2Dv3hbMDgU5xMEgBe_8hxkEg.JLYYhiefyMgFUHAM0J3x5qlmGhxjaRgEBCVDWboxHKsg.PNG.papapapower/Desktop_Screenshot_2022.06.10_-_13.36.22.51.png?type=w800"
 					alt="">
