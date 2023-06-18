@@ -24,6 +24,9 @@ public class BoardContentServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int boardNo=Integer.parseInt(request.getParameter("boardNo")); //board_no 저장
 		Board b=new BoardService().selectBoardContent(boardNo);
+		//첨부파일 불러오는 메소드
+		b=new BoardService().selectBoardFile(boardNo, b);
+		
 		request.setAttribute("board", b);
 		request.getRequestDispatcher("/views/service/boardContent.jsp").forward(request, response);
 	}

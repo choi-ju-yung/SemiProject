@@ -1,7 +1,5 @@
 package com.semi.sc.model.dto;
 
-import java.sql.Date;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,12 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Board {
+public class BoardFile {
 	private int boardNo;
-	private String boardWriter;
-	private String boardTitle;
-	private String boardContent;
-	private Date boardDate;
-	private String boardCategory;
-	private char noticeYn;
+	private String boardPath;
+	private String fileNo;
+	private String boardFileName;
 }

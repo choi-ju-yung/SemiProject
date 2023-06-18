@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Properties;
 
 import com.semi.sc.model.dto.Board;
+import com.semi.sc.model.dto.BoardFile;
 public class BoardDao {
 	private final Properties sql=new Properties();
 	{
@@ -31,8 +32,14 @@ public class BoardDao {
 				.boardDate(rs.getDate("board_date"))
 				.boardCategory(rs.getString("board_category"))
 				.noticeYn(rs.getString("notice_yn").charAt(0))
-				.boardRenamedFileName(rs.getString("board_original_filename"))
 				.build();
+	}
+	//board file 반환 메소드
+	public static BoardFile getBoardFile(ResultSet rs, int boardNo) throws SQLException{
+		return BoardFile.builder().boardNo(boardNo)
+				.boardPath("board_path")
+				.boardFileName("board_filename")
+				.fileNo("file_no").build();
 	}
 	
 	//구분에 따라 공지사항, 자주하는 질문 테이블 갯수 불러오는 메소드
@@ -94,8 +101,6 @@ public class BoardDao {
 			pstmt.setString(3, b.getBoardContent());
 			pstmt.setString(4, b.getBoardCategory());
 			pstmt.setString(5, String.valueOf(b.getNoticeYn()));
-			pstmt.setString(6, b.getBoardOriginalFileName());
-			pstmt.setString(7, b.getBoardRenamedFileName());
 			
 			result=pstmt.executeUpdate();
 			if(result>0) {
@@ -118,11 +123,25 @@ public class BoardDao {
 		Board b=null;
 		try {
 			pstmt=conn.prepareStatement(sql.getProperty("selectBoardContent"));
-			//SELECT * FROM BOARD WHERE BOARD_NO=?
 			pstmt.setInt(1, boardNo);
 			rs=pstmt.executeQuery();
 			if(rs.next()) {
 				b=getBoard(rs);
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return b;
+	}
+	public Board selectBoardFile(Connection conn, int boardNo, Board b) {
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		try {
+			pstmt=conn.prepareStatement(sql.getProperty("selectBoardFile"));
+			pstmt.setInt(1, boardNo);
+			rs=pstmt.executeQuery();
+			if(rs.next()) {
+				
 			}
 		}catch(SQLException e) {
 			e.printStackTrace();
