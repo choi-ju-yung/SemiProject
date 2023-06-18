@@ -439,6 +439,7 @@ $(document).ready(function() {
     loadPageData(page);
   });
   
+  
 /*function loadPageData(page) {
     $.ajax({
       url: '/categoryproductlist.do', // 서버 API 주소로 변경해야 합니다.

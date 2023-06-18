@@ -1,5 +1,7 @@
 package com.semi.product.model.dao;
 
+import static com.semi.common.JDBCTemplate.close;
+
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
@@ -9,10 +11,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-import static com.semi.common.JDBCTemplate.*;
-
-
-import javax.naming.spi.DirStateFactory.Result;
 
 import com.semi.product.model.vo.ProductDto;
 
@@ -29,7 +27,7 @@ public class ProductChartPageDao {
 	}
 	
 	public static ProductDto getProduct(ResultSet rs) throws SQLException {
-		return ProductDto.builder()
+		return ProductDto.builder()		
 		.productId(rs.getInt("PRODUCT_ID"))
 		.userId(rs.getString("USER_ID"))
 		.producttitle(rs.getString("PRODUCT_TITLE"))
@@ -37,12 +35,15 @@ public class ProductChartPageDao {
 		.sellstatus(rs.getString("SELL_STATUS"))
 		.price(rs.getInt("PRICE"))
 		.registtime(rs.getDate("REGIST_TIME"))
-		.elapsedtime(rs.getLong("ELAPSED_TIME"))
 		.viewcount(rs.getInt("VIEW_COUNT"))
 		.explanation(rs.getString("EXPLANATION"))
 		.keyword(rs.getString("KEYWORD"))
+		.goonguareaid(rs.getInt("GOONGUAREA_ID"))
 		.subcategoryname(rs.getString("SUBCATEGORY_NAME"))
-		.goonguareaid(rs.getInt("GOONGUAREA_ID")).build();
+		.elapsedtime(rs.getLong("ELAPSED_TIME"))
+		.categoryid(rs.getString("CATEGORY_ID"))
+		.categoryname(rs.getString("CATEGORY_NAME"))
+		.build();
 	}
 	
 	public List<ProductDto> CategoryProductList(Connection conn, int cPage, int numPerpage) {
@@ -106,30 +107,46 @@ public class ProductChartPageDao {
 		}return p;
 	}
 	
-//	// 경과 시간 변환 메서드
-//	private static String formatElapsed(long elapsed) {
-//	    long seconds = elapsed / 1000; 
-//
-//	    if (seconds < 60) {
-//	        return seconds + "초 전";
-//	    } else if (seconds < 3600) {
-//	        long minutes = seconds / 60;
-//	        return minutes + "분 전";
-//	    } else if (seconds < 86400) {
-//	        long hours = seconds / 3600;
-//	        return hours + "시간 전";
-//	    } else if (seconds < 2592000) {
-//	        long days = seconds / 86400;
-//	        return days + "일 전";
-//	    } else if (seconds < 31536000) {
-//	        long months = seconds / 2592000;
-//	        return months + "개월 전";
-//	    } else {
-//	        long years = seconds / 31536000;
-//	        return years + "년 전";
-//	    }
-//	}
-//	
+	public ProductDto SelectCategoryList(Connection conn, int cPage, int numPerpage ,String categoryid) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		ProductDto selectcategorylist = null;
+		try {
+			pstmt = conn.prepareStatement(sql.getProperty("SelectCategoryList"));
+			pstmt.setInt(1, (cPage-1) * numPerpage + 1);
+			pstmt.setInt(2, cPage * numPerpage);
+			pstmt.setString(3, categoryid);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				selectcategorylist = getProduct(rs);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rs);
+			close(pstmt);
+		}return selectcategorylist;
+	}
+	
+	public int SelectCategoryProductListCount(Connection conn, String categoryid) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		int result = 0;
+		
+		try {
+			pstmt = conn.prepareStatement(sql.getProperty("CategoryProductListCount"));
+			pstmt.setString(1, categoryid);
+			rs = pstmt.executeQuery();
+			if(rs.next()){
+				result = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rs);
+			close(pstmt);
+		}return result;
+	}
 	
 	
 }

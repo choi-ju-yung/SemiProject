@@ -9,6 +9,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+
+
 import static com.semi.common.JDBCTemplate.*;
 
 import com.semi.category.model.vo.CategoryDto;
@@ -31,7 +33,6 @@ public class CategoryDao {
 				.categoryid(rs.getString("CATEGORY_ID"))
 				.categoryname(rs.getString("CATEGORY_NAME"))
 				.subcategoryname(rs.getString("SUBCATEGORY_NAME"))
-				.categoryid_1(rs.getString("CATEGORY_ID_1"))
 				.build();	
 	}
 	

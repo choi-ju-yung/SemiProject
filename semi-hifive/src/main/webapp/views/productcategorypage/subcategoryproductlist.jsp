@@ -3,13 +3,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-	List<ProductDto> productlist = (List)request.getAttribute("productlist");
-%>
-<%
 	List<CategoryDto> categorylist = (List)request.getAttribute("categorylist");
 %>
 <%
-	ProductDto dto = (ProductDto)request.getAttribute("selectcategorylist");
+	ProductDto p = (ProductDto)request.getAttribute("selectcategorylist");
 %>
 
 <%@ include file="/views/common/header.jsp" %>
@@ -410,7 +407,6 @@
           </div>
           <div id="test"></div>
           <div id="productImgContainer">
-      		<%for(ProductDto p : productlist){%>
             <div id="pimgWraper" onclick="location.href='<%=request.getContextPath()%>/productpage?no=<%=p.getProductId()%>';">
               <div class="con-like">
                 <input title="like" type="checkbox" class="like" />
@@ -478,7 +474,6 @@
                 </p>
               
             </div>
-          <%}%>
           </div>
           
           <div class="pageContainer">

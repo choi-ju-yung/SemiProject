@@ -36,4 +36,18 @@ public class ProductChartPageService {
 		return p;
 	}
 	
+	public ProductDto SelectCategoryList(int cPage, int numPerpage ,String categoryid) {
+		Connection conn = getConnection();
+		ProductDto p = dao.SelectCategoryList(conn, cPage, numPerpage, categoryid);
+		close(conn);
+		return p;
+	}
+	
+	public int SelectCategoryProductListCount(String categoryid){
+		Connection conn = getConnection();
+		int result = dao.CategoryProductListCount(conn);
+		close(conn);
+		return result;
+}
+	
 }

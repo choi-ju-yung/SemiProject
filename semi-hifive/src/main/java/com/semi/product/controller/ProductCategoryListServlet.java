@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.semi.category.model.vo.CategoryDto;
+import com.semi.category.service.CategoryService;
 import com.semi.product.model.service.ProductChartPageService;
 import com.semi.product.model.vo.ProductDto;
 
@@ -73,6 +75,9 @@ public class ProductCategoryListServlet extends HttpServlet {
 		
 		List<ProductDto> productlist = new ProductChartPageService().CategoryProductList(cPage, numPerpage);
 		
+		List<CategoryDto> categorylist = new CategoryService().CategoryList();
+	
+		request.setAttribute("categorylist", categorylist);
 		request.setAttribute("productlist", productlist);
 		request.getRequestDispatcher("/views/productcategorypage/productcategorylistpage.jsp").forward(request, response);
 	

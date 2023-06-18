@@ -31,10 +31,10 @@ public class HeaderCategoryServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		List<CategoryDto> categorylist = new CategoryService().CategoryList();
-		System.out.println(categorylist);
-		request.setAttribute("categorylist", categorylist);
+		List<CategoryDto> headercategory = new CategoryService().CategoryList();
+		request.setAttribute("headercategory", headercategory);
 		request.getRequestDispatcher("/views/common/header.jsp").forward(request, response);
+		   
 		
 	}
 
