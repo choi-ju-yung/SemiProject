@@ -15,7 +15,7 @@ import com.semi.category.service.CategoryService;
 /**
  * Servlet implementation class HeaderCategoryServlet
  */
-@WebServlet("/ajax/headercategory.do")
+@WebServlet("/serachcategory.do")
 public class HeaderCategoryServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -31,9 +31,10 @@ public class HeaderCategoryServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		List<CategoryDto> categorylist = new CategoryService().CategoryList();
-		request.setAttribute("categorylist", categorylist);
+		List<CategoryDto> headercategory = new CategoryService().CategoryList();
+		request.setAttribute("headercategory", headercategory);
 		request.getRequestDispatcher("/views/common/header.jsp").forward(request, response);
+		   
 		
 	}
 

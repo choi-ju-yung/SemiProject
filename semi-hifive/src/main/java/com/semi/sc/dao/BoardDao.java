@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Properties;
 
 import com.semi.sc.model.dto.Board;
+import com.semi.sc.model.dto.BoardFile;
 public class BoardDao {
 	private final Properties sql=new Properties();
 	{
@@ -25,22 +26,20 @@ public class BoardDao {
 	}
 	//Board 객체 반환 메소드
 	public static Board getBoard(ResultSet rs) throws SQLException{
-//		BOARD_NO NUMBER CONSTRAINT BOARD_NO_PK PRIMARY KEY,
-//		BOARD_WRITER VARCHAR2(30) NOT NULL,
-//		BOARD_TITLE	VARCHAR2(150) NOT NULL,
-//		BOARD_CONTENT VARCHAR2(4000) NOT NULL,
-//		BOARD_DATE TIMESTAMP DEFAULT SYSDATE NOT NULL,
-//		BOARD_CATEGORY VARCHAR2(50)	NULL,
-//		NOTICE_YN CHAR(5) DEFAULT 'Y' NOT NULL,
-//		BOARD_FILE VARCHAR2(2000) NULL
 		return Board.builder().boardNo(rs.getInt("board_no"))
 				.boardTitle(rs.getString("board_title"))
 				.boardContent(rs.getString("board_content"))
 				.boardDate(rs.getDate("board_date"))
 				.boardCategory(rs.getString("board_category"))
 				.noticeYn(rs.getString("notice_yn").charAt(0))
-				.boardRenamedFileName(rs.getString("board_original_filename"))
 				.build();
+	}
+	//board file 반환 메소드
+	public static BoardFile getBoardFile(ResultSet rs, int boardNo) throws SQLException{
+		return BoardFile.builder().boardNo(boardNo)
+				.boardPath("board_path")
+				.boardFileName("board_filename")
+				.fileNo("file_no").build();
 	}
 	
 	//구분에 따라 공지사항, 자주하는 질문 테이블 갯수 불러오는 메소드
@@ -50,7 +49,6 @@ public class BoardDao {
 		int count=0;
 		try {
 			pstmt=conn.prepareStatement(sql.getProperty("selectBoardCount"));
-			//SELECT COUNT(*) AS boardCount FROM BOARD WHERE NOTICE_YN=?
 			pstmt.setString(1, noticeYN);
 			rs=pstmt.executeQuery();	
 			if(rs.next()) {
@@ -67,15 +65,13 @@ public class BoardDao {
 		return count;
 	}
 
+	//notice_yn을 기준으로 게시글 리스트를 불러옴
 	public List<Board> selectBoardList(Connection conn, int cPage, int numPerpage, String noticeYN) {
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
 		List<Board> boards=new ArrayList();
 		try {
 			pstmt=conn.prepareStatement(sql.getProperty("selectBoardList"));
-			//SELECT * FROM (SELECT ROWNUM AS RNUM, B.*
-			//FROM (SELECT * FROM BOARD WHERE NOTICE_YN=? ORDER BY BOARD_DATE DESC) B)
-			//WHERE RNUM BETWEEN ? AND ?
 			pstmt.setString(1, noticeYN);
 			pstmt.setInt(2, cPage);
 			pstmt.setInt(3, numPerpage);
@@ -94,20 +90,17 @@ public class BoardDao {
 		return boards;
 	}
 
+	//Board 테이블에 데이터 추가
 	public int insertBoard(Connection conn, Board b) {
 		PreparedStatement pstmt=null;
 		int result=0;
 		try {
 			pstmt=conn.prepareStatement(sql.getProperty("insertBoard"));
-			//INSERT INTO BOARD VALUES(SEQ_BOARD_NO.NEXTVAL,?,?,?,DEFAULT,?,?,?,?)
-			//write, title, content, category, noticeYN, orifile, renamefile
 			pstmt.setString(1, b.getBoardWriter());
 			pstmt.setString(2, b.getBoardTitle());
 			pstmt.setString(3, b.getBoardContent());
 			pstmt.setString(4, b.getBoardCategory());
 			pstmt.setString(5, String.valueOf(b.getNoticeYn()));
-			pstmt.setString(6, b.getBoardOriginalFileName());
-			pstmt.setString(7, b.getBoardRenamedFileName());
 			
 			result=pstmt.executeUpdate();
 			if(result>0) {
@@ -121,6 +114,39 @@ public class BoardDao {
 			close(pstmt);
 		}
 		return result;
+	}
+
+	//boardNo에 해당하는 컬럼 불러옴
+	public Board selectBoardContent(Connection conn, int boardNo) {
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		Board b=null;
+		try {
+			pstmt=conn.prepareStatement(sql.getProperty("selectBoardContent"));
+			pstmt.setInt(1, boardNo);
+			rs=pstmt.executeQuery();
+			if(rs.next()) {
+				b=getBoard(rs);
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return b;
+	}
+	public Board selectBoardFile(Connection conn, int boardNo, Board b) {
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		try {
+			pstmt=conn.prepareStatement(sql.getProperty("selectBoardFile"));
+			pstmt.setInt(1, boardNo);
+			rs=pstmt.executeQuery();
+			if(rs.next()) {
+				
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return b;
 	}
 
 }

@@ -1,4 +1,4 @@
-package com.semi.product.controller;
+package com.semi.category.controller;
 
 import java.io.IOException;
 import java.util.List;
@@ -9,22 +9,24 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
 import com.semi.category.model.vo.CategoryDto;
 import com.semi.category.service.CategoryService;
+import com.semi.mypage.model.vo.Product;
 import com.semi.product.model.service.ProductChartPageService;
 import com.semi.product.model.vo.ProductDto;
 
 /**
- * Servlet implementation class ProductCategoryListServlet
+ * Servlet implementation class SelectCategoryListServlet
  */
-@WebServlet("/categoryproductlist.do")
-public class ProductCategoryListServlet extends HttpServlet {
+@WebServlet("/selectcategorylist.do")
+public class SelectCategoryListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ProductCategoryListServlet() {
+    public SelectCategoryListServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,7 +35,7 @@ public class ProductCategoryListServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		String categoryname = getInitParameter("subcategory");
 		int cPage, numPerpage;
 		try {
 			cPage = Integer.parseInt(request.getParameter("cPage"));
@@ -47,7 +49,7 @@ public class ProductCategoryListServlet extends HttpServlet {
 		}
 		
 		String pageBar = "";
-		int totalData = new ProductChartPageService().CategoryProductListCount();
+		int totalData = new ProductChartPageService().SelectCategoryProductListCount(categoryname);
 		int totalPage = (int)Math.ceil((double)totalData/numPerpage);
 		int pageBarSize = 10;
 		int pageNo = ((cPage - 1)/pageBarSize) * pageBarSize + 1;
@@ -73,14 +75,14 @@ public class ProductCategoryListServlet extends HttpServlet {
 		}
 		request.setAttribute("pageBar", pageBar);
 		
-		List<ProductDto> productlist = new ProductChartPageService().CategoryProductList(cPage, numPerpage);
-		
+		ProductDto selectcategorylist = new ProductChartPageService().SelectCategoryList(cPage, numPerpage, categoryname);
 		List<CategoryDto> categorylist = new CategoryService().CategoryList();
 	
 		request.setAttribute("categorylist", categorylist);
-		request.setAttribute("productlist", productlist);
-		request.getRequestDispatcher("/views/productcategorypage/productcategorylistpage.jsp").forward(request, response);
-	
+		request.setAttribute("selectcategorylist", selectcategorylist);
+		request.getRequestDispatcher("/views/productcategorypage/subcategoryproductlist.jsp").forward(request, response);
+		
+		
 	}
 
 	/**

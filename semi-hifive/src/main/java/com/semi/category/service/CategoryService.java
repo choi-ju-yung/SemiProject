@@ -20,4 +20,11 @@ public class CategoryService {
 		close(conn);
 		return categorylist;
 	}
+	
+	public CategoryDto SelectCategoryList(String categorylist) {
+		Connection conn = getConnection();
+		CategoryDto selectcategorylist = dao.SelectCategoryList(conn, categorylist);
+		close(conn);
+		return selectcategorylist;
+	}
 }
