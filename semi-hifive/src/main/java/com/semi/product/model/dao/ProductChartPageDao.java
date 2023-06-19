@@ -114,9 +114,9 @@ public class ProductChartPageDao {
 		List<ProductDto> selectcategorylist = new ArrayList<>();
 		try {
 			pstmt = conn.prepareStatement(sql.getProperty("SelectCategoryList"));
-			pstmt.setInt(1, (cPage-1) * numPerpage + 1);
-			pstmt.setInt(2, cPage * numPerpage);
-			pstmt.setString(3, categoryid);
+			pstmt.setInt(2, (cPage-1) * numPerpage + 1);
+			pstmt.setInt(3, cPage * numPerpage);
+			pstmt.setString(1, categoryid);
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				selectcategorylist.add(getProduct(rs));
@@ -135,7 +135,7 @@ public class ProductChartPageDao {
 		int result = 0;
 		
 		try {
-			pstmt = conn.prepareStatement(sql.getProperty("CategoryProductListCount"));
+			pstmt = conn.prepareStatement(sql.getProperty("SelectCategoryProductListCount"));
 			pstmt.setString(1, categoryid);
 			rs = pstmt.executeQuery();
 			if(rs.next()){
@@ -149,5 +149,48 @@ public class ProductChartPageDao {
 		}return result;
 	}
 	
+	//대표카테고리 클릭시 대표카테고리상품리스트들 출력
+		public List<ProductDto> CategoryList(Connection conn, int cPage, int numPerpage, String categoryname){
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			List<ProductDto> categorylist = new ArrayList<>();
+			
+			try {
+				pstmt = conn.prepareStatement(sql.getProperty("CategoryList"));
+				pstmt.setString(1, categoryname);
+				pstmt.setInt(2, (cPage-1) * numPerpage + 1);
+				pstmt.setInt(3, cPage * numPerpage);
+				rs = pstmt.executeQuery();
+				while(rs.next()) {
+					categorylist.add(getProduct(rs));
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}finally {
+				close(rs);
+				close(pstmt);
+			}
+			return categorylist;
+		}
+		//대표카테고리 클릭시 대표카테고리상품리스트들 출력 화면에 출력할 페이징
+		public int CategoryCount(Connection conn, String categoryname) {
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			int result = 0;
+			
+			try {
+				pstmt = conn.prepareStatement(sql.getProperty("CategoryCount"));
+				pstmt.setString(1, categoryname);
+				rs = pstmt.executeQuery();
+				if(rs.next()){
+					result = rs.getInt(1);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}finally {
+				close(rs);
+				close(pstmt);
+			}return result;
+		}
 	
 }

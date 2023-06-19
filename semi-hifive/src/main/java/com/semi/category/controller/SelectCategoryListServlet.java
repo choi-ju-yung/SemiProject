@@ -35,57 +35,58 @@ public class SelectCategoryListServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String categoryname = getInitParameter("subcategory");
+		String categoryname = request.getParameter("subcategory");
+		// 페이징
 		int cPage, numPerpage;
 		try {
 			cPage = Integer.parseInt(request.getParameter("cPage"));
-		}catch(NumberFormatException e){
+		} catch (NumberFormatException e) {
 			cPage = 1;
 		}
 		try {
 			numPerpage = Integer.parseInt(request.getParameter("numPerpage"));
-		}catch(NumberFormatException e){
+		} catch (NumberFormatException e) {
 			numPerpage = 32;
 		}
-		
 		String pageBar = "";
 		int totalData = new ProductChartPageService().SelectCategoryProductListCount(categoryname);
 		int totalPage = (int)Math.ceil((double)totalData/numPerpage);
-		int pageBarSize = 10;
-		int pageNo = ((cPage - 1)/pageBarSize) * pageBarSize + 1;
+		int pageBarSize = 5;
+		int pageNo = ((cPage-1)/pageBarSize)*pageBarSize + 1;
 		int pageEnd = pageNo + pageBarSize - 1;
 		
 		if(pageNo == 1) {
-			pageBar += "<li><a><<</a></li>";
-		}else {
-			pageBar += "<li><a href='"+request.getRequestURI()+"?cPage="+(pageNo - 1)+"&numPerpage="+numPerpage+"'><<</a></li>";
+			pageBar += "<li><span class='pageMove'>&lt;</span></li>";
+		} else {
+			pageBar += "<li><a href='" + request.getRequestURI()+ "?cPage=" + (pageNo-1) + "&numPerpage=" + numPerpage + "'>&lt;</a></li>";
 		}
-		while(!(pageNo > pageEnd || pageNo > totalPage)) {
-			if(pageNo == cPage) {
-				pageBar += "<li><a>" + pageNo + "</a></li>";
+		while(!(pageNo>pageEnd||pageNo>totalPage)) {
+			if(pageNo==cPage) {
+				pageBar+="<li><span class='nowPage'>"+pageNo+"</span></li>";
 			}else {
-				pageBar += "<li><a href='"+request.getRequestURI()+"?cPage="+pageNo+"&numPerpage="+numPerpage+"'>"+pageNo+"</a></li>";
+				pageBar+="<li><a href='"+request.getRequestURI()+"?cPage=" + pageNo + "&numPerpage=" +numPerpage + "'>" + pageNo + "</a></li>";
 			}
 			pageNo++;
 		}
-		if(pageNo > totalPage) {
-			pageBar += "<li><a>>></a></li>";
-		}else {
-			pageBar += "<li><a href='"+request.getRequestURI()+"?cPage="+pageNo+"&numPerpage="+numPerpage+"'>>></a></li>";
+		if(pageNo>totalPage) {
+			pageBar += "<li><span>&gt;</span></li>";
+		} else {
+			pageBar += "<li><a href='" + request.getRequestURI()+ "?cPage=" + pageNo + "&numPerpage=" + numPerpage + "'>&gt;</a></li>";
 		}
 		request.setAttribute("pageBar", pageBar);
+
 		
-		List<ProductDto> productlist = new ProductChartPageService().CategoryProductList(cPage, numPerpage);
+		
 		List<CategoryDto> selectcategory = new CategoryService().SelectCategory();
 
-		List<CategoryDto> categorylist = new CategoryService().CategoryList();
+		List<CategoryDto> categorylist = new CategoryService().SubCategoryList();
 		List<ProductDto> selectcategorylist = new ProductChartPageService().SelectCategoryList(cPage, numPerpage, categoryname);
 		
 		System.out.println(selectcategorylist);
 		request.setAttribute("selectcategorylist", selectcategorylist);
 		request.setAttribute("categorylist", categorylist);
 		request.setAttribute("selectcategory", selectcategory);
-		request.setAttribute("productlist", productlist);
+		
 		request.getRequestDispatcher("/views/productcategorypage/subcategoryproductlist.jsp").forward(request, response);
 		
 		

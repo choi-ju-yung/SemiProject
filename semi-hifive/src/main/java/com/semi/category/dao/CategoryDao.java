@@ -1,6 +1,7 @@
 package com.semi.category.dao;
 
 import java.io.FileReader;
+import com.semi.product.model.dao.*;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -41,26 +42,8 @@ public class CategoryDao {
 				.categoryname(rs.getString("CATEGORY_NAME")).build();
 	}
 	
-	public List<CategoryDto> CategoryList(Connection conn){
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		List<CategoryDto> categorylist = new ArrayList<>();
-		
-		try {
-			pstmt = conn.prepareStatement(sql.getProperty("CategoryList"));
-			rs = pstmt.executeQuery();
-			while(rs.next()) {
-				categorylist.add(getcategory(rs));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}finally {
-			close(rs);
-			close(pstmt);
-		}
-		return categorylist;
-	}
 	
+	// 대표카테고리만 출력해주는 메소드
 	public List<CategoryDto> SelectCategory(Connection conn) {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -77,6 +60,24 @@ public class CategoryDao {
 			close(rs);
 			close(pstmt);
 		}return selectcategory;
+	}
+	// 카테고리와 세부카테고리 두개 join한 메소드
+	public List<CategoryDto> SubCategoryList(Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<CategoryDto> subctcategory = new ArrayList<>();
+		try {
+			pstmt = conn.prepareStatement(sql.getProperty("SubCategoryList"));
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				subctcategory.add(getcategory(rs));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rs);
+			close(pstmt);
+		}return subctcategory;
 	}
 	
 }

@@ -3,9 +3,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-	List<ProductDto> productlist = (List)request.getAttribute("productlist");
-%>
-<%
 	List<CategoryDto> categorylist = (List)request.getAttribute("categorylist");
 %>
 <%
@@ -32,22 +29,12 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css"
     />
     <link rel="stylesheet" href="<%=request.getContextPath()%>/css/productsearchchartpage.css" />
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/page.css" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.umd.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-		<%-- <script>
-              	$(".pdcCategory>span").click(e=>{
-              		
-              		$.ajax({
-              			url: "<%=request.getContextPath()%>/selectcategorylist.do?CATEGORY_ID='A',
-              			success: data => {
-              				console.log(data);
-              			}
-              		});
-              	});
-              </script> --%>
 	<section>
       <div id="wraperContainer">
         <div id="leftCategory">
@@ -72,7 +59,7 @@
                     <div class="pdcCategory">
                     <%for(CategoryDto c : selectcategory) {
                     	if(c.getCategoryid().equals("A")){%>
-                      <span onclick="location.assign('<%=request.getContextPath()%>/serachcategory.do?')"><%=c.getCategoryname()%></span>
+                      <span onclick="test('<%=c.getCategoryname()%>')"><%=c.getCategoryname()%></span>
                       <%} } %>
                       <i
                         class="fa fa-plus-square"
@@ -514,11 +501,11 @@
            <%}%>
           </div>
           
-          <div class="pageContainer">
-            <ul class="page-list">
-            	<%=request.getAttribute("pageBar")%>
-            </ul>
-          </div>
+          <div class="pageBar">
+	     	<ul class="page">
+	         <%=request.getAttribute("pageBar") %>
+	         </ul>
+	    </div>	
         </div>
       </div>
 
