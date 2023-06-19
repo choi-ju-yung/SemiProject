@@ -35,6 +35,11 @@ public class CategoryDao {
 				.subcategoryname(rs.getString("SUBCATEGORY_NAME"))
 				.build();	
 	}
+	public static CategoryDto getselectcategory(ResultSet rs) throws SQLException {
+		return CategoryDto.builder()
+				.categoryid(rs.getString("CATEGORY_ID"))
+				.categoryname(rs.getString("CATEGORY_NAME")).build();
+	}
 	
 	public List<CategoryDto> CategoryList(Connection conn){
 		PreparedStatement pstmt = null;
@@ -56,23 +61,22 @@ public class CategoryDao {
 		return categorylist;
 	}
 	
-	public CategoryDto SelectCategoryList(Connection conn, String categoryname ) {
+	public List<CategoryDto> SelectCategory(Connection conn) {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		CategoryDto selectcategorylist = null;
+		List<CategoryDto> selectcategory = new ArrayList<>();
 		try {
-			pstmt = conn.prepareStatement(sql.getProperty("SelectCategoryList"));
-			pstmt.setString(1, categoryname);
+			pstmt = conn.prepareStatement(sql.getProperty("SelectCategory"));
 			rs = pstmt.executeQuery();
-			if(rs.next()) {
-				selectcategorylist = getcategory(rs);
+			while(rs.next()) {
+				selectcategory.add(getselectcategory(rs));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
 			close(rs);
 			close(pstmt);
-		}return selectcategorylist;
+		}return selectcategory;
 	}
 	
 }

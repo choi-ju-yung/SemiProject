@@ -76,7 +76,10 @@ public class ProductCategoryListServlet extends HttpServlet {
 		List<ProductDto> productlist = new ProductChartPageService().CategoryProductList(cPage, numPerpage);
 		
 		List<CategoryDto> categorylist = new CategoryService().CategoryList();
+		
+		List<CategoryDto> selectcategory = new CategoryService().SelectCategory();
 	
+		request.setAttribute("selectcategory", selectcategory);
 		request.setAttribute("categorylist", categorylist);
 		request.setAttribute("productlist", productlist);
 		request.getRequestDispatcher("/views/productcategorypage/productcategorylistpage.jsp").forward(request, response);

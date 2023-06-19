@@ -75,11 +75,17 @@ public class SelectCategoryListServlet extends HttpServlet {
 		}
 		request.setAttribute("pageBar", pageBar);
 		
-		ProductDto selectcategorylist = new ProductChartPageService().SelectCategoryList(cPage, numPerpage, categoryname);
+		List<ProductDto> productlist = new ProductChartPageService().CategoryProductList(cPage, numPerpage);
+		List<CategoryDto> selectcategory = new CategoryService().SelectCategory();
+
 		List<CategoryDto> categorylist = new CategoryService().CategoryList();
-	
-		request.setAttribute("categorylist", categorylist);
+		List<ProductDto> selectcategorylist = new ProductChartPageService().SelectCategoryList(cPage, numPerpage, categoryname);
+		
+		System.out.println(selectcategorylist);
 		request.setAttribute("selectcategorylist", selectcategorylist);
+		request.setAttribute("categorylist", categorylist);
+		request.setAttribute("selectcategory", selectcategory);
+		request.setAttribute("productlist", productlist);
 		request.getRequestDispatcher("/views/productcategorypage/subcategoryproductlist.jsp").forward(request, response);
 		
 		

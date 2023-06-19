@@ -3,12 +3,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-   List<CategoryDto> categorylist = (List)request.getAttribute("categorylist");
+	List<ProductDto> productlist = (List)request.getAttribute("productlist");
 %>
 <%
-   ProductDto p = (ProductDto)request.getAttribute("selectcategorylist");
+	List<CategoryDto> categorylist = (List)request.getAttribute("categorylist");
 %>
-
+<%
+	List<ProductDto> dto = (List)request.getAttribute("selectcategorylist");
+%>
+<%
+	List<CategoryDto> selectcategory = (List)request.getAttribute("selectcategory");
+%>
 <%@ include file="/views/common/header.jsp" %>
 <link
       rel="stylesheet"
@@ -32,17 +37,18 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-      <%-- <script>
-                 $(".pdcCategory>span").onclick(e=>{
-                    $.ajax({
-                       url: "<%=request.getContextPath()%>/selectcategorylist.do?CATEGORY_ID='A',
-                       success: data => {
-                          console.log(data);
-                       }
-                    });
-                 });
+		<%-- <script>
+              	$(".pdcCategory>span").click(e=>{
+              		
+              		$.ajax({
+              			url: "<%=request.getContextPath()%>/selectcategorylist.do?CATEGORY_ID='A',
+              			success: data => {
+              				console.log(data);
+              			}
+              		});
+              	});
               </script> --%>
-   <section>
+	<section>
       <div id="wraperContainer">
         <div id="leftCategory">
           <div id="pdcContainer">
@@ -61,10 +67,13 @@
               <div class="collapse" id="pddCategory">
               
                 <div id="pddContainer">
-                  
+               	
                   <ul>
                     <div class="pdcCategory">
-                      <span onclick="location.assign('<%=request.getContextPath()%>/serachcategory.do')">패션의류</span>
+                    <%for(CategoryDto c : selectcategory) {
+                    	if(c.getCategoryid().equals("A")){%>
+                      <span onclick="location.assign('<%=request.getContextPath()%>/serachcategory.do?')"><%=c.getCategoryname()%></span>
+                      <%} } %>
                       <i
                         class="fa fa-plus-square"
                         data-toggle="collapse"
@@ -72,19 +81,22 @@
                         aria-expanded="false"
                         aria-controls="pddCategory1"
                       ></i>
-                  
+						
                       <div class="collapse" id="pddCategory1">
-                        <%for(CategoryDto c : categorylist){
-                           if(c.getCategoryid().equals("A")) {%>
+                        <%for(CategoryDto sc : categorylist){
+                        	if(sc.getCategoryid().equals("A")) {%>
                         <ul>
-                          <li><a href=""><%=c.getSubcategoryname()%></a></li>
+                          <li><a href="<%=request.getContextPath()%>/selectcategorylist.do?subcategory=<%=sc.getSubcategoryname()%>"><%=sc.getSubcategoryname()%></a></li>
                         </ul>
                         <%} }%>
                       </div>
                     </div>
                     
                    <div class="pdcCategory">
-                      <span>패션잡화</span>
+                      <%for(CategoryDto c : selectcategory) {
+                    	if(c.getCategoryid().equals("B")){%>
+                      <span onclick="location.assign('<%=request.getContextPath()%>/serachcategory.do')"><%=c.getCategoryname()%></span>
+                      <%} } %>
                       <i
                         class="fa fa-plus-square"
                         data-toggle="collapse"
@@ -94,16 +106,19 @@
                       ></i>
 
                       <div class="collapse" id="pddCategory2">
-                        <%for(CategoryDto c : categorylist){
-                           if(c.getCategoryid().equals("B")) {%>
+                        <%for(CategoryDto sc : categorylist){
+                        	if(sc.getCategoryid().equals("B")) {%>
                         <ul>
-                          <li><a href=""><%=c.getSubcategoryname()%></a></li>
+                          <li><a href="<%=request.getContextPath()%>/selectcategorylist.do?subcategory=<%=sc.getSubcategoryname()%>"><%=sc.getSubcategoryname()%></a></li>
                         </ul>
                         <%} }%>
                       </div>
                     </div>
                     <div class="pdcCategory">
-                      <span>가전제품</span>
+                       <%for(CategoryDto c : selectcategory) {
+                    	if(c.getCategoryid().equals("C")){%>
+                      <span onclick="location.assign('<%=request.getContextPath()%>/serachcategory.do')"><%=c.getCategoryname()%></span>
+                      <%} } %>
                       <i
                         class="fa fa-plus-square"
                         data-toggle="collapse"
@@ -113,16 +128,19 @@
                       ></i>
 
                       <div class="collapse" id="pddCategory3">
-                        <%for(CategoryDto c : categorylist){
-                           if(c.getCategoryid().equals("C")) {%>
+                        <%for(CategoryDto sc : categorylist){
+                        	if(sc.getCategoryid().equals("C")) {%>
                         <ul>
-                          <li><a href=""><%=c.getSubcategoryname()%></a></li>
+                          <li><a href="<%=request.getContextPath()%>/selectcategorylist.do?subcategory=<%=sc.getSubcategoryname()%>"><%=sc.getSubcategoryname()%></a></li>
                         </ul>
                         <%} }%>
                       </div>
                     </div>
                     <div class="pdcCategory">
-                      <span>PC/모바일</span>
+                       <%for(CategoryDto c : selectcategory) {
+                    	if(c.getCategoryid().equals("D")){%>
+                      <span onclick="location.assign('<%=request.getContextPath()%>/serachcategory.do')"><%=c.getCategoryname()%></span>
+                      <%} } %>
                       <i
                         class="fa fa-plus-square"
                         data-toggle="collapse"
@@ -132,16 +150,19 @@
                       ></i>
 
                       <div class="collapse" id="pddCategory4">
-                        <%for(CategoryDto c : categorylist){
-                           if(c.getCategoryid().equals("D")) {%>
+                        <%for(CategoryDto sc : categorylist){
+                        	if(sc.getCategoryid().equals("D")) {%>
                         <ul>
-                          <li><a href=""><%=c.getSubcategoryname()%></a></li>
+                          <li><a href="<%=request.getContextPath()%>/selectcategorylist.do?subcategory=<%=sc.getSubcategoryname()%>"><%=sc.getSubcategoryname()%></a></li>
                         </ul>
                         <%} }%>
                       </div>
                     </div>
                     <div class="pdcCategory">
-                      <span>가구/인테리어</span>
+                       <%for(CategoryDto c : selectcategory) {
+                    	if(c.getCategoryid().equals("E")){%>
+                      <span onclick="location.assign('<%=request.getContextPath()%>/serachcategory.do')"><%=c.getCategoryname()%></span>
+                      <%} } %>
                       <i
                         class="fa fa-plus-square"
                         data-toggle="collapse"
@@ -151,16 +172,19 @@
                       ></i>
 
                       <div class="collapse" id="pddCategory5">
-                       <%for(CategoryDto c : categorylist){
-                           if(c.getCategoryid().equals("E")) {%>
+                       <%for(CategoryDto sc : categorylist){
+                        	if(sc.getCategoryid().equals("E")) {%>
                         <ul>
-                          <li><a href=""><%=c.getSubcategoryname()%></a></li>
+                          <li><a href="<%=request.getContextPath()%>/selectcategorylist.do?subcategory=<%=sc.getSubcategoryname()%>"><%=sc.getSubcategoryname()%></a></li>
                         </ul>
                         <%} }%>
                       </div>
                     </div>
                     <div class="pdcCategory">
-                      <span>리빙/생활</span>
+                       <%for(CategoryDto c : selectcategory) {
+                    	if(c.getCategoryid().equals("F")){%>
+                      <span onclick="location.assign('<%=request.getContextPath()%>/serachcategory.do')"><%=c.getCategoryname()%></span>
+                      <%} } %>
                       <i
                         class="fa fa-plus-square"
                         data-toggle="collapse"
@@ -170,16 +194,19 @@
                       ></i>
 
                       <div class="collapse" id="pddCategory6">
-                        <%for(CategoryDto c : categorylist){
-                           if(c.getCategoryid().equals("F")) {%>
+                        <%for(CategoryDto sc : categorylist){
+                        	if(sc.getCategoryid().equals("F")) {%>
                         <ul>
-                          <li><a href=""><%=c.getSubcategoryname()%></a></li>
+                          <li><a href="<%=request.getContextPath()%>/selectcategorylist.do?subcategory=<%=sc.getSubcategoryname()%>"><%=sc.getSubcategoryname()%></a></li>
                         </ul>
                         <%} }%>
                       </div>
                     </div>
                     <div class="pdcCategory">
-                      <span>스포츠/레저</span>
+                       <%for(CategoryDto c : selectcategory) {
+                    	if(c.getCategoryid().equals("G")){%>
+                      <span onclick="location.assign('<%=request.getContextPath()%>/serachcategory.do')"><%=c.getCategoryname()%></span>
+                      <%} } %>
                       <i
                         class="fa fa-plus-square"
                         data-toggle="collapse"
@@ -189,16 +216,19 @@
                       ></i>
 
                       <div class="collapse" id="pddCategory7">
-                        <%for(CategoryDto c : categorylist){
-                           if(c.getCategoryid().equals("G")) {%>
+                        <%for(CategoryDto sc : categorylist){
+                        	if(sc.getCategoryid().equals("G")) {%>
                         <ul>
-                          <li><a href=""><%=c.getSubcategoryname()%></a></li>
+                          <li><a href="<%=request.getContextPath()%>/selectcategorylist.do?subcategory=<%=sc.getSubcategoryname()%>"><%=sc.getSubcategoryname()%></a></li>
                         </ul>
                         <%} }%>
                       </div>
                     </div>
                     <div class="pdcCategory">
-                      <span>도서/음반/문구</span>
+                       <%for(CategoryDto c : selectcategory) {
+                    	if(c.getCategoryid().equals("H")){%>
+                      <span onclick="location.assign('<%=request.getContextPath()%>/serachcategory.do')"><%=c.getCategoryname()%></span>
+                      <%} } %>
                       <i
                         class="fa fa-plus-square"
                         data-toggle="collapse"
@@ -208,16 +238,19 @@
                       ></i>
 
                       <div class="collapse" id="pddCategory8">
-                        <%for(CategoryDto c : categorylist){
-                           if(c.getCategoryid().equals("H")) {%>
+                        <%for(CategoryDto sc : categorylist){
+                        	if(sc.getCategoryid().equals("H")) {%>
                         <ul>
-                          <li><a href=""><%=c.getSubcategoryname()%></a></li>
+                          <li><a href="<%=request.getContextPath()%>/selectcategorylist.do?subcategory=<%=sc.getSubcategoryname()%>"><%=sc.getSubcategoryname()%></a></li>
                         </ul>
                         <%} }%>
                       </div>
                     </div>
                     <div class="pdcCategory">
-                      <span>차량/오토바이</span>
+                      <%for(CategoryDto c : selectcategory) {
+                    	if(c.getCategoryid().equals("I")){%>
+                      <span onclick="location.assign('<%=request.getContextPath()%>/serachcategory.do')"><%=c.getCategoryname()%></span>
+                      <%} } %>
                       <i
                         class="fa fa-plus-square"
                         data-toggle="collapse"
@@ -227,16 +260,19 @@
                       ></i>
 
                       <div class="collapse" id="pddCategory9">
-                        <%for(CategoryDto c : categorylist){
-                           if(c.getCategoryid().equals("I")) {%>
+                        <%for(CategoryDto sc : categorylist){
+                        	if(sc.getCategoryid().equals("I")) {%>
                         <ul>
-                          <li><a href=""><%=c.getSubcategoryname()%></a></li>
+                          <li><a href="<%=request.getContextPath()%>/selectcategorylist.do?subcategory=<%=sc.getSubcategoryname()%>"><%=sc.getSubcategoryname()%></a></li>
                         </ul>
                         <%} }%>
                       </div>
                     </div>
                     <div class="pdcCategory">
-                      <span>기타</span>
+                       <%for(CategoryDto c : selectcategory) {
+                    	if(c.getCategoryid().equals("J")){%>
+                      <span onclick="location.assign('<%=request.getContextPath()%>/serachcategory.do')"><%=c.getCategoryname()%></span>
+                      <%} } %>
                       <i
                         class="fa fa-plus-square"
                         data-toggle="collapse"
@@ -246,10 +282,10 @@
                       ></i>
 
                       <div class="collapse" id="pddCategory10">
-                        <%for(CategoryDto c : categorylist){
-                           if(c.getCategoryid().equals("J")) {%>
+                        <%for(CategoryDto sc : categorylist){
+                        	if(sc.getCategoryid().equals("J")) {%>
                         <ul>
-                          <li><a href=""><%=c.getSubcategoryname()%></a></li>
+                          <li><a href="<%=request.getContextPath()%>/selectcategorylist.do?subcategory=<%=sc.getSubcategoryname()%>"><%=sc.getSubcategoryname()%></a></li>
                         </ul>
                         <%} }%>
                       </div>
@@ -407,6 +443,7 @@
           </div>
           <div id="test"></div>
           <div id="productImgContainer">
+          <%for(ProductDto p : dto){%>
             <div id="pimgWraper" onclick="location.href='<%=request.getContextPath()%>/productpage?no=<%=p.getProductId()%>';">
               <div class="con-like">
                 <input title="like" type="checkbox" class="like" />
@@ -456,29 +493,30 @@
                 <p id="productName"><%=p.getProducttitle()%></p>
                 <p id="productPrice"><%=p.getPrice()%>
                 <span><%if(p.getElapsedtime() < 60){%>
-                     <%=p.getElapsedtime()+ "초 전"%>
-                  <%}else if(p.getElapsedtime() >= 60 && p.getElapsedtime() < 3600) {%>
-                  <%=(p.getElapsedtime() / 60) + "분 전"%>
-                  <%}else if(p.getElapsedtime() >= 3600 && p.getElapsedtime() < 86400) {%>
-                     <%=(p.getElapsedtime() / 60) / 60  + "시간 전"%>
-                  <%}else if(p.getElapsedtime() >= 86400 && p.getElapsedtime() < 2592000) {%>
-                     <%=(p.getElapsedtime() / 60) / 60 / 24 + "일 전"%>
-                  <%}else if(p.getElapsedtime() >= 2592000 && p.getElapsedtime() < 31536000) {%>
-                     <%=(p.getElapsedtime() / 60) / 60 / 24 / 30 + "개월 전"%>
-                  <%}else{%>
-                     <%=(p.getElapsedtime() / 60) / 60 / 24 / 30 / 12 + "년 전"%>
-                  <%} %></span></p>
+               		<%=p.getElapsedtime()+ "초 전"%>
+               	<%}else if(p.getElapsedtime() >= 60 && p.getElapsedtime() < 3600) {%>
+               	<%=(p.getElapsedtime() / 60) + "분 전"%>
+               	<%}else if(p.getElapsedtime() >= 3600 && p.getElapsedtime() < 86400) {%>
+               		<%=(p.getElapsedtime() / 60) / 60  + "시간 전"%>
+               	<%}else if(p.getElapsedtime() >= 86400 && p.getElapsedtime() < 2592000) {%>
+               		<%=(p.getElapsedtime() / 60) / 60 / 24 + "일 전"%>
+               	<%}else if(p.getElapsedtime() >= 2592000 && p.getElapsedtime() < 31536000) {%>
+               		<%=(p.getElapsedtime() / 60) / 60 / 24 / 30 + "개월 전"%>
+               	<%}else{%>
+               		<%=(p.getElapsedtime() / 60) / 60 / 24 / 30 / 12 + "년 전"%>
+               	<%} %></span></p>
                 <p id="productPlace">
                   <i class="bi bi-geo-alt"></i>
                   <%=p.getGoonguareaid()%>
                 </p>
               
             </div>
+           <%}%>
           </div>
           
           <div class="pageContainer">
             <ul class="page-list">
-               <%=request.getAttribute("pageBar")%>
+            	<%=request.getAttribute("pageBar")%>
             </ul>
           </div>
         </div>

@@ -21,10 +21,10 @@ public class CategoryService {
 		return categorylist;
 	}
 	
-	public CategoryDto SelectCategoryList(String categorylist) {
+	public List<CategoryDto> SelectCategory() {
 		Connection conn = getConnection();
-		CategoryDto selectcategorylist = dao.SelectCategoryList(conn, categorylist);
+		List<CategoryDto> selectcategory = dao.SelectCategory(conn);
 		close(conn);
-		return selectcategorylist;
+		return selectcategory;
 	}
 }

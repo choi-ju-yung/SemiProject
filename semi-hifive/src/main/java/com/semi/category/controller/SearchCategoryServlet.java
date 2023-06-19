@@ -16,13 +16,13 @@ import com.semi.category.service.CategoryService;
  * Servlet implementation class HeaderCategoryServlet
  */
 @WebServlet("/serachcategory.do")
-public class HeaderCategoryServlet extends HttpServlet {
+public class SearchCategoryServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public HeaderCategoryServlet() {
+    public SearchCategoryServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,8 +31,8 @@ public class HeaderCategoryServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		List<CategoryDto> headercategory = new CategoryService().CategoryList();
-		request.setAttribute("headercategory", headercategory);
+		List<CategoryDto> searchcategory = new CategoryService().CategoryList();
+		request.setAttribute("headercategory", searchcategory);
 		request.getRequestDispatcher("/views/common/header.jsp").forward(request, response);
 		   
 		
