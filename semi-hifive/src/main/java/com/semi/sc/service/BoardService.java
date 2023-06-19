@@ -54,6 +54,28 @@ public class BoardService {
 		close(conn);
 		return comments;
 	}
+
+	public List<Board> selectBoardByCategory(int cPage, int numPerpage, String category) {
+		Connection conn=getConnection();
+		List<Board> boards=dao.selectBoardByCategory(conn, cPage, numPerpage, category);
+		close(conn);
+		return boards;
+	}
+
+	public int selectBoardCountByCategory(String category) {
+		Connection conn=getConnection();
+		int count=dao.selectBoardCountByCategory(conn,category);
+		close(conn);
+		return count;
+	}
+
+	public int insertBoardComment(BoardComment bc) {
+		Connection conn=getConnection();
+		int result=dao.insertBoardComment(conn, bc);
+		if(result>0) commit(conn);
+		else rollback(conn);
+		return result;
+	}
 	
 	
 }

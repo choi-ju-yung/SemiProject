@@ -53,7 +53,7 @@ public class BoardInsertServlet extends HttpServlet {
 		if(result==0) {
 			response.sendRedirect(request.getHeader("referer"));
 		}else {
-			response.sendRedirect("/boardList.do?notic=Y");
+			response.sendRedirect(request.getContextPath()+"/service/boardList.do?notice=Y");
 		}
 	}
 
