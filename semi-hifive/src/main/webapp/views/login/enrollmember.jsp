@@ -70,12 +70,13 @@
             <div>
                 <input type="text" placeholder="이름" id="userNameId" name="userName" required >
             </div>
-
+			<span id="userNameMessage"></span>
+			
             <!-- 닉네임 -->
             <div>
                 <input type="text" placeholder="닉네임" id="nickNameId" name="nickName" required>
             </div>
-
+	
             <div>
                 <!-- 회원가입 -->
                 <button>회원가입</button>
