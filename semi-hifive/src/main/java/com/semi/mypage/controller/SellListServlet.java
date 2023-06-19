@@ -42,7 +42,11 @@ public class SellListServlet extends HttpServlet {
 		} catch (NumberFormatException e) {
 			cPage = 1;
 		}
-		numPerpage = 5;
+		try {
+			numPerpage = Integer.parseInt(request.getParameter("numPerpage"));
+		} catch (NumberFormatException e) {
+			numPerpage = 5;
+		}
 		String pageBar = "";
 		int totalData = new MypageProductService().countBuyList(userId);
 		int totalPage = (int) Math.ceil((double) totalData / numPerpage);
@@ -51,24 +55,25 @@ public class SellListServlet extends HttpServlet {
 		int pageEnd = pageNo + pageBarSize - 1;
 
 		if (pageNo == 1) {
-			pageBar += "<span>[이전]</span>";
+			pageBar += "<li><span class='pageMove'>&lt;</span></li>";
 		} else {
-			pageBar += "<a href='" + request.getRequestURI() + "?cPage=" + (pageNo - 1) + "'>[이전]</a>";
+			pageBar += "<li><a href='" + request.getRequestURI() + "?cPage=" + (pageNo - 1) + "&numPerpage="
+					+ numPerpage + "'>&lt;</a></li>";
 		}
-
 		while (!(pageNo > pageEnd || pageNo > totalPage)) {
 			if (pageNo == cPage) {
-				pageBar += "<span> " + pageNo + " </span>";
+				pageBar += "<li><span class='nowPage'>" + pageNo + "</span></li>";
 			} else {
-				pageBar += "<a href='" + request.getRequestURI() + "?cPage=" + pageNo + "'>" + pageNo + "</a>";
+				pageBar += "<li><a href='" + request.getRequestURI() + "?cPage=" + pageNo + "&userId=" + userId + "'>"
+						+ pageNo + "</a></li>";
 			}
 			pageNo++;
 		}
-
 		if (pageNo > totalPage) {
-			pageBar += "<span>[다음]</span>";
+			pageBar += "<li><span>&gt;</span></li>";
 		} else {
-			pageBar += "<a href='" + request.getRequestURI() + "?cPage=" + pageNo + "'>[다음]</a>";
+			pageBar += "<li><a href='" + request.getRequestURI() + "?cPage=" + pageNo + "&numPerpage=" + numPerpage
+					+ "'>&gt;</a></li>";
 		}
 		request.setAttribute("pageBar", pageBar);
 
