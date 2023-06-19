@@ -52,8 +52,10 @@
 		<% } %>
         </table>
         <div class="pageBar">
-         	<%=request.getAttribute("pageBar") %>
-        </div>
+	     	<ul class="page">
+	         <%=request.getAttribute("pageBar") %>
+	         </ul>
+	    </div>
       </div>
     </div>
 </section>

@@ -25,7 +25,7 @@ public class BoardListServlet extends HttpServlet {
 			throws ServletException, IOException {
 		//공지사항, 자주하는 질문 구분
 		String noticeYN=request.getParameter("notice");
-		System.out.println(noticeYN);
+		
 		// paging
 		int cPage, numPerpage;
 		try {
@@ -33,7 +33,7 @@ public class BoardListServlet extends HttpServlet {
 		} catch (NumberFormatException e) {
 			cPage = 1;
 		}
-		numPerpage = 10;
+		numPerpage=10;
 		String pageBar = "";
 		int totalData = new BoardService().selectBoardCount(noticeYN);
 		int totalPage = (int) Math.ceil((double) totalData / numPerpage);
@@ -42,32 +42,31 @@ public class BoardListServlet extends HttpServlet {
 		int pageEnd = pageNo + pageBarSize - 1;
 
 		if (pageNo == 1) {
-			pageBar += "<span>[이전]</span>";
+			pageBar += "<li><span class='pageMove'>&lt;</span></li>";
 		} else {
-			pageBar += "<a href='" + request.getRequestURI() + "?cPage=" + (pageNo - 1) + "'>[이전]</a>";
+			pageBar += "<li><a href='" + request.getRequestURI() + "?cPage=" + (pageNo - 1) + "&notice=" + noticeYN +"'>&lt;</a></li>";
 		}
-
 		while (!(pageNo > pageEnd || pageNo > totalPage)) {
 			if (pageNo == cPage) {
-				pageBar += "<span> " + pageNo + " </span>";
+				pageBar += "<li><span class='nowPage'>" + pageNo + "</span></li>";
 			} else {
-				pageBar += "<a href='" + request.getRequestURI() + "?cPage=" + pageNo + "'>" + pageNo + "</a>";
+				pageBar += "<li><a href='" + request.getRequestURI() + "?cPage=" + pageNo + "&notice=" + noticeYN + "'>"
+						+ pageNo + "</a></li>";
 			}
 			pageNo++;
 		}
-
 		if (pageNo > totalPage) {
-			pageBar += "<span>[다음]</span>";
+			pageBar += "<li><span>&gt;</span></li>";
 		} else {
-			pageBar += "<a href='" + request.getRequestURI() + "?cPage=" + pageNo + "'>[다음]</a>";
+			pageBar += "<li><a href='" + request.getRequestURI() + "?cPage=" + pageNo + "&notice=" + noticeYN + "'>&gt;</a></li>";
 		}
 		request.setAttribute("pageBar", pageBar);
 
 		List<Board> boardList = new BoardService().selectBoardList(cPage,numPerpage,noticeYN);
 		
 		request.setAttribute("boardList", boardList);
-		System.out.println(boardList);
 		request.setAttribute("noticeYN", noticeYN);
+		
 		request.getRequestDispatcher("/views/service/boardList.jsp").forward(request, response);
 	}
 

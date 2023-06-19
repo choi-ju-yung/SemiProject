@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Properties;
 
 import com.semi.sc.model.dto.Board;
+import com.semi.sc.model.dto.BoardComment;
 import com.semi.sc.model.dto.BoardFile;
 public class BoardDao {
 	private final Properties sql=new Properties();
@@ -37,9 +38,20 @@ public class BoardDao {
 	//board file 반환 메소드
 	public static BoardFile getBoardFile(ResultSet rs, int boardNo) throws SQLException{
 		return BoardFile.builder().boardNo(boardNo)
-				.boardPath("board_path")
 				.boardFileName("board_filename")
 				.fileNo("file_no").build();
+	}
+	
+	//board comment 반환 메소드
+	public static BoardComment getComment(ResultSet rs) throws SQLException{
+		return BoardComment.builder()
+				.commentNo(rs.getInt("board_comment_no"))
+				.commentWriter(rs.getString("board_comment_writer"))
+				.boardNo(rs.getInt("board_no"))
+				.commentNoFK(rs.getInt("board_comment_fk"))
+				.commentDate(rs.getDate("board_comment_date"))
+				.commentContent(rs.getString("board_comment_content"))
+				.build();
 	}
 	
 	//구분에 따라 공지사항, 자주하는 질문 테이블 갯수 불러오는 메소드
@@ -53,7 +65,6 @@ public class BoardDao {
 			rs=pstmt.executeQuery();	
 			if(rs.next()) {
 				count=rs.getInt("boardCount");
-				System.out.println(rs.getInt(1));
 			}
 			
 		}catch(SQLException e) {
@@ -73,10 +84,9 @@ public class BoardDao {
 		try {
 			pstmt=conn.prepareStatement(sql.getProperty("selectBoardList"));
 			pstmt.setString(1, noticeYN);
-			pstmt.setInt(2, cPage);
-			pstmt.setInt(3, numPerpage);
+			pstmt.setInt(2, (cPage-1)*numPerpage+1);
+			pstmt.setInt(3, cPage*numPerpage);
 			rs=pstmt.executeQuery();
-			System.out.println("resultset");
 			while(rs.next()) {
 				boards.add(getBoard(rs));
 			}
@@ -147,6 +157,23 @@ public class BoardDao {
 			e.printStackTrace();
 		}
 		return b;
+	}
+	public List<BoardComment> selectBoardComment(Connection conn, int boardNo) {
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		List<BoardComment> comments=new ArrayList();
+		try {
+			pstmt=conn.prepareStatement(sql.getProperty("selecComment"));
+			pstmt.setInt(1, boardNo);
+			rs=pstmt.executeQuery();
+			while(rs.next()) {
+				comments.add(getComment(rs));
+			}
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return comments;
 	}
 
 }

@@ -44,8 +44,8 @@ div.contentTop>p{
 
 /* 댓글 작성 버튼 부분 */
 .commentBtn{
-    width: 70px;
-    height: 45px;
+    width: 100px;
+    height: 50px;
     background-color: #20C997;
     border: none;
     color: white;
@@ -157,6 +157,7 @@ div.commentUpdate>a:hover{
 div.recomment{
     margin-top: 10px;
     margin-left: 30px;
+    display:none;
 }
 /* 대댓글 작성 부분 */
 div.comment>.commentWrite{
