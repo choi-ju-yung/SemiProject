@@ -4,6 +4,7 @@
 <%@ include file="/views/common/header.jsp"%>
 <%@ include file="/views/mypage/myPageCategory.jsp" %>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/mypage/buyList.css" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/page.css" />
 <%
 	List<ProductList> product = (List)request.getAttribute("buyProduct");
 /* 	String userId = (String)request.getAttribute("userId");
@@ -43,28 +44,11 @@
         <%} %>
       </div>
       <!-- 페이지 버튼 -->
-	      <div class="pageBar">
+	     <div class="pageBar">
+	     	<ul class="page">
 	         <%=request.getAttribute("pageBar") %>
+	         </ul>
 	    </div>
     </div>
 </section>
-<script>
-	<%-- $("#sortDesc").click(e=>{
-		$.get("<%=request.getContextPath()%>/sortDesc.do?userId=<%=userId%>",
-				(data)=>{
-					console.log(data);
-				})
-	});
-	
-	$("#sortAsc").click(e=>{
-		$.get("<%=request.getContextPath()%>/sortAsc.do?userId=<%=userId%>",
-				(data)=>{
-					const sortAsc = data.split(",");
-					console.log(sortAsc);
-					sortAsc.forEach(e=>{
-						
-					})
-				})
-	}); --%>
-</script>
 <%@ include file="/views/common/footer.jsp"%>

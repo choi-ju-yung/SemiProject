@@ -11,6 +11,7 @@
 	int countStatusSol = (int)request.getAttribute("countStatusSol");
 %>
 <link rel="stylesheet" href="<%=request.getContextPath() %>/css/mypage/sellList.css" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/page.css" />
 <script src="<%=request.getContextPath()%>/js/mypage/sellList.js"></script>
 
 <!-- 오른쪽 판매내역 section -->
