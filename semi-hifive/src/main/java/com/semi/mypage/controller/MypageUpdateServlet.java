@@ -9,14 +9,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.semi.member.model.vo.Member;
+import com.semi.mypage.model.vo.MemberShopPage;
 import com.semi.mypage.model.vo.ShopPage;
 import com.semi.mypage.service.MypageMemberService;
-import com.semi.mypage.service.ShopPageService;
 
 /**
  * Servlet implementation class MypageUpdateServlet
  */
-@WebServlet("/mypage/mypageUpdate.do")
+@WebServlet(urlPatterns = "/mypage/mypageUpdate.do")
 public class MypageUpdateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -33,12 +33,9 @@ public class MypageUpdateServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String userId = request.getParameter("userId");
+		MemberShopPage ms = new MypageMemberService().selectByUserId(userId);
 		
-		Member m = new MypageMemberService().selectByUserId(userId);
-		ShopPage sp = new ShopPageService().searchIntroduceById(userId);
-		
-		request.setAttribute("mypageMember", m);
-		request.setAttribute("shoppagemember", sp);
+		request.setAttribute("infoMemberShopPage", ms);
 		
 		request.getRequestDispatcher("/views/mypage/myPageUpdate.jsp").forward(request, response);
 	}

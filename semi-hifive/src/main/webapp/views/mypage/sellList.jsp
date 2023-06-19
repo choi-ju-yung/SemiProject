@@ -1,16 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="java.util.List, com.semi.mypage.model.vo.Product" %>
+<%@ page import="java.util.List,com.semi.mypage.model.vo.ProductList" %>
 <%@ include file="/views/common/header.jsp"%>
 <%@ include file="/views/mypage/myPageCategory.jsp" %>
 <%
-	List<Product> product = (List)request.getAttribute("sellProduct");
+	List<ProductList> product = (List)request.getAttribute("sellProduct");
 	int countAll = (int)request.getAttribute("countAll");
 	int countStatusSell = (int)request.getAttribute("countStatusSell");
 	int countStatusRes = (int)request.getAttribute("countStatusRes");
 	int countStatusSol = (int)request.getAttribute("countStatusSol");
 %>
-<link rel="stylesheet" href="<%=request.getContextPath()%>/css/mypage/sellList.css" />
+<link rel="stylesheet" href="<%=request.getContextPath() %>/css/mypage/sellList.css" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/page.css" />
 <script src="<%=request.getContextPath()%>/js/mypage/sellList.js"></script>
 
 <!-- 오른쪽 판매내역 section -->
@@ -22,22 +23,23 @@
 
         <!-- 판매상태 아이콘 div -->
         <div class="buttonAll">
-            <button class="nowButton">전체 <%=countAll %></button>
-            <button>판매중 <%=countStatusSell %></button>
-            <button>예약중 <%=countStatusRes %></button>
-            <button>판매완료 <%=countStatusSol %></button>
+            <button class="nowButton">전체 <%=countAll%></button>
+            <button>판매중 <%=countStatusSell%></button>
+            <button>예약중 <%=countStatusRes%></button>
+            <button>판매완료 <%=countStatusSol%></button>
         </div>
 
         <!-- 판매내역 목록 div -->
         <div class="productAll">
-        <%if(!product.isEmpty()) {
-        	for(Product p : product){%>
+        <% if(!product.isEmpty()) {
+                        	for(ProductList p : product){
+        %>
             <div class="product">
                 <a href=""><img src="./img/구매목록img/예시 이미지.jpg" alt=""></a>
                 <div class="proContent">
-                    <h5 class="grayFont"><a href="" class="aTag grayFont">의류</a> &rsaquo; <a href=""
-                            class="aTag grayFont">상의</a></h5>
-                    <h4 class="contentMargin"><a href="" class="aTag productTitle"><%=p.getExplanation() %></a></h4>
+                    <h5 class="grayFont"><a href="" class="aTag grayFont"><%=p.getCategory().getCategoryName() %></a> &rsaquo; <a href=""
+                            class="aTag grayFont"><%=p.getSubcategoryName() %></a></h5>
+                    <h4 class="contentMargin"><a href="" class="aTag productTitle"><%=p.getProductTitle() %></a></h4>
                     <h3><%=p.getPrice() %>원</h3>
                 </div>
                 <div class="count">
@@ -65,18 +67,8 @@
         <%} %>
         </div>
         <!-- 페이지 버튼 -->
-        <div class="pageAll">
-            <ul class="page">
-                <li><a href="#">
-                        < </a>
-                </li>
-                <li><a href="#" class="nowPage">1</a></li>
-                <li><a href="#">2</a></li>
-                <li><a href="#">3</a></li>
-                <li><a href="#">4</a></li>
-                <li><a href="#">5</a></li>
-                <li><a href="#">></a></li>
-            </ul>
+        <div class="pageBar">
+            <%=request.getAttribute("pageBar") %>
         </div>
     </div>
 

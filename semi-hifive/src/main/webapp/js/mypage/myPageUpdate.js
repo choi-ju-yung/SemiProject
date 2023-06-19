@@ -76,7 +76,21 @@ $(".profileImgInput").change(e=>{
 });
 
 // 비밀번호 변경하기
-/*const fn_updatePassword=()=>{
-	open("\"" + context + "/member/updatePassword.do?userId=" + $(".idUpdateInput").val() + "\"",
-	"_blank", "width=600, height=400");
-}*/
+const fn_updatePassword=()=>{
+	// 팝업창 가운데
+	let left = Math.ceil(( window.screen.width - _width )/2);
+    let top = Math.ceil(( window.screen.height - _height )/2); 
+	
+	open(context + "mypage/updatePassword.do", "_blank", 'width= 450, height= 300');
+}
+ 
+// 유저정보 수정
+const updateMember=()=>{
+	/* const form = new FormData();
+	const fileInput = $(".profileImgInput");
+	$.each(fileInput[0].files, (i,f)=>{
+		form.append("profileImg" + i,f);
+	}); */
+	
+	$("#updateUserFrm").attr("action", context+"member/updateEndMember.do").submit();
+} 

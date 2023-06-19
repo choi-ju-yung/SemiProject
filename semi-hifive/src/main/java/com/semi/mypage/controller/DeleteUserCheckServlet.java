@@ -26,10 +26,9 @@ public class DeleteUserCheckServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// 아예 여길 안옴
-		System.out.println("탈퇴확인서블릿");
+		String userId = request.getParameter("userId");
+		request.setAttribute("userId", userId);
 		request.getRequestDispatcher("/views/mypage/deleteUserCheck.jsp").forward(request, response);
-	
 	}
 
 	/**

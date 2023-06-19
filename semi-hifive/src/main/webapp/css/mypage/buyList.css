@@ -1,27 +1,15 @@
 @charset "UTF-8";
 
 /* 페이지 버튼 */
-      .pageAll {
-            /* border: 1px solid saddlebrown; */
-            /* margin-top: 20px; */
+    /* .pageBar {
             margin-bottom: 40px;
             height: 40px;
             display: flex;
             align-items: center;
             justify-content: center;
-        }
-
-        .page {
-            display: inline-block;
-            padding: 0;
-            margin: 0;
-        }
-
-        .page li {
-            display: inline;
-        }
-
-        .page li a {
+     }
+     
+     .pageBar a {
             color: #313030;
             float: left;
             margin: 5px;
@@ -31,22 +19,24 @@
             font-weight: 700;
         }
         
-        .page li a:active {
+        .pageBar a:active {
             transform: scale(0.9);
             
         }
 
-        .page li a:hover:not(.nowPage) {
+        .pageBar a:hover:not(.pageBar span) {
             background-color: #eeeeee;
-            /* color: white; */
             border-radius: 7px;
         }
 
-        .nowPage{
+        .pageBar span{
             background-color: #20C997;
             border-radius: 7px;
             color: white !important;
-        }
+        } */
+        
+        
+     
         
         section {
         display: flex;

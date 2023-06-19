@@ -2,6 +2,9 @@
     pageEncoding="UTF-8"%>
 <%@ include file="/views/common/header.jsp"%>
 <%@ include file="/views/mypage/myPageCategory.jsp"%>
+<%
+	String userId = (String)request.getAttribute("userId");
+%>
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/css/mypage/deleteUserCheck.css" />
 
