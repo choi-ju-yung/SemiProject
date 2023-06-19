@@ -39,8 +39,8 @@ public class MypageProductDao {
 		try {
 			pstmt = conn.prepareStatement(sql.getProperty("selectSellListByUserId"));
 			pstmt.setString(1, userId);
-			pstmt.setInt(2, cPage);
-			pstmt.setInt(3, numPerpage);
+			pstmt.setInt(2, (cPage-1)*numPerpage+1);
+			pstmt.setInt(3, cPage*numPerpage);
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				list.add(getProductSellList(rs));
@@ -61,12 +61,10 @@ public class MypageProductDao {
 		try {
 			pstmt = conn.prepareStatement(sql.getProperty("selectBuyListByUserId"));
 			pstmt.setString(1, userId);
-			pstmt.setInt(2, cPage);
-			pstmt.setInt(3, numPerpage);
+			pstmt.setInt(2, (cPage-1)*numPerpage+1);
+			pstmt.setInt(3, cPage*numPerpage);
 			rs = pstmt.executeQuery();
-			while(rs.next()) {
-				list.add(getProductBuyList(rs));
-			}
+			while(rs.next()) list.add(getProductBuyList(rs));
 		} catch(SQLException e) {
 			e.printStackTrace();
 		} finally {
