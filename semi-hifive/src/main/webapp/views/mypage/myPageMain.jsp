@@ -2,10 +2,12 @@
     pageEncoding="UTF-8"%>
 <%@ include file="/views/common/header.jsp"%>
 <%@ include file="/views/mypage/myPageCategory.jsp" %>
+<%@ page import="com.semi.mypage.model.vo.MemberShopPage" %>
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/css/mypage/myPageMain.css" />
 <%
-	Member mypageMember = (Member)request.getAttribute("mypageMember");
+	MemberShopPage mypageMember = (MemberShopPage)request.getAttribute("mypageMember");
+	int countTrade = (int)request.getAttribute("countTrade");
 %>
 <!-- section -->
 
@@ -13,7 +15,7 @@
         <div class="myPageMainAll">
             <div class="profileMain">
                 <div class="profileInfo">
-                    <img src="./img/프로필사진.png" alt=""
+                    <img src="<%=request.getContextPath()%>/upload/profileImg/<%=mypageMember.getProfileImg()%>" alt=""
                         style="width: 130px; height: 130px; border-radius: 300px; margin-left: 90px; border: #f2f2f2 1px solid;">
                     <div class="nameNdate">
                         <div class="profileName">
@@ -31,7 +33,7 @@
                 <div class="countTrade">
                     <h3>성사된 거래</h3>
                     <div class="countTradeInfo">
-                        <span>10</span>
+                        <span><%=countTrade %></span>
                         <h4>건</h4>
                     </div>
                 </div>

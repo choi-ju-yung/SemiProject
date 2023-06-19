@@ -13,16 +13,16 @@ import com.semi.mypage.model.vo.ProductList;
 import com.semi.mypage.service.MypageProductService;
 
 /**
- * Servlet implementation class SellList
+ * Servlet implementation class BuyListSortAscServlet
  */
-@WebServlet("/myPage/sellList.do")
-public class SellListServlet extends HttpServlet {
+@WebServlet("/sortAsc.do")
+public class BuyListSortAscServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public SellListServlet() {
+	public BuyListSortAscServlet() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -72,26 +72,21 @@ public class SellListServlet extends HttpServlet {
 		}
 		request.setAttribute("pageBar", pageBar);
 
-		// 판매목록 가져오기
-		List<ProductList> p = new MypageProductService().selectSellListByUserId(cPage, numPerpage, userId);
-		request.setAttribute("sellProduct", p);
+		List<ProductList> sortAsc = new MypageProductService().BuyListSortAsc(cPage, numPerpage, userId);
 
-		// 판매상태 카운트(전체)
-		int total = new MypageProductService().countSellStatusAll(userId);
-		request.setAttribute("countAll", total);
+		request.setAttribute("buyProduct", sortAsc);
+		request.getRequestDispatcher("/views/mypage/buyList.jsp").forward(request, response);
 
-		// 판매상태 카운트(판매중, 예약중, 판매완료)
-		String selling = "판매중";
-		int countStatusSell = new MypageProductService().countSellStatusSell(userId, selling);
-		String reserve = "예약중";
-		int countStatusRes = new MypageProductService().countSellStatusSell(userId, reserve);
-		String soldOut = "판매완료";
-		int countStatusSol = new MypageProductService().countSellStatusSell(userId, soldOut);
-		request.setAttribute("countStatusSell", countStatusSell);
-		request.setAttribute("countStatusRes", countStatusRes);
-		request.setAttribute("countStatusSol", countStatusSol);
+//		ajax..
+//		String data = "";
+//		for(int i=0; i<sortAsc.size(); i++) {
+//			if(i!=0) data +=",";
+//			data += sortAsc.get(i);
+//		}
+//		System.out.println(data);
+//		response.setContentType("text/csv; charset=utf-8");
+//		response.getWriter().print(data);
 
-		request.getRequestDispatcher("/views/mypage/sellList.jsp").forward(request, response);
 	}
 
 	/**

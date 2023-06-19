@@ -416,6 +416,12 @@ section {
   color: #313030;
 }
 /* 댓글영역 */
+#textContainer{
+  display: flex;
+  align-items: flex-end;
+}
+
+
 #comment {
   padding-top: 40px;
 }
@@ -452,11 +458,13 @@ section {
   font-size: 16px;
   margin-top: 10px;
   margin-bottom: 15px;
+  margin-left: 15px;
 }
 /* 댓글 작성시간 */
 .time {
   font-size: 13px;
   color: #afafaf;
+  margin-left: 15px;
 }
 /* 답글달기 */
 .writeCmt {
@@ -468,6 +476,7 @@ section {
 
   background-color: transparent;
 }
+
 .changeCmt {
   margin-left: 5px;
   text-decoration: none;
@@ -486,12 +495,43 @@ section {
 
   background-color: transparent;
 }
+
+
+.reWriteCmt {
+  margin-left: 5px;
+  text-decoration: none;
+  font-size: 13px;
+  color: #afafaf;
+  border: 0;
+
+  background-color: transparent;
+}
+
+.reChangeCmt {
+  margin-left: 5px;
+  text-decoration: none;
+  font-size: 13px;
+  color: #afafaf;
+  border: 0;
+
+  background-color: transparent;
+}
+.reDeleteCmt {
+  margin-left: 5px;
+  text-decoration: none;
+  font-size: 13px;
+  color: red;
+  border: 0;
+
+  background-color: transparent;
+}
 .writeCmt:hover {
   cursor: pointer;
 }
 /* 대댓글 영역 */
 .reComment {
   margin-left: 80px;
+  margin-bottom: 30px;
 }
 #rcmtWriter {
   font-size: 16px;
@@ -556,7 +596,7 @@ section {
 }
 
 #cmtText {
-  margin-top: 40px;
+  /*margin-top: 40px;*/
   padding-top: 10px;
   padding-left: 10px;
   width: 1270px;
@@ -575,17 +615,18 @@ section {
 }
 
 #textContainer span {
+  color: #afafaf;
   position: relative;
-  bottom: 35px;
-  left: 1140px;
+  bottom: 10px;
+  right: 120px;
 }
 
 #cmtBtn {
   position: relative;
-  bottom: 55px;
-  left: 1220px;
-  background-color: #20c997;
-  color: #f2f2f2;
+  bottom: 8px;
+  right: 105px;
+  background-color: #eeeeee;
+  color: #afafaf;
   border: none;
   border-radius: 20px;
   width: 45px;
@@ -599,3 +640,14 @@ section {
   text-align: center;
   margin-bottom: 25px;
 } */
+
+#cmtNone{
+  font-size: 12px;
+  display: none; 
+  color: #afafaf;
+  margin-left: 5px;
+}
+
+#cmtForm hr{
+	margin-bottom: 20px;
+}

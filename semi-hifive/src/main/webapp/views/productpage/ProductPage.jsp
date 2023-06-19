@@ -258,10 +258,10 @@ List<ProductComment> comments = (List) request.getAttribute("comments");
 				<a href="" class="cmtUser" name="userId"  id="tagName">
 				<p><%=pc.getNickName()%></p></a>
 			</div>
-			<p class="cmt" name="content"><%=pc.getContent()%></p>
+			<p class="cmt" name="content"><%=pc.getContent()%><!-- <span id="cmtNone">(수정됨)</span> --></p>
 			<span class="time" name="enrollDate"><%=pc.getEnrollDate()%></span>
 			<%if(loginMember!=null) {%>
-			<button class="writeCmt">답글쓰기</button>
+			<button class="writeCmt" value="<%=pc.getCommentNo()%>">답글쓰기</button>
 			<%if(loginMember.getUserId().equals(pc.getUserId())) {%>
 			<button class="changeCmt">수정하기</button>
 			<button class="deleteCmt">삭제하기</button>
@@ -288,7 +288,14 @@ List<ProductComment> comments = (List) request.getAttribute("comments");
 			<p class="cmt" id="reTagName"></p>
 			<p class="cmt"><%=pc.getContent() %></p>
 			<span class="time"><%=pc.getEnrollDate() %></span> 
-			<button class="writeCmt" value="<%=pc.getCommentNo()%>">답글쓰기</button>
+			<%if(loginMember!=null) {%>
+			<button class="reWriteCmt" value="<%=pc.getCommentNo()%>">답글쓰기</button>
+			<%if(loginMember.getUserId().equals(pc.getUserId())) {%>
+			<button class="reChangeCmt">수정하기</button>
+			<button class="deleteCmt">삭제하기</button>
+			<input type="hidden" name="commentNo" value=<%=pc.getCommentNo()%>>
+			<%} %>
+			<%} %>
 			<hr color="#eeeeee" noshade />
 		</div>
 		<%
@@ -298,8 +305,6 @@ List<ProductComment> comments = (List) request.getAttribute("comments");
 		<%
 		}
 		%>
-
-
 
 		<%
 		if (loginMember != null) {
@@ -315,7 +320,9 @@ List<ProductComment> comments = (List) request.getAttribute("comments");
 				<input type="hidden"name="nickName" value=<%=loginMember.getNickName()%>> 
 				<input type="hidden" name="commentRef" value="0">
 				<button type="submit" id="cmtBtn">등록</button>
+				
 			</div>
+			<hr color="#eeeeee" noshade />
 		</form>
 		<%
 		}

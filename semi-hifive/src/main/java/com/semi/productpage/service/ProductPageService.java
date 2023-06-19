@@ -47,4 +47,13 @@ public class ProductPageService {
 		close(conn);
 		return result;
 	}
+	
+	public int deleteProductComment(int cn) {
+		Connection conn=getConnection();
+		int result=dao.deleteProductComment(conn,cn);
+		if(result>0) commit(conn);
+		else rollback(conn);
+		close(conn);
+		return result;
+	}
 }

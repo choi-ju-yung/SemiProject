@@ -104,6 +104,19 @@ public class ProductDao {
 		}return result;
 	}
 	
+	public int deleteProductComment(Connection conn,int cn) {
+		PreparedStatement pstmt=null;
+		int result=0;
+		try {
+			pstmt=conn.prepareStatement(sql.getProperty("deleteProductComment"));						
+			pstmt.setInt(1,cn);
+			result=pstmt.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}return result;
+	}
 	
 	
 	private Product getProduct(ResultSet rs) throws SQLException{
