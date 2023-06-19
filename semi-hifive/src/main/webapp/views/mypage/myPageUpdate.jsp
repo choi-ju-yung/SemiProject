@@ -57,7 +57,7 @@
 					<h4>비밀번호 확인</h4>
 				</div>
 				<input type="password" placeholder="" class="inputCss"
-					name="myPagePassword" required>
+					name="myPagePassword">
 				<button class="checkDB" onclick="fn_updatePassword();">비밀번호
 					변경</button>
 			</div>
@@ -91,22 +91,5 @@
 	</div>
 </div>
 </section>
-<script>
-<%-- const fn_updatePassword=()=>{
-	//새창으로 패스워드 변경하자.
-	open("<%=request.getContextPath()%>/member/updatePassword.do?userId=<%=shoppagemember.getUserId()%>",
-			"_blank","width=400,height=210");
-} --%>
-
-const updateMember=()=>{
-	/* const form = new FormData();
-	const fileInput = $(".profileImgInput");
-	$.each(fileInput[0].files, (i,f)=>{
-		form.append("profileImg" + i,f);
-	}); */
-	
-	$("#updateUserFrm").attr("action","<%=request.getContextPath()%>/member/updateEndMember.do").submit();
-} 
-</script>
 <script src="<%=request.getContextPath()%>/js/mypage/myPageUpdate.js"></script>
 <%@ include file="/views/common/footer.jsp"%>

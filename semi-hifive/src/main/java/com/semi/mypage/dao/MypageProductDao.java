@@ -14,6 +14,7 @@ import java.util.Properties;
 
 import com.semi.mypage.model.vo.Category;
 import com.semi.mypage.model.vo.Member;
+import com.semi.mypage.model.vo.Product;
 import com.semi.mypage.model.vo.ProductList;
 import com.semi.mypage.model.vo.SubCategory;
 import com.semi.mypage.model.vo.Trade;
@@ -31,13 +32,15 @@ public class MypageProductDao {
 	}
 	
 	// 판매목록
-	public List<ProductList> selectSellListByUserId(Connection conn, String userId) {
+	public List<ProductList> selectSellListByUserId(Connection conn, int cPage, int numPerpage, String userId) {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		List<ProductList> list = new ArrayList();
 		try {
 			pstmt = conn.prepareStatement(sql.getProperty("selectSellListByUserId"));
 			pstmt.setString(1, userId);
+			pstmt.setInt(2, cPage);
+			pstmt.setInt(3, numPerpage);
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				list.add(getProductSellList(rs));
@@ -51,13 +54,15 @@ public class MypageProductDao {
 	}
 	
 	// 구매목록
-	public List<ProductList> selectBuyListByUserId(Connection conn, String userId) {
+	public List<ProductList> selectBuyListByUserId(Connection conn, int cPage, int numPerpage, String userId) {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		List<ProductList> list = new ArrayList();
 		try {
 			pstmt = conn.prepareStatement(sql.getProperty("selectBuyListByUserId"));
 			pstmt.setString(1, userId);
+			pstmt.setInt(2, cPage);
+			pstmt.setInt(3, numPerpage);
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				list.add(getProductBuyList(rs));
@@ -104,6 +109,63 @@ public class MypageProductDao {
 				close(pstmt);
 			} return total;
 		}
+		
+		// 성사된 거래수
+		public int countTrade(Connection conn, String userId) {
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			int trade = 0;
+			try {
+				pstmt = conn.prepareStatement(sql.getProperty("countTrade"));
+				pstmt.setString(1, userId);
+				rs = pstmt.executeQuery();
+				if(rs.next()) trade = rs.getInt(1);
+			} catch(SQLException e) {
+				e.printStackTrace();
+			} finally {
+				close(pstmt);
+			} return trade;
+		}
+		
+		// 구매내역 오래된순
+		public List<ProductList> BuyListSortAsc(Connection conn, int cPage, int numPerpage, String userId) {
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			List<ProductList> list = new ArrayList();
+			try {
+				pstmt = conn.prepareStatement(sql.getProperty("BuyListSortAsc"));
+				pstmt.setString(1, userId);
+				pstmt.setInt(2, cPage);
+				pstmt.setInt(3, numPerpage);
+				rs = pstmt.executeQuery();
+				while(rs.next()) {
+					list.add(getProductBuyList(rs));
+				}
+			} catch(SQLException e) {
+				e.printStackTrace();
+			} finally {
+				close(rs);
+				close(pstmt);
+			} return list;
+		}
+		
+		// 페이징처리(전체 상품 수)
+		public int countBuyList(Connection conn, String userId) {
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			int totalData = 0;
+			try {
+				pstmt = conn.prepareStatement(sql.getProperty("countBuyList"));
+				pstmt.setString(1, userId);
+				rs = pstmt.executeQuery();
+				if(rs.next()) totalData = rs.getInt(1);
+			} catch(SQLException e) {
+				e.printStackTrace();
+			} finally {
+				close(pstmt);
+			} return totalData;
+		}
+		
 		
 		private ProductList getProductSellList(ResultSet rs) throws SQLException {
 			return ProductList.builder()

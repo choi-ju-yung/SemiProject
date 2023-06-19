@@ -35,7 +35,7 @@
 			<ul>
 				<li class="mypageMargin"><a href="<%=request.getContextPath()%>/mypage/mypageUpdate.do?userId=<%=m.getUserId()%>" class="mypageAll">회원정보
 						관리</a></li>
-				<li class="mypageMargin"><a href="" class="mypageAll">회원탈퇴</a></li>
+				<li class="mypageMargin"><a href="<%=request.getContextPath()%>/mypage/deleteUserCheck.do?userId=<%=m.getUserId()%>" class="mypageAll">회원탈퇴</a></li>
 			</ul>
 		</div>
 		<div class="myInfo">

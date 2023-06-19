@@ -6,20 +6,17 @@
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/mypage/buyList.css" />
 <%
 	List<ProductList> product = (List)request.getAttribute("buyProduct");
-%>
+/* 	String userId = (String)request.getAttribute("userId");
+ */%>
 <!-- 오른쪽 구매내역 section -->
     <div class="mypageMain">
       <!-- 구매내역 헤더 div -->
       <div class="mypageMainHeader">
         <h3>구매 내역</h3>
         <div class="sortContainer">
-          <!-- <select class="sort form-select">
-            <option value="new">최신 순</option>
-            <option value="old">오래된 순</option>
-          </select> -->
-          <a href="" class="aTag sort">최신 순</a>
+          <a href="<%=request.getContextPath() %>/myPage/buyList.do?userId=<%=m.getUserId() %>" class="aTag sort" id="sortDesc">최신 순</a>
           <p style="font-size: 12px;">|</p>
-          <a href="" class="aTag sort">오래된 순</a>
+          <a href="<%=request.getContextPath() %>/sortAsc.do?userId=<%=m.getUserId() %>" class="aTag sort" id="sortAsc">오래된 순</a>
         </div>
       </div>
       <!-- 구매내역 목록 div -->
@@ -46,19 +43,28 @@
         <%} %>
       </div>
       <!-- 페이지 버튼 -->
-      <div class="pageAll">
-        <ul class="page">
-            <li><a href="#">
-                    <</a>
-            </li>
-            <li><a href="#" class="nowPage">1</a></li>
-            <li><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><a href="#">4</a></li>
-            <li><a href="#">5</a></li>
-            <li><a href="#">></a></li>
-        </ul>
-    </div>
+	      <div class="pageBar">
+	         <%=request.getAttribute("pageBar") %>
+	    </div>
     </div>
 </section>
+<script>
+	<%-- $("#sortDesc").click(e=>{
+		$.get("<%=request.getContextPath()%>/sortDesc.do?userId=<%=userId%>",
+				(data)=>{
+					console.log(data);
+				})
+	});
+	
+	$("#sortAsc").click(e=>{
+		$.get("<%=request.getContextPath()%>/sortAsc.do?userId=<%=userId%>",
+				(data)=>{
+					const sortAsc = data.split(",");
+					console.log(sortAsc);
+					sortAsc.forEach(e=>{
+						
+					})
+				})
+	}); --%>
+</script>
 <%@ include file="/views/common/footer.jsp"%>

@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.semi.mypage.dao.MypageMemberDao;
 import com.semi.mypage.model.vo.MemberShopPage;
 import com.semi.mypage.service.MypageMemberService;
+import com.semi.mypage.service.MypageProductService;
 
 /**
  * Servlet implementation class MyPageMain
@@ -33,12 +34,17 @@ public class MyPageMainServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		// 회원정보
 		String userId = request.getParameter("userId");
 		MemberShopPage m = new MypageMemberService().selectByUserId(userId);
+		
+		// 성사된 거래수
+		int trade = new MypageProductService().countTrade(userId);
 		
 		// 암호화
 
 		request.setAttribute("mypageMember", m);
+		request.setAttribute("countTrade", trade);
 
 		request.getRequestDispatcher("/views/mypage/myPageMain.jsp").forward(request, response);
 

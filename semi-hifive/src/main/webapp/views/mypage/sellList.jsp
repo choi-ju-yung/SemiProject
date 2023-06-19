@@ -66,18 +66,8 @@
         <%} %>
         </div>
         <!-- 페이지 버튼 -->
-        <div class="pageAll">
-            <ul class="page">
-                <li><a href="#">
-                        < </a>
-                </li>
-                <li><a href="#" class="nowPage">1</a></li>
-                <li><a href="#">2</a></li>
-                <li><a href="#">3</a></li>
-                <li><a href="#">4</a></li>
-                <li><a href="#">5</a></li>
-                <li><a href="#">></a></li>
-            </ul>
+        <div class="pageBar">
+            <%=request.getAttribute("pageBar") %>
         </div>
     </div>
 

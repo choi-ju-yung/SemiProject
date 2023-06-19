@@ -1,23 +1,28 @@
 package com.semi.mypage.controller;
 
 import java.io.IOException;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.semi.mypage.model.vo.ProductList;
+import com.semi.mypage.service.MypageProductService;
+
 /**
- * Servlet implementation class DeleteUserServlet
+ * Servlet implementation class buyListSortDescServlet
  */
-@WebServlet("/mypage/deleteUserCheck.do")
-public class DeleteUserCheckServlet extends HttpServlet {
+@WebServlet("/sortDesc.do")
+public class BuyListSortDescServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public DeleteUserCheckServlet() {
+    public BuyListSortDescServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -26,9 +31,11 @@ public class DeleteUserCheckServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String userId = request.getParameter("userId");
-		request.setAttribute("userId", userId);
-		request.getRequestDispatcher("/views/mypage/deleteUserCheck.jsp").forward(request, response);
+//		String userId = request.getParameter("userId");
+//		List<ProductList> sortDesc = new MypageProductService().selectBuyListByUserId(userId);
+//		
+//		request.setAttribute("buyProduct", sortDesc);
+//		request.getRequestDispatcher("/views/mypage/buyList.jsp").forward(request, response);	
 	}
 
 	/**
