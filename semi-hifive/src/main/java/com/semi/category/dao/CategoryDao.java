@@ -9,8 +9,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-
-
 import static com.semi.common.JDBCTemplate.*;
 
 import com.semi.category.model.vo.CategoryDto;
@@ -31,9 +29,7 @@ public class CategoryDao {
 	public static CategoryDto getcategory(ResultSet rs) throws SQLException {
 		return CategoryDto.builder()
 				.categoryid(rs.getString("CATEGORY_ID"))
-				.categoryname(rs.getString("CATEGORY_NAME"))
-				.subcategoryname(rs.getString("SUBCATEGORY_NAME"))
-				.build();	
+				.categoryname(rs.getString("CATEGORY_NAME")).build();
 	}
 	
 	public List<CategoryDto> CategoryList(Connection conn){
@@ -55,24 +51,4 @@ public class CategoryDao {
 		}
 		return categorylist;
 	}
-	
-	public CategoryDto SelectCategoryList(Connection conn, String categoryname ) {
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		CategoryDto selectcategorylist = null;
-		try {
-			pstmt = conn.prepareStatement(sql.getProperty("SelectCategoryList"));
-			pstmt.setString(1, categoryname);
-			rs = pstmt.executeQuery();
-			if(rs.next()) {
-				selectcategorylist = getcategory(rs);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}finally {
-			close(rs);
-			close(pstmt);
-		}return selectcategorylist;
-	}
-	
 }

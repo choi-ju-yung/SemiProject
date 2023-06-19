@@ -14,6 +14,7 @@ public class ProductComment {
 	
 	private String userId;
 	private int productId;
+	private String nickName;
 	private int commentNo;
 	private int commentLevel;
 	private String content;
