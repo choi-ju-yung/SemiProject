@@ -1,51 +1,15 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
+
     <title>가이드 텍스트</title>
-    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-
-    <style type="text/css">
-        *{
-            font-family:'malgun gothic';
-}
-
-        #content.cols-d { width: 583px; min-width: 583px; }
-
-        .f { position: relative; margin: 0; padding: 0; color: #666; }        
-        .f p { width: 100%; margin: 0 0 13px; font-size: 1.3em; text-align:center;margin-top:20px;}
-        .f p:after { content: ""; display: block; overflow: hidden; clear: both; height: 0; }    
-        .f textarea {
-             position: relative; 
-             width: 570px; height: 118px; min-height: 118px; 
-             padding: 3px 3px 3px 6px; 
-             border: 1px solid #ececec; 
-             border-top-color: #e1e1e1; 
-             border-left-color: #e1e1e1; 
-             background: #ececec; 
-             border-radius: 3px; 
-            -moz-border-radius: 3px; 
-            -webkit-border-radius: 3px;
-}        
-        .scheme-g { 
-            margin: 26px 0 8px; 
-            padding: 0px; 
-            font-size: 1.2em; 
-            font-weight: 100;
-}        
-        .button_big { 
-            float:right;
-            border: 0; border-radius: 3px; 
-            cursor: pointer; display: inline-block; 
-            font-size: 12px; font-weight: bold; 
-            line-height: 24px; 
-            margin-left: 5px; 
-            padding: 8px 16px; 
-            text-decoration: none; color:#fff; 
-            background:#0080ff; 
-            text-shadow: 1px 1px 1px #0066cc; 
-            -webkit-transition: all 0.2s ease-out; }
-    </style>
+    <link rel="stylesheet"
+	href="<%=request.getContextPath()%>/css/member/enrollMemberPopup.css" />
+	<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+</head>
     <script type="text/javascript">
         $(document).ready(function(){
     
@@ -66,32 +30,54 @@
         });
     </script>
 
-</head>
 <body>
     
 
 <article id="content" class="cols-d">
     <div>
-        <h1>이용약관</h1>
-        <form id="terms_form" class="f" action="http://javaking75.blog.me">
-            <h4 class="scheme-g">● 수집 및 이용목적</h4>
-            <textarea style="font-size:1em;" readonly>마케팅 정보 활용 동의를 받아 수집한 귀하의 개인정보는 전화, SMS, LMS, MMS, 이메일, 우편을 통하여 뉴스레터, 제품정보, 경연대회, 설문조사, 사이트 기능 관리, 안부 문자, 각종 경품 행사, 이벤트 안내 등 영리목적의 광고성 정보 전달에 활용되거나 영업 및 마케팅 목적으로 활용될 수 있습니다.
-                양사는 각각 재화 판매와 서비스 운용에 있어 이용자에게 각종 정보를 서비스 화면, 전화, e-mail, 휴대폰문자메시지(SMS, LMS, MMS 등), 우편물 등의 방법으로 제공할 수 있으며, 서비스별 마일리지 및 통합 포인트 적립 및 소진/소멸 등, 의무적으로 안내되어야 하는 정보성 내용은 수신동의 여부와 무관하게 제공됩니다.
+        <h1>개인정보 수집에 대한 동의</h1>
+        <form id="terms_form" class="f" action="">
+            <h4 class="scheme-g">● 개인정보의 수집 및 이용목적</h4>
+            <textarea style="font-size:1em;" readonly>회사는 수집한 개인정보를 다음의 목적을 위해 활용합니다.
+
+                - 서비스 제공에 관한 계약 이행 및 서비스 제공에 따른 요금정산 콘텐츠 제공 , 구매 및 요금 결제
+                - 고객 관리: 고객 서비스 이용에 따른 본인확인 , 개인 식별 , 불량회원의 부정 이용 방지와 비인가 사용 방지 , 가입 의사 확인 , 연령확인 , 불만처리 등 민원처리 , 고지사항 전달
+                - 마케팅 및 광고에 활용 : 신규 서비스(제품) 개발 및 특화, 이벤트 등 광고성 정보 전달, 접속 빈도 파악 또는 회원의 서비스 이용에 대한 통계
             </textarea>
             <p>
                 <input type="checkbox" id="check_1"  name="" /> 위의 약관에 동의 합니다.<br />
             </p>            
-            <h4 class="scheme-g">● 마케팅정보 수신동의</h4>
-            <textarea style="font-size:1em;" readonly>다만, 판매업체(무던(mudern))와 쇼핑몰 호스팅 및 결제서비스 제공사인 ㈜유디아이디(이하 “양사”)는 구매자(이용자)분들이 추가적인 혜택을 얻으실 수 있는 다양한 마케팅정보를 제공하고 있으며, 이를 통해 귀하가 마케팅정보 수신 시 적립금 등의 부가 혜택을 받으실 수 있사오니, 정보 수신 여부 결정에 참고해 주시기 바랍니다.
-                아래 내용은 마케팅정보 수신에 관한 주요 고지내용이며, 전자금융거래 이용자와 더불어, 무통장입금으로 상품을 구매하시는 이용자께도 해당되는 사항입니다.
-                ① 마케팅 및 광고에의 활용 신규 서비스(제품) 개발 및 맞춤 서비스 제공, 이벤트 및 광고성 정보/참여기회 제공, 인구통계학적 특성에 따른 서비스 제공 및 광고 게재, 서비스의 유효성 확인, 접속빈도 파악 또는 이용자의 서비스 이용에 대한 통계 등을 목적으로 개인정보를 처리합니다.
+            <h4 class="scheme-g">● 수집하는 개인정보 항목</h4>
+            <textarea style="font-size:1em;" readonly>회사는 정보주체가 고객서비스(상담신청, 상담, 서비스 신청 등)를 이용하기 위하여 고객의 개인 정보를 제공할 때의 서비스 제공을 위한 필수 정보와, 보다 향상된 서비스 제공을 위한 선택정보를 온라인상 입력방법을 통하여 수집하고 있습니다. 수집하는 개인정보의 범위는 아래와 같습니다.
+
+                개인정보 수집항목
+                - 필수항목: 이름, 생년월일, 전화번호 , 이메일, 주소, 여권사본,
+                - 선택항목: 직업, 학력, 이력, 유학동기, 유학계획, 유학목적 등 입학 지원을 하기 위하여 해당 교육기관에서 요청하는 개인 정보.
+                - 자동수집 항목 : 접속로그( 접속시간, 접속 아이피,접속 웹브라우져종류,서비스 이용 기록 )
+                
+                개인정보 수집방법
+                정보주체는 웹사이트 또는 서면 절차를 통하여 개인정보처리방침과 이용약관 각각의 내용을 확인하고 ‘동의’ 또는 ‘동의하지 않는다’ 문구를 선택 할 수 있습니다. 정보 주체가 ‘동의’ 문구를 선택한 경우에는 개인정보 수집에 동의한 것으로 봅니다.
             </textarea>
             <p>
                 <input type="checkbox" id="check_2"  name="" /> 위의 약관에 동의 합니다.<br />
             </p>
-            <h4 class="scheme-g">● 미동의 시 불이익 사항</h4>
-            <textarea style="font-size:1em;" readonly>동의 이후 언제든 마케팅 정보 수신을 거부할 수 있으나, 이 경우 이벤트 안내를 받지 못하거나 (주)지란지교시큐리티가 제공하는 유용한 정보를 받지 못할 수 있습니다.
-                개인정보보호법 제22조 제5항에 의해 선택정보 사항에 대해서는 동의 거부하시더라도 서비스 이용에 제한되지 않습니다.
+            <h4 class="scheme-g">● 개인정보의 안전성 확보 조치</h4>
+            <textarea style="font-size:1em;" readonly>회사는 [개인정보보호법] 제29조에 따라 다음과 같이 안전성 확보에 필요한 기술적, 관리적 안전성 확보 조치를 취하고 있습니다.
+
+                관리적 안전성 확보 조치
+                - 개인정보의 안전한 처리를 위하여 ‘내부관리계획’을 수립하여 2012년 3월 1일자로 시행하고 있습니다.
+                - 회사 내부의 ‘Privacy Policy’를 수립하고 2012년 3월 1일자로 시행하여 개인정보보호를 강화하였습니다.
+                - 개인정보 처리 관련 안정성 확보를 위하여 정기적(년 1회)으로 자체적인 감사를 실시하고 있습니다.
+                - 개인정보를 처리하는 직원을 지정하고 담당자에 한정시켜 최소화 하여 개인정보를 관리하는 대책을 시행하고 있습니다.
+                
+                기술적 안전성 확보 조치
+                - 회사는 해킹이나 컴퓨터 바이러스 등에 의한 개인정보 유출 및 훼손을 막기 위하여 보안프로그램을 설치하고 주기적인 갱신 및 점검을 하며 외부로부터 접근이 통제된 구역에 시스템을 설치하고 기술적/물리적으로 감시 및 차단하고 있습니다.
+                - 개인정보를 처리하는 데이터베이스시스템에 대한 접근권한의 부여,변경,말소를 통하여 개인정보에 대한 접근통제를 위하여 필요한 조치를 하고 있으며 침입차단시스템(방화벽)을 이용하여 외부로부터의 무단 접근을 통제하고 있습니다.
+                - 정보주체의 개인정보는 비밀번호는 암호화 되어 저장 및 관리되고 있어, 본인만이 알 수 있으며 중요한 데이터는 파일 및 전송 데이터를 암호화 하거나 파일 잠금 기능을 사용하는 등의 별도 보안기능을 사용하고 있습니다.
+                
+                물리적 안전성 확보 조치
+                - 개인정보를 보관하고 있는 물리적 보관 장소를 별도로 두고 이에 대해 출입통제 절차를 수립, 운영하고 있습니다.
+                - 개인정보가 포함된 서류, 보조저장매체 등을 잠금 장치가 있는 안전한 장소에 보관하고 있습니다.
             </textarea>
             <p>
                 <input type="checkbox" id="check_3"  name="" /> 위의 약관에 동의 합니다.<br />

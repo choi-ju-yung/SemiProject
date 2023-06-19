@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.semi.member.model.vo.Member;
+import com.semi.member.model.vo.IntroduceMember;
 import com.semi.member.service.MemberService;
 
 
@@ -34,12 +34,13 @@ public class EnrollMemberEndServlet extends HttpServlet {
 		String userName = request.getParameter("userName");
 	
 		
-		Member m = Member.builder()
+		IntroduceMember m = IntroduceMember.builder()
 				.userId(userId)
 				.email(email)
 				.nickName(nickName)
 				.password(password)
 				.userName(userName)
+				.introduce("")
 				.build();
 		
 		int result = new MemberService().insertMember(m);
@@ -47,8 +48,10 @@ public class EnrollMemberEndServlet extends HttpServlet {
 		String loc="";
 		if(result>0) { // db는 결과값이 정수로 나옴
 			// 입력성공
+				
 			msg="회원가입을 축하드립니다!";
 			loc="/";
+			
 		}else {
 			// 입력실패
 			msg="회원가입에 실패하였습니다. :( \n다시 시도하세요.";
@@ -56,6 +59,8 @@ public class EnrollMemberEndServlet extends HttpServlet {
 		}
 		request.setAttribute("msg", msg);
 		request.setAttribute("loc", loc);
+		
+		
 		
 		request.getRequestDispatcher("/views/common/msg.jsp")
 		.forward(request, response);

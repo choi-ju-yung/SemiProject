@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Properties;
 
+import com.semi.member.model.vo.IntroduceMember;
 import com.semi.member.model.vo.Member;
 
 
@@ -51,7 +52,7 @@ public class MemberDao {
 	}
 	
 	
-	public int insertMember(Connection conn, Member m) {
+	public int insertMember(Connection conn, IntroduceMember m) {
 		PreparedStatement pstmt = null;
 		int result =0;
 		try {
@@ -69,6 +70,93 @@ public class MemberDao {
 			close(pstmt);
 		}return result;
 	}
+	
+	
+	
+	// 이메일 중복검사 DAO
+	public int emailDupCheck(Connection conn, String memberEmail) throws Exception{
+		PreparedStatement pstmt = null;
+		int result = 0;
+		ResultSet rs =null;
+		try {
+			//sql 얻어오기
+			pstmt=conn.prepareStatement(sql.getProperty("emailDupCheck"));
+			pstmt.setString(1, memberEmail);
+			
+			rs = pstmt.executeQuery();       // sql 실행후 결과받기
+			
+			if (rs.next()) {
+				result = rs.getInt(1);  // count(*) 값.
+			}
+		}finally {
+			close(rs);
+			close(pstmt);
+		}
+		return result;
+	}
+	
+	
+	// 이메일 인증번호 발급일 수정 DAO
+	public int updateCertification(Connection conn, String inputEmail, String cNumber) throws Exception{
+		int result = 0;
+		PreparedStatement pstmt = null;
+		try {
+			pstmt=conn.prepareStatement(sql.getProperty("updateCertification"));
+			pstmt.setString(1, cNumber);
+			pstmt.setString(2, inputEmail);
+			result = pstmt.executeUpdate();
+			
+		}finally {
+			close(pstmt);
+		}
+		return result;
+	}
+	
+	
+	// 이메일 인증번호 생성 dao
+	public int insertCertification(Connection conn, String inputEmail, String cNumber) throws Exception{
+		int result = 0;
+		PreparedStatement pstmt = null;
+		try {
+			pstmt=conn.prepareStatement(sql.getProperty("insertCertification"));
+
+			pstmt.setString(1, inputEmail);
+			pstmt.setString(2, cNumber);
+			
+			result = pstmt.executeUpdate();
+					
+		}finally {
+			close(pstmt);
+		}
+		return result;
+	}
+	
+	
+	// 인증번호 확인하는 dao
+	public int checkNumber(Connection conn, String inputEmail, String cNumber) throws Exception{
+		int result = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rs =null;
+		try {
+			pstmt=conn.prepareStatement(sql.getProperty("checkNumber"));
+			
+			pstmt.setString(1, inputEmail);
+			pstmt.setString(2, cNumber);
+			pstmt.setString(3, inputEmail);			
+			rs = pstmt.executeQuery();
+			if( rs.next() ) {
+				result = rs.getInt(1);
+			}
+		}finally {
+			close(rs);
+			close(pstmt);
+		}
+		return result;
+	}
+	
+	
+	
+	
 	
 	
 	

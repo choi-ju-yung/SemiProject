@@ -1,15 +1,13 @@
 package com.semi.member.service;
 import static com.semi.common.JDBCTemplate.close;
-import static com.semi.common.JDBCTemplate.getConnection;
-import static com.semi.common.JDBCTemplate.close;
 import static com.semi.common.JDBCTemplate.commit;
 import static com.semi.common.JDBCTemplate.getConnection;
 import static com.semi.common.JDBCTemplate.rollback;
 
 import java.sql.Connection;
 
-
 import com.semi.member.dao.MemberDao;
+import com.semi.member.model.vo.IntroduceMember;
 import com.semi.member.model.vo.Member;
 
 
@@ -25,7 +23,7 @@ public class MemberService {
    }
    
    
-   public int insertMember(Member m) {
+   public int insertMember(IntroduceMember m) {
       Connection conn = getConnection();
       int result = dao.insertMember(conn,m);
       if(result>0)commit(conn);
@@ -34,4 +32,49 @@ public class MemberService {
       return result;
    }
    
+   
+   // 이메일 중복체크 서비스
+	public int emailDupCheck(String memberEmail) throws Exception {
+		
+		Connection conn = getConnection();
+		int result= dao.emailDupCheck(conn,memberEmail);
+		close(conn);
+		return result;
+	}
+    
+	
+	// 이메일 인증번호 추가 서비스
+	public int insertCertification(String inputEmail, String cNumber) throws Exception {
+		
+		Connection conn = getConnection();
+		
+		//1 ) 입력한 이메일과 일치하는 값이 있으면 수정(UPDATE)
+		int result = dao.updateCertification(conn,inputEmail,cNumber);
+		//2 ) 일치하는 이메일이 없는경우--> 처음인증번호발급-> 삽입(INSERT)
+		if ( result ==0 ) {
+		    result = dao.insertCertification(conn,inputEmail,cNumber);
+		}
+		// 트랜잭션 제어 !! (DML구문)
+		if(result > 0 ) commit(conn);
+		else            rollback(conn);
+		
+		close(conn);
+		
+		return result;
+	}
+   
+	
+	// 인증번호 맞는지 확인 서비스
+	public int checkNumber(String inputEmail, String cNumber) throws Exception {
+		
+		Connection conn = getConnection();
+		int result = dao.checkNumber(conn,inputEmail,cNumber);
+		close(conn);
+		return result;
+	}
+	
+	
+
+	
+	
 }
