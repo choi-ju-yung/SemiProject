@@ -26,9 +26,10 @@
                     return;
                 }else{            
                    
+                   opener.document.getElementById("agree1").checked = true; 
+                   // 팝업창 부모타입 -> 팝업창을 열기전 홈페이지
+                   // opener -> 부모 타입 접근
                    window.close();
-                   document.getElementById("agree1").checked = true;
-       
                    
                 }
             });    

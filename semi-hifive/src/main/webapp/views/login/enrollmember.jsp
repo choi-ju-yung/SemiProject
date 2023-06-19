@@ -44,15 +44,17 @@
 
             <!-- 아이디  -->
             <div class="id">
-                <input type="text" placeholder="아이디" name="userId" required>
-                &nbsp;
+                <input type="text" placeholder="아이디" id="userId_" name="userId" required>
+                
+<!--                 &nbsp;
                 &nbsp;
                 
               <div>
                 <input type="button" onclick="fn_duplicatedId();" value="증복확인">
-              </div>
+              </div> -->
             </div>
-
+			<span class="idDupMessageClass" id="idDupMessageId" ></span>
+				
             <!-- 비밀번호 -->
             <div>
                 <input type="password" id="memberPw" placeholder="비밀번호" name="password" required>
@@ -66,12 +68,12 @@
 
             <!-- 이름 -->
             <div>
-                <input type="text" placeholder="이름" name="userName" required >
+                <input type="text" placeholder="이름" id="userNameId" name="userName" required >
             </div>
 
             <!-- 닉네임 -->
             <div>
-                <input type="text" placeholder="닉네임" name="nickName" required>
+                <input type="text" placeholder="닉네임" id="nickNameId" name="nickName" required>
             </div>
 
             <div>
@@ -114,7 +116,7 @@
       
                   <!-- 선택 2 -->
                   <div>
-                      <span>(선택) 마케팅 정보 수신 동의 - SMS/MMS <button onclick="fn_viewDetail14();">상세 보기</button></span>
+                      <span>(선택) 마케팅 정보 수신 동의 - SMS/MMS <button onclick="fn_viewDetail4();">상세 보기</button></span>
                       <input type="checkbox" id="agree4" name="agree" onclick='checkSelectAll()'>
                   </div>
               </div>

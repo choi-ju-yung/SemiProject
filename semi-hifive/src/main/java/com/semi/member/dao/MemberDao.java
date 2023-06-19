@@ -10,7 +10,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Properties;
 
-import com.semi.member.model.vo.IntroduceMember;
 import com.semi.member.model.vo.Member;
 
 
@@ -52,7 +51,8 @@ public class MemberDao {
 	}
 	
 	
-	public int insertMember(Connection conn, IntroduceMember m) {
+	// 회원정보를 추가하는 dao
+	public int insertMember(Connection conn, Member m) {
 		PreparedStatement pstmt = null;
 		int result =0;
 		try {
@@ -63,6 +63,23 @@ public class MemberDao {
 			pstmt.setString(4, m.getPassword());
 			pstmt.setString(5, m.getUserName());
 //			pstmt.setString(9, String.join(",",m.getHobby()));  // 배열을 ,구분해서 문자열로만듬
+			result=pstmt.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}return result;
+	}
+	
+	
+	// 쇼핑페이지를 추가하는 dao
+	public int insertShopPage(Connection conn, String userId) {
+		PreparedStatement pstmt = null;
+		int result =0;
+		try {
+			pstmt=conn.prepareStatement(sql.getProperty("insertShopPage"));
+			pstmt.setString(1, userId);
+
 			result=pstmt.executeUpdate();
 		}catch(SQLException e) {
 			e.printStackTrace();
@@ -155,8 +172,25 @@ public class MemberDao {
 	}
 	
 	
-	
-	
+	// 아이디 중복확인해주는 dao
+	public Member selectByUserId(Connection conn, String userId) {
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		Member m=null;
+		try {
+			pstmt=conn.prepareStatement(sql.getProperty("selectByUserId"));
+			pstmt.setString(1, userId);
+			rs=pstmt.executeQuery();
+			if(rs.next()) {
+				m=getMember(rs);
+			}
+		}catch(SQLException e){
+			e.printStackTrace();
+		}finally {
+			close(rs);
+			close(pstmt);
+		}return m;
+	}
 	
 	
 	

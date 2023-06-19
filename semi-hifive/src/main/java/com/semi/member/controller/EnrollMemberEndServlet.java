@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.semi.member.model.vo.IntroduceMember;
+import com.semi.member.model.vo.Member;
 import com.semi.member.service.MemberService;
 
 
@@ -34,19 +34,20 @@ public class EnrollMemberEndServlet extends HttpServlet {
 		String userName = request.getParameter("userName");
 	
 		
-		IntroduceMember m = IntroduceMember.builder()
+		Member m = Member.builder()
 				.userId(userId)
 				.email(email)
 				.nickName(nickName)
 				.password(password)
 				.userName(userName)
-				.introduce("")
 				.build();
 		
-		int result = new MemberService().insertMember(m);
+		int result = new MemberService().insertMember(m); // 회원정보 데이터 추가하는 작업
+		int result2 = new MemberService().insertShopPage(userId); // 회원쇼핑페이지 추가하는 작업
+		
 		String msg="";
 		String loc="";
-		if(result>0) { // db는 결과값이 정수로 나옴
+		if(result>0 && result2 >0) { // db는 결과값이 정수로 나옴
 			// 입력성공
 				
 			msg="회원가입을 축하드립니다!";

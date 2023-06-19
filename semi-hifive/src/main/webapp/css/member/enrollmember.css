@@ -228,21 +228,21 @@
             cursor: pointer;
         }
         
-        
-        .id{
+/*         
+         .id{
             display: flex;
         }
 
-        /* 중복확인 버튼 스타일 */
+        중복확인 버튼 스타일
         .id>div{
             margin-right: -200px;
             width: 150px;
             border-radius: 15px;
             font-size: 18px;
         
-        }
+        } 
 
-        /* 중복확인버튼의 글씨 가운데정렬하기 위해서 설정 */
+        중복확인버튼의 글씨 가운데정렬하기 위해서 설정
         .id>div>input{
             line-height: 10%;
             background-color: #20c997;
@@ -250,4 +250,4 @@
             color: white;
             cursor: pointer;
         }
-        
+         */

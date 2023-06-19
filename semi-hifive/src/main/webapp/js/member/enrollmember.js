@@ -55,8 +55,8 @@ const checkObj = {
 	"memberEmail": false,
 	"memberPw": false,
 	"memberPwConfirm": false,
+	"memberId": false,
 	"memberNickname": false,
-	"memberTel": false,
 	"sendEmail": false,
 
 };
@@ -215,37 +215,114 @@ cBtn.addEventListener("click", function() {
 
 
 
-// 비밀번호 중복검사 및 일치 규칙
+// 아이디 중복검사 
+const regId = /^[a-z0-9]{6,12}$/
+const userId_ = document.getElementById("userId_");
 
+
+userId_.addEventListener("input", function() {
+	
+	if (regId.test(userId_.value)) {
+
+		$.ajax({
+			url: "duplicateId.do",
+			data: { "userId": userId_.value },
+			success: function(data) {
+				if(data === 'true'){
+					$("#idDupMessageId").text("사용 가능한 아이디입니다.").css("color","green");
+					checkObj.memberId = true;
+				}else{
+					$("#idDupMessageId").text("이미 사용중인 아이디입니다.").css("color","red");
+					checkObj.memberId = false;
+				}
+			},
+
+			error: function(data) {
+				console.log(r);
+				console.log(m);
+			}
+		});
+	} else {
+		$("#idDupMessageId").text("영소문자,숫자로만 6~12글자의 아이디를 입력하세요").css("color","red");
+		checkObj.memberId = false;
+	}
+})
+
+
+
+// 비밀번호 중복검사 및 일치 규칙
 const memberPw = document.getElementById("memberPw");
 const memberPwConfirm = document.getElementById("memberPwConfirm");
 const pwMessage = $("#pwMessage");
-const regExp2 = /^[\w!@#_-]{6,30}$/;
+/*const regExp2 = /^[\w!@#_-]{6,30}$/;*/
+// 영대소문자, 숫자, 특수기호 최소 하나씩 8글자 이상
+const regExp2 = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[a-zA-Z\d!@#$%^&*()_+]{8,16}$/
 
-memberPwConfirm.addEventListener("input",function(){
+memberPwConfirm.addEventListener("input", function() {
 	console.log("dd");
-    if( memberPw.value.length==0 || memberPwConfirm.value.length==0 ){
+	if (memberPw.value.length == 0 || memberPwConfirm.value.length == 0) {
 		pwMessage.text("");
-    }
+	}
 
-    if ( regExp2.test(memberPw.value) || regExp2.test(memberPwConfirm.value) ){
+	if (regExp2.test(memberPw.value) || regExp2.test(memberPwConfirm.value)) {
 
-        if ( memberPw.value == memberPwConfirm.value ){
-			pwMessage.text("비밀번호가 일치합니다").css("color","green");
+		if (memberPw.value == memberPwConfirm.value) {
+			pwMessage.text("비밀번호가 일치합니다").css("color", "green");
 
-            checkObj.memberPw=true;
-            checkObj.memberPwConfirm =true;
+			checkObj.memberPw = true;
+			checkObj.memberPwConfirm = true;
 
-        }else{
-  			pwMessage.text("비밀번호가 일치하지않습니다").css("color","red");
-            checkObj.memberPw=false;
-            checkObj.memberPwConfirm =false;
-        }
+		} else {
+			pwMessage.text("비밀번호가 일치하지않습니다").css("color", "red");
+			checkObj.memberPw = false;
+			checkObj.memberPwConfirm = false;
+		}
 
-    }
-    else{
-		pwMessage.text("영대소문자, 숫자, 특수기호 최소 하나씩 8글자 이상으로 작성해주세요.")
-        checkObj.memberPw=false;
-        checkObj.memberPwConfirm =false;
-    }
+	}
+	else {
+		pwMessage.text("영대소문자, 숫자, 특수기호 포함 8글자 이상으로 작성").css("color", "red");
+		checkObj.memberPw = false;
+		checkObj.memberPwConfirm = false;
+	}
 });
+
+
+memberPw.addEventListener("input", function() {
+	console.log("dd");
+	if (memberPw.value.length == 0 || memberPwConfirm.value.length == 0) {
+		pwMessage.text("");
+	}
+
+	if (regExp2.test(memberPw.value) || regExp2.test(memberPwConfirm.value)) {
+
+		if (memberPw.value == memberPwConfirm.value) {
+			pwMessage.text("비밀번호가 일치합니다").css("color", "green");
+
+			checkObj.memberPw = true;
+			checkObj.memberPwConfirm = true;
+
+		} else {
+			pwMessage.text("영대소문자, 숫자, 특수기호 포함 8글자 이상으로 작성").css("color", "red");
+			checkObj.memberPw = false;
+			checkObj.memberPwConfirm = false;
+		}
+
+	}
+	else {
+		pwMessage.text("영대소문자, 숫자, 특수기호 포함 8글자 이상으로 작성").css("color", "red");
+		checkObj.memberPw = false;
+		checkObj.memberPwConfirm = false;
+	}
+});
+
+
+// 이름 정규표현식
+const regName = /^[a-zA-Z0-9가-힣]{1,8}$/
+const userNameId = document.getElementById("userNameId");
+
+userNameId.evaddEventListener("input",function(){
+	
+})
+
+
+

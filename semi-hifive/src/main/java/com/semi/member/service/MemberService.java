@@ -7,7 +7,6 @@ import static com.semi.common.JDBCTemplate.rollback;
 import java.sql.Connection;
 
 import com.semi.member.dao.MemberDao;
-import com.semi.member.model.vo.IntroduceMember;
 import com.semi.member.model.vo.Member;
 
 
@@ -22,10 +21,21 @@ public class MemberService {
       return m;
    }
    
-   
-   public int insertMember(IntroduceMember m) {
+   // 회원가입 진행시 회원정보 추가하는 서비스
+   public int insertMember(Member m) {
       Connection conn = getConnection();
       int result = dao.insertMember(conn,m);
+      if(result>0)commit(conn);
+      else rollback(conn);
+      close(conn);
+      return result;
+   }
+   
+   
+   // 회원가입 진행시 쇼핑페이지를(소개글) 추가하는 서비스
+   public int insertShopPage(String userId) {
+      Connection conn = getConnection();
+      int result = dao.insertShopPage(conn,userId);
       if(result>0)commit(conn);
       else rollback(conn);
       close(conn);
@@ -74,7 +84,13 @@ public class MemberService {
 	}
 	
 	
-
+	// 아이디 중복확인해주는 서비스
+	public Member selectByUserId(String userId) {
+		Connection conn=getConnection();
+		Member m = dao.selectByUserId(conn,userId);
+		close(conn);
+		return m;
+	}
 	
 	
 }
