@@ -157,7 +157,6 @@ div.commentUpdate>a:hover{
 div.recomment{
     margin-top: 10px;
     margin-left: 30px;
-    display:none;
 }
 /* 대댓글 작성 부분 */
 div.comment>.commentWrite{

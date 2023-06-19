@@ -236,6 +236,7 @@ public class BoardDao {
 			pstmt.setInt(2, bc.getBoardNo());
 			pstmt.setInt(3, bc.getCommentNoFK());
 			pstmt.setString(4, bc.getCommentContent());
+			System.out.println(bc.getCommentNoFK());
 			result=pstmt.executeUpdate();
 			
 		}catch(SQLException e) {

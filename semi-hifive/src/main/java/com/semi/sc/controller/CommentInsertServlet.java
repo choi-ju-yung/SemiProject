@@ -33,7 +33,7 @@ public class CommentInsertServlet extends HttpServlet {
 				.commentWriter(request.getParameter("writer"))
 				.boardNo(Integer.parseInt(request.getParameter("boardNo")))
 				.commentContent(request.getParameter("commentContent"))
-				.commentNoFK(fk)
+				.commentNoFK(fk==0?null:fk)
 				.build();
 		
 		int result=new BoardService().insertBoardComment(bc);
