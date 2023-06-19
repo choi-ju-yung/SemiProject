@@ -4,8 +4,6 @@
 	pageEncoding="UTF-8"%>
 <%@page import="com.semi.category.model.vo.CategoryDto"%>
 <%@page import="java.util.List"%>
-<<<<<<< HEAD
-
 <%@ page import="com.semi.member.model.vo.Member" %>
  <%
 	Member loginMember = (Member) session.getAttribute("loginMember");//여기 로그인멤버
@@ -93,7 +91,6 @@ if (cookies != null) {
 				}
 				%>
 
-<<<<<<< HEAD
                 <button class="search" onclick="searchData()">
                 <!-- 돋보기 이미지 -->
                   <img src="<%=request.getContextPath()%>/images/common/magnifier.png" alt="" />
@@ -244,7 +241,6 @@ if (cookies != null) {
                 <li><a href="#">세부 카테고리50</a></li>
               </ul>
             </div>
-=======
 				<div class="headerMain">
 					<div class="logo">
 						<a href=""> <img
@@ -298,7 +294,6 @@ if (cookies != null) {
 					<input type="checkbox" id="menuIcon" /> <label for="menuIcon"
 						class="headercategorybtn"> <span></span> <span></span> <span></span>
 					</label>
->>>>>>> branch 'dev' of https://github.com/choi-ju-yung/SemiProject.git
 
 					<div id="menuList">
 						<ul>
