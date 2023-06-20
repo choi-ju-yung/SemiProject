@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/service/boardInsert.css">
 <section>
 <%@ include file="/views/service/serviceCategory.jsp" %>
-	<form action="<%=request.getContextPath()%>/service/boardInsert.do?login=admin"
+	<form action="<%=request.getContextPath()%>/service/boardInsertEnd.do?login=admin"
 		onsubmit="return titleCheck();" method="post" enctype="multipart/form-data">
 	<div class="ServiceCenter">
 		<h2 class="ServietHead">게시글 작성</h2>
@@ -42,7 +42,7 @@
 
 		<div class="upfile">
 			<ion-icon class="uploadIcon" name="images-outline"></ion-icon>
-			<input class="form-control" type="file" name="boardOriginalFile" id="formFileMultiple"
+			<input class="form-control" type="file" name="boardFile" id="formFileMultiple"
 				multiple> <span id="contentTextNum">0/2000</span>
 		</div>
 		<div class="serviceInsertBtn">
@@ -53,7 +53,32 @@
 	</form>
 </section>
 <script>
-	
+$("#formFileMultiple").change(function(){
+    const files=$("#formFileMultiple")[0].files;
+    $.ajax({
+        url         :   "",
+        dataType    :   "json",
+        contentType :   "application/; charset=UTF-8",
+        type        :   "post",
+        data        :   objParams,
+        success     :   function(retVal){
+
+            if(retVal.code == "OK") {
+                alert(retVal.message);
+            } else {
+                alert(retVal.message);
+            }
+             
+        },
+        error       :   function(request, status, error){
+            console.log("AJAX_ERROR");
+        }
+    });
+    for(var i= 0; i<files.length; i++){
+    	console.log(files[i].name);
+    }
+    
+});
 </script>
 <script src="<%=request.getContextPath()%>/js/service/boardInsert.js"></script>
 <%@ include file="/views/common/footer.jsp" %>

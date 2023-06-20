@@ -27,21 +27,12 @@ public class BoardDao {
 	}
 	//Board 객체 반환 메소드
 	public static Board getBoard(ResultSet rs) throws SQLException{
-//		BOARD_NO NUMBER CONSTRAINT BOARD_NO_PK PRIMARY KEY,
-//		BOARD_WRITER VARCHAR2(30) NOT NULL,
-//		BOARD_TITLE	VARCHAR2(150) NOT NULL,
-//		BOARD_CONTENT VARCHAR2(4000) NOT NULL,
-//		BOARD_DATE TIMESTAMP DEFAULT SYSDATE NOT NULL,
-//		BOARD_CATEGORY VARCHAR2(50)	NULL,
-//		NOTICE_YN CHAR(5) DEFAULT 'Y' NOT NULL,
-//		BOARD_FILE VARCHAR2(2000) NULL
 		return Board.builder().boardNo(rs.getInt("board_no"))
 				.boardTitle(rs.getString("board_title"))
 				.boardContent(rs.getString("board_content"))
 				.boardDate(rs.getDate("board_date"))
 				.boardCategory(rs.getString("board_category"))
 				.noticeYn(rs.getString("notice_yn").charAt(0))
-				.boardRenamedFileName(rs.getString("board_original_filename"))
 				.build();
 	}
 	
@@ -125,8 +116,6 @@ public class BoardDao {
 			pstmt.setString(3, b.getBoardContent());
 			pstmt.setString(4, b.getBoardCategory());
 			pstmt.setString(5, String.valueOf(b.getNoticeYn()));
-			pstmt.setString(6, b.getBoardOriginalFileName());
-			pstmt.setString(7, b.getBoardRenamedFileName());
 			
 			result=pstmt.executeUpdate();
 		}catch(SQLException e){
@@ -255,6 +244,23 @@ public class BoardDao {
 			pstmt.setString(3, bc.getCommentContent());
 			result=pstmt.executeUpdate();
 			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+	public int insertBoardFile(Connection conn, BoardFile bf) {
+		PreparedStatement pstmt=null;
+		int result=0;
+		try {
+			pstmt=conn.prepareStatement(sql.getProperty("insertFile"));
+			//INSERT INTO BOARD_FIL VALUE(SEQ_BOARD_FILE_NO.NEXTVAL,?,?)
+			pstmt.setInt(1, bf.getBoardNo());
+			pstmt.setString(2, bf.getBoardFileName());
+			result=pstmt.executeUpdate();
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}finally {
