@@ -59,7 +59,7 @@ public class MemberDao {
 			pstmt=conn.prepareStatement(sql.getProperty("insertMember"));
 			pstmt.setString(1, m.getUserId());
 			pstmt.setString(2, m.getEmail());
-			pstmt.setString(3, m.getNickname());
+			pstmt.setString(3, m.getNickName());
 			pstmt.setString(4, m.getPassword());
 			pstmt.setString(5, m.getUserName());
 //			pstmt.setString(9, String.join(",",m.getHobby()));  // 배열을 ,구분해서 문자열로만듬
@@ -193,13 +193,13 @@ public class MemberDao {
 	}
 	
 	
-	public int checkNickname(Connection conn, String userNickname) {
+	public int checkNickName(Connection conn, String userNickName) {
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
 		int result = 0;
 		try {
-			pstmt=conn.prepareStatement(sql.getProperty("selectByNickname"));
-			pstmt.setString(1, userNickname);
+			pstmt=conn.prepareStatement(sql.getProperty("selectByNickName"));
+			pstmt.setString(1, userNickName);
 			rs=pstmt.executeQuery();
 			if(rs.next()) {
 				result = rs.getInt(1);
@@ -237,12 +237,57 @@ public class MemberDao {
 	}
 	
 	
+	// // 해당 입력받은 아이디, 이름, 이메일로 회원을 찾는 Dao
+	public Member selectByIdAndNameAndEmail(Connection conn, String id, String name, String email) {
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		Member m=null;
+		
+		try {
+			pstmt=conn.prepareStatement(sql.getProperty("selectByIdAndNameAndEmail"));
+			pstmt.setString(1, id);
+			pstmt.setString(2, name);
+			pstmt.setString(3, email);
+			
+			rs=pstmt.executeQuery();
+			if(rs.next()) {
+				m=getMember(rs);
+			}
+		}catch(SQLException e){
+			e.printStackTrace();
+		}finally {
+			close(rs);
+			close(pstmt);
+		}return m;
+	}
+
+		
+	// 받은 인증번호로 패스워드가 변경되는 dao
+	public int updatePassword(Connection conn, String inputEmail, String cNumber) {
+		PreparedStatement pstmt = null;
+		int result =0;
+		try {
+			pstmt=conn.prepareStatement(sql.getProperty("updatePassword"));
+			
+			pstmt.setString(1, cNumber);
+			pstmt.setString(2, inputEmail);	
+
+			result=pstmt.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}return result;
+	}
+	
+	
+	
 	//public static 하는 이유 : 다른 패키지에서도 이 메소드 사용하기 위해서
 	public static Member getMember(ResultSet rs) throws SQLException{ 
 		return Member.builder()
 	            .userId(rs.getString("user_Id"))
 	            .email(rs.getString("email"))
-	            .nickname(rs.getString("nickname"))
+	            .nickName(rs.getString("nickname"))
 	            .password(rs.getString("password"))
 	            .userName(rs.getString("user_name"))
 	            .declareCount(rs.getInt("declare_Count"))

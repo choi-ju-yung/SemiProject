@@ -5,6 +5,7 @@
 <link rel="stylesheet" href="<%=request.getContextPath() %>/css/member/enrollmember.css" />
 
 <!--<form action="" class="container"> -->
+<section>
 	<form action="<%=request.getContextPath()%>/enrollMemberEnd.do" class="container" 
 			method="post" onsubmit="return fn_registEnrollMember();"> 
         <br>
@@ -37,7 +38,7 @@
 			<div class="autNumber">
 				<input type="text" id="cNumber" placeholder="인증번호 입력" autocomplete="off">
 				<div>
-	            <button type="button" id="cBtn">인증하기</button>
+	            	<button type="button" id="cBtn">인증하기</button>
 	            </div>
 			 </div>
 			 <span class="timerMessageClass" id="timerMessageId" ></span>
@@ -75,9 +76,9 @@
 			
             <!-- 닉네임 -->
             <div>
-                <input type="text" placeholder="닉네임" id="nicknameId" name="nickname" required>
+                <input type="text" placeholder="닉네임" id="nickNameId" name="nickName" required>
             </div>
-			<span id="userNicknameMessage"></span>
+			<span id="userNickNameMessage"></span>
 			
             <div>
                 <!-- 회원가입 -->
@@ -124,7 +125,7 @@
                   </div>
               </div>
     </form>
-
+</section>
 <script src="<%=request.getContextPath() %>/js/member/enrollmember.js"></script>
 <%@ include file="/views/common/footer.jsp"%>
     

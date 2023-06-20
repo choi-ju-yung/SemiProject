@@ -93,9 +93,9 @@ public class MemberService {
 	}
 	
 	// 중복된 닉네임이 있는지 확인해주는 서비스
-	public int checkNickname(String userNickname) throws Exception{
+	public int checkNickName(String userNickName) throws Exception{
 		Connection conn = getConnection();
-		int result = dao.checkNickname(conn,userNickname);
+		int result = dao.checkNickName(conn,userNickName);
 		close(conn);
 		return result;
 	}
@@ -109,5 +109,22 @@ public class MemberService {
 		return m;
 	}
 	
+	
+	// 해당 입력받은 아이디, 이름, 이메일로 회원을 찾는 서비스 
+	public Member selectByIdAndNameAndEmail(String id, String name, String email) {
+		Connection conn=getConnection();
+		Member m = dao.selectByIdAndNameAndEmail(conn,id,name,email);
+		close(conn);
+		return m;
+	}
+	
+	
+	// 받은 인증번호로 패스워드가 변경되는 서비스
+	public int updatePassword(String email, String cNumber) {
+		Connection conn=getConnection();
+		int result = dao.updatePassword(conn,email,cNumber);
+		close(conn);
+		return result;
+	}
 	
 }

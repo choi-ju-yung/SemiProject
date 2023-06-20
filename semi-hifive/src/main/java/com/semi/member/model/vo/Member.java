@@ -20,7 +20,7 @@ public class Member {
 //	private Date enrollDate;
 	   private String userId;
 	   private String email;
-	   private String nickname;
+	   private String nickName;
 	   private String password;
 	   private String userName;
 	   private int declareCount;

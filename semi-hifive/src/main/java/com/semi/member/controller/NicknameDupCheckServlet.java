@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.semi.member.service.MemberService;
 
-@WebServlet("/duplicateNickname.do")
+@WebServlet("/duplicateNickName.do")
 public class NicknameDupCheckServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -21,10 +21,10 @@ public class NicknameDupCheckServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
-			String userNickname = request.getParameter("userNickname");
+			String userNickName = request.getParameter("userNickName");
 			
 			// 1 , 2 , 3
-			int result = new MemberService().checkNickname(userNickname);
+			int result = new MemberService().checkNickName(userNickName);
 			
 			response.getWriter().print(result);  // getWriter -> jsp의 data로 들어감
 			
