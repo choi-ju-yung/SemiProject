@@ -27,7 +27,7 @@
 				</div>
 				<div class="profileButton">
 					<button class="profileImgUpdate">이미지 변경</button>
-					<button class="profileImgDel">삭제</button>
+					<button type="button" class="profileImgDel">삭제</button>
 					<input type="file" accept=".jpg, .png" class="profileImgInput" name="uploadProfile">
 				</div>
 			</div>
@@ -58,7 +58,7 @@
 				</div>
 				<input type="password" placeholder="" class="inputCss"
 					name="myPagePassword">
-				<button class="checkDB" onclick="fn_updatePassword();">비밀번호
+				<button type="button" class="checkDB" onclick="fn_updatePassword();">비밀번호
 					변경</button>
 			</div>
 			<hr width="1050px" color="#eee" />

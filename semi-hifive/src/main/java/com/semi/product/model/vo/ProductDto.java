@@ -19,13 +19,11 @@ public class ProductDto {
 	private String sellstatus;
 	private int price;
 	private Date registtime;
+	private long elapsedtime;
 	private int viewcount;
 	private String explanation;
 	private String keyword;
+	private int subcategoryid;
 	private int goonguareaid;
-	private String subcategoryname;
-	private long elapsedtime;
-	private String categoryid;
-	private String categoryname;
 	
 }

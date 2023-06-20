@@ -178,9 +178,9 @@
             color: white;
             cursor: pointer;
         }
-
-
-
+        
+        
+        
         .id{
             display: flex;
         }
@@ -204,16 +204,50 @@
         }
 
 
-        /* .duple>input{
-            position: relative;
-            top: -350px;
-            left: 300px;
-            width: 200px;
-            height: 100px;
-            font-size: large;
-            box-sizing: border-box;
+
+        .autNumber{
+            display: flex;
+        }
+
+        /* 이메일인증 버튼 스타일 */
+        .autNumber>div{
+            margin-right: -200px;
+            width: 150px;
             border-radius: 15px;
-            border-style: none;
-        } */
+            font-size: 18px;
+        }
+
+        /* 이메일인증버튼의 글씨 가운데정렬하기 위해서 설정 */
+        .autNumber>div>button{
+        	
+        	margin-left:10px;
+            line-height: 10%;
+            background-color: #20c997;
+            border: 1px solid #20c997 !important;
+            color: white;
+            cursor: pointer;
+        }
         
+/*         
+         .id{
+            display: flex;
+        }
+
+        중복확인 버튼 스타일
+        .id>div{
+            margin-right: -200px;
+            width: 150px;
+            border-radius: 15px;
+            font-size: 18px;
         
+        } 
+
+        중복확인버튼의 글씨 가운데정렬하기 위해서 설정
+        .id>div>input{
+            line-height: 10%;
+            background-color: #20c997;
+            border: 1px solid #20c997 !important;
+            color: white;
+            cursor: pointer;
+        }
+         */

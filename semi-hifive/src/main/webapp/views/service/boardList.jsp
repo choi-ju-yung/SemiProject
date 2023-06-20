@@ -17,7 +17,6 @@
 	      <button class="contentBtn" onclick="location.href='<%=request.getContextPath()%>/service/boardInsert.do'">글 작성</button>
 	      <% } %>
       </h2>
-      
       <% if(notice=='N'){ %>
       	<div class="QACategory">
       		<button class="QABtn">전체</button>
@@ -32,7 +31,7 @@
         <% if(boardList!=null){ %>
 	        <% for(Board b:boardList){ %>
 		        <% if(notice=='Y'){ %>
-					<tr onclick="location.href='<%=request.getContextPath()%>/service/boardContent.do?boardNo=<%=b.getBoardNo() %>'">
+					<tr onclick="location.href='<%=request.getContextPath()%>/service/boardContent.do?boardNo='">
 						<td><%=b.getBoardNo() %></td>
 						<td class="noticeTitle"><%=b.getBoardTitle() %></td>
 						<td><%=b.getBoardDate() %></td>
@@ -41,7 +40,7 @@
 						<td colspan="3"></td>
 					</tr>
 					<% }else{ %>
-					<tr onclick="location.href='<%=request.getContextPath()%>/service/boardContent.do?boardNo=<%=b.getBoardNo() %>'">
+					<tr onclick="location.href='<%=request.getContextPath()%>/service/boardContent.do?boardNo='">
 						<td><%=b.getBoardNo() %></td>
 						<td class="QATitle">[<%=b.getBoardCategory() %>]<%=b.getBoardTitle() %></td>
 					</tr>

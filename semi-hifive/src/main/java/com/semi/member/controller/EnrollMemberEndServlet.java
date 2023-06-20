@@ -42,13 +42,17 @@ public class EnrollMemberEndServlet extends HttpServlet {
 				.userName(userName)
 				.build();
 		
-		int result = new MemberService().insertMember(m);
+		int result = new MemberService().insertMember(m); // 회원정보 데이터 추가하는 작업
+		int result2 = new MemberService().insertShopPage(userId); // 회원쇼핑페이지 추가하는 작업
+		
 		String msg="";
 		String loc="";
-		if(result>0) { // db는 결과값이 정수로 나옴
+		if(result>0 && result2 >0) { // db는 결과값이 정수로 나옴
 			// 입력성공
+				
 			msg="회원가입을 축하드립니다!";
 			loc="/";
+			
 		}else {
 			// 입력실패
 			msg="회원가입에 실패하였습니다. :( \n다시 시도하세요.";
@@ -56,6 +60,8 @@ public class EnrollMemberEndServlet extends HttpServlet {
 		}
 		request.setAttribute("msg", msg);
 		request.setAttribute("loc", loc);
+		
+		
 		
 		request.getRequestDispatcher("/views/common/msg.jsp")
 		.forward(request, response);

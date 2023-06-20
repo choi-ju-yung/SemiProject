@@ -1,28 +1,25 @@
-package com.semi.category.controller;
+package com.semi.mypage.controller;
 
 import java.io.IOException;
-import java.util.List;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.semi.category.model.vo.CategoryDto;
-import com.semi.category.service.CategoryService;
+import com.semi.mypage.service.MypageProductService;
 
 /**
- * Servlet implementation class HeaderCategoryServlet
+ * Servlet implementation class SellListSelectAjaxServlet
  */
-@WebServlet("/ajax/headercategory.do")
-public class HeaderCategoryServlet extends HttpServlet {
+@WebServlet("/mypage/ajaxSelect.do")
+public class SellListSelectAjaxServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public HeaderCategoryServlet() {
+    public SellListSelectAjaxServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,10 +28,21 @@ public class HeaderCategoryServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		List<CategoryDto> categorylist = new CategoryService().CategoryList();
-		request.setAttribute("categorylist", categorylist);
-		request.getRequestDispatcher("/views/common/header.jsp").forward(request, response);
+		String selectValue;
+		String productId = request.getParameter("productId");
 		
+		if(request.getParameter("selectValue").equals("sell")) {
+			selectValue = "판매중";
+		} else if (request.getParameter("selectValue").equals("reservation")) {
+			selectValue = "예약중";
+		} else {
+			selectValue = "판매완료";
+		}
+		
+		int result = new MypageProductService().changeSelectValue(selectValue, productId);
+		
+		//response.setContentType("text/csv; charset=utf-8");
+		//response.getWriter().print(result);
 	}
 
 	/**

@@ -45,11 +45,8 @@ public class BuyListServlet extends HttpServlet {
 		} catch (NumberFormatException e) {
 			cPage = 1;
 		}
-		try {
-			numPerpage = Integer.parseInt(request.getParameter("numPerpage"));
-		} catch (NumberFormatException e) {
-			numPerpage = 5;
-		}
+		numPerpage = 5;
+		
 		String pageBar = "";
 		int totalData = new MypageProductService().countBuyList(userId);
 		int totalPage = (int)Math.ceil((double)totalData/numPerpage);
@@ -61,7 +58,7 @@ public class BuyListServlet extends HttpServlet {
 			pageBar += "<li><span class='pageMove'>&lt;</span></li>";
 		} else {
 			pageBar += "<li><a href='" + request.getRequestURI()
-				+ "?cPage=" + (pageNo-1) + "&numPerpage=" + numPerpage + "'>&lt;</a></li>";
+				+ "?cPage=" + (pageNo-1) + "&numPerpage=" + numPerpage + "&userId=" + userId + "'>&lt;</a></li>";
 		}
 		while(!(pageNo>pageEnd||pageNo>totalPage)) {
 			if(pageNo==cPage) {
@@ -76,7 +73,7 @@ public class BuyListServlet extends HttpServlet {
 			pageBar += "<li><span>&gt;</span></li>";
 		} else {
 			pageBar += "<li><a href='" + request.getRequestURI()
-			+ "?cPage=" + pageNo + "&numPerpage=" + numPerpage + "'>&gt;</a></li>";
+			+ "?cPage=" + pageNo + "&numPerpage=" + numPerpage + "&userId=" + userId + "'>&gt;</a></li>";
 		}
 		request.setAttribute("pageBar", pageBar);
 		

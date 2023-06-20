@@ -1,7 +1,6 @@
 package com.semi.mypage.service;
 
-import static com.semi.common.JDBCTemplate.close;
-import static com.semi.common.JDBCTemplate.getConnection;
+import static com.semi.common.JDBCTemplate.*;
 
 import java.sql.Connection;
 import java.util.List;
@@ -68,5 +67,15 @@ public class MypageProductService {
 		int count = dao.countBuyList(conn, userId);
 		close(conn);
 		return count;
+	}
+	
+	// 판매상태 변경(ajax)
+	public int changeSelectValue(String value, String productId) {
+		Connection conn = getConnection();
+		int result = dao.changeSelectValue(conn, value, productId);
+		if(result>0) commit(conn);
+		else rollback(conn);
+		close(conn);
+		return result;
 	}
 }

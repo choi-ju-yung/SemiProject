@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ page import="com.semi.sc.model.dto.*, java.util.List"%>
 <%@ include file="/views/common/header.jsp"%>
 <link rel="stylesheet"
@@ -25,9 +24,7 @@
 			<div class="content">
 				<input type="hidden" name="boardNo" value="boardNo">
 				<div class="contentTop">
-					<p>
-						작성자 :
-						<%=b.getBoardWriter() %></p>
+					<p>작성자 : <%=b.getBoardWriter() %></p>
 					<p><%=b.getBoardDate() %></p>
 				</div>
 				<p><%=b.getBoardContent() %></p>
@@ -35,7 +32,6 @@
 				<img
 					src="https://mblogthumb-phinf.pstatic.net/MjAyMjA2MTBfMjM3/MDAxNjU0ODM2MTEzODc5.rStmvGhTIUIZ_eshzIy-2Dv3hbMDgU5xMEgBe_8hxkEg.JLYYhiefyMgFUHAM0J3x5qlmGhxjaRgEBCVDWboxHKsg.PNG.papapapower/Desktop_Screenshot_2022.06.10_-_13.36.22.51.png?type=w800"
 					alt="">
-
 			</div>
 			<%if(b.getNoticeYn()=='Y'){ %>
 			<div class="commentWrite">

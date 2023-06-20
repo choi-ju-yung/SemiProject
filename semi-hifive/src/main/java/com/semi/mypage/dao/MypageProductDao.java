@@ -164,6 +164,21 @@ public class MypageProductDao {
 			} return totalData;
 		}
 		
+		// 판매상태 변경
+		public int changeSelectValue(Connection conn, String value, String productId) {
+			PreparedStatement pstmt=null;
+			int result=0;
+			try {
+				pstmt=conn.prepareStatement(sql.getProperty("changeSelectValue"));
+				pstmt.setString(1, value);
+				pstmt.setString(2, productId);
+				result=pstmt.executeUpdate();
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}finally {
+				close(pstmt);
+			}return result;
+		}
 		
 		private ProductList getProductSellList(ResultSet rs) throws SQLException {
 			return ProductList.builder()
