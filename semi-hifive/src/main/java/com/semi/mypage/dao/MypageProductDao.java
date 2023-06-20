@@ -147,13 +147,30 @@ public class MypageProductDao {
 			} return list;
 		}
 		
-		// 페이징처리(전체 상품 수)
+		// 페이징처리(구매내역 상품 수)
 		public int countBuyList(Connection conn, String userId) {
 			PreparedStatement pstmt = null;
 			ResultSet rs = null;
 			int totalData = 0;
 			try {
 				pstmt = conn.prepareStatement(sql.getProperty("countBuyList"));
+				pstmt.setString(1, userId);
+				rs = pstmt.executeQuery();
+				if(rs.next()) totalData = rs.getInt(1);
+			} catch(SQLException e) {
+				e.printStackTrace();
+			} finally {
+				close(pstmt);
+			} return totalData;
+		}
+		
+		// 페이징처리(판매내역 상품 수)
+		public int countSellList(Connection conn, String userId) {
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			int totalData = 0;
+			try {
+				pstmt = conn.prepareStatement(sql.getProperty("countSellList"));
 				pstmt.setString(1, userId);
 				rs = pstmt.executeQuery();
 				if(rs.next()) totalData = rs.getInt(1);
@@ -179,6 +196,41 @@ public class MypageProductDao {
 				close(pstmt);
 			}return result;
 		}
+		
+		// 상품삭제
+		public int deleteProduct(Connection conn, String productId) {
+			PreparedStatement pstmt=null;
+			int result=0;
+			try {
+				pstmt=conn.prepareStatement(sql.getProperty("deleteProduct"));
+				pstmt.setString(1, productId);
+				result=pstmt.executeUpdate();
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}finally {
+				close(pstmt);
+			}return result;
+		}
+		
+		// 판매상태가 전체인 상품 리스트
+		public List<ProductList> sellStatusSell(Connection conn, String userId) {
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			List<ProductList> list = new ArrayList();
+			try {
+				pstmt = conn.prepareStatement(sql.getProperty("sellStatus"));
+				pstmt.setString(1, userId);
+				pstmt.setString(2, "판매중");
+				rs = pstmt.executeQuery();
+				while(rs.next()) list.add(getProductSellList(rs));
+			} catch(SQLException e) {
+				e.printStackTrace();
+			} finally {
+				close(rs);
+				close(pstmt);
+			} return list;
+		}
+		
 		
 		private ProductList getProductSellList(ResultSet rs) throws SQLException {
 			return ProductList.builder()
