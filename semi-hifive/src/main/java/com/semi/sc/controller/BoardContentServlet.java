@@ -28,7 +28,7 @@ public class BoardContentServlet extends HttpServlet {
 		Board b=new BoardService().selectBoardContent(boardNo);
 		
 		//첨부파일 불러오는 메소드
-		b=new BoardService().selectBoardFile(boardNo, b);
+		//b=new BoardService().selectBoardFile(boardNo, b);
 		
 		//댓글 데이터 가져오는 메소드
 		List<BoardComment> comments=new BoardService().selectBoardComment(boardNo);

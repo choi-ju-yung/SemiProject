@@ -1,5 +1,5 @@
 //대댓글 토글
-$(".recommentBtn").click(e => {
+$(document).on("click",".recommentBtn",function(e){
 	$(".recomment").find(".commentWrite").remove();
 	const text=$("<textarea>").attr({
 		"name":"boardComment",

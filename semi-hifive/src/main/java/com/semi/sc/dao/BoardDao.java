@@ -230,13 +230,13 @@ public class BoardDao {
 	public int insertBoardComment(Connection conn, BoardComment bc) {
 		PreparedStatement pstmt=null;
 		int result=0;
+		String query=sql.getProperty("insertComment");
 		try {
-			pstmt=conn.prepareStatement(sql.getProperty("insertComment"));
+			query=query.replaceAll("#FK", bc.getCommentNoFK()==0?"null":String.valueOf(bc.getCommentNoFK()));
+			pstmt=conn.prepareStatement(query);
 			pstmt.setString(1, bc.getCommentWriter());
 			pstmt.setInt(2, bc.getBoardNo());
-			pstmt.setInt(3, bc.getCommentNoFK());
-			pstmt.setString(4, bc.getCommentContent());
-			System.out.println(bc.getCommentNoFK());
+			pstmt.setString(3, bc.getCommentContent());
 			result=pstmt.executeUpdate();
 			
 		}catch(SQLException e) {

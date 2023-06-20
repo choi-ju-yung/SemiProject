@@ -10,6 +10,7 @@
 	Board b=(Board)request.getAttribute("board"); //게시판 객체
 	List<BoardComment> comments=(List)request.getAttribute("comments");
 %>
+<%if(b!=null){ %>
 	<div class="ServiceCenter">
 		<div class="boardContent">
 			<div class="contentTitle">
@@ -93,22 +94,23 @@
 			<%} %>
 		</div>
 	</div>
+<%} %>
 </section>
 <script src="<%=request.getContextPath()%>/js/service/boardContent.js"></script>
 <script>
-	$(".commentBtn").click(e=>{
+	$(document).on("click",".commentBtn",e=>{ //동적 태그 위해 이벤트 부여
 		const comment=$(e.target).parent().find("textarea");
 		$.ajax({
 			url : "<%=request.getContextPath()%>/service/commentInsert.do",
 			data : {
 				"writer" : "<%=loginMember!=null?loginMember.getUserId():""%>",
-				"boardNo":$(".commentPK").val(),
+				"boardNo":<%=b.getBoardNo() %>,
 				"commentContent":comment.val(),
 				"commentFK":$(e.target).next().val()
 			},
 			type : "post",
 			success : function(result) {
-				if (result == "success") {
+				if (result) {
 					alert("등록성공");
 				}
 				comment.val(''); //댓글 등록시 댓글 등록창 초기화
@@ -121,8 +123,16 @@
 		})
 	});
 	
-	function getReplyComment(){ //댓글 등록 성공 후 실행할 함수
-		
-	}
+	/* function getReplyComment(){ //댓글 등록 성공 후 실행할 함수
+		if(data.commentFK==0){
+			const top=$(".commentTop").clone().text({
+				"h4":data.writer,
+				"p":new Date().getFullYear()+"-"+(new Date().getMonth()+1)+"-"+new Date().getDate()
+			});
+			const content=$(".commentContent").clon().find("p").text(data.commentContent);
+			const btn=$(".recommentBtn");
+			($(".comment").append(top)).append(content).append(btn);
+		}
+	} */
 </script>
 <%@ include file="/views/common/footer.jsp"%>

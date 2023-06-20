@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
 import com.semi.sc.model.dto.BoardComment;
 import com.semi.sc.service.BoardService;
 
@@ -33,14 +34,14 @@ public class CommentInsertServlet extends HttpServlet {
 				.commentWriter(request.getParameter("writer"))
 				.boardNo(Integer.parseInt(request.getParameter("boardNo")))
 				.commentContent(request.getParameter("commentContent"))
-				.commentNoFK(fk==0?null:fk)
+				.commentNoFK(fk)
 				.build();
 		
 		int result=new BoardService().insertBoardComment(bc);
-		if(result>0) System.out.println("정상 추가 됨");
 		
-		response.sendRedirect(request.getContextPath()+"/service/boardContent.do?boardNo="+bc.getBoardNo());
-		
+		//response.sendRedirect(request.getContextPath()+"/service/boardContent.do?boardNo="+bc.getBoardNo());
+		response.setContentType("application/json;charset=utf-8");
+		new Gson().toJson(result>0?true:false,response.getWriter());
 	}
 
 	

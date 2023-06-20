@@ -12,10 +12,12 @@
 <section>
 	<%@ include file="/views/service/serviceCategory.jsp" %>
 	<div class="ServiceCenter">
-      <h2 class="ServicetHead"><%=notice=='Y'?"공지사항":"자주하는 질문" %></h2>
-      <% if(loginMember!=null&&loginMember.getUserId().equals("admin")){ %>
-      <button class="contentBtn" onclick="location.href='<%=request.getContextPath()%>/service/boardInsert.do'">글 작성</button>
-      <% } %>
+      <h2 class="ServicetHead"><%=notice=='Y'?"공지사항":"자주하는 질문" %>
+      	<% if(loginMember!=null&&loginMember.getUserId().equals("admin")){ %>
+	      <button class="contentBtn" onclick="location.href='<%=request.getContextPath()%>/service/boardInsert.do'">글 작성</button>
+	      <% } %>
+      </h2>
+      
       <% if(notice=='N'){ %>
       	<div class="QACategory">
       		<button class="QABtn">전체</button>
