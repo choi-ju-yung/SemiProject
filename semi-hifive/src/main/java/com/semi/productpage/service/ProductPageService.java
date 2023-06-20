@@ -23,19 +23,37 @@ public class ProductPageService {
 		return result;		
 	}
 	
-	public int productPageComment(ProductComment pc) {
+	public List<ProductComment> selectProductComment(int id){
 		Connection conn=getConnection();
-		int result=dao.productPageComment(conn,pc);
+		List<ProductComment> list=dao.selectProductComment(conn,id);
+		close(conn);
+		return list;
+	}
+	
+	public int insertProductComment(ProductComment pc) {
+		Connection conn=getConnection();
+		int result=dao.insertProductComment(conn,pc);
 		if(result>0) commit(conn);
 		else rollback(conn);
 		close(conn);
 		return result;
 	}
-	public List<ProductComment> selectComment(int id){
+	
+	public int changeProductComment(ProductComment pc, int cn) {
 		Connection conn=getConnection();
-		List<ProductComment> list=dao.selectBoardComment(conn,id);
+		int result=dao.changeProductComment(conn,pc,cn);
+		if(result>0) commit(conn);
+		else rollback(conn);
 		close(conn);
-		return list;
+		return result;
 	}
 	
+	public int deleteProductComment(int cn) {
+		Connection conn=getConnection();
+		int result=dao.deleteProductComment(conn,cn);
+		if(result>0) commit(conn);
+		else rollback(conn);
+		close(conn);
+		return result;
+	}
 }
