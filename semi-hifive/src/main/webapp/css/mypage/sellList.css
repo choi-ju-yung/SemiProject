@@ -26,6 +26,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            z-index: 100;
         }
 
         .modal .bg {
@@ -247,11 +248,11 @@
 
         .contentMargin {
             margin-top: 6px;
-            margin-bottom: 83px;
+            margin-bottom: 80px;
         }
 
         .productTitle {
-            font-size: 19px;
+            font-size: 21px;
         }
 
         .grayFont {
@@ -353,7 +354,7 @@
 
             display: inline-block;
 
-            background: url(./images/mypage/selectArrow.png) no-repeat right 50%;
+            background: url(/semi-hifive/images/mypage/selectArrow.png) no-repeat right 50%;
             /* 화살표 위치 */
             background-size: 30px;
             /* 화살표 크기 */

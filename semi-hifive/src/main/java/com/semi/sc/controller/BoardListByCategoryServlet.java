@@ -12,20 +12,21 @@ import javax.servlet.http.HttpServletResponse;
 import com.semi.sc.model.dto.Board;
 import com.semi.sc.service.BoardService;
 
-@WebServlet("/service/boardList.do")
-public class BoardListServlet extends HttpServlet {
+
+@WebServlet("/service/boardListCategory.do")
+public class BoardListByCategoryServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+       
+    
+    public BoardListByCategoryServlet() {
+    }
 
-	public BoardListServlet() {
-
-	}
-
-	// 공지사항 조회 서블릿
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		//공지사항, 자주하는 질문 구분
-		String noticeYN=request.getParameter("notice");
-		
+	
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String category=request.getParameter("data"); //카테고리
+		if(category.equals("전체")) {
+			response.sendRedirect(request.getContextPath()+"/service/boardList.do?notice=N");
+		}else {
 		// paging
 		int cPage, numPerpage;
 		try {
@@ -33,9 +34,9 @@ public class BoardListServlet extends HttpServlet {
 		} catch (NumberFormatException e) {
 			cPage = 1;
 		}
-		numPerpage=10;
+		numPerpage = 10;
 		String pageBar = "";
-		int totalData = new BoardService().selectBoardCount(noticeYN);
+		int totalData = new BoardService().selectBoardCountByCategory(category);
 		int totalPage = (int) Math.ceil((double) totalData / numPerpage);
 		int pageBarSize = 5;
 		int pageNo = ((cPage - 1) / pageBarSize) * pageBarSize + 1;
@@ -44,13 +45,14 @@ public class BoardListServlet extends HttpServlet {
 		if (pageNo == 1) {
 			pageBar += "<li><span class='pageMove'>&lt;</span></li>";
 		} else {
-			pageBar += "<li><a href='" + request.getRequestURI() + "?cPage=" + (pageNo - 1) + "&notice=" + noticeYN +"'>&lt;</a></li>";
+			pageBar += "<li><a href='" + request.getRequestURI() + "?cPage=" + (pageNo - 1) + "&notice=N"
+					+ "'>&lt;</a></li>";
 		}
 		while (!(pageNo > pageEnd || pageNo > totalPage)) {
 			if (pageNo == cPage) {
 				pageBar += "<li><span class='nowPage'>" + pageNo + "</span></li>";
 			} else {
-				pageBar += "<li><a href='" + request.getRequestURI() + "?cPage=" + pageNo + "&notice=" + noticeYN + "'>"
+				pageBar += "<li><a href='" + request.getRequestURI() + "?cPage=" + pageNo + "&notice=N'>"
 						+ pageNo + "</a></li>";
 			}
 			pageNo++;
@@ -58,20 +60,18 @@ public class BoardListServlet extends HttpServlet {
 		if (pageNo > totalPage) {
 			pageBar += "<li><span>&gt;</span></li>";
 		} else {
-			pageBar += "<li><a href='" + request.getRequestURI() + "?cPage=" + pageNo + "&notice=" + noticeYN + "'>&gt;</a></li>";
+			pageBar += "<li><a href='" + request.getRequestURI() + "?cPage=" + pageNo + "&notice=Y'>&gt;</a></li>";
 		}
 		request.setAttribute("pageBar", pageBar);
-
-		List<Board> boardList = new BoardService().selectBoardList(cPage,numPerpage,noticeYN);
 		
-		request.setAttribute("boardList", boardList);
-		request.setAttribute("noticeYN", noticeYN);
-		
+		List<Board> boards=new BoardService().selectBoardByCategory(cPage, numPerpage, category);
+		request.setAttribute("boardList", boards);
 		request.getRequestDispatcher("/views/service/boardList.jsp").forward(request, response);
+		}
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}

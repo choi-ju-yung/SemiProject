@@ -1,6 +1,9 @@
 package com.semi.productpage.controller;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -8,20 +11,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
 import com.semi.productpage.model.vo.ProductComment;
 import com.semi.productpage.service.ProductPageService;
 
 /**
- * Servlet implementation class ProductPageComment
+ * Servlet implementation class ProductSelectCommentServlet
  */
-@WebServlet("/insertComment")
-public class ProductInsertCommentServlet extends HttpServlet {
+@WebServlet("/selectAjaxComment")
+public class ProductSelectAjaxCommentServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ProductInsertCommentServlet() {
+    public ProductSelectAjaxCommentServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -30,18 +34,23 @@ public class ProductInsertCommentServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ProductComment pc=ProductComment.builder()
-				.productId(Integer.parseInt(request.getParameter("productId")))
-				.commentLevel(Integer.parseInt(request.getParameter("level")))
-				.userId(request.getParameter("userId"))
-				.content(request.getParameter("content"))
-				.commentRef(Integer.parseInt(request.getParameter("commentRef")))
-				.nickName(request.getParameter("nickName"))
-				.build();
-		int result=new ProductPageService().insertProductComment(pc);
-	
+		int id = Integer.parseInt(request.getParameter("productId"));
 		
-		response.getWriter().print(result);
+		//String date=request.getParameter("date");
+	
+		/*
+		 * SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); Date to =
+		 * null; try { to = fm.parse(date); } catch (ParseException e) {
+		 * e.printStackTrace(); } java.sql.Date sqlDate = new
+		 * java.sql.Date(to.getTime());
+		 */
+		
+		ProductComment ajaxComment = new ProductPageService().selectAjaxProductComment(id);
+		
+		response.setContentType("application/json;charset=utf-8");
+		//자바 객체를 json표현식으로 변환
+		new Gson().toJson(ajaxComment,response.getWriter());
+
 	}
 
 	/**

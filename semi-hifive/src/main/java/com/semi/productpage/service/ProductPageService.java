@@ -6,6 +6,7 @@ import static com.semi.common.JDBCTemplate.getConnection;
 import static com.semi.common.JDBCTemplate.rollback;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.util.List;
 
 import com.semi.productpage.dao.ProductDao;
@@ -28,6 +29,13 @@ public class ProductPageService {
 		List<ProductComment> list=dao.selectProductComment(conn,id);
 		close(conn);
 		return list;
+	}
+	
+	public ProductComment selectAjaxProductComment(int id){
+		Connection conn=getConnection();
+		ProductComment p=dao.selectAjaxProductComment(conn,id);
+		close(conn);
+		return p;
 	}
 	
 	public int insertProductComment(ProductComment pc) {

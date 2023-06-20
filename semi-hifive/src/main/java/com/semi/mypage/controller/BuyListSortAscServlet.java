@@ -48,7 +48,7 @@ public class BuyListSortAscServlet extends HttpServlet {
 			numPerpage = 5;
 		}
 		String pageBar = "";
-		int totalData = new MypageProductService().countBuyList(userId);
+		int totalData = new MypageProductService().countSellList(userId);
 		int totalPage = (int) Math.ceil((double) totalData / numPerpage);
 		int pageBarSize = 5;
 		int pageNo = ((cPage - 1) / pageBarSize) * pageBarSize + 1;
@@ -58,7 +58,7 @@ public class BuyListSortAscServlet extends HttpServlet {
 			pageBar += "<li><span class='pageMove'>&lt;</span></li>";
 		} else {
 			pageBar += "<li><a href='" + request.getRequestURI() + "?cPage=" + (pageNo - 1) + "&numPerpage="
-					+ numPerpage + "'>&lt;</a></li>";
+					+ numPerpage + "&userId=" + userId + "'>&lt;</a></li>";
 		}
 		while (!(pageNo > pageEnd || pageNo > totalPage)) {
 			if (pageNo == cPage) {
@@ -73,7 +73,7 @@ public class BuyListSortAscServlet extends HttpServlet {
 			pageBar += "<li><span>&gt;</span></li>";
 		} else {
 			pageBar += "<li><a href='" + request.getRequestURI() + "?cPage=" + pageNo + "&numPerpage=" + numPerpage
-					+ "'>&gt;</a></li>";
+					+ "&userId=" + userId + "'>&gt;</a></li>";
 		}
 		request.setAttribute("pageBar", pageBar);
 

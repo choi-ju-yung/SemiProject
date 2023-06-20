@@ -430,6 +430,7 @@ section {
 }
 #comment hr {
   margin-top: 30px;
+  margin-bottom:30px;
 }
 .cmtProfile {
   display: flex;
