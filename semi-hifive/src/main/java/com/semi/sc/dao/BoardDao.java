@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.Properties;
 
 import com.semi.sc.model.dto.Board;
+import com.semi.sc.model.dto.BoardComment;
+import com.semi.sc.model.dto.BoardFile;
 public class BoardDao {
 	private final Properties sql=new Properties();
 	{
@@ -43,6 +45,25 @@ public class BoardDao {
 				.build();
 	}
 	
+	//board file 반환 메소드
+	public static BoardFile getBoardFile(ResultSet rs, int boardNo) throws SQLException{
+		return BoardFile.builder().boardNo(boardNo)
+				.boardFileName("board_filename")
+				.fileNo("file_no").build();
+	}
+	
+	//board comment 반환 메소드
+	public static BoardComment getComment(ResultSet rs) throws SQLException{
+		return BoardComment.builder()
+				.commentNo(rs.getInt("board_comment_no"))
+				.commentWriter(rs.getString("nickname"))
+				.boardNo(rs.getInt("board_no"))
+				.commentNoFK(rs.getInt("board_comment_fk"))
+				.commentDate(rs.getDate("board_comment_date"))
+				.commentContent(rs.getString("board_comment_content"))
+				.build();
+	}
+	
 	//구분에 따라 공지사항, 자주하는 질문 테이블 갯수 불러오는 메소드
 	public int selectBoardCount(Connection conn, String noticeYN) {
 		PreparedStatement pstmt=null;
@@ -55,7 +76,6 @@ public class BoardDao {
 			rs=pstmt.executeQuery();	
 			if(rs.next()) {
 				count=rs.getInt("boardCount");
-				System.out.println(rs.getInt(1));
 			}
 			
 		}catch(SQLException e) {
@@ -77,10 +97,9 @@ public class BoardDao {
 			//FROM (SELECT * FROM BOARD WHERE NOTICE_YN=? ORDER BY BOARD_DATE DESC) B)
 			//WHERE RNUM BETWEEN ? AND ?
 			pstmt.setString(1, noticeYN);
-			pstmt.setInt(2, cPage);
-			pstmt.setInt(3, numPerpage);
+			pstmt.setInt(2, (cPage-1)*numPerpage+1);
+			pstmt.setInt(3, cPage*numPerpage);
 			rs=pstmt.executeQuery();
-			System.out.println("resultset");
 			while(rs.next()) {
 				boards.add(getBoard(rs));
 			}
@@ -110,11 +129,6 @@ public class BoardDao {
 			pstmt.setString(7, b.getBoardRenamedFileName());
 			
 			result=pstmt.executeUpdate();
-			if(result>0) {
-				System.out.println("정상 추가 되었습니다.");
-			}else {
-				System.out.println("업데이트 실패했습니다");
-			}
 		}catch(SQLException e){
 			e.printStackTrace();
 		}finally {
@@ -122,5 +136,132 @@ public class BoardDao {
 		}
 		return result;
 	}
+
+	//boardNo에 해당하는 컬럼 불러옴
+	public Board selectBoardContent(Connection conn, int boardNo) {
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		Board b=null;
+		try {
+			pstmt=conn.prepareStatement(sql.getProperty("selectBoardContent"));
+			pstmt.setInt(1, boardNo);
+			rs=pstmt.executeQuery();
+			if(rs.next()) {
+				b=getBoard(rs);
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rs);
+			close(pstmt);
+		}
+		return b;
+	}
+	public Board selectBoardFile(Connection conn, int boardNo, Board b) {
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		List<BoardFile> files=new ArrayList();
+		try {
+			pstmt=conn.prepareStatement(sql.getProperty("selectBoardFile"));
+			pstmt.setInt(1, boardNo);
+			rs=pstmt.executeQuery();
+			while(rs.next()) {
+				files.add(getBoardFile(rs, boardNo));
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rs);
+			close(pstmt);
+		}
+		return b;
+	}
+	public List<BoardComment> selectBoardComment(Connection conn, int boardNo) {
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		List<BoardComment> comments=new ArrayList();
+		try {
+			pstmt=conn.prepareStatement(sql.getProperty("selecComment"));
+			pstmt.setInt(1, boardNo);
+			rs=pstmt.executeQuery();
+			while(rs.next()) {
+				comments.add(getComment(rs));
+			}
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rs);
+			close(pstmt);
+		}
+		return comments;
+	}
+	
+	//카테고리별 게시판 갯수
+	public int selectBoardCountByCategory(Connection conn, String category) {
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		int count=0;
+		try {
+			pstmt=conn.prepareStatement(sql.getProperty("selectCategoryCount"));
+			pstmt.setString(1, category);
+			rs=pstmt.executeQuery();	
+			if(rs.next()) {
+				count=rs.getInt(1);
+			}
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rs);
+			close(pstmt);
+		}
+		return count;
+	}
+	
+	//카테고리 별로 자주하는 질문 리스트 조회
+	public List<Board> selectBoardByCategory(Connection conn, int cPage, int numPerpage, String category) {
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		List<Board> boards=new ArrayList();
+		try {
+			pstmt=conn.prepareStatement(sql.getProperty("selectBoardCategory"));
+			pstmt.setString(1, category);
+			pstmt.setInt(2, (cPage-1)*numPerpage+1);
+			pstmt.setInt(3, cPage*numPerpage);
+			rs=pstmt.executeQuery();
+			while(rs.next()) {
+				boards.add(getBoard(rs));
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rs);
+			close(pstmt);
+		}
+		return boards;
+	}
+	
+	//댓글 추가 메소드
+	public int insertBoardComment(Connection conn, BoardComment bc) {
+		PreparedStatement pstmt=null;
+		int result=0;
+		String query=sql.getProperty("insertComment");
+		try {
+			query=query.replaceAll("#FK", bc.getCommentNoFK()==0?"null":String.valueOf(bc.getCommentNoFK()));
+			pstmt=conn.prepareStatement(query);
+			pstmt.setString(1, bc.getCommentWriter());
+			pstmt.setInt(2, bc.getBoardNo());
+			pstmt.setString(3, bc.getCommentContent());
+			result=pstmt.executeUpdate();
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return result;
+	}
+	
 
 }

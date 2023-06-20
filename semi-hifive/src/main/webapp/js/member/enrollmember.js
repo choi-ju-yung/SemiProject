@@ -51,14 +51,14 @@ const fn_viewDetail4 = () => {
 
 /**/
 
-const checkObj = {
-	"memberEmail": false,
+const checkObj = {  // 해당 회원가입 정보입력할 때, 정상적으로 처리됬는지 구분하는 객체
+	"memberEmail": false,  
 	"memberPw": false,
 	"memberPwConfirm": false,
 	"memberId": false,
+	"memberName": false,
 	"memberNickname": false,
-	"sendEmail": false,
-
+	"sendEmail": false, // 인증번호 성공
 };
 
 
@@ -221,18 +221,18 @@ const userId_ = document.getElementById("userId_");
 
 
 userId_.addEventListener("input", function() {
-	
+
 	if (regId.test(userId_.value)) {
 
 		$.ajax({
 			url: "duplicateId.do",
 			data: { "userId": userId_.value },
 			success: function(data) {
-				if(data === 'true'){
-					$("#idDupMessageId").text("사용 가능한 아이디입니다.").css("color","green");
+				if (data === 'true') {
+					$("#idDupMessageId").text("사용 가능한 아이디입니다.").css("color", "green");
 					checkObj.memberId = true;
-				}else{
-					$("#idDupMessageId").text("이미 사용중인 아이디입니다.").css("color","red");
+				} else {
+					$("#idDupMessageId").text("이미 사용중인 아이디입니다.").css("color", "red");
 					checkObj.memberId = false;
 				}
 			},
@@ -243,7 +243,7 @@ userId_.addEventListener("input", function() {
 			}
 		});
 	} else {
-		$("#idDupMessageId").text("영소문자,숫자로만 6~12글자의 아이디를 입력하세요").css("color","red");
+		$("#idDupMessageId").text("영소문자,숫자로만 6~12글자의 아이디를 입력하세요").css("color", "red");
 		checkObj.memberId = false;
 	}
 })
@@ -317,12 +317,26 @@ memberPw.addEventListener("input", function() {
 
 
 // 이름 정규표현식
-const regName = /^[a-zA-Z0-9가-힣]{1,8}$/
+const regName = /^[가-힣]{2,4}$/
 const userNameId = document.getElementById("userNameId");
+const userNameMessage = $("#userNameMessage");
 
-userNameId.evaddEventListener("input",function(){
+userNameId.addEventListener("input", function() {
+	console.log("dd");
+	if (userNameId.value.length == 0) {
+		userNameMessage.text("");
+	}
 	
+	if(regName.test(userNameId.value)){
+		userNameMessage.text("이름을 정확하게 입력하셨습니다.").css("color","green");
+		checkObj.memberName = true;   
+	}else{
+		userNameMessage.text("이름을 정확하게 입력하세요.").css("color","red");
+		checkObj.memberName = false;   
+	}
 })
 
 
+
+// 닉네임 정규표현식
 

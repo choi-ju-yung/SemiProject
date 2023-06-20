@@ -1,7 +1,6 @@
 package com.semi.mypage.service;
 
-import static com.semi.common.JDBCTemplate.close;
-import static com.semi.common.JDBCTemplate.getConnection;
+import static com.semi.common.JDBCTemplate.*;
 
 import java.sql.Connection;
 import java.util.List;
@@ -62,11 +61,47 @@ public class MypageProductService {
 		return p;
 	}
 	
-	// 페이징(전체 상품수)
+	// 페이징(구매내역 상품수)
 	public int countBuyList(String userId) {
 		Connection conn = getConnection();
 		int count = dao.countBuyList(conn, userId);
 		close(conn);
 		return count;
+	}
+	
+	// 페이징(판매내역 상품수)
+	public int countSellList(String userId) {
+		Connection conn = getConnection();
+		int count = dao.countSellList(conn, userId);
+		close(conn);
+		return count;
+	}
+	
+	// 판매상태 변경(ajax)
+	public int changeSelectValue(String value, String productId) {
+		Connection conn = getConnection();
+		int result = dao.changeSelectValue(conn, value, productId);
+		if(result>0) commit(conn);
+		else rollback(conn);
+		close(conn);
+		return result;
+	}
+	
+	// 상품 삭제
+	public int deleteProduct(String productId) {
+		Connection conn = getConnection();
+		int result = dao.deleteProduct(conn, productId);
+		if(result>0) commit(conn);
+		else rollback(conn);
+		close(conn);
+		return result;
+	}
+	
+	// 판매상태 전체인 상품 리스트
+	public List<ProductList> sellStatusSell(String userId){
+		Connection conn = getConnection();
+		List<ProductList> p = dao.sellStatusSell(conn, userId);
+		close(conn);
+		return p;
 	}
 }
