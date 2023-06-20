@@ -59,7 +59,7 @@ public class MemberDao {
 			pstmt=conn.prepareStatement(sql.getProperty("insertMember"));
 			pstmt.setString(1, m.getUserId());
 			pstmt.setString(2, m.getEmail());
-			pstmt.setString(3, m.getNickName());
+			pstmt.setString(3, m.getNickname());
 			pstmt.setString(4, m.getPassword());
 			pstmt.setString(5, m.getUserName());
 //			pstmt.setString(9, String.join(",",m.getHobby()));  // 배열을 ,구분해서 문자열로만듬
@@ -193,13 +193,56 @@ public class MemberDao {
 	}
 	
 	
+	public int checkNickname(Connection conn, String userNickname) {
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		int result = 0;
+		try {
+			pstmt=conn.prepareStatement(sql.getProperty("selectByNickname"));
+			pstmt.setString(1, userNickname);
+			rs=pstmt.executeQuery();
+			if(rs.next()) {
+				result = rs.getInt(1);
+			}
+		}catch(SQLException e){
+			e.printStackTrace();
+		}finally {
+			close(rs);
+			close(pstmt);
+		}return result;
+	}
+	
+	
+	
+	// 이름과 이메일로 아이디를 찾아주는 dao
+	public Member selectByUserNameAndEmail(Connection conn, String name, String email) {
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		Member m=null;
+		try {
+			pstmt=conn.prepareStatement(sql.getProperty("selectByUserNameAndEmail"));
+			pstmt.setString(1, name);
+			pstmt.setString(2, email);
+			
+			rs=pstmt.executeQuery();
+			if(rs.next()) {
+				m=getMember(rs);
+			}
+		}catch(SQLException e){
+			e.printStackTrace();
+		}finally {
+			close(rs);
+			close(pstmt);
+		}return m;
+	}
+	
 	
 	//public static 하는 이유 : 다른 패키지에서도 이 메소드 사용하기 위해서
 	public static Member getMember(ResultSet rs) throws SQLException{ 
 		return Member.builder()
 	            .userId(rs.getString("user_Id"))
 	            .email(rs.getString("email"))
-	            .nickName(rs.getString("nickname"))
+	            .nickname(rs.getString("nickname"))
 	            .password(rs.getString("password"))
 	            .userName(rs.getString("user_name"))
 	            .declareCount(rs.getInt("declare_Count"))

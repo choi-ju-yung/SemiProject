@@ -19,8 +19,8 @@
 
 		<div>
 			<ul>
-				<li><a href="<%=request.getContextPath()%>/views/login/loginview.jsp">로그인</a></li>
-				<li><a href="<%=request.getContextPath()%>/views/login/findid.jsp">아이디찾기</a></li>
+				<li><a href="<%=request.getContextPath()%>/loginView.do">로그인</a></li>
+				<li><a href="<%=request.getContextPath()%>/findIdView.do">아이디찾기</a></li>
 				<li><a href="<%=request.getContextPath()%>/enrollMember.do">회원가입</a></li>
 			</ul>
 		</div>

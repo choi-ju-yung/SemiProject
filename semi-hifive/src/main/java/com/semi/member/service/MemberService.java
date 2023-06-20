@@ -92,5 +92,22 @@ public class MemberService {
 		return m;
 	}
 	
+	// 중복된 닉네임이 있는지 확인해주는 서비스
+	public int checkNickname(String userNickname) throws Exception{
+		Connection conn = getConnection();
+		int result = dao.checkNickname(conn,userNickname);
+		close(conn);
+		return result;
+	}
+	
+	
+	// 이름과 이메일로 아이디를 찾아주는 서비스
+	public Member selectByUserNameAndEmail(String name, String email) {
+		Connection conn=getConnection();
+		Member m = dao.selectByUserNameAndEmail(conn,name,email);
+		close(conn);
+		return m;
+	}
+	
 	
 }

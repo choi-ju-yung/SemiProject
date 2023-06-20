@@ -15,7 +15,7 @@
 				method="post" onsubmit="return fn_validation()"> 
 			<h2>로그인</h2>
 			<ul>
-				<li><input type="text" name="userId" placeholder="아이디" title="아이디입력"></li>
+				<li><input type="text" id="loginUserId" name="userId" placeholder="아이디" title="아이디입력"></li>
 				<li><input type="password" name="password" placeholder="비밀번호" title="비밀번호입력"></li>
 				<li><input type="checkbox" id="saveId" <%=saveId!=null?"checked":""%>>
 				<label for="saveId">아이디 저장</label></li>
@@ -27,8 +27,8 @@
 		<div>
 			<ul>
 				<li><a href="<%=request.getContextPath()%>/enrollMember.do">회원가입</a></li>
-				<li><a href="<%=request.getContextPath()%>/views/login/findid.jsp">아이디찾기</a></li>
-				<li><a href="<%=request.getContextPath()%>/views/login/findpwd.jsp">비밀번호찾기</a></li>
+				<li><a href="<%=request.getContextPath()%>/findIdView.do">아이디찾기</a></li>
+				<li><a href="<%=request.getContextPath()%>/findPwdView.do">비밀번호찾기</a></li>
 			</ul>
 		</div>
 	</form> 
@@ -47,7 +47,7 @@
 
 <script>
 			const fn_validation=()=>{
-				const userId=$("#userId").val();
+				const userId=$("#loginUserId").val();
 				if(userId.length<4){
 					alert("아이디는 4글자 이상입니다.");
 					$("#userId").val("");  // 문구띄어주고 아이디 빈칸으로바꾸고

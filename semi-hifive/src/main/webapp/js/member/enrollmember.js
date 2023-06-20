@@ -189,7 +189,7 @@ cBtn.addEventListener("click", function() {
 					//    3  : 인증번호 X
 					if (result == 1) {
 						clearInterval(checkInterval);  // 제일먼저, 타이머 멈춤
-						timerMessageClass.text("인증되었습니다.");
+						timerMessageClass.text("인증되었습니다.").css("color","green");
 						cNumber.readOnly = true; // 인증완료되면 더이상입력못하도록 막음
 						memberEmail.readOnly = true;  // 이메일정보 더이상 입력못함
 						sendBtn.disabled = true; // 이메일인증 버튼 비활성화
@@ -316,6 +316,7 @@ memberPw.addEventListener("input", function() {
 });
 
 
+
 // 이름 정규표현식
 const regName = /^[가-힣]{2,4}$/
 const userNameId = document.getElementById("userNameId");
@@ -338,5 +339,47 @@ userNameId.addEventListener("input", function() {
 
 
 
+
 // 닉네임 정규표현식
+const regNickname = /^[가-힣a-zA-Z0-9]{2,8}$/
+const nicknameId = document.getElementById("nicknameId");
+const userNicknameMessage = $("#userNicknameMessage");
+
+nicknameId.addEventListener("input", function() {
+	
+	if (regNickname.test(nicknameId.value)) {
+
+		$.ajax({
+			url: "duplicateNickname.do",
+			data: { "userNickname": nicknameId.value },
+			success: function(data) {
+				if (data == 1) {
+					userNicknameMessage.text("이미 사용중인 닉네임입니다").css("color", "red");
+					checkObj.memberNickname = false;
+				} else {
+					userNicknameMessage.text("사용 가능한 닉네임입니다").css("color", "green");
+					checkObj.memberNickname = true;
+				}
+			},
+			error: function(data) {
+				console.log(r);
+				console.log(m);
+			}
+		});
+	} else {
+		userNicknameMessage.text("특수문자 제외하고 3~8자로 입력해주세요").css("color", "red");
+		checkObj.memberNickname = false;
+	}
+})
+
+
+
+
+function fn_registEnrollMember(){ 
+	if(checkObj.memberId && checkObj.memberEmail && checkObj.memberName &&
+		checkObj.memberNickname && checkObj.memberPw&& checkObj.sendEmail && checkObj.memberPwConfirm){
+			return true;	
+	}
+	return false;
+}
 

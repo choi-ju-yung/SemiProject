@@ -5,7 +5,8 @@
 <link rel="stylesheet" href="<%=request.getContextPath() %>/css/member/enrollmember.css" />
 
 <!--<form action="" class="container"> -->
-	<form action="<%=request.getContextPath()%>/enrollMemberEnd.do" class="container" method="post"> 
+	<form action="<%=request.getContextPath()%>/enrollMemberEnd.do" class="container" 
+			method="post" onsubmit="return fn_registEnrollMember();"> 
         <br>
         <div class="memberinfo">
             <br>
@@ -74,9 +75,10 @@
 			
             <!-- 닉네임 -->
             <div>
-                <input type="text" placeholder="닉네임" id="nickNameId" name="nickName" required>
+                <input type="text" placeholder="닉네임" id="nicknameId" name="nickname" required>
             </div>
-	
+			<span id="userNicknameMessage"></span>
+			
             <div>
                 <!-- 회원가입 -->
                 <button>회원가입</button>
