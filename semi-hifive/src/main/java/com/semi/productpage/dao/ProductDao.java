@@ -5,6 +5,7 @@ import static com.semi.common.JDBCTemplate.close;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -47,7 +48,7 @@ public class ProductDao {
 			close(rs);
 			close(pstmt);
 		}return p;
-	}
+	}	
 	
 	public List<ProductComment> selectProductComment(Connection conn,int id){
 		PreparedStatement pstmt=null;
@@ -65,6 +66,28 @@ public class ProductDao {
 			close(rs);
 			close(pstmt);
 		}return list;
+	}
+	
+	public ProductComment selectAjaxProductComment(Connection conn, int id) {
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		ProductComment p=null;
+		String sql=this.sql.getProperty("selectAjaxProductComment");
+		
+		
+		try {
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setInt(1,id);
+			rs=pstmt.executeQuery();
+			if(rs.next()) {
+				p=getProductComment(rs);
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rs);
+			close(pstmt);
+		}return p;
 	}
 
 	

@@ -1,23 +1,4 @@
 //댓글창
-$(() => {
-
-	const text=[];
-	const cmt=[];
-	$("div.cmtContainer").children(".cmt").each((i,v)=>{
-		text.push($(v).text());
-	});
-	console.log(text);
-	
-	//for(var i=0; i<text.legnth;i++){
-	//	cmt.push(text[i].substr(-5));
-	//}
-	
-	text.forEach(v=>{
-		cmt.push(v.substring(-5));
-	})
-	console.log(cmt);
-
-});
 
 function contentInput(e) {
 	const length = $(e.target).val().length;
@@ -28,7 +9,7 @@ function contentInput(e) {
 	$(e.target)
 		.next()
 		.text(`${$(e.target).val().length}/100`);
-		console.log(length);
+	console.log(length);
 	if (length == 0) {
 		$("#textContainer span").css("color", "#afafaf");
 		$("#cmtBtn").css({ color: "#afafaf", "background-color": "#eeeeee" });
@@ -38,8 +19,8 @@ function contentInput(e) {
 	}
 }
 
-$(document).ready(function() {	
-$("#textContainer").find("textarea").keyup();
+$(document).ready(function() {
+	$("#textContainer").find("textarea").keyup();
 	const price = $("#productPrice")
 		.html()
 		.toString()
@@ -47,20 +28,19 @@ $("#textContainer").find("textarea").keyup();
 	$("#productPrice").html(price);
 });
 //*댓글창*//
-$(document).on("keyup",function(e){
-	$("#textContainer").on("keyup","textarea",function(e){
-		$(this).css("height","auto");
+$(document).on("keyup", function(e) {
+	$("#textContainer").on("keyup", "textarea", function(e) {
+		$(this).css("height", "auto");
 		$(this).height(this.scrollHeight);
 	});
-	
+
 	$("#cmtText").keyup(contentInput).keydown(contentInput);
 })
 
 const cmtForm = $("#cmtForm").clone();
 const cmtForm2 = $("#cmtForm").clone();
 /*답글기능*/
-$(".writeCmt").click(e => {
-
+$(document).on("click", ".writeCmt", e => {
 	const commentRef = $(e.target).val();
 	cmtForm.find("#cmtText").val("");
 	cmtForm.find("input[name=level]").val("2");
@@ -75,18 +55,18 @@ $(".writeCmt").click(e => {
 })
 
 $(".changeCmt").click(e => {
-	const text=$(e.target).parents("div.cmtContainer").children(".cmt").text()
-	var leng=text.length;
-	const cmt=text.substr(0,leng-5);
-	
+	const text = $(e.target).parents("div.cmtContainer").children(".cmt").text()
+	var leng = text.length;
+	const cmt = text.substr(0, leng - 5);
+
 	cmtForm2.find("#cmtText").val(text);
-	
+
 	const commentNo = $(e.target).parents("div").children("input[name=commentNo]").val();
 	cmtForm2.attr("action", getContextPath() + "/changeComment?commentNo=" + commentNo);
 	//$(e.target).parents("div.cmtContainer").css("margin-bottom", "-10px")
 	cmtForm2.find("#cmtBtn").html("수정");
-	$(e.target).parents("div.cmtContainer").find("#cmtNone").css("display","inline-block");
-	
+	$(e.target).parents("div.cmtContainer").find("#cmtNone").css("display", "inline-block");
+
 	if ($(e.target).next(cmtForm).length) {
 		cmtForm.remove();
 		cmtForm2.insertAfter($(e.target).parents("div.cmtContainer"));
@@ -110,8 +90,8 @@ $(".reWriteCmt").click(e => {
 })
 
 $(".reChangeCmt").click(e => {
-	const text=$(e.target).parents("div.reComment").children(".cmt").text();
-	
+	const text = $(e.target).parents("div.reComment").children(".cmt").text();
+
 	cmtForm2.find("#cmtText").val(text);
 
 	const commentNo = $(e.target).parents("div").children("input[name=commentNo]").val();
@@ -119,7 +99,7 @@ $(".reChangeCmt").click(e => {
 	//$(e.target).parents("div.cmtContainer").css("margin-bottom", "-10px")
 	cmtForm2.find("#cmtBtn").html("수정");
 	//$(e.target).parents("div.cmtContainer").find("#cmtNone").css("display","inline-block");
-	
+
 	if ($(e.target).next(cmtForm).length) {
 		cmtForm.remove();
 		cmtForm2.insertAfter($(e.target).parents("div.reComment"));
@@ -127,19 +107,123 @@ $(".reChangeCmt").click(e => {
 	//$(e.target).off("click");
 })
 
-$(function(){
-    $('.deleteCmt').click(e=>{
+$(function() {
+	$('.deleteCmt').click(e => {
 		const commentNo = $(e.target).parents("div").children("input[name=commentNo]").val();
 		const productId = $("input[name=productId]").val();
-        if(!confirm('댓글을 삭제 하시겠습니까?')){
-            
-        }else{
-			location.href=getContextPath()+"/deleteComment?commentNo="+commentNo+"&&productId="+productId;
+		if (!confirm('댓글을 삭제 하시겠습니까?')) {
+
+		} else {
+			location.href = getContextPath() + "/deleteComment?commentNo=" + commentNo + "&&productId=" + productId;
 		}
-    });
+	});
 });
 
 function getContextPath() {
 	var hostIndex = location.href.indexOf(location.host) + location.host.length;
 	return location.href.substring(hostIndex, location.href.indexOf('/', hostIndex + 1));
 };
+
+
+//AJAX JSON
+
+//댓글 작성
+$(document).on("click", "#cmtBtn", e => {
+	//console.log("e",e.target);
+	$.ajax({
+		type: "POST",
+		url: getContextPath() + "/insertComment",
+		dataType: "json",
+		data: {
+			"productId": $("input[name=productId]").val(),
+			"userId": $("input[name=userId]").val(),
+			"level": $("input[name=level").val(),
+			"nickName": $("input[name=nickName").val(),
+			"commentRef": $("input[name=commentRef]").val(),
+			"content": $("#cmtText").val()
+		},
+		success: function(result) {
+			if (result > 0) {
+				console.log($(e.target).parent("div").find("input[name=level]").val());
+				$("#cmtText").val("");
+
+				const cn = $(e.target).parents("#cmtForm").prev("div").find("input[name=commentNo]").val()
+				selectAjaxProductComment(cn);
+
+				console.log(cn)
+			}
+		},
+		error: function() {
+			alert("댓글 등록 실패")
+		}
+	})
+
+})
+
+//새로 등록된 댓글 출력
+/*$(function() {
+	selectCmt();
+	setInterval(selectCmt, 1000)//1초마다 갱신
+
+})*/
+function selectAjaxProductComment(cn) {
+	$.ajax({
+		url: getContextPath() + "/selectAjaxComment",
+		type: "POST",
+		dataType: "json",
+		data: { "productId": $("input[name=productId]").val() },
+		success: function(ajaxComment) {
+			console.log(ajaxComment.commentLevel)
+			var html = "";
+			if (ajaxComment.commentLevel == 1) {
+				html +=
+					"<div class='cmtContainer'> " +
+					"<div class='cmtProfile'>" +
+					"<a href=''>" +
+					"<img name='userProfile' src='" + getContextPath() + "/images/productpage/comment1.jpg" + "' alt='' />" +
+					"</a>" +
+					"<a href='' class='cmtUser' name='userId' id='tagName'>" +
+					"<p>" + ajaxComment.nickName + "</p>" +
+					"</a>" +
+					"</div>" +
+					"<p class='cmt' name='content''>" + ajaxComment.content + "</p>" +
+					"<span class='time' name='enrollDate''>" + ajaxComment.enrollDate + "</span>" +
+					"<button class='writeCmt' value='" + ajaxComment.commentNo + "'>" + "답글쓰기" + "</button>" +
+					"<button class='changeCmt'>" + "수정하기" + "</button>" +
+					"<button class='deleteCmt'>" + "삭제하기" + "</button>" +
+					"<hr color='#eeeeee' noshade />" +
+					"</div>"
+				if ($(".cmtContainer").length) {
+					$(".cmtContainer:last").after(html);
+				} else {
+					$("#comment hr:first").after(html);
+				}
+
+			} else {
+				html +=
+					"<div id='arrow'></div>" +
+					"<div class='reComment'> " +
+					"<div class='cmtProfile'>" +
+					"<a href=''>" +
+					"<img name='userProfile' src='" + getContextPath() + "/images/productpage/comment1.jpg" + "' alt='' />" +
+					"</a>" +
+					"<a href='' class='cmtUser' name='userId' id='tagName'>" +
+					"<p>" + ajaxComment.nickName + "</p>" +
+					"</a>" +
+					"</div>" +
+					"<p class='cmt' name='content''>" + ajaxComment.content + "</p>" +
+					"<span class='time' name='enrollDate''>" + ajaxComment.enrollDate + "</span>" +
+					"<button class='writeCmt' value='" + ajaxComment.commentNo + "'>" + "답글쓰기" + "</button>" +
+					"<button class='changeCmt'>" + "수정하기" + "</button>" +
+					"<button class='deleteCmt'>" + "삭제하기" + "</button>" +
+					"</div>"
+
+				console.log(cn);
+				$($('input[value=' + cn + '][name=commentNo]')).parent("div").after(html);
+
+			}
+
+		}
+	})
+}
+

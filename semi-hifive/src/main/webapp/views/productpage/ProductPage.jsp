@@ -249,12 +249,13 @@ List<ProductComment> comments = (List) request.getAttribute("comments");
 			for (ProductComment pc : comments) {
 				if (pc.getCommentLevel() == 1) {
 		%>
-		<div class="cmtContainer">
+	<div class="cmtContainer">
 			<div class="cmtProfile">
 				<a href=""> <img name="userProfile"
-					src="<%=request.getContextPath()%>/images/productpage/댓글1.jpg"
+					src="<%=request.getContextPath()%>/images/productpage/comment1.jpg"
 					alt="" />
 				</a> 
+				<input type="hidden" name="pUserId" value="<%=p.getUserId() %>">
 				<a href="" class="cmtUser" name="userId"  id="tagName">
 				<p><%=pc.getNickName()%></p></a>
 			</div>
@@ -266,10 +267,11 @@ List<ProductComment> comments = (List) request.getAttribute("comments");
 			<button class="changeCmt">수정하기</button>
 			<button class="deleteCmt">삭제하기</button>
 			<input type="hidden" name="commentNo" value=<%=pc.getCommentNo()%>>
+			<input type="hidden" name="aCommentNo" value=<%=pc.getCommentNo()%>>
 			<%} %>
 			<%} %>
 			<hr color="#eeeeee" noshade />
-		</div>
+		</div> 
 		<%
 		} else {
 		%>
@@ -297,7 +299,7 @@ List<ProductComment> comments = (List) request.getAttribute("comments");
 			<%} %>
 			<%} %>
 			<hr color="#eeeeee" noshade />
-		</div>
+		</div> 
 		<%
 		}
 		}
@@ -309,8 +311,7 @@ List<ProductComment> comments = (List) request.getAttribute("comments");
 		<%
 		if (loginMember != null) {
 		%>
-		<form action="<%=request.getContextPath()%>/insertComment;"
-			method="post" id="cmtForm">
+		 <form id="cmtForm">
 			<div id="textContainer">
 				<textarea id="cmtText" placeholder="댓글을 입력하세요" name="content"></textarea>
 				<span>0/100</span><br /> 
@@ -319,11 +320,10 @@ List<ProductComment> comments = (List) request.getAttribute("comments");
 				<input type="hidden" name="level" value="1"> 
 				<input type="hidden"name="nickName" value=<%=loginMember.getNickName()%>> 
 				<input type="hidden" name="commentRef" value="0">
-				<button type="submit" id="cmtBtn">등록</button>
-				
+				<button type="button" id="cmtBtn">등록</button>				
 			</div>
 			<hr color="#eeeeee" noshade />
-		</form>
+		</form> 
 		<%
 		}
 		%>
