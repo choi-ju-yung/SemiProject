@@ -5,7 +5,6 @@
 	String msg=(String)request.getAttribute("msg");
 	String loc=(String)request.getAttribute("loc");
 	String script=(String)request.getAttribute("script");
-	
 %>
 <!DOCTYPE html>
 <html>
@@ -17,9 +16,7 @@
 	<script>
 		// alert 뒤에 "" 없이 값만넣으면 변수로 인식됨
 		alert("<%=msg%>");
-		
 		<%=script!=null?script:""%>; // 받아온 script 값이 있으면 저장된 close(); 함수호출하여 창을닫게함
-		
 		location.replace("<%=request.getContextPath()%><%=loc%>");
 	</script>
 </body>

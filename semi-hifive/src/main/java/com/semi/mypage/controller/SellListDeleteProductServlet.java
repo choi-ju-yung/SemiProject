@@ -13,13 +13,13 @@ import com.semi.mypage.service.MypageProductService;
  * Servlet implementation class sellListDeletProductServlet
  */
 @WebServlet("/mypage/deleteProduct.do")
-public class sellListDeleteProductServlet extends HttpServlet {
+public class SellListDeleteProductServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public sellListDeleteProductServlet() {
+    public SellListDeleteProductServlet() {
         super();
         // TODO Auto-generated constructor stub
     }

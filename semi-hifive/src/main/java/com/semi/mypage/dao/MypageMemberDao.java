@@ -139,6 +139,22 @@ public class MypageMemberDao {
 			}return result;
 		}
 		
+//		비밀번호 수정
+		public int updatePassword(Connection conn, String userId, String newPwd) {
+			PreparedStatement pstmt=null;
+			int result=0;
+			try {
+				pstmt=conn.prepareStatement(sql.getProperty("updatePassword"));
+				pstmt.setString(1, newPwd);
+				pstmt.setString(2, userId);
+				result=pstmt.executeUpdate();
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}finally {
+				close(pstmt);
+			}return result;
+		}
+		
 		
 //		Member
 		public static Member getMember(ResultSet rs) throws SQLException{

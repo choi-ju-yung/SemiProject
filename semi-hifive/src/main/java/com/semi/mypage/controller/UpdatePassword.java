@@ -1,11 +1,15 @@
 package com.semi.mypage.controller;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import com.semi.member.model.vo.Member;
 
 /**
  * Servlet implementation class UpdatePassword
@@ -26,6 +30,11 @@ public class UpdatePassword extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
+
+        Member m = (Member) session.getAttribute("loginMember");
+        request.setAttribute("userId", m.getUserId());
+        
 		request.getRequestDispatcher("/views/mypage/updatePassword.jsp").forward(request, response);
 	}
 
