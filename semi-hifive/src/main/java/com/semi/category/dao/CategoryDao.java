@@ -98,5 +98,25 @@ public class CategoryDao {
 				close(pstmt);
 			}return c;
 		}
-	
+	// 대표 카테고리이름과 서브카테고리 이름만 나올수 있는 메소드
+		public CategorySubCategory SubCategoryName(Connection conn, String subcategoryname) {
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			CategorySubCategory sc = null;
+			try {
+				pstmt = conn.prepareStatement(sql.getProperty("SubCategoryName"));
+				pstmt.setString(1, subcategoryname);
+				rs = pstmt.executeQuery();
+				if(rs.next()) {
+					sc = getcategorysubcategory(rs);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}finally {
+				close(rs);
+				close(pstmt);
+			}return sc;
+		}
+		
+
 }

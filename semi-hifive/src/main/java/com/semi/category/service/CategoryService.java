@@ -33,4 +33,11 @@ public class CategoryService {
 		close(conn);
 		return c;
 	}
+	// 대표 카테고리이름과 서브카테고리 이름만 나올수 있는 메소드
+	public CategorySubCategory SubCategoryName(String subcategoryname) {
+		Connection conn = getConnection();
+		CategorySubCategory sc = dao.SubCategoryName(conn, subcategoryname);
+		close(conn);
+		return sc;
+	}
 }

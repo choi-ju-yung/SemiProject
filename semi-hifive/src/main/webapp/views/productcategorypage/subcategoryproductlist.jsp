@@ -1,3 +1,4 @@
+<%@page import="com.semi.category.model.vo.CategorySubCategory"%>
 <%@page import="com.semi.productlist.model.vo.ProductCategoryTimeList"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -5,9 +6,12 @@
 <%
 List<ProductCategoryTimeList> sub = (List)request.getAttribute("subcategoryproduct");
 %>
+<%
+CategorySubCategory categoryandsubcategoryname = (CategorySubCategory)request.getAttribute("categoryandsubcategoryname");
+%>
 <div id="selectCategory">
             <div id="categoryName">
-            	<h4>대표카테고리 > 서브카테고리<span>   <%=request.getAttribute("totalData")%></span></h4>
+            	<h4><%=categoryandsubcategoryname.getCategory().getCategoryName()%>   >   <%=categoryandsubcategoryname.getSubCategory().getSubcategoryName()%><span>   <%=request.getAttribute("totalData")%></span></h4>
             </div>
             <div id="categoryFunction">
               <span>최신순</span>
