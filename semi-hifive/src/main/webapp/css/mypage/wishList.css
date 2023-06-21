@@ -135,12 +135,13 @@ section {
 /* 판매내역 목록 div */
 .productContainer {
 	margin-bottom: 40px;
+	display: flex;
+	justify-content: space-between;
 }
 
 .productAll {
 	margin-bottom: 10px;
 	display: flex;
-	justify-content: space-between;
 }
 
 .product {
@@ -217,7 +218,7 @@ section {
 .container {
 	/* display: flex; */
 	position: relative;
-	bottom: 295px;
+	bottom: 289px;
 	left: 252px;
 	cursor: pointer;
 	font-size: 20px;
