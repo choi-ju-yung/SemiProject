@@ -81,10 +81,13 @@ public class SubCategoryListServlet extends HttpServlet {
 			List<CategorySubCategory> categorylist = new CategoryService().SubCategoryList();
 			// 서브카테고리 이름만 찾아서 상품리스트 가져오기
 			List<ProductCategoryTimeList> subcategoryproduct = new ProductCategoryListService().SelectSubCategoryList(cPage, numPerpage, subcategoryname);
-			
+			// 대표 카테고리이름과 서브카테고리 이름만 나올수 있는 객체
+			CategorySubCategory categoryandsubcategoryname = new CategoryService().SubCategoryName(subcategoryname);
+
 			System.out.println(subcategoryproduct);
 			//totalData가 서브카테고리 이름만 찾아서 상품List 갯수 set에 저장
 			request.setAttribute("totalData", totalData);
+			request.setAttribute("categoryandsubcategoryname", categoryandsubcategoryname);
 			request.setAttribute("subcategoryproduct", subcategoryproduct);
 			request.setAttribute("categorylist", categorylist);
 			request.setAttribute("category", category);
