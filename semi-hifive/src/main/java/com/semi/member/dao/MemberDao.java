@@ -283,6 +283,25 @@ public class MemberDao {
 	}
 	
 	
+	// 이메일로 비밀번호 변경하는 dao
+	public int changePasswordByEmail(Connection conn, String newPass, String email) {
+		PreparedStatement pstmt = null;
+		int result =0;
+		try {
+			pstmt=conn.prepareStatement(sql.getProperty("changePasswordByEmail"));
+			
+			pstmt.setString(1, newPass);
+			pstmt.setString(2, email);	
+
+			result=pstmt.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}return result;
+	}
+	
+	
 	
 	//public static 하는 이유 : 다른 패키지에서도 이 메소드 사용하기 위해서
 	public static Member getMember(ResultSet rs) throws SQLException{ 

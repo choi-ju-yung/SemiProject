@@ -128,4 +128,16 @@ public class MemberService {
 		return result;
 	}
 	
+	
+	// 이메일로 비밀번호를 변경하는 서비스
+	public int changePasswordByEmail(String newPass, String email) {
+		Connection conn=getConnection();
+		int result = dao.changePasswordByEmail(conn,newPass,email);
+		close(conn);
+		return result;
+	}
+	
+	
+	
+	
 }
