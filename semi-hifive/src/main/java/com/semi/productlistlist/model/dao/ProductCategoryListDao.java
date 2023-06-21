@@ -1,4 +1,4 @@
-package com.semi.product.model.dao;
+package com.semi.productlistlist.model.dao;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -14,12 +14,15 @@ import static com.semi.common.JDBCTemplate.*;
 
 import javax.naming.spi.DirStateFactory.Result;
 
-import com.semi.product.model.vo.ProductDto;
+import com.semi.category.model.vo.Category;
+import com.semi.category.model.vo.SubCategory;
+import com.semi.productlist.model.vo.ProductCategoryList;
+import com.semi.productlist.model.vo.ProductCategoryTimeList;
 
-public class ProductChartPageDao {
+public class ProductCategoryListDao {
 	private Properties sql = new Properties();
 	{
-		String path = ProductChartPageDao.class.getResource("/sql/product/productchartpage.sql.properties").getPath();
+		String path = ProductCategoryListDao.class.getResource("/sql/product/productchartpage.sql.properties").getPath();
 		
 		try {
 			sql.load(new FileReader(path));
@@ -28,27 +31,34 @@ public class ProductChartPageDao {
 		}
 	}
 	
-	public static ProductDto getProduct(ResultSet rs) throws SQLException {
-		return ProductDto.builder()
-		.productId(rs.getInt("PRODUCT_ID"))
-		.userId(rs.getString("USER_ID"))
-		.producttitle(rs.getString("PRODUCT_TITLE"))
-		.productstatus(rs.getString("PRODUCT_STATUS"))
-		.sellstatus(rs.getString("SELL_STATUS"))
-		.price(rs.getInt("PRICE"))
-		.registtime(rs.getDate("REGIST_TIME"))
-		.elapsedtime(rs.getLong("ELAPSED_TIME"))
-		.viewcount(rs.getInt("VIEW_COUNT"))
-		.explanation(rs.getString("EXPLANATION"))
-		.keyword(rs.getString("KEYWORD"))
-		.subcategoryid(rs.getInt("SUBCATEGORY_ID"))
-		.goonguareaid(rs.getInt("GOONGUAREA_ID")).build();
+	public static ProductCategoryTimeList getProduct(ResultSet rs) throws SQLException {
+		return ProductCategoryTimeList.builder()
+		.elapsedTime(rs.getLong("ELAPSED_TIME"))
+		.productCategoryList(ProductCategoryList.builder()
+				.productId(rs.getInt("PRODUCT_ID"))
+				.userId(rs.getString("USER_ID"))
+				.productTitle(rs.getString("PRODUCT_TITLE"))
+				.productStatus(rs.getString("PRODUCT_STATUS"))
+				.sellStatus(rs.getString("SELL_STATUS"))
+				.price(rs.getInt("PRICE"))
+				.registTime(rs.getDate("REGIST_TIME"))
+				.viewCount(rs.getInt("VIEW_COUNT"))
+				.explanation(rs.getString("EXPLANATION"))
+				.keyword(rs.getString("KEYWORD")!= null ? rs.getString("KEYWORD").split(",") : null)
+				.subcategoryName(rs.getString("SUBCATEGORY_NAME"))
+				.goonguareaId(rs.getInt("GOONGUAREA_ID")).build())
+		.category(Category.builder()
+					.categoryId(rs.getString("CATEGORY_ID"))
+					.categoryName(rs.getString("CATEGORY_NAME")).build())
+		.subCategory(SubCategory.builder()
+					.subcategoryName(rs.getString("SUBCATEGORY_NAME")).build())
+		.build();
 	}
-	
-	public List<ProductDto> CategoryProductList(Connection conn, int cPage, int numPerpage) {
+	// 전체 상품리스트 가져오기 카테고리, 세부카테고리 모두 join해서 가져온것
+	public List<ProductCategoryTimeList> CategoryProductList(Connection conn, int cPage, int numPerpage) {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		List<ProductDto> productlist = new ArrayList<>();
+		List<ProductCategoryTimeList> productlist = new ArrayList<>();
 	
 	try {
 		pstmt = conn.prepareStatement(sql.getProperty("CategoryProductList"));
@@ -66,7 +76,7 @@ public class ProductChartPageDao {
 	}return productlist;
 	}
 	
-//	페이징처리 	
+//	전체 상품리스트 가져오기 카테고리, 세부카테고리 모두 join해서 가져온것 페이징처리 	
 	public int CategoryProductListCount(Connection conn) {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -87,10 +97,10 @@ public class ProductChartPageDao {
 	}
 	
 	// 선택한 상품페이지이동 메소드
-	public ProductDto SelectProduct(Connection conn, int productId) {
+	public ProductCategoryTimeList SelectProduct(Connection conn, int productId) {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		ProductDto p = null;
+		ProductCategoryTimeList p = null;
 		try {
 			pstmt = conn.prepareStatement(sql.getProperty("SelectProduct"));
 			pstmt.setInt(1, productId);
@@ -105,13 +115,13 @@ public class ProductChartPageDao {
 			close(pstmt);
 		}return p;
 	}
-	//선택한 서브카테고리이름으로 찾아서 상품이동
-	public List<ProductDto> SelectCategoryList(Connection conn, int cPage, int numPerpage ,String subcategoryname) {
+	//선택한 서브카테고리이름으로 찾아서 상품리스트 화면 출력
+	public List<ProductCategoryTimeList> SelectSubCategoryList(Connection conn, int cPage, int numPerpage ,String subcategoryname) {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		List<ProductDto> selectcategorylist = new ArrayList<>();
+		List<ProductCategoryTimeList> selectcategorylist = new ArrayList<>();
 		try {
-			pstmt = conn.prepareStatement(sql.getProperty("SelectCategoryList"));
+			pstmt = conn.prepareStatement(sql.getProperty("SelectSubCategoryList"));
 			pstmt.setString(1, subcategoryname);
 			pstmt.setInt(2, (cPage-1) * numPerpage + 1);
 			pstmt.setInt(3, cPage * numPerpage);
@@ -127,13 +137,13 @@ public class ProductChartPageDao {
 		}return selectcategorylist;
 	}
 	
-	public int SelectCategoryProductListCount(Connection conn, String subcategoryname) {
+	public int SelectSubCategoryProductListCount(Connection conn, String subcategoryname) {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		int result = 0;
 		
 		try {
-			pstmt = conn.prepareStatement(sql.getProperty("SelectCategoryProductListCount"));
+			pstmt = conn.prepareStatement(sql.getProperty("SelectSubCategoryProductListCount"));
 			pstmt.setString(1, subcategoryname);
 			rs = pstmt.executeQuery();
 			if(rs.next()){
@@ -148,10 +158,10 @@ public class ProductChartPageDao {
 	}
 	
 	//대표카테고리 클릭시 대표카테고리상품리스트들 출력
-		public List<ProductDto> CategoryList(Connection conn, int cPage, int numPerpage, String categoryname){
+		public List<ProductCategoryTimeList> CategoryList(Connection conn, int cPage, int numPerpage, String categoryname){
 			PreparedStatement pstmt = null;
 			ResultSet rs = null;
-			List<ProductDto> categorylist = new ArrayList<>();
+			List<ProductCategoryTimeList> categorylist = new ArrayList<>();
 			
 			try {
 				pstmt = conn.prepareStatement(sql.getProperty("CategoryList"));

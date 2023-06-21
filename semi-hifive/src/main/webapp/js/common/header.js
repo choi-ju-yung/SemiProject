@@ -73,5 +73,6 @@ $(".collapse").on("hidden.bs.collapse", function () {
   target.removeClass("fa-minus-square");
   target.addClass("fa-plus-square");
 });
-// /카테고리 사이드바/
+//카테고리 사이드바
+
 

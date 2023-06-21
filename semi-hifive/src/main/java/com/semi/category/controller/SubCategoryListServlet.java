@@ -9,12 +9,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.gson.Gson;
-import com.semi.category.model.vo.CategoryDto;
+import com.semi.category.model.vo.Category;
+import com.semi.category.model.vo.CategorySubCategory;
 import com.semi.category.service.CategoryService;
-import com.semi.mypage.model.vo.Product;
-import com.semi.product.model.service.ProductChartPageService;
-import com.semi.product.model.vo.ProductDto;
+import com.semi.productlist.model.service.ProductCategoryListService;
+import com.semi.productlist.model.vo.ProductCategoryTimeList;
 
 /**
  * Servlet implementation class SelectCategoryListServlet
@@ -49,7 +48,7 @@ public class SubCategoryListServlet extends HttpServlet {
 				numPerpage = 32;
 			}
 			String pageBar = "";
-			int totalData = new ProductChartPageService().SelectCategoryProductListCount(subcategoryname);
+			int totalData = new ProductCategoryListService().SelectSubCategoryProductListCount(subcategoryname);
 			int totalPage = (int)Math.ceil((double)totalData/numPerpage);
 			int pageBarSize = 5;
 			int pageNo = ((cPage-1)/pageBarSize)*pageBarSize + 1;
@@ -74,16 +73,18 @@ public class SubCategoryListServlet extends HttpServlet {
 				pageBar += "<li><a href='javascript:void(0);'onclick='changePage("+ pageNo + ");'&numPerpage=" + numPerpage + "'>&gt;</a></li>";
 			}
 			request.setAttribute("pageBar", pageBar);
-	
+			
 			
 			// 대표카테고리만 가져오기
-			List<CategoryDto> category = new CategoryService().Category();
+			List<Category> category = new CategoryService().Category();
 			// 서브카테고리랑 대표카데고리랑만 조인한것
-			List<CategoryDto> categorylist = new CategoryService().SubCategoryList();
+			List<CategorySubCategory> categorylist = new CategoryService().SubCategoryList();
 			// 서브카테고리 이름만 찾아서 상품리스트 가져오기
-			List<ProductDto> subcategoryproduct = new ProductChartPageService().SelectCategoryList(cPage, numPerpage, subcategoryname);
+			List<ProductCategoryTimeList> subcategoryproduct = new ProductCategoryListService().SelectSubCategoryList(cPage, numPerpage, subcategoryname);
 			
 			System.out.println(subcategoryproduct);
+			//totalData가 서브카테고리 이름만 찾아서 상품List 갯수 set에 저장
+			request.setAttribute("totalData", totalData);
 			request.setAttribute("subcategoryproduct", subcategoryproduct);
 			request.setAttribute("categorylist", categorylist);
 			request.setAttribute("category", category);

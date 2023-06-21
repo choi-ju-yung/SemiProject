@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
-<%@page import="com.semi.category.model.vo.CategoryDto"%>
+<%@page import="com.semi.category.model.vo.Category"%>
 <%@page import="java.util.List"%>
 <%@ page import="com.semi.member.model.vo.Member"%>
 <%
@@ -65,19 +65,6 @@ if (cookies != null) {
 <title>중고 거래 HiFive</title>
 </head>
 <body>
-<script>
-//카테고리 클릭시 상품리스트 출력 ajax
-function Test_btn() {
-	$.ajax({
-		url: "<%=request.getContextPath()%>/categoryproductlist.do",
-         dateType: 'html',
-         success: function(data){
-         	$("section").html(data); 
-          }
-	});
-}
-
-</script>
    <header>
       <div id="headerContainer">
          <div id="fixedContainer">
@@ -286,6 +273,19 @@ function Test_btn() {
          </div>
       </div>
    </header>
+   <script>
+//카테고리 클릭시 상품리스트 출력 ajax
+function Test_btn() {
+	$.ajax({
+		url: "<%=request.getContextPath()%>/categoryproductlist.do",
+         dateType: 'html',
+         success: function(data){
+         	$("section").html(data); 
+          }
+	});
+}
+
+</script>
    <script src="<%=request.getContextPath()%>/js/common/header.js"></script>
 </body>
 </html>

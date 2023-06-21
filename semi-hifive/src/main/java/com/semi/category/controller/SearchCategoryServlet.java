@@ -1,21 +1,16 @@
 package com.semi.category.controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
-import java.util.Map;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.google.gson.Gson;
-import com.semi.category.model.vo.CategoryDto;
+import com.semi.category.model.vo.Category;
 import com.semi.category.service.CategoryService;
-import com.semi.product.model.service.ProductChartPageService;
-import com.semi.product.model.vo.ProductDto;
+import com.semi.productlist.model.service.ProductCategoryListService;
+import com.semi.productlist.model.vo.ProductCategoryTimeList;
 
 /**
  * Servlet implementation class HeaderCategoryServlet
@@ -50,7 +45,7 @@ public class SearchCategoryServlet extends HttpServlet {
 				numPerpage = 32;
 			}
 			String pageBar = "";
-			int totalData = new ProductChartPageService().CategoryCount(categoryname);
+			int totalData = new ProductCategoryListService().CategoryCount(categoryname);
 			int totalPage = (int)Math.ceil((double)totalData/numPerpage);
 			int pageBarSize = 5;
 			int pageNo = ((cPage-1)/pageBarSize)*pageBarSize + 1;
@@ -76,10 +71,12 @@ public class SearchCategoryServlet extends HttpServlet {
 			}
 			request.setAttribute("pageBar", pageBar);
 			// 카테고리 테이블에서 카테고리 이름찾아서 가져오는 객체
-			CategoryDto categoryName = new CategoryService().CategoryName(categoryname);
+			Category categoryName = new CategoryService().CategoryName(categoryname);
 			// 대표카테고리를 찾아서 상품List를 가져오는 객체
-			List<ProductDto> searchcategory = new ProductChartPageService().CategoryList(cPage, numPerpage, categoryname);
+			List<ProductCategoryTimeList> searchcategory = new ProductCategoryListService().CategoryList(cPage, numPerpage, categoryname);
 			
+			//totalData가 카테고리 이름만 찾아서 상품List 갯수 set에 저장
+			request.setAttribute("totalData", totalData);
 			request.setAttribute("ccategoryname", categoryName);
 		    request.setAttribute("categoryproduct", searchcategory);
 			request.getRequestDispatcher("/views/productcategorypage/searchcategorylist.jsp").forward(request, response);
