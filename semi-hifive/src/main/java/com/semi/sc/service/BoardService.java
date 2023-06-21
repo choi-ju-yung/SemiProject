@@ -8,6 +8,7 @@ import java.util.List;
 import com.semi.sc.dao.BoardDao;
 import com.semi.sc.model.dto.Board;
 import com.semi.sc.model.dto.BoardComment;
+import com.semi.sc.model.dto.BoardFile;
 public class BoardService {
 	private BoardDao dao=new BoardDao();
 
@@ -72,6 +73,14 @@ public class BoardService {
 	public int insertBoardComment(BoardComment bc) {
 		Connection conn=getConnection();
 		int result=dao.insertBoardComment(conn, bc);
+		if(result>0) commit(conn);
+		else rollback(conn);
+		return result;
+	}
+
+	public int insertBoardFile(BoardFile bf) {
+		Connection conn=getConnection();
+		int result=dao.insertBoardFile(conn, bf);
 		if(result>0) commit(conn);
 		else rollback(conn);
 		return result;

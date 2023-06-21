@@ -1,4 +1,4 @@
-package com.semi.mypage.model.vo;
+package com.semi.productlist.model.vo;
 
 import java.sql.Date;
 
@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Product {
+public class ProductCategoryList {
 	private int productId;
 	private String userId;
 	private String productTitle;
@@ -21,15 +21,8 @@ public class Product {
 	private Date registTime;
 	private int viewCount;
 	private String explanation;
-	private String keyword;
+	private String[] keyword;
 	private String subcategoryName;
 	private int goonguareaId;
+	
 }
-
-
-//public class JoinTableDTO {
-//    private int id;
-//    private String name;
-//    private String email;
-//    private DepartmentDTO department;
-//    private PositionDTO position;

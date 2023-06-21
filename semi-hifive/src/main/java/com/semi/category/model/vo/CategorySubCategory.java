@@ -1,6 +1,4 @@
-package com.semi.mypage.model.vo;
-
-import java.sql.Date;
+package com.semi.category.model.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ShopPage {
-	private String userId;
-	private String introduce;
+public class CategorySubCategory {
+	private Category category;	
+	private SubCategory subCategory;
 }

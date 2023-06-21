@@ -1,4 +1,6 @@
-package com.semi.category.model.vo;
+package com.semi.productpage.model.vo;
+
+import java.sql.Date;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CategoryDto {
-	private String categoryid;
-	private String categoryname;
+public class ShopPage {
+	private String userId;
+	private String introduce;
 }

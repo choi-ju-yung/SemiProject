@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="com.semi.member.model.vo.Member" %>
-<%@ page import="com.semi.mypage.model.vo.ShopPage" %>
+<%@ page import="com.semi.productpage.model.vo.ShopPage" %>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/mypage/myPageCategory.css" />
 <%
  	Member m=(Member)session.getAttribute("loginMember"); // 로그인멤버 세션

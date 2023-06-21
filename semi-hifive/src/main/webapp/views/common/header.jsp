@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
-<%@page import="com.semi.category.model.vo.CategoryDto"%>
+<%@page import="com.semi.category.model.vo.Category"%>
 <%@page import="java.util.List"%>
 <%@ page import="com.semi.member.model.vo.Member"%>
 <%
@@ -38,10 +38,9 @@ if (cookies != null) {
 <script nomodule
    src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 <script src="<%=request.getContextPath()%>/js/jquery-3.7.0.min.js"></script>
-
+<!--  -->
 <title>중고 거래 HiFive</title>
 </head>
-
 <body>
    <header>
       <div id="headerContainer">
@@ -126,9 +125,7 @@ if (cookies != null) {
 
                <div id="menuList">
                   <ul>
-                     <li><a
-                        href="<%=request.getContextPath()%>/categoryproductlist.do"
-                        id="category0">전체</a></li>
+                     <li><a onclick="Test_btn();" id="category0">전체</a></li>
                      <%-- <%if(categorylist.isEmpty()) {%> <%for(CategoryDto c :
                   categorylist){%>
                   <li><a href=""><%=c.getCategoryname()%></a></li>
@@ -253,6 +250,19 @@ if (cookies != null) {
          </div>
       </div>
    </header>
+   <script>
+//카테고리 클릭시 상품리스트 출력 ajax
+function Test_btn() {
+	$.ajax({
+		url: "<%=request.getContextPath()%>/categoryproductlist.do",
+         dateType: 'html',
+         success: function(data){
+         	$("section").html(data); 
+          }
+	});
+}
+
+</script>
    <script src="<%=request.getContextPath()%>/js/common/header.js"></script>
 </body>
 </html>

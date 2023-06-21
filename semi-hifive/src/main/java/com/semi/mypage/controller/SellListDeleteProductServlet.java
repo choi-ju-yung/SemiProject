@@ -1,28 +1,25 @@
-package com.semi.category.controller;
+package com.semi.mypage.controller;
 
 import java.io.IOException;
-import java.util.List;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.semi.category.model.vo.CategoryDto;
-import com.semi.category.service.CategoryService;
+import com.semi.mypage.service.MypageProductService;
 
 /**
- * Servlet implementation class HeaderCategoryServlet
+ * Servlet implementation class sellListDeletProductServlet
  */
-@WebServlet("/ajax/headercategory.do")
-public class HeaderCategoryServlet extends HttpServlet {
+@WebServlet("/mypage/deleteProduct.do")
+public class SellListDeleteProductServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public HeaderCategoryServlet() {
+    public SellListDeleteProductServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,9 +28,22 @@ public class HeaderCategoryServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		List<CategoryDto> categorylist = new CategoryService().CategoryList();
-		request.setAttribute("categorylist", categorylist);
-		request.getRequestDispatcher("/views/common/header.jsp").forward(request, response);
+		String productId = request.getParameter("productId");
+		String userId = request.getParameter("userId");
+		int result = new MypageProductService().deleteProduct(productId);
+		
+		String msg, loc;
+		if(result>0) {
+			msg = "상품이 삭제되었습니다.";
+			loc = "/myPage/sellList.do?userId=" + userId;
+		} else {
+			msg = "삭제 실패";
+			loc = "/myPage/sellList.do?userId=" + userId;
+		}
+		
+		request.setAttribute("msg", msg);
+		request.setAttribute("loc", loc);
+		request.getRequestDispatcher("/views/common/msg.jsp").forward(request,response);
 		
 	}
 

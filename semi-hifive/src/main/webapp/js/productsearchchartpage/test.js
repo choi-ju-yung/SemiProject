@@ -381,8 +381,7 @@ $("document").ready(function () {
 
 // 시세 차트 설정
 // 먼저 범례부분에 담을 div를 가져옴
-window.onload = function () {
-  chartDraw();
+/* window.onload = function () {
   let legendDiv = document.getElementById('legend-div');
   legendDiv.innerHTML = myChart.generateLegend();
 }
@@ -424,58 +423,41 @@ var myChart = new Chart(chartArea, {
             }
         }
     }
-});
-
-$(document).ready(function() {
-  var currentPage = 1; // 현재 페이지 초기값 설정
-  
-  // 페이지 로드 시 초기 데이터 가져오기
-  loadPageData(currentPage);
-  
-  // 페이지 번호 클릭 이벤트 처리
-  $(document).on('click', '.pagination-link', function(e) {
-    e.preventDefault();
-    var page = $(this).data('page');
-    loadPageData(page);
-  });
-  
-  function loadPageData(page) {
-    $.ajax({
-      url: '/categoryproductlist.do', // 서버 API 주소로 변경해야 합니다.
-      type: 'GET',
-      data: { cPage: page },
-      dataType: 'html',
-      success: function(response) {
-        // 서버로부터 받은 HTML 데이터를 출력합니다.
-        $('#productImgContainer').html(response);
-      },
-      error: function(xhr, status, error) {
-        // 에러 처리 로직을 작성합니다.
-        console.error(error);
-      }
-    });
-  }
-});
-
-/*// jQuery를 사용하여 문서가 로드될 때 실행되는 함수입니다.
-$(document).ready(function() {
-  // 태그를 클릭했을 때 실행되는 함수를 등록합니다.
-  $('#pimgWraper').click(function() {
-    // 서버로 요청을 보내는 코드를 작성합니다.
-    // 여기에 AJAX 요청이나 $.ajax() 함수 등을 사용하여 서버로 요청할 수 있습니다.
-    // 예를 들면:
-    $.ajax({
-      url: "/productpage.do'", // 서블릿의 URL을 입력합니다.
-      method: "GET", // 요청 메서드를 선택합니다 (GET 또는 POST).
-      data: {PRODUCT_ID: 'value' }, // 요청에 필요한 데이터를 전달합니다.
-      success: function(response) {
-        // 서버 응답이 성공적으로 도착한 경우 실행될 코드를 작성합니다.
-        console.log(response);
-      },
-      error: function(xhr, status, error) {
-        // 서버 요청이 실패한 경우 실행될 코드를 작성합니다.
-        console.error(error);
-      }
-    });
-  });
 });*/
+
+/*//ajax로 페이징 처리한 페이지 바 선택시 출력해주는 함수
+    function changePage(pageNo) {
+        $.ajax({
+            url: "<%=request.getContextPath()%>/categoryproductlist.do",
+            type: "GET",
+            data: {
+                'cPage': pageNo,
+                'numPerpage': 32
+            },
+            dataType: "html",
+            success: function(data) {
+                $("section").html(data);
+            }
+        });
+    }
+    //대표카테고리 클릭시 출력 ajax
+            function searchProduct(Cid){
+           		$.ajax({
+           			url: "<%=request.getContextPath()%>/serachcategory.do",
+           			dateType: 'html',
+           			data:{'Cid':Cid},
+           			success: function(data){
+           				$("#productContainer").html(data); 
+           			}
+           		});
+           	};
+			function subsearchProduct(sub){
+				$.ajax({
+          			url: "<%=request.getContextPath()%>/subserachcategory.do",
+          			dateType: 'html',
+          			data:{'sub':sub},
+          			success: function(data){
+          				$("#productContainer").html(data);
+          			}
+          		});
+          	}*/
