@@ -416,8 +416,8 @@ section {
   color: #313030;
 }
 /* 댓글영역 */
-#textContainer{
-  display: flex;
+.textContainer{
+  display: block;
   align-items: flex-end;
 }
 
@@ -431,6 +431,7 @@ section {
 #comment hr {
   margin-top: 30px;
   margin-bottom:30px;
+/*  display: none;*/
 }
 .cmtProfile {
   display: flex;
@@ -590,51 +591,71 @@ section {
   top: 0;
   content: "";
   width: 40px; /* 사이즈 */
-  height: 60px; /* 사이즈 */
-  border-top: 2px solid #eeeeee; /* 선 두께 */
-  border-right: 2px solid #eeeeee; /* 선 두께 */
+  height: 35px; /* 사이즈 */
+  border-top: 3px solid #eeeeee; /* 선 두께 */
+  border-right: 3px solid #eeeeee; /* 선 두께 */
   transform: rotate(180deg); /* 각도 */
 }
 
 #cmtText {
   /*margin-top: 40px;*/
-  padding-top: 10px;
-  padding-left: 10px;
-  width: 1270px;
-  height: 50px;
+  padding-top: 20px;
+  padding-left: 20px;
+  width: 900px;
+  height: 85px;
   resize: none;
   border: 3px solid #eeeeee;
   border-radius: 10px;
-  font-size: 16px;
+  font-size: 18px;
   overflow-y: hidden; /* prevents scroll bar flash */
   line-height: 1.6;
 }
 
-#textContainer textarea:focus {
+.textContainer textarea:focus {
   border: 3px solid white;
   outline: 3px solid #20c997;
 }
 
-#textContainer span {
+.textContainer span {
   color: #afafaf;
   position: relative;
   bottom: 10px;
   right: 120px;
 }
 
-#cmtBtn {
-  position: relative;
-  bottom: 8px;
-  right: 105px;
+.cmtBtn {
   background-color: #eeeeee;
   color: #afafaf;
   border: none;
-  border-radius: 20px;
-  width: 45px;
-  height: 25px;
+  border-radius: 10px;
+  width: 90px;
+  height: 35px;
   cursor: pointer;
+  margin-left: 5px;
 }
 
+.updateBtn {
+  background-color: #eeeeee;
+  color: #afafaf;
+  border: none;
+  border-radius: 10px;
+  width: 90px;
+  height: 35px;
+  cursor: pointer;
+  margin-left: 5px;
+}
+
+.cancelBtn {
+  background-color: #eeeeee;
+  color: #afafaf;
+  border: none;
+  border-radius: 10px;
+  width: 90px;
+  height: 35px;
+  cursor: pointer;
+  margin-left: 5px;
+  display: none;
+}
 /* .member * {
   text-decoration: none !important;
   color: black;
@@ -648,7 +669,19 @@ section {
   color: #afafaf;
   margin-left: 5px;
 }
+.cmtForm{
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
 
-#cmtForm hr{
+}
+.cmtForm hr{
 	margin-bottom: 20px;
+
+}
+
+.tcBtn{
+	text-align: end;
+	margin-top: 15px;
+	
 }

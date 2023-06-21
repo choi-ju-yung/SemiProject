@@ -245,6 +245,27 @@ List<ProductComment> comments = (List) request.getAttribute("comments");
 
 		<hr />
 		<%
+		if (loginMember != null) {
+		%>
+		 <form class="cmtForm">
+			<div class="textContainer">
+				<textarea id="cmtText" placeholder="댓글을 입력하세요" name="content"></textarea>		
+				<input type="hidden" name="productId"value="<%=p.getProductId()%>"> 
+				<input type="hidden"name="userId" value="<%=loginMember.getUserId()%>">
+				<input type="hidden" name="level" value="1"> 
+				<input type="hidden"name="nickName" value=<%=loginMember.getNickName()%>> 
+				<input type="hidden" name="commentRef" value="0">
+				<div class="tcBtn">
+				<button type="button" class="cancelBtn">취소</button>
+				<button type="button" class="cmtBtn">등록</button>			
+				</div>	
+			</div>
+			<hr color="#eeeeee" noshade />
+		</form> 
+		<%
+		}
+		%>
+		<%
 		if (comments != null) {
 			for (ProductComment pc : comments) {
 				if (pc.getCommentLevel() == 1) {
@@ -267,7 +288,7 @@ List<ProductComment> comments = (List) request.getAttribute("comments");
 			<button class="changeCmt">수정하기</button>
 			<button class="deleteCmt">삭제하기</button>
 			<input type="hidden" name="commentNo" value=<%=pc.getCommentNo()%>>
-			<input type="hidden" name="aCommentNo" value=<%=pc.getCommentNo()%>>
+			<input type="hidden" name="commentRef2" value=<%=pc.getCommentRef()%>>
 			<%} %>
 			<%} %>
 			<hr color="#eeeeee" noshade />
@@ -279,7 +300,7 @@ List<ProductComment> comments = (List) request.getAttribute("comments");
 		<div class="reComment">
 			<div class="cmtProfile">
 				<a href=""> 
-				<img src="<%=request.getContextPath()%>/images/productpage/프로필.jpg" alt="" />
+				<img src="<%=request.getContextPath()%>/images/productpage/profile.jpg" alt="" />
 				</a> 
 				<a href="" class="cmtUser"><%=pc.getNickName()%>
 				<%if(pc.getUserId().equals(p.getUserId())) { %>
@@ -287,15 +308,16 @@ List<ProductComment> comments = (List) request.getAttribute("comments");
 				<%} %>
 				</a>
 			</div>
-			<p class="cmt" id="reTagName"></p>
+			<p class="cmtx" id="reTagName"></p>
 			<p class="cmt"><%=pc.getContent() %></p>
 			<span class="time"><%=pc.getEnrollDate() %></span> 
 			<%if(loginMember!=null) {%>
-			<button class="reWriteCmt" value="<%=pc.getCommentNo()%>">답글쓰기</button>
+			<button class="writeCmt" value="<%=pc.getCommentNo()%>">답글쓰기</button>
 			<%if(loginMember.getUserId().equals(pc.getUserId())) {%>
-			<button class="reChangeCmt">수정하기</button>
+			<button class="changeCmt">수정하기</button>
 			<button class="deleteCmt">삭제하기</button>
 			<input type="hidden" name="commentNo" value=<%=pc.getCommentNo()%>>
+			<input type="hidden" name="commentRef2" value=<%=pc.getCommentRef()%>>
 			<%} %>
 			<%} %>
 			<hr color="#eeeeee" noshade />
@@ -308,25 +330,7 @@ List<ProductComment> comments = (List) request.getAttribute("comments");
 		}
 		%>
 
-		<%
-		if (loginMember != null) {
-		%>
-		 <form id="cmtForm">
-			<div id="textContainer">
-				<textarea id="cmtText" placeholder="댓글을 입력하세요" name="content"></textarea>
-				<span>0/100</span><br /> 
-				<input type="hidden" name="productId"value="<%=p.getProductId()%>"> 
-				<input type="hidden"name="userId" value="<%=loginMember.getUserId()%>">
-				<input type="hidden" name="level" value="1"> 
-				<input type="hidden"name="nickName" value=<%=loginMember.getNickName()%>> 
-				<input type="hidden" name="commentRef" value="0">
-				<button type="button" id="cmtBtn">등록</button>				
-			</div>
-			<hr color="#eeeeee" noshade />
-		</form> 
-		<%
-		}
-		%>
+		
 	</div>
 	<div id="relateProduct">
 		<h2>연관상품</h2>

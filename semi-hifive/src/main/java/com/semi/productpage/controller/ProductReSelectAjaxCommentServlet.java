@@ -18,14 +18,14 @@ import com.semi.productpage.service.ProductPageService;
 /**
  * Servlet implementation class ProductSelectCommentServlet
  */
-@WebServlet("/selectAjaxComment")
-public class ProductSelectAjaxCommentServlet extends HttpServlet {
+@WebServlet("/selectReAjaxComment")
+public class ProductReSelectAjaxCommentServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ProductSelectAjaxCommentServlet() {
+    public ProductReSelectAjaxCommentServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -36,11 +36,20 @@ public class ProductSelectAjaxCommentServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int id = Integer.parseInt(request.getParameter("productId"));
 		
-		ProductComment ajaxComment = new ProductPageService().selectAjaxProductComment(id);
+		//String date=request.getParameter("date");
+	
+		/*
+		 * SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); Date to =
+		 * null; try { to = fm.parse(date); } catch (ParseException e) {
+		 * e.printStackTrace(); } java.sql.Date sqlDate = new
+		 * java.sql.Date(to.getTime());
+		 */
+		
+		ProductComment ajaxReComment = new ProductPageService().selectReAjaxProductComment(id);
 		
 		response.setContentType("application/json;charset=utf-8");
 		//자바 객체를 json표현식으로 변환
-		new Gson().toJson(ajaxComment,response.getWriter());
+		new Gson().toJson(ajaxReComment,response.getWriter());
 
 	}
 
