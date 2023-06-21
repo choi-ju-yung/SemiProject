@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class InterestList {
-	private int interestCode;
-	private String userId;
+public class WishList {
+	private int wishCode;
+	private String wishUserId;
 	private int productId;
 }
