@@ -351,7 +351,7 @@ nicknameId.addEventListener("input", function() {
 
 		$.ajax({
 			url: "duplicateNickname.do",
-			data: { "userNickname": nicknameId.value },
+			data: { "userNickName": nicknameId.value },
 			success: function(data) {
 				if (data == 1) {
 					userNicknameMessage.text("이미 사용중인 닉네임입니다").css("color", "red");

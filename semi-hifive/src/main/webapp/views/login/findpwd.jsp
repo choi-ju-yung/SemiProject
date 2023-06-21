@@ -14,7 +14,7 @@
 			<li><input type="email" placeholder="이메일" title="이메일입력"></li>
 			<!-- <li><input type="submit" value="비밀번호찾기"></li> -->
 			<li><button>비밀번호 찾기</button></li>
-
+			
 		</ul>
 
 		<div>

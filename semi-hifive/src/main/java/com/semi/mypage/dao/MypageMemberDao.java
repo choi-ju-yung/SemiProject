@@ -145,7 +145,7 @@ public class MypageMemberDao {
 			return Member.builder()
 					.userId(rs.getString("user_Id"))
 					.email(rs.getString("email"))
-					.nickname(rs.getString("nickname"))
+					.nickName(rs.getString("nickname"))
 					.password(rs.getString("password"))
 					.userName(rs.getString("user_name"))
 					.declareCount(rs.getInt("declare_Count"))
@@ -174,5 +174,6 @@ public class MypageMemberDao {
 							.introduce(rs.getString("introduce")).build())
 					.build();
 		}
+
 		
 }

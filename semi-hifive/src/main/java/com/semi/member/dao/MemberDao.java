@@ -59,7 +59,7 @@ public class MemberDao {
 			pstmt=conn.prepareStatement(sql.getProperty("insertMember"));
 			pstmt.setString(1, m.getUserId());
 			pstmt.setString(2, m.getEmail());
-			pstmt.setString(3, m.getNickname());
+			pstmt.setString(3, m.getNickName());
 			pstmt.setString(4, m.getPassword());
 			pstmt.setString(5, m.getUserName());
 //			pstmt.setString(9, String.join(",",m.getHobby()));  // 배열을 ,구분해서 문자열로만듬
@@ -193,13 +193,13 @@ public class MemberDao {
 	}
 	
 	
-	public int checkNickname(Connection conn, String userNickname) {
+	public int checkNickName(Connection conn, String userNickName) {
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
 		int result = 0;
 		try {
 			pstmt=conn.prepareStatement(sql.getProperty("selectByNickname"));
-			pstmt.setString(1, userNickname);
+			pstmt.setString(1, userNickName);
 			rs=pstmt.executeQuery();
 			if(rs.next()) {
 				result = rs.getInt(1);
@@ -242,7 +242,7 @@ public class MemberDao {
 		return Member.builder()
 	            .userId(rs.getString("user_Id"))
 	            .email(rs.getString("email"))
-	            .nickname(rs.getString("nickname"))
+	            .nickName(rs.getString("nick"))
 	            .password(rs.getString("password"))
 	            .userName(rs.getString("user_name"))
 	            .declareCount(rs.getInt("declare_Count"))

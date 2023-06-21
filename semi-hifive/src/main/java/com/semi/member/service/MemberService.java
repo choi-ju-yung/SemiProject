@@ -93,9 +93,9 @@ public class MemberService {
 	}
 	
 	// 중복된 닉네임이 있는지 확인해주는 서비스
-	public int checkNickname(String userNickname) throws Exception{
+	public int checkNickname(String userNickName) throws Exception{
 		Connection conn = getConnection();
-		int result = dao.checkNickname(conn,userNickname);
+		int result = dao.checkNickName(conn,userNickName);
 		close(conn);
 		return result;
 	}

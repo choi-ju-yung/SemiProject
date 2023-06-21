@@ -37,7 +37,7 @@ public class EnrollMemberEndServlet extends HttpServlet {
 		Member m = Member.builder()
 				.userId(userId)
 				.email(email)
-				.nickname(nickname)
+				.nickName(nickname)
 				.password(password)
 				.userName(userName)
 				.build();

@@ -5,6 +5,7 @@
 <link rel="stylesheet" href="<%=request.getContextPath() %>/css/member/enrollmember.css" />
 
 <!--<form action="" class="container"> -->
+<section>
 	<form action="<%=request.getContextPath()%>/enrollMemberEnd.do" class="container" 
 			method="post" onsubmit="return fn_registEnrollMember();"> 
         <br>
@@ -124,7 +125,7 @@
                   </div>
               </div>
     </form>
-
+</section>
 <script src="<%=request.getContextPath() %>/js/member/enrollmember.js"></script>
 <%@ include file="/views/common/footer.jsp"%>
     
