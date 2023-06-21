@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.semi.member.model.vo.Member;
 import com.semi.mypage.model.vo.MemberShopPage;
-import com.semi.mypage.model.vo.ShopPage;
 import com.semi.mypage.service.MypageMemberService;
+import com.semi.productpage.model.vo.ShopPage;
 
 /**
  * Servlet implementation class MypageUpdateServlet

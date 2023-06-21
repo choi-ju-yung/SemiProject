@@ -12,12 +12,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-import com.semi.mypage.model.vo.Category;
-import com.semi.mypage.model.vo.Member;
-import com.semi.mypage.model.vo.Product;
+import com.semi.category.model.vo.Category;
+import com.semi.category.model.vo.SubCategory;
+import com.semi.member.model.vo.Member;
 import com.semi.mypage.model.vo.ProductList;
-import com.semi.mypage.model.vo.SubCategory;
 import com.semi.mypage.model.vo.Trade;
+import com.semi.productpage.model.vo.Product;
 
 public class MypageProductDao {
 	private Properties sql = new Properties();
@@ -234,15 +234,16 @@ public class MypageProductDao {
 		
 		private ProductList getProductSellList(ResultSet rs) throws SQLException {
 			return ProductList.builder()
-					.productId(rs.getInt("product_Id"))
-					.userId(rs.getString("user_Id"))
-					.productTitle(rs.getString("product_Title"))
-					.productStatus(rs.getString("product_Status"))
-					.sellStatus(rs.getString("sell_Status"))
-					.price(rs.getInt("price"))
-					.registTime(rs.getDate("regist_Time"))
-					.viewCount(rs.getInt("view_Count"))
-					.subcategoryName(rs.getString("subcategory_Name"))
+					.product(Product.builder()
+							.productId(rs.getInt("product_Id"))
+							.userId(rs.getString("user_Id"))
+							.title(rs.getString("product_Title"))
+							.status(rs.getString("product_Status"))
+							.sellStatus(rs.getString("sell_Status"))
+							.price(rs.getInt("price"))
+							.registTime(rs.getDate("regist_Time"))
+							.viewCount(rs.getInt("view_Count"))
+							.subCategory(rs.getString("subcategory_Name")).build())
 					.member(Member.builder()
 							.userId(rs.getString("user_Id")).build())
 					.subCategory(SubCategory.builder()
@@ -254,15 +255,16 @@ public class MypageProductDao {
 	
 	private ProductList getProductBuyList(ResultSet rs) throws SQLException {
 		return ProductList.builder()
-				.productId(rs.getInt("product_Id"))
-				.userId(rs.getString("user_Id"))
-				.productTitle(rs.getString("product_Title"))
-				.productStatus(rs.getString("product_Status"))
-				.sellStatus(rs.getString("sell_Status"))
-				.price(rs.getInt("price"))
-				.registTime(rs.getDate("regist_Time"))
-				.viewCount(rs.getInt("view_Count"))
-				.subcategoryName(rs.getString("subcategory_Name"))
+				.product(Product.builder()
+						.productId(rs.getInt("product_Id"))
+						.userId(rs.getString("user_Id"))
+						.title(rs.getString("product_Title"))
+						.status(rs.getString("product_Status"))
+						.sellStatus(rs.getString("sell_Status"))
+						.price(rs.getInt("price"))
+						.registTime(rs.getDate("regist_Time"))
+						.viewCount(rs.getInt("view_Count"))
+						.subCategory(rs.getString("subcategory_Name")).build())
 				.member(Member.builder()
 						.userId(rs.getString("user_Id")).build())
 				.subCategory(SubCategory.builder()

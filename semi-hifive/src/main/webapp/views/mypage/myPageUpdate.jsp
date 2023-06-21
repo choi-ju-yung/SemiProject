@@ -19,11 +19,11 @@
 	<form id="updateUserFrm" method="post" enctype="multipart/form-data">
 		<div class="infoMem">
 			<img
-				src="<%=request.getContextPath()%>/upload/profileImg/<%=infoMS.getProfileImg()%>"
+				src="<%=request.getContextPath()%>/upload/profileImg/<%=infoMS.getMember().getProfileImg()%>"
 				alt="" style="width: 170px; height: 170px;" class="profileImg">
 			<div class="nickNprofileImg">
 				<div class="nicknameCon">
-					<h1 class="nickname"><%=infoMS.getNickName()%></h1>
+					<h1 class="nickname"><%=infoMS.getMember().getNickName()%></h1>
 				</div>
 				<div class="profileButton">
 					<button class="profileImgUpdate">이미지 변경</button>
@@ -38,7 +38,7 @@
 				<div class="profilePart">
 					<h4>이메일</h4>
 				</div>
-				<input type="text" placeholder="<%=infoMS.getEmail()%>"
+				<input type="text" placeholder="<%=infoMS.getMember().getEmail()%>"
 					class="inputCssReadOnly" disabled>
 			</div>
 
@@ -47,9 +47,9 @@
 				<div class="profilePart">
 					<h4>아이디</h4>
 				</div>
-				<input type="text" placeholder="<%=infoMS.getUserId()%>"
+				<input type="text" placeholder="<%=infoMS.getMember().getUserId()%>"
 					class="inputCssReadOnly idUpdateInput"
-					value="<%=infoMS.getUserId()%>" name="myPageUserId" readonly>
+					value="<%=infoMS.getMember().getUserId()%>" name="myPageUserId" readonly>
 			</div>
 			<hr width="1050px" color="#eee" />
 			<div class="profileUPdateInput">
@@ -67,7 +67,7 @@
 					<h4>닉네임</h4>
 				</div>
 				<input id="nicknameInput" name="myPageNickname" type="text"
-					placeholder="<%=infoMS.getNickName()%>" value="<%=infoMS.getNickName()%>"
+					placeholder="<%=infoMS.getMember().getNickName()%>" value="<%=infoMS.getMember().getNickName()%>"
 					class="inputCss nicknameCount">
 				<!-- <button class="checkDB">중복확인</button> -->
 				<span class="nicknameDuplSpan"></span>

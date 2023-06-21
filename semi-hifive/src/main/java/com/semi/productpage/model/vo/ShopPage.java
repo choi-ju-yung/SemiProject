@@ -1,4 +1,4 @@
-package com.semi.mypage.model.vo;
+package com.semi.productpage.model.vo;
 
 import java.sql.Date;
 
@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class SubCategory {
-	private String subcategoryName;
-	private String categoryId;
+public class ShopPage {
+	private String userId;
+	private String introduce;
 }

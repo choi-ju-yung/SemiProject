@@ -14,7 +14,7 @@ import java.util.Properties;
 
 import com.semi.member.model.vo.Member;
 import com.semi.mypage.model.vo.MemberShopPage;
-import com.semi.mypage.model.vo.ShopPage;
+import com.semi.productpage.model.vo.ShopPage;
 
 
 public class MypageMemberDao {
@@ -108,14 +108,14 @@ public class MypageMemberDao {
 		public int updateMemberNickname(Connection conn, MemberShopPage m) {
 			PreparedStatement pstmt=null;
 			String img = null;
-			if(m.getProfileImg()!=null) img = m.getProfileImg();
+			if(m.getMember().getProfileImg()!=null) img = m.getMember().getProfileImg();
 			else img = "profileImg_default.png";
 			int result=0;
 			try {
 				pstmt=conn.prepareStatement(sql.getProperty("updateMemberNickname"));
-				pstmt.setString(1, m.getNickName());
+				pstmt.setString(1, m.getMember().getNickName());
 				pstmt.setString(2, img);
-				pstmt.setString(3, m.getUserId());
+				pstmt.setString(3, m.getMember().getUserId());
 				result=pstmt.executeUpdate();
 			}catch(SQLException e) {
 				e.printStackTrace();
@@ -130,7 +130,7 @@ public class MypageMemberDao {
 			try {
 				pstmt=conn.prepareStatement(sql.getProperty("updateMemberIntroduce"));
 				pstmt.setString(1, m.getShopPage().getIntroduce());
-				pstmt.setString(2, m.getUserId());
+				pstmt.setString(2, m.getMember().getUserId());
 				result=pstmt.executeUpdate();
 			}catch(SQLException e) {
 				e.printStackTrace();
@@ -175,16 +175,17 @@ public class MypageMemberDao {
 //		Member + ShopPage
 		public MemberShopPage getMemberShopPage(ResultSet rs) throws SQLException {
 			return MemberShopPage.builder()
-					.userId(rs.getString("user_Id"))
-					.email(rs.getString("email"))
-					.nickName(rs.getString("nickname"))
-					.password(rs.getString("password"))
-					.userName(rs.getString("user_name"))
-					.declareCount(rs.getInt("declare_Count"))
-					.enrollDate(rs.getDate("enroll_Date"))
-					.auth(rs.getString("auth"))
-					.temperature(rs.getDouble("temperature"))
-					.profileImg(rs.getString("profile_Img"))
+						.member(Member.builder()
+						.userId(rs.getString("user_Id"))
+						.email(rs.getString("email"))
+						.nickName(rs.getString("nickname"))
+						.password(rs.getString("password"))
+						.userName(rs.getString("user_name"))
+						.declareCount(rs.getInt("declare_Count"))
+						.enrollDate(rs.getDate("enroll_Date"))
+						.auth(rs.getString("auth"))
+						.temperature(rs.getDouble("temperature"))
+						.profileImg(rs.getString("profile_Img")).build())
 					.shopPage(ShopPage.builder()
 							.userId(rs.getString("user_Id"))
 							.introduce(rs.getString("introduce")).build())
