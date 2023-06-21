@@ -29,7 +29,7 @@ public class EnrollMemberEndServlet extends HttpServlet {
 		
 		String userId = request.getParameter("userId"); 
 		String email = request.getParameter("email");
-		String nickname = request.getParameter("nickname");
+		String nickName = request.getParameter("nickName");
 		String password = request.getParameter("password");
 		String userName = request.getParameter("userName");
 	
@@ -37,7 +37,7 @@ public class EnrollMemberEndServlet extends HttpServlet {
 		Member m = Member.builder()
 				.userId(userId)
 				.email(email)
-				.nickName(nickname)
+				.nickName(nickName)
 				.password(password)
 				.userName(userName)
 				.build();

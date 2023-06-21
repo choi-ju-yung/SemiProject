@@ -12,12 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor 	
 @Builder
 public class Member {
-//	private String userId;
-//	private String password;
-//	private String userName;
-//	private String email;
-//	private String nickName;
-//	private Date enrollDate;
+
 	   private String userId;
 	   private String email;
 	   private String nickName;
