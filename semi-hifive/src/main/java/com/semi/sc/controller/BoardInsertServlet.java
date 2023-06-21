@@ -47,13 +47,15 @@ public class BoardInsertServlet extends HttpServlet {
 				.boardCategory(mr.getParameter("QACategory"))
 				.boardTitle(mr.getParameter("boardTitle"))
 				.boardContent(mr.getParameter("boardContent"))
+				.boardOriginalFileName(mr.getParameter("boardOriginalFile"))
+				.boardRenamedFileName(renamedFilename)
 				.build();
 		
 		int result=new BoardService().insertBoard(b);
 		if(result==0) {
 			response.sendRedirect(request.getHeader("referer"));
 		}else {
-			response.sendRedirect("/boardList.do?notic=Y");
+			response.sendRedirect(request.getContextPath()+"/service/boardList.do?notice=Y");
 		}
 	}
 

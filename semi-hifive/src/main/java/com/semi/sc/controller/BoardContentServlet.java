@@ -1,6 +1,7 @@
 package com.semi.sc.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.semi.sc.model.dto.Board;
+import com.semi.sc.model.dto.BoardComment;
 import com.semi.sc.service.BoardService;
 
 
@@ -24,10 +26,15 @@ public class BoardContentServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int boardNo=Integer.parseInt(request.getParameter("boardNo")); //board_no 저장
 		Board b=new BoardService().selectBoardContent(boardNo);
+		
 		//첨부파일 불러오는 메소드
-		b=new BoardService().selectBoardFile(boardNo, b);
+		//b=new BoardService().selectBoardFile(boardNo, b);
+		
+		//댓글 데이터 가져오는 메소드
+		List<BoardComment> comments=new BoardService().selectBoardComment(boardNo);
 		
 		request.setAttribute("board", b);
+		request.setAttribute("comments", comments);
 		request.getRequestDispatcher("/views/service/boardContent.jsp").forward(request, response);
 	}
 

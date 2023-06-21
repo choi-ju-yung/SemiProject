@@ -381,8 +381,7 @@ $("document").ready(function () {
 
 // 시세 차트 설정
 // 먼저 범례부분에 담을 div를 가져옴
-/*window.onload = function () {
-  //chartDraw();
+/* window.onload = function () {
   let legendDiv = document.getElementById('legend-div');
   legendDiv.innerHTML = myChart.generateLegend();
 }

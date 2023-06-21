@@ -1,7 +1,5 @@
 package com.semi.product.model.dao;
 
-import static com.semi.common.JDBCTemplate.close;
-
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
@@ -11,6 +9,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import static com.semi.common.JDBCTemplate.*;
+
+
+import javax.naming.spi.DirStateFactory.Result;
 
 import com.semi.product.model.vo.ProductDto;
 
@@ -27,7 +29,7 @@ public class ProductChartPageDao {
 	}
 	
 	public static ProductDto getProduct(ResultSet rs) throws SQLException {
-		return ProductDto.builder()		
+		return ProductDto.builder()
 		.productId(rs.getInt("PRODUCT_ID"))
 		.userId(rs.getString("USER_ID"))
 		.producttitle(rs.getString("PRODUCT_TITLE"))
@@ -35,15 +37,12 @@ public class ProductChartPageDao {
 		.sellstatus(rs.getString("SELL_STATUS"))
 		.price(rs.getInt("PRICE"))
 		.registtime(rs.getDate("REGIST_TIME"))
+		.elapsedtime(rs.getLong("ELAPSED_TIME"))
 		.viewcount(rs.getInt("VIEW_COUNT"))
 		.explanation(rs.getString("EXPLANATION"))
 		.keyword(rs.getString("KEYWORD"))
-		.goonguareaid(rs.getInt("GOONGUAREA_ID"))
-		.subcategoryname(rs.getString("SUBCATEGORY_NAME"))
-		.elapsedtime(rs.getLong("ELAPSED_TIME"))
-		.categoryid(rs.getString("CATEGORY_ID"))
-		.categoryname(rs.getString("CATEGORY_NAME"))
-		.build();
+		.subcategoryid(rs.getInt("SUBCATEGORY_ID"))
+		.goonguareaid(rs.getInt("GOONGUAREA_ID")).build();
 	}
 	
 	public List<ProductDto> CategoryProductList(Connection conn, int cPage, int numPerpage) {
@@ -106,7 +105,6 @@ public class ProductChartPageDao {
 			close(pstmt);
 		}return p;
 	}
-	
 	//선택한 서브카테고리이름으로 찾아서 상품이동
 	public List<ProductDto> SelectCategoryList(Connection conn, int cPage, int numPerpage ,String subcategoryname) {
 		PreparedStatement pstmt = null;

@@ -38,7 +38,15 @@ $("section").click(function (e) {
 });
 
 // 상단 메뉴바 카테고리 클릭시 카테고리 출력 함수
-
+$(".headercategorybtn").click(function(e) {
+				$.ajax({
+					url: "<%=request.getContextPath()%>/ajax/headercategory.do",
+					success: function(data){
+						console.log(data);
+						$("#menuList>ul>li").html(data);
+					}
+				})
+			})
 
 
 // /상단메뉴바/

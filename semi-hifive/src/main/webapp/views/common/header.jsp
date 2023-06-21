@@ -16,7 +16,10 @@ if (cookies != null) {
    }
 }
 %>
-
+<script>
+	//로그인한 아이디 sessionStorage에 저장하자..ㅋㅋㅋ
+	sessionStorage.setItem("loginId",'<%=loginMember!=null?loginMember.getUserId():""%>');
+</script>
 <!DOCTYPE html>
 <html>
 <head>

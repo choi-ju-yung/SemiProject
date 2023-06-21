@@ -107,11 +107,14 @@ public class MypageMemberDao {
 		// 유저 정보 수정(닉네임, 소개글)
 		public int updateMemberNickname(Connection conn, MemberShopPage m) {
 			PreparedStatement pstmt=null;
+			String img = null;
+			if(m.getProfileImg()!=null) img = m.getProfileImg();
+			else img = "profileImg_default.png";
 			int result=0;
 			try {
 				pstmt=conn.prepareStatement(sql.getProperty("updateMemberNickname"));
 				pstmt.setString(1, m.getNickName());
-				pstmt.setString(2, m.getProfileImg());
+				pstmt.setString(2, img);
 				pstmt.setString(3, m.getUserId());
 				result=pstmt.executeUpdate();
 			}catch(SQLException e) {

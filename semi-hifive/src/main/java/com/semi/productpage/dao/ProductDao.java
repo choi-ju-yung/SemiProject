@@ -5,6 +5,7 @@ import static com.semi.common.JDBCTemplate.close;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -47,28 +48,9 @@ public class ProductDao {
 			close(rs);
 			close(pstmt);
 		}return p;
-	}
+	}	
 	
-	public int productPageComment(Connection conn, ProductComment pc) {
-		PreparedStatement pstmt=null;
-		int result=0;
-		try {
-			pstmt=conn.prepareStatement(sql.getProperty("productPageComment"));
-			pstmt.setString(1,pc.getUserId());
-			pstmt.setInt(2, pc.getProductId());			
-			pstmt.setInt(3,pc.getCommentLevel());
-			pstmt.setString(4,pc.getContent());
-			pstmt.setString(5,pc.getCommentRef()==0?null:
-								String.valueOf(pc.getCommentRef()));
-			result=pstmt.executeUpdate();
-		}catch(SQLException e) {
-			e.printStackTrace();
-		}finally {
-			close(pstmt);
-		}return result;
-	}
-	
-	public List<ProductComment> selectBoardComment(Connection conn,int id){
+	public List<ProductComment> selectProductComment(Connection conn,int id){
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
 		List<ProductComment> list=new ArrayList();
@@ -85,7 +67,124 @@ public class ProductDao {
 			close(pstmt);
 		}return list;
 	}
+	
+	public ProductComment selectAjaxProductComment(Connection conn, int id) {
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		ProductComment p=null;
+		String sql=this.sql.getProperty("selectAjaxProductComment");
+		
+		
+		try {
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setInt(1,id);
+			rs=pstmt.executeQuery();
+			if(rs.next()) {
+				p=getProductComment(rs);
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rs);
+			close(pstmt);
+		}return p;
+	}
+	
+	public ProductComment selectReAjaxProductComment(Connection conn, int id) {
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		ProductComment p=null;
+		String sql=this.sql.getProperty("selectReAjaxProductComment");
+		
+		
+		try {
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setInt(1,id);
+			rs=pstmt.executeQuery();
+			if(rs.next()) {
+				p=getProductComment(rs);
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rs);
+			close(pstmt);
+		}return p;
+	}
 
+	
+	public int insertAjaxProductComment(Connection conn, ProductComment pc) {
+		PreparedStatement pstmt=null;
+		int result=0;
+		try {
+			pstmt=conn.prepareStatement(sql.getProperty("insertAjaxProductComment"));
+			pstmt.setString(1,pc.getUserId());
+			pstmt.setInt(2, pc.getProductId());			
+			pstmt.setInt(3,pc.getCommentLevel());
+			pstmt.setString(4,pc.getContent());
+			pstmt.setString(5,pc.getCommentRef()==0?null:
+								String.valueOf(pc.getCommentRef()));
+			pstmt.setString(6,pc.getNickName());
+			result=pstmt.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}return result;
+	}
+	
+	public int updateAjaxProductComment(Connection conn, ProductComment pc, int cn) {
+		PreparedStatement pstmt=null;
+		int result=0;
+		try {
+			pstmt=conn.prepareStatement(sql.getProperty("updateAjaxProductComment"));						
+			pstmt.setString(1,pc.getContent());
+			pstmt.setInt(2,cn);
+			pstmt.setInt(3, pc.getProductId());
+			result=pstmt.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}return result;
+	}
+	
+	public ProductComment updateSelectAjaxProductComment(Connection conn, int cn) {
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		ProductComment p=null;
+		String sql=this.sql.getProperty("updateSelectAjaxProductComment");
+		
+		
+		try {
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setInt(1,cn);
+			rs=pstmt.executeQuery();
+			if(rs.next()) {
+				p=getProductComment(rs);
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rs);
+			close(pstmt);
+		}return p;
+	}
+	
+	public int deleteAjaxProductComment(Connection conn,int cn) {
+		PreparedStatement pstmt=null;
+		int result=0;
+		try {
+			pstmt=conn.prepareStatement(sql.getProperty("deleteAjaxProductComment"));						
+			pstmt.setInt(1,cn);
+			result=pstmt.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}return result;
+	}
+	
 	
 	private Product getProduct(ResultSet rs) throws SQLException{
 		return Product.builder()
@@ -109,6 +208,7 @@ public class ProductDao {
 		return ProductComment.builder()
 				.userId(rs.getString("user_id"))
 				.productId(rs.getInt("product_id"))
+				.nickName(rs.getString("nickname"))
 				.commentNo(rs.getInt("product_comment_no"))
 				.commentLevel(rs.getInt("product_comment_level"))
 				.content(rs.getString("product_comment_content"))

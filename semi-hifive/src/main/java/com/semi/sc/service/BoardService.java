@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.semi.sc.dao.BoardDao;
 import com.semi.sc.model.dto.Board;
+import com.semi.sc.model.dto.BoardComment;
 public class BoardService {
 	private BoardDao dao=new BoardDao();
 
@@ -45,6 +46,35 @@ public class BoardService {
 		b=dao.selectBoardFile(conn, boardNo, b);
 		close(conn);
 		return b;
+	}
+
+	public List<BoardComment> selectBoardComment(int boardNo) {
+		Connection conn=getConnection();
+		List<BoardComment> comments=dao.selectBoardComment(conn, boardNo);
+		close(conn);
+		return comments;
+	}
+
+	public List<Board> selectBoardByCategory(int cPage, int numPerpage, String category) {
+		Connection conn=getConnection();
+		List<Board> boards=dao.selectBoardByCategory(conn, cPage, numPerpage, category);
+		close(conn);
+		return boards;
+	}
+
+	public int selectBoardCountByCategory(String category) {
+		Connection conn=getConnection();
+		int count=dao.selectBoardCountByCategory(conn,category);
+		close(conn);
+		return count;
+	}
+
+	public int insertBoardComment(BoardComment bc) {
+		Connection conn=getConnection();
+		int result=dao.insertBoardComment(conn, bc);
+		if(result>0) commit(conn);
+		else rollback(conn);
+		return result;
 	}
 	
 	

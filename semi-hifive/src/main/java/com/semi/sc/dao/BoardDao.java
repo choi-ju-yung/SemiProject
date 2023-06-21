@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Properties;
 
 import com.semi.sc.model.dto.Board;
+import com.semi.sc.model.dto.BoardComment;
 import com.semi.sc.model.dto.BoardFile;
 public class BoardDao {
 	private final Properties sql=new Properties();
@@ -26,20 +27,41 @@ public class BoardDao {
 	}
 	//Board 객체 반환 메소드
 	public static Board getBoard(ResultSet rs) throws SQLException{
+//		BOARD_NO NUMBER CONSTRAINT BOARD_NO_PK PRIMARY KEY,
+//		BOARD_WRITER VARCHAR2(30) NOT NULL,
+//		BOARD_TITLE	VARCHAR2(150) NOT NULL,
+//		BOARD_CONTENT VARCHAR2(4000) NOT NULL,
+//		BOARD_DATE TIMESTAMP DEFAULT SYSDATE NOT NULL,
+//		BOARD_CATEGORY VARCHAR2(50)	NULL,
+//		NOTICE_YN CHAR(5) DEFAULT 'Y' NOT NULL,
+//		BOARD_FILE VARCHAR2(2000) NULL
 		return Board.builder().boardNo(rs.getInt("board_no"))
 				.boardTitle(rs.getString("board_title"))
 				.boardContent(rs.getString("board_content"))
 				.boardDate(rs.getDate("board_date"))
 				.boardCategory(rs.getString("board_category"))
 				.noticeYn(rs.getString("notice_yn").charAt(0))
+				.boardRenamedFileName(rs.getString("board_original_filename"))
 				.build();
 	}
+	
 	//board file 반환 메소드
 	public static BoardFile getBoardFile(ResultSet rs, int boardNo) throws SQLException{
 		return BoardFile.builder().boardNo(boardNo)
-				.boardPath("board_path")
 				.boardFileName("board_filename")
 				.fileNo("file_no").build();
+	}
+	
+	//board comment 반환 메소드
+	public static BoardComment getComment(ResultSet rs) throws SQLException{
+		return BoardComment.builder()
+				.commentNo(rs.getInt("board_comment_no"))
+				.commentWriter(rs.getString("nickname"))
+				.boardNo(rs.getInt("board_no"))
+				.commentNoFK(rs.getInt("board_comment_fk"))
+				.commentDate(rs.getDate("board_comment_date"))
+				.commentContent(rs.getString("board_comment_content"))
+				.build();
 	}
 	
 	//구분에 따라 공지사항, 자주하는 질문 테이블 갯수 불러오는 메소드
@@ -49,11 +71,11 @@ public class BoardDao {
 		int count=0;
 		try {
 			pstmt=conn.prepareStatement(sql.getProperty("selectBoardCount"));
+			//SELECT COUNT(*) AS boardCount FROM BOARD WHERE NOTICE_YN=?
 			pstmt.setString(1, noticeYN);
 			rs=pstmt.executeQuery();	
 			if(rs.next()) {
 				count=rs.getInt("boardCount");
-				System.out.println(rs.getInt(1));
 			}
 			
 		}catch(SQLException e) {
@@ -65,18 +87,19 @@ public class BoardDao {
 		return count;
 	}
 
-	//notice_yn을 기준으로 게시글 리스트를 불러옴
 	public List<Board> selectBoardList(Connection conn, int cPage, int numPerpage, String noticeYN) {
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
 		List<Board> boards=new ArrayList();
 		try {
 			pstmt=conn.prepareStatement(sql.getProperty("selectBoardList"));
+			//SELECT * FROM (SELECT ROWNUM AS RNUM, B.*
+			//FROM (SELECT * FROM BOARD WHERE NOTICE_YN=? ORDER BY BOARD_DATE DESC) B)
+			//WHERE RNUM BETWEEN ? AND ?
 			pstmt.setString(1, noticeYN);
-			pstmt.setInt(2, cPage);
-			pstmt.setInt(3, numPerpage);
+			pstmt.setInt(2, (cPage-1)*numPerpage+1);
+			pstmt.setInt(3, cPage*numPerpage);
 			rs=pstmt.executeQuery();
-			System.out.println("resultset");
 			while(rs.next()) {
 				boards.add(getBoard(rs));
 			}
@@ -90,24 +113,22 @@ public class BoardDao {
 		return boards;
 	}
 
-	//Board 테이블에 데이터 추가
 	public int insertBoard(Connection conn, Board b) {
 		PreparedStatement pstmt=null;
 		int result=0;
 		try {
 			pstmt=conn.prepareStatement(sql.getProperty("insertBoard"));
+			//INSERT INTO BOARD VALUES(SEQ_BOARD_NO.NEXTVAL,?,?,?,DEFAULT,?,?,?,?)
+			//write, title, content, category, noticeYN, orifile, renamefile
 			pstmt.setString(1, b.getBoardWriter());
 			pstmt.setString(2, b.getBoardTitle());
 			pstmt.setString(3, b.getBoardContent());
 			pstmt.setString(4, b.getBoardCategory());
 			pstmt.setString(5, String.valueOf(b.getNoticeYn()));
+			pstmt.setString(6, b.getBoardOriginalFileName());
+			pstmt.setString(7, b.getBoardRenamedFileName());
 			
 			result=pstmt.executeUpdate();
-			if(result>0) {
-				System.out.println("정상 추가 되었습니다.");
-			}else {
-				System.out.println("업데이트 실패했습니다");
-			}
 		}catch(SQLException e){
 			e.printStackTrace();
 		}finally {
@@ -130,23 +151,117 @@ public class BoardDao {
 			}
 		}catch(SQLException e) {
 			e.printStackTrace();
+		}finally {
+			close(rs);
+			close(pstmt);
 		}
 		return b;
 	}
 	public Board selectBoardFile(Connection conn, int boardNo, Board b) {
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
+		List<BoardFile> files=new ArrayList();
 		try {
 			pstmt=conn.prepareStatement(sql.getProperty("selectBoardFile"));
 			pstmt.setInt(1, boardNo);
 			rs=pstmt.executeQuery();
-			if(rs.next()) {
-				
+			while(rs.next()) {
+				files.add(getBoardFile(rs, boardNo));
 			}
 		}catch(SQLException e) {
 			e.printStackTrace();
+		}finally {
+			close(rs);
+			close(pstmt);
 		}
 		return b;
 	}
+	public List<BoardComment> selectBoardComment(Connection conn, int boardNo) {
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		List<BoardComment> comments=new ArrayList();
+		try {
+			pstmt=conn.prepareStatement(sql.getProperty("selecComment"));
+			pstmt.setInt(1, boardNo);
+			rs=pstmt.executeQuery();
+			while(rs.next()) {
+				comments.add(getComment(rs));
+			}
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rs);
+			close(pstmt);
+		}
+		return comments;
+	}
+	
+	//카테고리별 게시판 갯수
+	public int selectBoardCountByCategory(Connection conn, String category) {
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		int count=0;
+		try {
+			pstmt=conn.prepareStatement(sql.getProperty("selectCategoryCount"));
+			pstmt.setString(1, category);
+			rs=pstmt.executeQuery();	
+			if(rs.next()) {
+				count=rs.getInt(1);
+			}
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rs);
+			close(pstmt);
+		}
+		return count;
+	}
+	
+	//카테고리 별로 자주하는 질문 리스트 조회
+	public List<Board> selectBoardByCategory(Connection conn, int cPage, int numPerpage, String category) {
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		List<Board> boards=new ArrayList();
+		try {
+			pstmt=conn.prepareStatement(sql.getProperty("selectBoardCategory"));
+			pstmt.setString(1, category);
+			pstmt.setInt(2, (cPage-1)*numPerpage+1);
+			pstmt.setInt(3, cPage*numPerpage);
+			rs=pstmt.executeQuery();
+			while(rs.next()) {
+				boards.add(getBoard(rs));
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rs);
+			close(pstmt);
+		}
+		return boards;
+	}
+	
+	//댓글 추가 메소드
+	public int insertBoardComment(Connection conn, BoardComment bc) {
+		PreparedStatement pstmt=null;
+		int result=0;
+		String query=sql.getProperty("insertComment");
+		try {
+			query=query.replaceAll("#FK", bc.getCommentNoFK()==0?"null":String.valueOf(bc.getCommentNoFK()));
+			pstmt=conn.prepareStatement(query);
+			pstmt.setString(1, bc.getCommentWriter());
+			pstmt.setInt(2, bc.getBoardNo());
+			pstmt.setString(3, bc.getCommentContent());
+			result=pstmt.executeUpdate();
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return result;
+	}
+	
 
 }

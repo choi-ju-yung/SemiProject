@@ -23,8 +23,7 @@ public class CategoryService {
 		List<CategoryDto> category = dao.Category(conn);
 		close(conn);
 		return category;
-	}
-	
+	}	
 	// 서브카테고리랑 대표카테고리 join한것
 	public List<CategoryDto> SubCategoryList(){
 		Connection conn = getConnection();

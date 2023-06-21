@@ -12,16 +12,18 @@
 <section>
 	<%@ include file="/views/service/serviceCategory.jsp" %>
 	<div class="ServiceCenter">
-      <h2 class="ServicetHead">공지사항</h2>
-      <% if(loginMember!=null&&loginMember.getUserId().equals("admin")){ %>
-      <button class="contentBtn" onclick="location.href='<%=request.getContextPath()%>/service/boardInsert.do'">글 작성</button>
-      <% } %>
+      <h2 class="ServicetHead"><%=notice=='Y'?"공지사항":"자주하는 질문" %>
+      	<% if(loginMember!=null&&loginMember.getUserId().equals("admin")){ %>
+	      <button class="contentBtn" onclick="location.href='<%=request.getContextPath()%>/service/boardInsert.do'">글 작성</button>
+	      <% } %>
+      </h2>
       <% if(notice=='N'){ %>
       	<div class="QACategory">
+      		<button class="QABtn">전체</button>
           <button class="QABtn">회원정보</button>
           <button class="QABtn">구매</button>
           <button class="QABtn">판매</button>
-          <button class="QABtn">그 외</button>
+          <button class="QABtn">기타</button>
         </div>
       <% } %>
       <div class="boardContainer">
@@ -29,7 +31,7 @@
         <% if(boardList!=null){ %>
 	        <% for(Board b:boardList){ %>
 		        <% if(notice=='Y'){ %>
-					<tr onclick="location.href='<%=request.getContextPath()%>/service/boardContent.do?boardNo=<%=b.getBoardNo() %>'">
+					<tr onclick="location.href='<%=request.getContextPath()%>/service/boardContent.do?boardNo='">
 						<td><%=b.getBoardNo() %></td>
 						<td class="noticeTitle"><%=b.getBoardTitle() %></td>
 						<td><%=b.getBoardDate() %></td>
@@ -38,7 +40,7 @@
 						<td colspan="3"></td>
 					</tr>
 					<% }else{ %>
-					<tr onclick="location.href='<%=request.getContextPath()%>/service/boardContent.do?boardNo=<%=b.getBoardNo() %>'">
+					<tr onclick="location.href='<%=request.getContextPath()%>/service/boardContent.do?boardNo='">
 						<td><%=b.getBoardNo() %></td>
 						<td class="QATitle">[<%=b.getBoardCategory() %>]<%=b.getBoardTitle() %></td>
 					</tr>
@@ -52,10 +54,18 @@
 		<% } %>
         </table>
         <div class="pageBar">
-         	<%=request.getAttribute("pageBar") %>
-        </div>
+	     	<ul class="page">
+	         <%=request.getAttribute("pageBar") %>
+	         </ul>
+	    </div>
       </div>
     </div>
 </section>
-
+<script>
+	$(".QABtn").click(e=>{
+		const category=$(e.target).text();
+		$(location).attr('href',"<%=request.getContextPath()%>/service/boardListCategory.do?data="+category);
+	});
+</script>
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/page.css">
 <%@ include file="/views/common/footer.jsp" %>
