@@ -13,10 +13,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ProductList {
+public class MemberWishList {
+	private WishList wishList;
 	private Product product;
-	private Member member;
 	private SubCategory subCategory;
 	private Category category;
-	private Trade trade;
 }

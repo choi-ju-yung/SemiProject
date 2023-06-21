@@ -11,7 +11,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ShopPage {
-	private String userId;
-	private String introduce;
+public class Review {
+	private int reviewId;
+	private int tradeId;
+	private int reviewScore;
+	private String reviewMsg;
+	private Date reviewDate;
 }

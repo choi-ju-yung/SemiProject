@@ -77,11 +77,13 @@ $(".profileImgInput").change(e=>{
 
 // 비밀번호 변경하기
 const fn_updatePassword=()=>{
+	var width = '450';
+    var height = '300';
 	// 팝업창 가운데
-	let left = Math.ceil(( window.screen.width - _width )/2);
-    let top = Math.ceil(( window.screen.height - _height )/2); 
+	let left = Math.ceil(( window.screen.width - width )/2);
+    let top = Math.ceil(( window.screen.height - height )/2); 
 	
-	open(context + "mypage/updatePassword.do", "_blank", 'width= 450, height= 300');
+	open(context + "mypage/updatePassword.do", "_blank", 'width=' + width + ', height=' + height + ', left=' + left + ', top = ' + top);
 }
  
 // 유저정보 수정

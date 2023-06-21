@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
+<%
+List<Category> categorys = (List)request.getAttribute("categorys");
+%>
 
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/css/product/productregist.css" />
@@ -67,21 +70,17 @@
         <div class="cate">
             <h4 class="h4Size">카테고리 *</h4>
             <form name="frm1">
-                <select class="mainCate" onchange="redirect(this.selectedIndex);">
-                    <option value="0">카테고리를 선택해주세요</option>
-                    <option value="1">패션의류</option>
-                    <option value="2">패션잡화</option>
-                    <option value="3">가전제품</option>
-                    <option value="4">pc/모바일</option>
-                    <option value="5">가구/인테리어</option>
-                    <option value="6">리빙/생활</option>
-                    <option value="7">스포츠/레저</option>
-                    <option value="8">도서/음반/문구</option>
-                    <option value="9">차량/오토바이</option>
-                    <option value="10">무료나눔</option>
-                    <option value="11">기타</option>
+                <select class="mainCate" onchange="chageSubCate(this.value);"> <!-- this.value -> 선택된 option의 밸류값을 매개변수로 넣음 -->  
+					<%if(!categorys.isEmpty()){ 
+						for(int i=0; i<categorys.size(); i++){%>
+						<option value="<%=categorys.get(i).getCategoryId()%>"><%=categorys.get(i).getCategoryName()%></option>
+						<% }
+					
+					} %>
+					
                 </select>
-                <select class="middleCate" onchange="redirect1(this.selectedIndex);">
+                <select class="middleCate">
+                
                 </select>
             </form>
         </div>

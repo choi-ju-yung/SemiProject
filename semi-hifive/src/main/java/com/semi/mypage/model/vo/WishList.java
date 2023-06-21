@@ -1,7 +1,5 @@
 package com.semi.mypage.model.vo;
 
-import java.sql.Date;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,7 +9,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class SubCategory {
-	private String subcategoryName;
-	private String categoryId;
+public class WishList {
+	private int wishCode;
+	private String wishUserId;
+	private int productId;
 }
