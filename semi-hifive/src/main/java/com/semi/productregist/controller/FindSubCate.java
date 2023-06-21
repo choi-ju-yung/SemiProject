@@ -1,4 +1,4 @@
-package com.semi.category.controller;
+package com.semi.productregist.controller;
 
 import java.io.IOException;
 import java.util.List;
