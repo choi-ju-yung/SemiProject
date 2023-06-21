@@ -664,11 +664,14 @@ section {
 } */
 
 #cmtNone{
-  font-size: 12px;
   display: none; 
+
+}
+#cmtOn{
+  font-size: 16px;
   color: #afafaf;
   margin-left: 5px;
-}
+  }
 .cmtForm{
   display: flex;
   justify-content: center;
