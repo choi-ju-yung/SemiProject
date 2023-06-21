@@ -1,17 +1,42 @@
-<%@page import="com.semi.product.model.vo.ProductDto"%>
-<%@page import="com.semi.category.model.vo.CategoryDto"%>
+<%@page import="com.semi.productlist.model.vo.ProductCategoryTimeList"%>
+<%@page import="com.semi.category.model.vo.Category"%>
+<%@page import="com.semi.category.model.vo.CategorySubCategory"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-	List<ProductDto> productlist = (List)request.getAttribute("productlist");
+	List<ProductCategoryTimeList> productlist = (List)request.getAttribute("productlist");
 %>
 <%
-	List<CategoryDto> categorylist = (List)request.getAttribute("categorylist");
+	List<CategorySubCategory> categorylist = (List)request.getAttribute("categorylist");
 %>
 <%
-	List<CategoryDto> selectcategory = (List)request.getAttribute("category");
+	List<Category> selectcategory = (List)request.getAttribute("category");
 %>
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/productsearchchartpage.css" />
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/page.css" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.umd.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
       <div id="wraperContainer">
         <div id="leftCategory">
           <div id="pdcContainer">
@@ -33,9 +58,9 @@
                	
                   <ul>
                     <div class="pdcCategory">
-                    <%for(CategoryDto c : selectcategory) {
-                    	if(c.getCategoryid().equals("A")){%>
-                      <span onclick="searchProduct('<%=c.getCategoryname()%>');"><%=c.getCategoryname()%></span>
+                    <%for(Category c : selectcategory) {
+                    	if(c.getCategoryId().equals("A")){%>
+                      <span onclick="searchProduct('<%=c.getCategoryName()%>');"><%=c.getCategoryName()%></span>
                       <%} } %>
                       <i
                         class="fa fa-plus-square"
@@ -46,19 +71,19 @@
                       ></i>
 						
                       <div class="collapse" id="pddCategory1">
-                        <%for(CategoryDto sc : categorylist){
-                        	if(sc.getCategoryid().equals("A")) {%>
+                        <%for(CategorySubCategory sc : categorylist){
+                        	if(sc.getCategory().getCategoryId().equals("A")) {%>
                         <ul>
-                          <li><a href='javascript:void(0);' onclick="subsearchProduct('<%=sc.getSubcategoryname()%>');"><%=sc.getSubcategoryname()%></a></li>
+                          <li><a href='javascript:void(0);' onclick="subsearchProduct('<%=sc.getSubCategory().getSubcategoryName()%>');"><%=sc.getSubCategory().getSubcategoryName()%></a></li>
                         </ul>
                         <%} }%>
                       </div>
                     </div>
                     
                    <div class="pdcCategory">
-                      <%for(CategoryDto c : selectcategory) {
-                    	if(c.getCategoryid().equals("B")){%>
-                      <span onclick="searchProduct('<%=c.getCategoryname()%>');"><%=c.getCategoryname()%></span>
+                      <%for(Category c : selectcategory) {
+                    	if(c.getCategoryId().equals("B")){%>
+                      <span onclick="searchProduct('<%=c.getCategoryName()%>');"><%=c.getCategoryName()%></span>
                       <%} } %>
                       <i
                         class="fa fa-plus-square"
@@ -69,18 +94,18 @@
                       ></i>
 
                       <div class="collapse" id="pddCategory2">
-                        <%for(CategoryDto sc : categorylist){
-                        	if(sc.getCategoryid().equals("B")) {%>
+                        <%for(CategorySubCategory sc : categorylist){
+                        	if(sc.getCategory().getCategoryId().equals("B")) {%>
                         <ul>
-                          <li><a href='javascript:void(0);' onclick="subsearchProduct('<%=sc.getSubcategoryname()%>');"><%=sc.getSubcategoryname()%></a></li>
+                          <li><a href='javascript:void(0);' onclick="subsearchProduct('<%=sc.getSubCategory().getSubcategoryName()%>');"><%=sc.getSubCategory().getSubcategoryName()%></a></li>
                         </ul>
                         <%} }%>
                       </div>
                     </div>
                     <div class="pdcCategory">
-                       <%for(CategoryDto c : selectcategory) {
-                    	if(c.getCategoryid().equals("C")){%>
-                      <span onclick="searchProduct('<%=c.getCategoryname()%>');"><%=c.getCategoryname()%></span>
+                       <%for(Category c : selectcategory) {
+                    	if(c.getCategoryId().equals("C")){%>
+                      <span onclick="searchProduct('<%=c.getCategoryName()%>');"><%=c.getCategoryName()%></span>
                       <%} } %>
                       <i
                         class="fa fa-plus-square"
@@ -91,18 +116,18 @@
                       ></i>
 
                       <div class="collapse" id="pddCategory3">
-                        <%for(CategoryDto sc : categorylist){
-                        	if(sc.getCategoryid().equals("C")) {%>
+                        <%for(CategorySubCategory sc : categorylist){
+                        	if(sc.getCategory().getCategoryId().equals("C")) {%>
                         <ul>
-                          <li><a href='javascript:void(0);' onclick="subsearchProduct('<%=sc.getSubcategoryname()%>');"><%=sc.getSubcategoryname()%></a></li>
+                          <li><a href='javascript:void(0);' onclick="subsearchProduct('<%=sc.getSubCategory().getSubcategoryName()%>');"><%=sc.getSubCategory().getSubcategoryName()%></a></li>
                         </ul>
                         <%} }%>
                       </div>
                     </div>
                     <div class="pdcCategory">
-                       <%for(CategoryDto c : selectcategory) {
-                    	if(c.getCategoryid().equals("D")){%>
-                      <span onclick="searchProduct('<%=c.getCategoryname()%>');"><%=c.getCategoryname()%></span>
+                       <%for(Category c : selectcategory) {
+                    	if(c.getCategoryId().equals("D")){%>
+                      <span onclick="searchProduct('<%=c.getCategoryName()%>');"><%=c.getCategoryName()%></span>
                       <%} } %>
                       <i
                         class="fa fa-plus-square"
@@ -113,18 +138,18 @@
                       ></i>
 
                       <div class="collapse" id="pddCategory4">
-                        <%for(CategoryDto sc : categorylist){
-                        	if(sc.getCategoryid().equals("D")) {%>
+                        <%for(CategorySubCategory sc : categorylist){
+                        	if(sc.getCategory().getCategoryId().equals("D")) {%>
                         <ul>
-                          <li><a href='javascript:void(0);' onclick="subsearchProduct('<%=sc.getSubcategoryname()%>');"><%=sc.getSubcategoryname()%></a></li>
+                          <li><a href='javascript:void(0);' onclick="subsearchProduct('<%=sc.getSubCategory().getSubcategoryName()%>');"><%=sc.getSubCategory().getSubcategoryName()%></a></li>
                         </ul>
                         <%} }%>
                       </div>
                     </div>
                     <div class="pdcCategory">
-                       <%for(CategoryDto c : selectcategory) {
-                    	if(c.getCategoryid().equals("E")){%>
-                      <span onclick="searchProduct('<%=c.getCategoryname()%>');"><%=c.getCategoryname()%></span>
+                       <%for(Category c : selectcategory) {
+                    	if(c.getCategoryId().equals("E")){%>
+                      <span onclick="searchProduct('<%=c.getCategoryName()%>');"><%=c.getCategoryName()%></span>
                       <%} } %>
                       <i
                         class="fa fa-plus-square"
@@ -135,18 +160,18 @@
                       ></i>
 
                       <div class="collapse" id="pddCategory5">
-                       <%for(CategoryDto sc : categorylist){
-                        	if(sc.getCategoryid().equals("E")) {%>
+                       <%for(CategorySubCategory sc : categorylist){
+                        	if(sc.getCategory().getCategoryId().equals("E")) {%>
                         <ul>
-                          <li><a href='javascript:void(0);' onclick="subsearchProduct('<%=sc.getSubcategoryname()%>');"><%=sc.getSubcategoryname()%></a></li>
+                          <li><a href='javascript:void(0);' onclick="subsearchProduct('<%=sc.getSubCategory().getSubcategoryName()%>');"><%=sc.getSubCategory().getSubcategoryName()%></a></li>
                         </ul>
                         <%} }%>
                       </div>
                     </div>
                     <div class="pdcCategory">
-                       <%for(CategoryDto c : selectcategory) {
-                    	if(c.getCategoryid().equals("F")){%>
-                      <span onclick="searchProduct('<%=c.getCategoryname()%>');"><%=c.getCategoryname()%></span>
+                       <%for(Category c : selectcategory) {
+                    	if(c.getCategoryId().equals("F")){%>
+                      <span onclick="searchProduct('<%=c.getCategoryName()%>');"><%=c.getCategoryName()%></span>
                       <%} } %>
                       <i
                         class="fa fa-plus-square"
@@ -157,18 +182,18 @@
                       ></i>
 
                       <div class="collapse" id="pddCategory6">
-                        <%for(CategoryDto sc : categorylist){
-                        	if(sc.getCategoryid().equals("F")) {%>
+                        <%for(CategorySubCategory sc : categorylist){
+                        	if(sc.getCategory().getCategoryId().equals("F")) {%>
                         <ul>
-                          <li><a href='javascript:void(0);' onclick="subsearchProduct('<%=sc.getSubcategoryname()%>');"><%=sc.getSubcategoryname()%></a></li>
+                          <li><a href='javascript:void(0);' onclick="subsearchProduct('<%=sc.getSubCategory().getSubcategoryName()%>');"><%=sc.getSubCategory().getSubcategoryName()%></a></li>
                         </ul>
                         <%} }%>
                       </div>
                     </div>
                     <div class="pdcCategory">
-                       <%for(CategoryDto c : selectcategory) {
-                    	if(c.getCategoryid().equals("G")){%>
-                      <span onclick="searchProduct('<%=c.getCategoryname()%>');"><%=c.getCategoryname()%></span>
+                       <%for(Category c : selectcategory) {
+                    	if(c.getCategoryId().equals("G")){%>
+                      <span onclick="searchProduct('<%=c.getCategoryName()%>');"><%=c.getCategoryName()%></span>
                       <%} } %>
                       <i
                         class="fa fa-plus-square"
@@ -179,18 +204,18 @@
                       ></i>
 
                       <div class="collapse" id="pddCategory7">
-                        <%for(CategoryDto sc : categorylist){
-                        	if(sc.getCategoryid().equals("G")) {%>
+                        <%for(CategorySubCategory sc : categorylist){
+                        	if(sc.getCategory().getCategoryId().equals("G")) {%>
                         <ul>
-                          <li><a href='javascript:void(0);' onclick="subsearchProduct('<%=sc.getSubcategoryname()%>');"><%=sc.getSubcategoryname()%></a></li>
+                          <li><a href='javascript:void(0);' onclick="subsearchProduct('<%=sc.getSubCategory().getSubcategoryName()%>');"><%=sc.getSubCategory().getSubcategoryName()%></a></li>
                         </ul>
                         <%} }%>
                       </div>
                     </div>
                     <div class="pdcCategory">
-                       <%for(CategoryDto c : selectcategory) {
-                    	if(c.getCategoryid().equals("H")){%>
-                      <span onclick="searchProduct('<%=c.getCategoryname()%>');"><%=c.getCategoryname()%></span>
+                       <%for(Category c : selectcategory) {
+                    	if(c.getCategoryId().equals("H")){%>
+                      <span onclick="searchProduct('<%=c.getCategoryName()%>');"><%=c.getCategoryName()%></span>
                       <%} } %>
                       <i
                         class="fa fa-plus-square"
@@ -201,18 +226,18 @@
                       ></i>
 
                       <div class="collapse" id="pddCategory8">
-                        <%for(CategoryDto sc : categorylist){
-                        	if(sc.getCategoryid().equals("H")) {%>
+                        <%for(CategorySubCategory sc : categorylist){
+                        	if(sc.getCategory().getCategoryId().equals("H")) {%>
                         <ul>
-                          <li><a href='javascript:void(0);' onclick="subsearchProduct('<%=sc.getSubcategoryname()%>');"><%=sc.getSubcategoryname()%></a></li>
+                          <li><a href='javascript:void(0);' onclick="subsearchProduct('<%=sc.getSubCategory().getSubcategoryName()%>');"><%=sc.getSubCategory().getSubcategoryName()%></a></li>
                         </ul>
                         <%} }%>
                       </div>
                     </div>
                     <div class="pdcCategory">
-                      <%for(CategoryDto c : selectcategory) {
-                    	if(c.getCategoryid().equals("I")){%>
-                      <span onclick="searchProduct('<%=c.getCategoryname()%>');"><%=c.getCategoryname()%></span>
+                      <%for(Category c : selectcategory) {
+                    	if(c.getCategoryId().equals("I")){%>
+                      <span onclick="searchProduct('<%=c.getCategoryName()%>');"><%=c.getCategoryName()%></span>
                       <%} } %>
                       <i
                         class="fa fa-plus-square"
@@ -223,18 +248,18 @@
                       ></i>
 
                       <div class="collapse" id="pddCategory9">
-                        <%for(CategoryDto sc : categorylist){
-                        	if(sc.getCategoryid().equals("I")) {%>
+                        <%for(CategorySubCategory sc : categorylist){
+                        	if(sc.getCategory().getCategoryId().equals("I")) {%>
                         <ul>
-                          <li><a href='javascript:void(0);' onclick="subsearchProduct('<%=sc.getSubcategoryname()%>');"><%=sc.getSubcategoryname()%></a></li>
+                          <li><a href='javascript:void(0);' onclick="subsearchProduct('<%=sc.getSubCategory().getSubcategoryName()%>');"><%=sc.getSubCategory().getSubcategoryName()%></a></li>
                         </ul>
                         <%} }%>
                       </div>
                     </div>
                     <div class="pdcCategory">
-                       <%for(CategoryDto c : selectcategory) {
-                    	if(c.getCategoryid().equals("J")){%>
-                      <span onclick="searchProduct('<%=c.getCategoryname()%>');"><%=c.getCategoryname()%></span>
+                       <%for(Category c : selectcategory) {
+                    	if(c.getCategoryId().equals("J")){%>
+                      <span onclick="searchProduct('<%=c.getCategoryName()%>');"><%=c.getCategoryName()%></span>
                       <%} } %>
                       <i
                         class="fa fa-plus-square"
@@ -245,10 +270,10 @@
                       ></i>
 
                       <div class="collapse" id="pddCategory10">
-                        <%for(CategoryDto sc : categorylist){
-                        	if(sc.getCategoryid().equals("J")) {%>
+                        <%for(CategorySubCategory sc : categorylist){
+                        	if(sc.getCategory().getCategoryId().equals("J")) {%>
                         <ul>
-                          <li><a href='javascript:void(0);' onclick="subsearchProduct('<%=sc.getSubcategoryname()%>');"><%=sc.getSubcategoryname()%></a></li>
+                          <li><a href='javascript:void(0);' onclick="subsearchProduct('<%=sc.getSubCategory().getSubcategoryName()%>');"><%=sc.getSubCategory().getSubcategoryName()%></a></li>
                         </ul>
                         <%} }%>
                       </div>
@@ -395,7 +420,7 @@
         <div id="productContainer">
           <div id="selectCategory">
             <div id="categoryName">
-              <h4>전체<span>(453)</span></h4>
+              <h4>전체   <span><%=request.getAttribute("totalData")%></span></h4>
             </div>
             <div id="categoryFunction">
               <span>최신순</span>
@@ -406,8 +431,8 @@
           </div>
           <div id="contentdata">
 	          <div id="productImgContainer">
-	      		<%for(ProductDto p : productlist){%>
-	            <div id="pimgWraper" onclick="location.href='<%=request.getContextPath()%>/productpage?no=<%=p.getProductId()%>';">
+	      		<%for(ProductCategoryTimeList p : productlist){%>
+	            <div id="pimgWraper" onclick="location.href='<%=request.getContextPath()%>/productpage?no=<%=p.getProductCategoryList().getProductId()%>';">
 	              <div class="con-like">
 	                <input title="like" type="checkbox" class="like" />
 	                <div class="checkmark">
@@ -453,24 +478,24 @@
 	                  src="https://upload.wikimedia.org/wikipedia/ko/8/87/Kakaofriends.png"
 	                  alt=""
 	                />
-	                <p id="productName"><%=p.getProducttitle()%></p>
-	                <p id="productPrice"><%=p.getPrice()%>
-	                <span><%if(p.getElapsedtime() < 60){%>
-	               		<%=p.getElapsedtime()+ "초 전"%>
-	               	<%}else if(p.getElapsedtime() >= 60 && p.getElapsedtime() < 3600) {%>
-	               	<%=(p.getElapsedtime() / 60) + "분 전"%>
-	               	<%}else if(p.getElapsedtime() >= 3600 && p.getElapsedtime() < 86400) {%>
-	               		<%=(p.getElapsedtime() / 60) / 60  + "시간 전"%>
-	               	<%}else if(p.getElapsedtime() >= 86400 && p.getElapsedtime() < 2592000) {%>
-	               		<%=(p.getElapsedtime() / 60) / 60 / 24 + "일 전"%>
-	               	<%}else if(p.getElapsedtime() >= 2592000 && p.getElapsedtime() < 31536000) {%>
-	               		<%=(p.getElapsedtime() / 60) / 60 / 24 / 30 + "개월 전"%>
-	               	<%}else{%>
-	               		<%=(p.getElapsedtime() / 60) / 60 / 24 / 30 / 12 + "년 전"%>
-	               	<%} %></span></p>
-	                <p id="productPlace">
-	                  <i class="bi bi-geo-alt"></i>
-	                  <%=p.getGoonguareaid()%>
+	               <p id="productName"><%=p.getProductCategoryList().getProductTitle()%></p>
+                <p id="productPrice"><%=p.getProductCategoryList().getPrice()%>
+                <span><%if(p.getElapsedTime() < 60){%>
+               		<%=p.getElapsedTime()+ "초 전"%>
+               	<%}else if(p.getElapsedTime() >= 60 && p.getElapsedTime() < 3600) {%>
+               	<%=(p.getElapsedTime() / 60) + "분 전"%>
+               	<%}else if(p.getElapsedTime() >= 3600 && p.getElapsedTime() < 86400) {%>
+               		<%=(p.getElapsedTime() / 60) / 60  + "시간 전"%>
+               	<%}else if(p.getElapsedTime() >= 86400 && p.getElapsedTime() < 2592000) {%>
+               		<%=(p.getElapsedTime() / 60) / 60 / 24 + "일 전"%>
+               	<%}else if(p.getElapsedTime() >= 2592000 && p.getElapsedTime() < 31536000) {%>
+               		<%=(p.getElapsedTime() / 60) / 60 / 24 / 30 + "개월 전"%>
+               	<%}else{%>
+               		<%=(p.getElapsedTime() / 60) / 60 / 24 / 30 / 12 + "년 전"%>
+               	<%} %></span></p>
+                <p id="productPlace">
+                  <i class="bi bi-geo-alt"></i>
+                  <%=p.getProductCategoryList().getGoonguareaId()%>
 	                </p>
 	            </div>
 	          <%}%>
@@ -512,6 +537,7 @@
            			}
            		});
            	};
+           	// 서브카테고리 클릭시 출력 ajax
 			function subsearchProduct(sub){
 				$.ajax({
           			url: "<%=request.getContextPath()%>/subserachcategory.do",

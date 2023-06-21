@@ -1,13 +1,17 @@
-<%@page import="com.semi.product.model.vo.ProductDto"%>
+<%@page import="com.semi.category.model.vo.CategorySubCategory"%>
+<%@page import="com.semi.productlist.model.vo.ProductCategoryTimeList"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-	List<ProductDto> sub = (List)request.getAttribute("subcategoryproduct");
+List<ProductCategoryTimeList> sub = (List)request.getAttribute("subcategoryproduct");
+%>
+<%
+CategorySubCategory categoryandsubcategoryname = (CategorySubCategory)request.getAttribute("categoryandsubcategoryname");
 %>
 <div id="selectCategory">
             <div id="categoryName">
-              <h4>대표카테고리 > 서브카테고리<span>(453)</span></h4>
+            	<h4><%=categoryandsubcategoryname.getCategory().getCategoryName()%>   >   <%=categoryandsubcategoryname.getSubCategory().getSubcategoryName()%><span>   <%=request.getAttribute("totalData")%></span></h4>
             </div>
             <div id="categoryFunction">
               <span>최신순</span>
@@ -16,9 +20,9 @@
               <span>최저가순</span>
             </div>
           </div>
-<div id="productImgContainer">
-		<%for(ProductDto p : sub){%>
-            <div id="pimgWraper" onclick="location.href='<%=request.getContextPath()%>/productpage?no=<%=p.getProductId()%>';">
+		<div id="productImgContainer">
+		<%for(ProductCategoryTimeList p : sub){%>
+            <div id="pimgWraper" onclick="location.href='<%=request.getContextPath()%>/productpage?no=<%=p.getProductCategoryList().getProductId()%>';">
               <div class="con-like">
                 <input title="like" type="checkbox" class="like" />
                 <div class="checkmark">
@@ -64,24 +68,24 @@
                   src="https://upload.wikimedia.org/wikipedia/ko/8/87/Kakaofriends.png"
                   alt=""
                 />
-                <p id="productName"><%=p.getProducttitle()%></p>
-                <p id="productPrice"><%=p.getPrice()%>
-                <span><%if(p.getElapsedtime() < 60){%>
-               		<%=p.getElapsedtime()+ "초 전"%>
-               	<%}else if(p.getElapsedtime() >= 60 && p.getElapsedtime() < 3600) {%>
-               	<%=(p.getElapsedtime() / 60) + "분 전"%>
-               	<%}else if(p.getElapsedtime() >= 3600 && p.getElapsedtime() < 86400) {%>
-               		<%=(p.getElapsedtime() / 60) / 60  + "시간 전"%>
-               	<%}else if(p.getElapsedtime() >= 86400 && p.getElapsedtime() < 2592000) {%>
-               		<%=(p.getElapsedtime() / 60) / 60 / 24 + "일 전"%>
-               	<%}else if(p.getElapsedtime() >= 2592000 && p.getElapsedtime() < 31536000) {%>
-               		<%=(p.getElapsedtime() / 60) / 60 / 24 / 30 + "개월 전"%>
+                <p id="productName"><%=p.getProductCategoryList().getProductTitle()%></p>
+                <p id="productPrice"><%=p.getProductCategoryList().getPrice()%>
+                <span><%if(p.getElapsedTime() < 60){%>
+               		<%=p.getElapsedTime()+ "초 전"%>
+               	<%}else if(p.getElapsedTime() >= 60 && p.getElapsedTime() < 3600) {%>
+               	<%=(p.getElapsedTime() / 60) + "분 전"%>
+               	<%}else if(p.getElapsedTime() >= 3600 && p.getElapsedTime() < 86400) {%>
+               		<%=(p.getElapsedTime() / 60) / 60  + "시간 전"%>
+               	<%}else if(p.getElapsedTime() >= 86400 && p.getElapsedTime() < 2592000) {%>
+               		<%=(p.getElapsedTime() / 60) / 60 / 24 + "일 전"%>
+               	<%}else if(p.getElapsedTime() >= 2592000 && p.getElapsedTime() < 31536000) {%>
+               		<%=(p.getElapsedTime() / 60) / 60 / 24 / 30 + "개월 전"%>
                	<%}else{%>
-               		<%=(p.getElapsedtime() / 60) / 60 / 24 / 30 / 12 + "년 전"%>
+               		<%=(p.getElapsedTime() / 60) / 60 / 24 / 30 / 12 + "년 전"%>
                	<%} %></span></p>
                 <p id="productPlace">
                   <i class="bi bi-geo-alt"></i>
-                  <%=p.getGoonguareaid()%>
+                  <%=p.getProductCategoryList().getGoonguareaId()%>
                 </p>
             </div>
            <%}%>
@@ -90,6 +94,6 @@
 	     	<ul class="page">
 	         	<%=request.getAttribute("pageBar") %>
 	        </ul>
-	   	</div>
-
-    <script src="<%=request.getContextPath()%>/js/productsearchchartpage/test.js"></script>	
+	   	</div>	
+	    
+    <script src="<%=request.getContextPath()%>/js/productsearchchartpage/test.js"></script>

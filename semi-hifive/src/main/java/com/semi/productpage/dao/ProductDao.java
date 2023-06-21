@@ -50,12 +50,12 @@ public class ProductDao {
 		}return p;
 	}	
 	
-	public List<ProductComment> selectProductComment(Connection conn,int id){
+	public List<ProductComment> selectAllAjaxProductComment(Connection conn,int id){
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
 		List<ProductComment> list=new ArrayList();
 		try {
-			pstmt=conn.prepareStatement(sql.getProperty("selectProductComment"));
+			pstmt=conn.prepareStatement(sql.getProperty("selectAllAjaxProductComment"));
 			pstmt.setInt(1, id);
 			rs=pstmt.executeQuery();
 			while(rs.next())

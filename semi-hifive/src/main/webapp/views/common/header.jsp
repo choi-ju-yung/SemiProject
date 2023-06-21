@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
-<%@page import="com.semi.category.model.vo.CategoryDto"%>
+<%@page import="com.semi.category.model.vo.Category"%>
 <%@page import="java.util.List"%>
 <%@ page import="com.semi.member.model.vo.Member"%>
 <%
@@ -39,45 +39,9 @@ if (cookies != null) {
    src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 <script src="<%=request.getContextPath()%>/js/jquery-3.7.0.min.js"></script>
 <!--  -->
-<link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css"
-    />
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/productsearchchartpage.css" />
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/page.css" />
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.umd.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 <title>중고 거래 HiFive</title>
 </head>
 <body>
-<script>
-//카테고리 클릭시 상품리스트 출력 ajax
-function Test_btn() {
-	$.ajax({
-		url: "<%=request.getContextPath()%>/categoryproductlist.do",
-         dateType: 'html',
-         success: function(data){
-         	$("section").html(data); 
-          }
-	});
-}
-
-</script>
    <header>
       <div id="headerContainer">
          <div id="fixedContainer">
@@ -286,6 +250,19 @@ function Test_btn() {
          </div>
       </div>
    </header>
+   <script>
+//카테고리 클릭시 상품리스트 출력 ajax
+function Test_btn() {
+	$.ajax({
+		url: "<%=request.getContextPath()%>/categoryproductlist.do",
+         dateType: 'html',
+         success: function(data){
+         	$("section").html(data); 
+          }
+	});
+}
+
+</script>
    <script src="<%=request.getContextPath()%>/js/common/header.js"></script>
 </body>
 </html>

@@ -42,9 +42,9 @@ public class BoardListServlet extends HttpServlet {
 		int pageEnd = pageNo + pageBarSize - 1;
 
 		if (pageNo == 1) {
-			pageBar += "<li><span class='pageMove'>&lt;</span></li>";
+			pageBar += "<li><span class='pageMove'>&lt;&lt;</span></li>";
 		} else {
-			pageBar += "<li><a href='" + request.getRequestURI() + "?cPage=" + (pageNo - 1) + "&notice=" + noticeYN +"'>&lt;</a></li>";
+			pageBar += "<li><a href='" + request.getRequestURI() + "?cPage=" + (pageNo - 1) + "&notice=" + noticeYN +"'>&lt;&lt;</a></li>";
 		}
 		while (!(pageNo > pageEnd || pageNo > totalPage)) {
 			if (pageNo == cPage) {
@@ -56,9 +56,9 @@ public class BoardListServlet extends HttpServlet {
 			pageNo++;
 		}
 		if (pageNo > totalPage) {
-			pageBar += "<li><span>&gt;</span></li>";
+			pageBar += "<li><span>&gt;&gt;</span></li>";
 		} else {
-			pageBar += "<li><a href='" + request.getRequestURI() + "?cPage=" + pageNo + "&notice=" + noticeYN + "'>&gt;</a></li>";
+			pageBar += "<li><a href='" + request.getRequestURI() + "?cPage=" + pageNo + "&notice=" + noticeYN + "'>&gt;&gt;</a></li>";
 		}
 		request.setAttribute("pageBar", pageBar);
 

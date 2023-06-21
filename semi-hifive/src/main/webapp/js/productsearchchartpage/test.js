@@ -424,3 +424,40 @@ var myChart = new Chart(chartArea, {
         }
     }
 });*/
+
+/*//ajax로 페이징 처리한 페이지 바 선택시 출력해주는 함수
+    function changePage(pageNo) {
+        $.ajax({
+            url: "<%=request.getContextPath()%>/categoryproductlist.do",
+            type: "GET",
+            data: {
+                'cPage': pageNo,
+                'numPerpage': 32
+            },
+            dataType: "html",
+            success: function(data) {
+                $("section").html(data);
+            }
+        });
+    }
+    //대표카테고리 클릭시 출력 ajax
+            function searchProduct(Cid){
+           		$.ajax({
+           			url: "<%=request.getContextPath()%>/serachcategory.do",
+           			dateType: 'html',
+           			data:{'Cid':Cid},
+           			success: function(data){
+           				$("#productContainer").html(data); 
+           			}
+           		});
+           	};
+			function subsearchProduct(sub){
+				$.ajax({
+          			url: "<%=request.getContextPath()%>/subserachcategory.do",
+          			dateType: 'html',
+          			data:{'sub':sub},
+          			success: function(data){
+          				$("#productContainer").html(data);
+          			}
+          		});
+          	}*/

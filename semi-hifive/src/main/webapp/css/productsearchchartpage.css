@@ -1,3 +1,51 @@
+* {
+  font-family: "NEXON Lv2 Gothic" !important;
+}
+
+body {
+  line-height: normal;
+  font-size: initial;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: bold;
+}
+dl,
+ol,
+ul {
+  padding: 0px;
+  margin: 0px;
+}
+
+hr {
+  margin: 0px;
+}
+*,
+::after,
+::before {
+  box-sizing: inherit;
+}
+
+pre {
+  font-size: inherit;
+}
+p {
+  margin: 0px;
+}
+
+img,
+svg {
+  vertical-align: unset;
+}
+
+label {
+  margin: 0px;
+}
 #wraperContainer {
   display: flex;
   /* height: 3000px; */

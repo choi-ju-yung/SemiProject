@@ -24,9 +24,9 @@ public class ProductPageService {
 		return result;		
 	}
 	
-	public List<ProductComment> selectProductComment(int id){
+	public List<ProductComment> selectAllAjaxProductComment(int id){
 		Connection conn=getConnection();
-		List<ProductComment> list=dao.selectProductComment(conn,id);
+		List<ProductComment> list=dao.selectAllAjaxProductComment(conn,id);
 		close(conn);
 		return list;
 	}

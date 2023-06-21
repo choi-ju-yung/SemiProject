@@ -1,4 +1,4 @@
-package com.semi.product.controller;
+package com.semi.productlist.controller;
 
 import java.io.IOException;
 import java.util.List;
@@ -9,12 +9,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
-import com.semi.category.model.vo.CategoryDto;
+import com.semi.category.model.vo.Category;
+import com.semi.category.model.vo.CategorySubCategory;
 import com.semi.category.service.CategoryService;
-import com.semi.mypage.service.MypageProductService;
-import com.semi.product.model.service.ProductChartPageService;
-import com.semi.product.model.vo.ProductDto;
+import com.semi.productlist.model.service.ProductCategoryListService;
+import com.semi.productlist.model.vo.ProductCategoryTimeList;
 
 /**
  * Servlet implementation class ProductCategoryListServlet
@@ -49,7 +48,7 @@ public class ProductCategoryListServlet extends HttpServlet {
 					numPerpage = 32;
 				}
 				String pageBar = "";
-				int totalData = new ProductChartPageService().CategoryProductListCount();
+				int totalData = new ProductCategoryListService().CategoryProductListCount();
 				int totalPage = (int)Math.ceil((double)totalData/numPerpage);
 				int pageBarSize = 5;
 				int pageNo = ((cPage-1)/pageBarSize)*pageBarSize + 1;
@@ -74,17 +73,20 @@ public class ProductCategoryListServlet extends HttpServlet {
 					pageBar += "<li><a href='javascript:void(0);'onclick='changePage("+ pageNo + ");'&numPerpage=" + numPerpage + "'>&gt;</a></li>";
 				}
 				request.setAttribute("pageBar", pageBar);
+				
 		
 	    //카테고리와 서브카테고리 상품 테이블 모두 join해서 가져오는 상품List 객체
-		List<ProductDto> productlist = new ProductChartPageService().CategoryProductList(cPage, numPerpage);
+		List<ProductCategoryTimeList> productlist = new ProductCategoryListService().CategoryProductList(cPage, numPerpage);
 		//카테고리와 서브카테고리랑만 join해서 가져오는 List객체
-		List<CategoryDto> categorylist = new CategoryService().SubCategoryList();
+		List<CategorySubCategory> categorylist = new CategoryService().SubCategoryList();
 		//카테고리만 가져오는 List객체
-		List<CategoryDto> category = new CategoryService().Category();
+		List<Category> category = new CategoryService().Category();
+		
+		//카테고리와 서브카테고리 상품 테이블 모두 join해서 가져오는 상품List 갯수 set에 저장
+		request.setAttribute("totalData", totalData);
 		
 		request.setAttribute("category", category);
 		request.setAttribute("categorylist", categorylist);
-
 		request.setAttribute("productlist", productlist);
 		request.getRequestDispatcher("/views/productcategorypage/productcategorylistpage.jsp").forward(request, response);
 	
