@@ -1,26 +1,27 @@
 package com.semi.productpage.controller;
 
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
+import com.semi.productpage.model.vo.ProductComment;
 import com.semi.productpage.service.ProductPageService;
 
 /**
- * Servlet implementation class ProductDeleteCommentServlet
+ * Servlet implementation class ProductChangeCommentServlet
  */
-@WebServlet("/deleteComment")
-public class ProductDeleteCommentServlet extends HttpServlet {
+@WebServlet("/updateAjaxComment")
+public class ProductUpdateAjaxCommentServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ProductDeleteCommentServlet() {
+    public ProductUpdateAjaxCommentServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -29,20 +30,15 @@ public class ProductDeleteCommentServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int no=Integer.parseInt(request.getParameter("productId"));
 		int cn=Integer.parseInt(request.getParameter("commentNo"));
+		ProductComment pc=ProductComment.builder()
+				.productId(Integer.parseInt(request.getParameter("productId")))
+				.content(request.getParameter("content"))
+				.build();
 
-		int result=new ProductPageService().deleteProductComment(cn);
-		String view;
-		if(result>0) {
-			request.setAttribute("msg", "댓글을 삭제하였습니다.");
-			request.setAttribute("loc", "/productpage?no="+no);
-			request.getRequestDispatcher("/views/common/msg.jsp").forward(request, response);
-		}else {
-			request.setAttribute("msg", "댓글삭제를 실패하였습니다.");
-			request.setAttribute("loc", "/productpage?no="+no);
-			request.getRequestDispatcher("/views/common/msg.jsp").forward(request, response);
-		}
+		int result=new ProductPageService().updateAjaxProductComment(pc,cn);
+		
+		response.getWriter().print(result);
 	}
 
 	/**

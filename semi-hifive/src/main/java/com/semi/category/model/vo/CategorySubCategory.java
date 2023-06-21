@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CategoryDto {
-	private String categoryid;
-	private String categoryname;
+public class CategorySubCategory {
+	private Category category;	
+	private SubCategory subCategory;
 }

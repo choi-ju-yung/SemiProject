@@ -14,7 +14,7 @@ import com.semi.productpage.service.ProductPageService;
 /**
  * Servlet implementation class ProductPageComment
  */
-@WebServlet("/insertComment")
+@WebServlet("/insertAjaxComment")
 public class ProductInsertCommentServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -38,17 +38,10 @@ public class ProductInsertCommentServlet extends HttpServlet {
 				.commentRef(Integer.parseInt(request.getParameter("commentRef")))
 				.nickName(request.getParameter("nickName"))
 				.build();
-		int result=new ProductPageService().insertProductComment(pc);
+		int result=new ProductPageService().insertAjaxProductComment(pc);
+	
 		
-		String view;
-		if(result>0) {
-			view = request.getContextPath()+"/productpage?no="+pc.getProductId();
-			response.sendRedirect(view);
-		}else {			
-//			request.setAttribute("loc", "/board/boardView.do?no="+bc.getBoardRef());
-//			view="/views/common/msg.jsp";
-//			request.getRequestDispatcher(view).forward(request,response);
-		}
+		response.getWriter().print(result);
 	}
 
 	/**

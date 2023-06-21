@@ -32,7 +32,7 @@ public class CheckNumberServlet extends HttpServlet {
 			// 1 , 2 , 3
 			int result = new MemberService().checkNumber(inputEmail,cNumber);
 			
-			response.getWriter().print(result);
+			response.getWriter().print(result);  // getWriter -> jsp의 data로 들어감
 			
 		}catch(Exception e) {
 			e.printStackTrace();

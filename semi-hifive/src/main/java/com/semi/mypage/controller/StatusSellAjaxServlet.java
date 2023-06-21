@@ -1,4 +1,4 @@
-package com.semi.category.controller;
+package com.semi.mypage.controller;
 
 import java.io.IOException;
 import java.util.List;
@@ -9,20 +9,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.semi.category.model.vo.CategoryDto;
-import com.semi.category.service.CategoryService;
+import com.google.gson.Gson;
+import com.semi.mypage.model.vo.ProductList;
+import com.semi.mypage.service.MypageProductService;
 
 /**
- * Servlet implementation class HeaderCategoryServlet
+ * Servlet implementation class StatusAllAjaxServlet
  */
-@WebServlet("/ajax/headercategory.do")
-public class HeaderCategoryServlet extends HttpServlet {
+@WebServlet("/mypage/sellBtn.do")
+public class StatusSellAjaxServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public HeaderCategoryServlet() {
+    public StatusSellAjaxServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,10 +32,14 @@ public class HeaderCategoryServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		List<CategoryDto> categorylist = new CategoryService().CategoryList();
-		request.setAttribute("categorylist", categorylist);
-		request.getRequestDispatcher("/views/common/header.jsp").forward(request, response);
+		String userId = request.getParameter("userId");
+		List<ProductList> p = new MypageProductService().sellStatusSell(userId);
 		
+		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
+		String json = new Gson().toJson(p);
+		response.getWriter().write(json);
+		//new Gson().toJson(p, response.getWriter());
 	}
 
 	/**

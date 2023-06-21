@@ -36,7 +36,7 @@
             <div class="product">
                 <a href=""><img src="<%=request.getContextPath() %>/img/구매목록img/예시 이미지.jpg" alt=""></a>
                 <div class="proContent">
-                    <h5 class="grayFont"><a href="" class="aTag grayFont"><%=p.getCategory().getCategoryName() %></a> &rsaquo; <a href=""
+                    <h5 class="grayFont"><a href="" class="aTag grayFont categoryA"><%=p.getCategory().getCategoryName() %></a> &rsaquo; <a href=""
                             class="aTag grayFont"><%=p.getSubcategoryName() %></a></h5>
                     <h4 class="contentMargin"><a href="" class="aTag productTitle"><%=p.getProductTitle() %></a></h4>
                     <h3><%=new DecimalFormat("###,###").format(p.getPrice()) %>원</h3>
@@ -71,6 +71,8 @@
         </div>
     </div>
 
+<%for(ProductList p : product){
+        %>
     <div class="modal hidden">
         <div class="bg"></div>
         <div class="modal_delMem">
@@ -81,27 +83,12 @@
             <p>삭제 시, 상품은 삭제되며<br>
                 복구되지 않습니다.</p>
             <div class="modal_button">
-                <button class="modalBtn">삭제</button>
+                <button id="<%=p.getProductId() %>" class="modalBtn modalDelBtn">삭제</button>
                 <button class="closeBtn modalBtn">취소</button>
             </div>
         </div>
     </div>
-
-    <div class="modal hidden modal2 hidden2">
-        <div class="bg"></div>
-        <div class="modal_delMem">
-            <div class="trashIcon">
-                <ion-icon name="trash-outline" style="font-size: 32px; color: white;"></ion-icon>
-            </div>
-            <h3>정말?</h3>
-            <p>탈퇴 시, 계정은 삭제되며<br>
-                복구되지 않습니다.</p>
-            <div class="modal_button">
-                <button>탈퇴</button>
-                <button class="closeBtn">취소</button>
-            </div>
-        </div>
-    </div>
+<%} %>
 
 </section>
 <script src="<%=request.getContextPath()%>/js/mypage/sellList.js"></script>

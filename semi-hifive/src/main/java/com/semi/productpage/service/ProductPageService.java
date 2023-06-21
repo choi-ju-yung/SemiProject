@@ -6,6 +6,7 @@ import static com.semi.common.JDBCTemplate.getConnection;
 import static com.semi.common.JDBCTemplate.rollback;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.util.List;
 
 import com.semi.productpage.dao.ProductDao;
@@ -23,34 +24,55 @@ public class ProductPageService {
 		return result;		
 	}
 	
-	public List<ProductComment> selectProductComment(int id){
+	public List<ProductComment> selectAllAjaxProductComment(int id){
 		Connection conn=getConnection();
-		List<ProductComment> list=dao.selectProductComment(conn,id);
+		List<ProductComment> list=dao.selectAllAjaxProductComment(conn,id);
 		close(conn);
 		return list;
 	}
 	
-	public int insertProductComment(ProductComment pc) {
+	public ProductComment selectAjaxProductComment(int id){
 		Connection conn=getConnection();
-		int result=dao.insertProductComment(conn,pc);
+		ProductComment p=dao.selectAjaxProductComment(conn,id);
+		close(conn);
+		return p;
+	}
+	
+	public ProductComment selectReAjaxProductComment(int id){
+		Connection conn=getConnection();
+		ProductComment p=dao.selectReAjaxProductComment(conn,id);
+		close(conn);
+		return p;
+	}
+	
+	public int insertAjaxProductComment(ProductComment pc) {
+		Connection conn=getConnection();
+		int result=dao.insertAjaxProductComment(conn,pc);
 		if(result>0) commit(conn);
 		else rollback(conn);
 		close(conn);
 		return result;
 	}
 	
-	public int changeProductComment(ProductComment pc, int cn) {
+	public int updateAjaxProductComment(ProductComment pc, int cn) {
 		Connection conn=getConnection();
-		int result=dao.changeProductComment(conn,pc,cn);
+		int result=dao.updateAjaxProductComment(conn,pc,cn);
 		if(result>0) commit(conn);
 		else rollback(conn);
 		close(conn);
 		return result;
 	}
 	
-	public int deleteProductComment(int cn) {
+	public ProductComment updateSelectAjaxProductComment(int cn){
 		Connection conn=getConnection();
-		int result=dao.deleteProductComment(conn,cn);
+		ProductComment p=dao.updateSelectAjaxProductComment(conn,cn);
+		close(conn);
+		return p;
+	}
+	
+	public int deleteAjaxProductComment(int cn) {
+		Connection conn=getConnection();
+		int result=dao.deleteAjaxProductComment(conn,cn);
 		if(result>0) commit(conn);
 		else rollback(conn);
 		close(conn);
