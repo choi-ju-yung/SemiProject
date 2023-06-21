@@ -381,8 +381,8 @@ $("document").ready(function () {
 
 // 시세 차트 설정
 // 먼저 범례부분에 담을 div를 가져옴
-window.onload = function () {
-  chartDraw();
+/*window.onload = function () {
+  //chartDraw();
   let legendDiv = document.getElementById('legend-div');
   legendDiv.innerHTML = myChart.generateLegend();
 }
@@ -424,36 +424,4 @@ var myChart = new Chart(chartArea, {
             }
         }
     }
-});
-
-$(document).ready(function() {
-  var currentPage = 1; // 현재 페이지 초기값 설정
-  
-  // 페이지 로드 시 초기 데이터 가져오기
-  loadPageData(currentPage);
-  
-  // 페이지 번호 클릭 이벤트 처리
-  $(document).on('click', '.pagination-link', function(e) {
-    e.preventDefault();
-    var page = $(this).data('page');
-    loadPageData(page);
-  });
-  
-  
-/*function loadPageData(page) {
-    $.ajax({
-      url: '/categoryproductlist.do', // 서버 API 주소로 변경해야 합니다.
-      type: 'GET',
-      data: { cPage: page },
-      dataType: 'html',
-      success: function(response) {
-        // 서버로부터 받은 HTML 데이터를 출력합니다.
-        $('#productImgContainer').html(response);
-      },
-      error: function(xhr, status, error) {
-        // 에러 처리 로직을 작성합니다.
-        console.error(error);
-      }
-    });
-  }*/
-});
+});*/

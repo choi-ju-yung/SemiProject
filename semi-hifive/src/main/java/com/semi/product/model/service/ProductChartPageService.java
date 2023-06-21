@@ -37,16 +37,17 @@ public class ProductChartPageService {
 		return p;
 	}
 	
-	public List<ProductDto> SelectCategoryList(int cPage, int numPerpage ,String categoryid) {
+	//서브카테고리 이름을 찾아서 가져오기
+	public List<ProductDto> SelectCategoryList(int cPage, int numPerpage ,String subcategoryname) {
 		Connection conn = getConnection();
-		List<ProductDto> p = dao.SelectCategoryList(conn, cPage, numPerpage, categoryid);
+		List<ProductDto> p = dao.SelectCategoryList(conn, cPage, numPerpage, subcategoryname);
 		close(conn);
 		return p;
 	}
 	
-	public int SelectCategoryProductListCount(String categoryid){
+	public int SelectCategoryProductListCount(String subcategoryname){
 		Connection conn = getConnection();
-		int result = dao.CategoryProductListCount(conn);
+		int result = dao.SelectCategoryProductListCount(conn, subcategoryname);
 		close(conn);
 		return result;
 	}

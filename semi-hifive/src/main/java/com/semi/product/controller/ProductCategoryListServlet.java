@@ -57,30 +57,31 @@ public class ProductCategoryListServlet extends HttpServlet {
 				if(pageNo == 1) {
 					pageBar += "<li><span class='pageMove'>&lt;</span></li>";
 				} else {
-					pageBar += "<li><a href='" + request.getRequestURI()+ "?cPage=" + (pageNo-1) + "&numPerpage=" + numPerpage + "'>&lt;</a></li>";
+					pageBar += "<li><a href='javascript:void(0);' onclick='changePage("+(pageNo-1)+");'>&lt;</a></li>";
 				}
 				while(!(pageNo>pageEnd||pageNo>totalPage)) {
 					if(pageNo==cPage) {
 						pageBar+="<li><span class='nowPage'>"+pageNo+"</span></li>";
 					}else {
-						pageBar+="<li><a href='"+request.getRequestURI()+"?cPage=" + pageNo + "&numPerpage=" +numPerpage + "'>" + pageNo + "</a></li>";
+						pageBar+="<li><a href='javascript:void(0);' onclick='changePage("+ pageNo + ");'&numPerpage=" +numPerpage + "'>" + pageNo + "</a></li>";
 					}
 					pageNo++;
 				}
 				if(pageNo>totalPage) {
 					pageBar += "<li><span>&gt;</span></li>";
 				} else {
-					pageBar += "<li><a href='" + request.getRequestURI()+ "?cPage=" + pageNo + "&numPerpage=" + numPerpage + "'>&gt;</a></li>";
+					pageBar += "<li><a href='javascript:void(0);'onclick='changePage("+ pageNo + ");'&numPerpage=" + numPerpage + "'>&gt;</a></li>";
 				}
 				request.setAttribute("pageBar", pageBar);
 		
+	    //카테고리와 서브카테고리 상품 테이블 모두 join해서 가져오는 상품List 객체
 		List<ProductDto> productlist = new ProductChartPageService().CategoryProductList(cPage, numPerpage);
-		
+		//카테고리와 서브카테고리랑만 join해서 가져오는 List객체
 		List<CategoryDto> categorylist = new CategoryService().SubCategoryList();
+		//카테고리만 가져오는 List객체
+		List<CategoryDto> category = new CategoryService().Category();
 		
-		List<CategoryDto> selectcategory = new CategoryService().SelectCategory();
-	
-		request.setAttribute("selectcategory", selectcategory);
+		request.setAttribute("category", category);
 		request.setAttribute("categorylist", categorylist);
 		request.setAttribute("productlist", productlist);
 		request.getRequestDispatcher("/views/productcategorypage/productcategorylistpage.jsp").forward(request, response);

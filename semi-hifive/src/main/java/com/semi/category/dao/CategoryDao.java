@@ -44,12 +44,12 @@ public class CategoryDao {
 	
 	
 	// 대표카테고리만 출력해주는 메소드
-	public List<CategoryDto> SelectCategory(Connection conn) {
+	public List<CategoryDto> Category(Connection conn) {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		List<CategoryDto> selectcategory = new ArrayList<>();
 		try {
-			pstmt = conn.prepareStatement(sql.getProperty("SelectCategory"));
+			pstmt = conn.prepareStatement(sql.getProperty("Category"));
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				selectcategory.add(getselectcategory(rs));
@@ -79,5 +79,25 @@ public class CategoryDao {
 			close(pstmt);
 		}return subctcategory;
 	}
+	
+	// 대표카테고리 테이블에서 대표카테고리 이름을 찾아서 출력해주는 메소드
+		public CategoryDto CategoryName(Connection conn, String categoryname) {
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			CategoryDto c = null;
+			try {
+				pstmt = conn.prepareStatement(sql.getProperty("CategoryName"));
+				pstmt.setString(1, categoryname);
+				rs = pstmt.executeQuery();
+				if(rs.next()) {
+					c = getselectcategory(rs);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}finally {
+				close(rs);
+				close(pstmt);
+			}return c;
+		}
 	
 }

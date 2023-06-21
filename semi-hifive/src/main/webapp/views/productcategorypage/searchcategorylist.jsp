@@ -1,10 +1,26 @@
+<%@page import="com.semi.category.model.vo.CategoryDto"%>
 <%@page import="com.semi.product.model.vo.ProductDto"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
+	CategoryDto cn = (CategoryDto)request.getAttribute("ccategoryname");
+%>
+<%
 	List<ProductDto> cpd = (List)request.getAttribute("categoryproduct");
 %>
+		<div id="selectCategory">
+            <div id="categoryName">
+            	<h4><%=cn.getCategoryname()%><span> (453)</span></h4>
+            </div>
+            <div id="categoryFunction">
+              <span>최신순</span>
+              <span>인기도순</span>
+              <span>최고가순</span>
+              <span>최저가순</span>
+            </div>
+          </div>
+		<div id="productImgContainer">
 		<%for(ProductDto p : cpd){%>
             <div id="pimgWraper" onclick="location.href='<%=request.getContextPath()%>/productpage?no=<%=p.getProductId()%>';">
               <div class="con-like">
@@ -73,4 +89,11 @@
                 </p>
             </div>
            <%}%>
-          
+          </div>
+          <div class="pageBar">
+	     	<ul class="page">
+	         	<%=request.getAttribute("pageBar") %>
+	        </ul>
+	   	</div>	
+	    
+    <script src="<%=request.getContextPath()%>/js/productsearchchartpage/test.js"></script>

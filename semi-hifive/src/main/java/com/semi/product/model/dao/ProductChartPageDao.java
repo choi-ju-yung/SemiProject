@@ -107,16 +107,16 @@ public class ProductChartPageDao {
 		}return p;
 	}
 	
-	//선택한 카테고리 상품이동
-	public List<ProductDto> SelectCategoryList(Connection conn, int cPage, int numPerpage ,String categoryid) {
+	//선택한 서브카테고리이름으로 찾아서 상품이동
+	public List<ProductDto> SelectCategoryList(Connection conn, int cPage, int numPerpage ,String subcategoryname) {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		List<ProductDto> selectcategorylist = new ArrayList<>();
 		try {
 			pstmt = conn.prepareStatement(sql.getProperty("SelectCategoryList"));
+			pstmt.setString(1, subcategoryname);
 			pstmt.setInt(2, (cPage-1) * numPerpage + 1);
 			pstmt.setInt(3, cPage * numPerpage);
-			pstmt.setString(1, categoryid);
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				selectcategorylist.add(getProduct(rs));
@@ -129,14 +129,14 @@ public class ProductChartPageDao {
 		}return selectcategorylist;
 	}
 	
-	public int SelectCategoryProductListCount(Connection conn, String categoryid) {
+	public int SelectCategoryProductListCount(Connection conn, String subcategoryname) {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		int result = 0;
 		
 		try {
 			pstmt = conn.prepareStatement(sql.getProperty("SelectCategoryProductListCount"));
-			pstmt.setString(1, categoryid);
+			pstmt.setString(1, subcategoryname);
 			rs = pstmt.executeQuery();
 			if(rs.next()){
 				result = rs.getInt(1);
