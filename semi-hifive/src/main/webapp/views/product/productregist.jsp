@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
+<%
+List<Category> categorys = (List)request.getAttribute("categorys");
+%>
 
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/css/product/productregist.css" />
@@ -67,21 +70,17 @@
         <div class="cate">
             <h4 class="h4Size">카테고리 *</h4>
             <form name="frm1">
-                <select class="mainCate" onchange="redirect(this.selectedIndex);">
-                    <option value="0"></option>
-                    <option value="1"></option>
-                    <option value="2"></option>
-                    <option value="3"></option>
-                    <option value="4"></option>
-                    <option value="5"></option>
-                    <option value="6"></option>
-                    <option value="7"></option>
-                    <option value="8"></option>
-                    <option value="9"></option>
-                    <option value="10"></option>
-                    <option value="11"></option>
+                <select class="mainCate" onchange="chageSubCate(this.value);"> <!-- this.value -> 선택된 option의 밸류값을 매개변수로 넣음 -->  
+					<%if(!categorys.isEmpty()){ 
+						for(int i=0; i<categorys.size(); i++){%>
+						<option value="<%=categorys.get(i).getCategoryId()%>"><%=categorys.get(i).getCategoryName()%></option>
+						<% }
+					
+					} %>
+					
                 </select>
-                <select class="middleCate" onchange="redirect1(this.selectedIndex);">
+                <select class="middleCate">
+                
                 </select>
             </form>
         </div>
