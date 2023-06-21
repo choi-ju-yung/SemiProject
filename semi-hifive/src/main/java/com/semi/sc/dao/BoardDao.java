@@ -252,6 +252,7 @@ public class BoardDao {
 		return result;
 	}
 
+	//파일 저장
 	public int insertBoardFile(Connection conn, BoardFile bf) {
 		PreparedStatement pstmt=null;
 		int result=0;
@@ -259,6 +260,38 @@ public class BoardDao {
 			pstmt=conn.prepareStatement(sql.getProperty("insertFile"));
 			pstmt.setInt(1, bf.getBoardNo());
 			pstmt.setString(2, bf.getBoardFileName());
+			result=pstmt.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+	//댓글 수정
+	public int updateComment(Connection conn, int commentNo, String data) {
+		PreparedStatement pstmt=null;
+		int result=0;
+		try {
+			pstmt=conn.prepareStatement(sql.getProperty("updateComment"));
+			pstmt.setString(1, data);
+			pstmt.setInt(2, commentNo);
+			result=pstmt.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+	public int deleteComment(Connection conn, int commentNo) {
+		PreparedStatement pstmt=null;
+		int result=0;
+		try {
+			pstmt=conn.prepareStatement(sql.getProperty("deleteComment"));
+			pstmt.setInt(1, commentNo);
 			result=pstmt.executeUpdate();
 		}catch(SQLException e) {
 			e.printStackTrace();

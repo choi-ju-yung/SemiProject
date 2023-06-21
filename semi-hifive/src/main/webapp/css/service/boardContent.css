@@ -14,6 +14,7 @@
     box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
     position: relative;
     /* margin-right: 10px; */
+    cursor: pointer;
 }
 /* 제목 부분 */
 div.contentTitle{
@@ -56,6 +57,7 @@ div.contentTop>p{
     border-radius: 10px;
     box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
     position: relative;
+    cursor: pointer;
 }
 .commentBtn:after{
     content: "";
@@ -99,6 +101,7 @@ div.contentTop>p{
     border-radius: 5px;
     box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
     position: relative;
+    cursor: pointer;
 }
 
 /* 댓글 작성 부분 */
@@ -142,14 +145,17 @@ div.commentUpdate{
     margin-bottom: 10px;
 }
 /* 댓글 수정, 삭제 */
-div.commentUpdate>a{
+div.commentUpdate>button{
     text-decoration: none;
     font-weight: 700;
     color: gray;
     margin-right: 10px;
     font-size: 14px;
+    border: 0;
+  	background-color: transparent;
+    cursor: pointer;
 }
-div.commentUpdate>a:hover{
+div.commentUpdate>button:hover{
     color: black;
 }
 
@@ -161,4 +167,22 @@ div.recomment{
 /* 대댓글 작성 부분 */
 div.comment>.commentWrite{
     margin-left: 30px;
+}
+
+/* 댓글 수정 버튼 */
+.updateCommentData{
+	width: 80px;
+    height: 40px;
+    background-color: #20C997;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    margin: 0px 10px;
+    text-align: center;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 10px;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
+    position: relative;
+    cursor: pointer;
 }
