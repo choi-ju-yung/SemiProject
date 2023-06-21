@@ -38,27 +38,41 @@ public class ProductPageService {
 		return p;
 	}
 	
-	public int insertProductComment(ProductComment pc) {
+	public ProductComment selectReAjaxProductComment(int id){
 		Connection conn=getConnection();
-		int result=dao.insertProductComment(conn,pc);
+		ProductComment p=dao.selectReAjaxProductComment(conn,id);
+		close(conn);
+		return p;
+	}
+	
+	public int insertAjaxProductComment(ProductComment pc) {
+		Connection conn=getConnection();
+		int result=dao.insertAjaxProductComment(conn,pc);
 		if(result>0) commit(conn);
 		else rollback(conn);
 		close(conn);
 		return result;
 	}
 	
-	public int changeProductComment(ProductComment pc, int cn) {
+	public int updateAjaxProductComment(ProductComment pc, int cn) {
 		Connection conn=getConnection();
-		int result=dao.changeProductComment(conn,pc,cn);
+		int result=dao.updateAjaxProductComment(conn,pc,cn);
 		if(result>0) commit(conn);
 		else rollback(conn);
 		close(conn);
 		return result;
 	}
 	
-	public int deleteProductComment(int cn) {
+	public ProductComment updateSelectAjaxProductComment(int cn){
 		Connection conn=getConnection();
-		int result=dao.deleteProductComment(conn,cn);
+		ProductComment p=dao.updateSelectAjaxProductComment(conn,cn);
+		close(conn);
+		return p;
+	}
+	
+	public int deleteAjaxProductComment(int cn) {
+		Connection conn=getConnection();
+		int result=dao.deleteAjaxProductComment(conn,cn);
 		if(result>0) commit(conn);
 		else rollback(conn);
 		close(conn);

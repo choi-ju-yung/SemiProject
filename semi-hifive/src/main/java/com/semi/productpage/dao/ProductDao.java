@@ -89,13 +89,35 @@ public class ProductDao {
 			close(pstmt);
 		}return p;
 	}
+	
+	public ProductComment selectReAjaxProductComment(Connection conn, int id) {
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		ProductComment p=null;
+		String sql=this.sql.getProperty("selectReAjaxProductComment");
+		
+		
+		try {
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setInt(1,id);
+			rs=pstmt.executeQuery();
+			if(rs.next()) {
+				p=getProductComment(rs);
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rs);
+			close(pstmt);
+		}return p;
+	}
 
 	
-	public int insertProductComment(Connection conn, ProductComment pc) {
+	public int insertAjaxProductComment(Connection conn, ProductComment pc) {
 		PreparedStatement pstmt=null;
 		int result=0;
 		try {
-			pstmt=conn.prepareStatement(sql.getProperty("insertProductComment"));
+			pstmt=conn.prepareStatement(sql.getProperty("insertAjaxProductComment"));
 			pstmt.setString(1,pc.getUserId());
 			pstmt.setInt(2, pc.getProductId());			
 			pstmt.setInt(3,pc.getCommentLevel());
@@ -111,11 +133,11 @@ public class ProductDao {
 		}return result;
 	}
 	
-	public int changeProductComment(Connection conn, ProductComment pc, int cn) {
+	public int updateAjaxProductComment(Connection conn, ProductComment pc, int cn) {
 		PreparedStatement pstmt=null;
 		int result=0;
 		try {
-			pstmt=conn.prepareStatement(sql.getProperty("changeProductComment"));						
+			pstmt=conn.prepareStatement(sql.getProperty("updateAjaxProductComment"));						
 			pstmt.setString(1,pc.getContent());
 			pstmt.setInt(2,cn);
 			pstmt.setInt(3, pc.getProductId());
@@ -127,11 +149,33 @@ public class ProductDao {
 		}return result;
 	}
 	
-	public int deleteProductComment(Connection conn,int cn) {
+	public ProductComment updateSelectAjaxProductComment(Connection conn, int cn) {
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		ProductComment p=null;
+		String sql=this.sql.getProperty("updateSelectAjaxProductComment");
+		
+		
+		try {
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setInt(1,cn);
+			rs=pstmt.executeQuery();
+			if(rs.next()) {
+				p=getProductComment(rs);
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rs);
+			close(pstmt);
+		}return p;
+	}
+	
+	public int deleteAjaxProductComment(Connection conn,int cn) {
 		PreparedStatement pstmt=null;
 		int result=0;
 		try {
-			pstmt=conn.prepareStatement(sql.getProperty("deleteProductComment"));						
+			pstmt=conn.prepareStatement(sql.getProperty("deleteAjaxProductComment"));						
 			pstmt.setInt(1,cn);
 			result=pstmt.executeUpdate();
 		}catch(SQLException e) {

@@ -14,7 +14,7 @@ import com.semi.productpage.service.ProductPageService;
 /**
  * Servlet implementation class ProductPageComment
  */
-@WebServlet("/insertComment")
+@WebServlet("/insertAjaxComment")
 public class ProductInsertCommentServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -38,7 +38,7 @@ public class ProductInsertCommentServlet extends HttpServlet {
 				.commentRef(Integer.parseInt(request.getParameter("commentRef")))
 				.nickName(request.getParameter("nickName"))
 				.build();
-		int result=new ProductPageService().insertProductComment(pc);
+		int result=new ProductPageService().insertAjaxProductComment(pc);
 	
 		
 		response.getWriter().print(result);
