@@ -1,4 +1,4 @@
-
+// input
 /* 약관 동의 모두선택 기능 */
 function checkSelectAll() {
 	// 전체 체크박스
@@ -57,7 +57,7 @@ const checkObj = {  // 해당 회원가입 정보입력할 때, 정상적으로 
 	"memberPwConfirm": false,
 	"memberId": false,
 	"memberName": false,
-	"memberNickname": false,
+	"memberNickName": false,
 	"sendEmail": false, // 인증번호 성공
 };
 
@@ -66,7 +66,7 @@ const memberEmail = document.getElementById("emailId");
 /*const emailMessage = document.getElementById("emailMessageId");*/
 const emailMessage = $("#emailMessageId");
 
-memberEmail.addEventListener("input", function() {
+memberEmail.addEventListener("keyup", function() {
 	//입력이 되지 않은경우
 
 	if (memberEmail.value.length == 0) {
@@ -189,7 +189,7 @@ cBtn.addEventListener("click", function() {
 					//    3  : 인증번호 X
 					if (result == 1) {
 						clearInterval(checkInterval);  // 제일먼저, 타이머 멈춤
-						timerMessageClass.text("인증되었습니다.");
+						timerMessageClass.text("인증되었습니다.").css("color","green");
 						cNumber.readOnly = true; // 인증완료되면 더이상입력못하도록 막음
 						memberEmail.readOnly = true;  // 이메일정보 더이상 입력못함
 						sendBtn.disabled = true; // 이메일인증 버튼 비활성화
@@ -220,7 +220,7 @@ const regId = /^[a-z0-9]{6,12}$/
 const userId_ = document.getElementById("userId_");
 
 
-userId_.addEventListener("input", function() {
+userId_.addEventListener("keyup", function() {
 
 	if (regId.test(userId_.value)) {
 
@@ -258,7 +258,7 @@ const pwMessage = $("#pwMessage");
 // 영대소문자, 숫자, 특수기호 최소 하나씩 8글자 이상
 const regExp2 = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[a-zA-Z\d!@#$%^&*()_+]{8,16}$/
 
-memberPwConfirm.addEventListener("input", function() {
+memberPwConfirm.addEventListener("keyup", function() {
 	console.log("dd");
 	if (memberPw.value.length == 0 || memberPwConfirm.value.length == 0) {
 		pwMessage.text("");
@@ -287,7 +287,7 @@ memberPwConfirm.addEventListener("input", function() {
 });
 
 
-memberPw.addEventListener("input", function() {
+memberPw.addEventListener("keyup", function() {
 	console.log("dd");
 	if (memberPw.value.length == 0 || memberPwConfirm.value.length == 0) {
 		pwMessage.text("");
@@ -316,12 +316,13 @@ memberPw.addEventListener("input", function() {
 });
 
 
+
 // 이름 정규표현식
 const regName = /^[가-힣]{2,4}$/
 const userNameId = document.getElementById("userNameId");
 const userNameMessage = $("#userNameMessage");
 
-userNameId.addEventListener("input", function() {
+userNameId.addEventListener("keyup", function() {
 	console.log("dd");
 	if (userNameId.value.length == 0) {
 		userNameMessage.text("");
@@ -338,5 +339,47 @@ userNameId.addEventListener("input", function() {
 
 
 
+
 // 닉네임 정규표현식
+const regNickName = /^[가-힣a-zA-Z0-9]{2,8}$/
+const nickNameId = document.getElementById("nickNameId");
+const userNickNameMessage = $("#userNickNameMessage");
+
+nickNameId.addEventListener("keyup", function() {
+	
+	if (regNickName.test(nickNameId.value)) {
+
+		$.ajax({
+			url: "duplicateNickName.do",
+			data: { "userNickName": nickNameId.value },
+			success: function(data) {
+				if (data == 1) {
+					userNickNameMessage.text("이미 사용중인 닉네임입니다").css("color", "red");
+					checkObj.memberNickName = false;
+				} else {
+					userNickNameMessage.text("사용 가능한 닉네임입니다").css("color", "green");
+					checkObj.memberNickName = true;
+				}
+			},
+			error: function(data) {
+				console.log(r);
+				console.log(m);
+			}
+		});
+	} else {
+		userNickNameMessage.text("특수문자 제외하고 2~8자로 입력해주세요").css("color", "red");
+		checkObj.memberNickName = false;
+	}
+})
+
+
+
+
+function fn_registEnrollMember(){ 
+	if(checkObj.memberId && checkObj.memberEmail && checkObj.memberName &&
+		checkObj.memberNickName && checkObj.memberPw&& checkObj.sendEmail && checkObj.memberPwConfirm){
+			return true;	
+	}
+	return false;
+}
 

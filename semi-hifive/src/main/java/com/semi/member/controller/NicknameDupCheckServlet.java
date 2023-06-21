@@ -1,7 +1,6 @@
 package com.semi.member.controller;
 
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -10,27 +9,22 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.semi.member.service.MemberService;
 
-/**
- * Servlet implementation class CheckNumberServlet
- */
-@WebServlet("/checkNumber")
-public class CheckNumberServlet extends HttpServlet {
+@WebServlet("/duplicateNickName.do")
+public class NicknameDupCheckServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
- 
-    public CheckNumberServlet() {
+
+    public NicknameDupCheckServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
-			String cNumber = request.getParameter("cNumber");
-			String inputEmail = request.getParameter("inputEmail");
+			String userNickName = request.getParameter("userNickName");
 			
 			// 1 , 2 , 3
-			int result = new MemberService().checkNumber(inputEmail,cNumber);
+			int result = new MemberService().checkNickName(userNickName);
 			
 			response.getWriter().print(result);  // getWriter -> jsp의 data로 들어감
 			
@@ -38,7 +32,6 @@ public class CheckNumberServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 	}
-
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub

@@ -2,6 +2,7 @@
 
 .login ul {
     list-style-type: none;
+
 }
 
 
@@ -39,7 +40,7 @@
 }
 
 .login>form>ul {
-    padding: 40px 0 50px;
+    padding: 40px 0 10px;
 }
 
 .login>form>ul li {
@@ -175,7 +176,6 @@
     font-size: 14px;
     color: #111;
 }
-
 
 .id{
     display: flex;
