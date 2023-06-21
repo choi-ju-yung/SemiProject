@@ -22,7 +22,7 @@
 				<button class="backBtn" onclick="history.back();">뒤로 가기</button>
 			</div>
 			<div class="content">
-				<input type="hidden" name="boardNo" value="boardNo">
+				<input type="hidden" name="boardNo" value="<%=b.getBoardNo()%>">
 				<div class="contentTop">
 					<p>작성자 : <%=b.getBoardWriter() %></p>
 					<p><%=b.getBoardDate() %></p>
@@ -48,12 +48,6 @@
 						<h4><%=bc.getCommentWriter() %></h4>
 						<p><%=bc.getCommentDate() %></p>
 					</div>
-					<%if(loginMember!=null&&(bc.getCommentWriter().equals(loginMember.getUserId())
-						||loginMember.getAuth().equals("M"))){ %>
-						<div class="commentUpdate">
-							<a href="">수정</a> <a href="">삭제</a>
-						</div>
-					<%}%>
 					<div class="commentContent">
 						<p>
 							<%=bc.getCommentContent() %>
@@ -61,7 +55,13 @@
 						<button class="recommentBtn">댓글</button>
 						<input type="hidden" value="<%=bc.getCommentNo() %>" class="commentPK">
 					</div>
-					
+					<div class="commentUpdate">
+					<%if(loginMember!=null&&(bc.getCommentWriter().equals(loginMember.getNickName())
+						||loginMember.getAuth().equals("M"))){ %>
+							<button class="commentUpdateBtn">수정</button>
+							<button class="commentDeleteBtn">삭제</button>
+					<%}%>
+					</div>
 					<hr>
 					<%}%>
 				<div class="recomment">
@@ -73,11 +73,13 @@
 						</div>
 						<div class="commentContent">
 							<p><%=brc.getCommentContent() %></p>
+							<input type="hidden" value="<%=brc.getCommentNo() %>" class="commentPK">
 						</div>
-						<%if(loginMember!=null&&(brc.getCommentWriter().equals(loginMember.getUserId())
+						<%if(loginMember!=null&&(brc.getCommentWriter().equals(loginMember.getNickName())
 									||loginMember.getAuth().equals("M"))){ %>
 							<div class="commentUpdate">
-								<a href="">수정</a> <a href="">삭제</a>
+								<button class="commentUpdateBtn">수정</button>
+								<button class="commentDeleteBtn">삭제</button>
 							</div>
 						<%} %>
 						<hr>
@@ -94,41 +96,76 @@
 </section>
 <script src="<%=request.getContextPath()%>/js/service/boardContent.js"></script>
 <script>
-	$(document).on("click",".commentBtn",e=>{ //동적 태그 위해 이벤트 부여
-		const comment=$(e.target).parent().find("textarea");
-		$.ajax({
-			url : "<%=request.getContextPath()%>/service/commentInsert.do",
-			data : {
-				"writer" : "<%=loginMember!=null?loginMember.getUserId():""%>",
-				"boardNo":<%=b.getBoardNo() %>,
-				"commentContent":comment.val(),
-				"commentFK":$(e.target).next().val()
-			},
-			type : "post",
-			success : function(result) {
-				if (result) {
-					alert("등록성공");
-				}
-				comment.val(''); //댓글 등록시 댓글 등록창 초기화
-				getReplyComment(); //등록후 댓글 목록 불러오기 함수 실행
-			},
-			error : function() {
-				alert("등록 실패");
-
+//댓글 삭제
+$(document).on("click",".commentDeleteBtn",e=>{
+	const $commentNo=$(e.target).parent().prev().find(".commentPK");
+	$.ajax({
+		url : "<%=request.getContextPath()%>/service/commentDelete.do",
+		data:{"commentNo":$commentNo.val()},
+		type:"post",
+		success : function(result) {
+			if (result) {
+				alert("수정됐습니다.");
+				location.reload();
 			}
-		})
-	});
-	
-	/* function getReplyComment(){ //댓글 등록 성공 후 실행할 함수
-		if(data.commentFK==0){
-			const top=$(".commentTop").clone().text({
-				"h4":data.writer,
-				"p":new Date().getFullYear()+"-"+(new Date().getMonth()+1)+"-"+new Date().getDate()
-			});
-			const content=$(".commentContent").clon().find("p").text(data.commentContent);
-			const btn=$(".recommentBtn");
-			($(".comment").append(top)).append(content).append(btn);
+		},
+		error : function() {
+			alert("삭제 실패했습니다. 관리자에게 문의하세요.");
 		}
-	} */
+	});
+});
+
+//댓글 수정
+$(document).on("click",".updateCommentData",e=>{
+	const $div=$(e.target).parent();
+	const newData=$div.find("textarea").val();
+	console.log($div);
+	console.log(newData);
+	$.ajax({
+		url : "<%=request.getContextPath()%>/service/commentUpdate.do",
+		data : {
+			"commentNo":$div.prev().val(),
+			"content":newData
+		},
+		type : "post",
+		success : function(result) {
+			if (result) {
+				alert("수정됐습니다.");
+				$div.parent().find("p").text(newData);
+				$("p").css("display","block");
+				$("button").css("display","block");
+				$div.css("display","none");
+			}
+		},
+		error : function() {
+			alert("수정 실패했습니다. 관리자에게 문의하세요.");
+		}
+	});
+});
+
+//댓글 작성
+$(document).on("click",".commentBtn",e=>{ //동적 태그에도 이벤트 부여
+	const comment=$(e.target).parent().find("textarea");
+	$.ajax({
+		url : "<%=request.getContextPath()%>/service/commentInsert.do",
+		data : {
+			"writer" : "<%=loginMember != null ? loginMember.getUserId() : null%>",
+			"boardNo":<%=b.getBoardNo()%>,
+			"commentContent":comment.val(),
+			"commentFK":$(".recomment>.commentWrite").find(".commentFK").val()
+		},
+		type : "post",
+		success : function(result) {
+			if (result) {
+				alert("등록성공");
+			}
+			comment.val(''); //댓글 등록시 댓글 등록창 초기화
+			location.reload();
+		},
+		error : function() {
+			alert("등록 실패");
+		}
+	});
+});
 </script>
 <%@ include file="/views/common/footer.jsp"%>
