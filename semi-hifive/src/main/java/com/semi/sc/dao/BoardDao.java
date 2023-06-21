@@ -257,7 +257,6 @@ public class BoardDao {
 		int result=0;
 		try {
 			pstmt=conn.prepareStatement(sql.getProperty("insertFile"));
-			//INSERT INTO BOARD_FIL VALUE(SEQ_BOARD_FILE_NO.NEXTVAL,?,?)
 			pstmt.setInt(1, bf.getBoardNo());
 			pstmt.setString(2, bf.getBoardFileName());
 			result=pstmt.executeUpdate();

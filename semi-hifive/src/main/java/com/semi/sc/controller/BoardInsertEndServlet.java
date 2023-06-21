@@ -1,6 +1,10 @@
 package com.semi.sc.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Enumeration;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 
+import com.google.gson.Gson;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.semi.sc.model.dto.Board;
@@ -36,7 +41,7 @@ public class BoardInsertEndServlet extends HttpServlet {
 			return; // multipart타입이 아니면 리턴 처리
 		}
 		String path=request.getServletContext().getRealPath("/upload/board");
-		int maxSize=1024*1024*300; //300MB
+		int maxSize=1024*1024*200; //200MB
 		String encode="UTF-8";
 		DefaultFileRenamePolicy dfr=new DefaultFileRenamePolicy();
 		MultipartRequest mr=new MultipartRequest(request, path, maxSize, encode, dfr);
@@ -49,30 +54,27 @@ public class BoardInsertEndServlet extends HttpServlet {
 				.boardContent(mr.getParameter("boardContent").replaceAll("\n", "<br>"))
 				.build();
 		int result=new BoardService().insertBoard(b);
-		
-		//boardNo
 		int boardNo=new BoardService().selectBoardList(1, 1, mr.getParameter("titleCategory")).get(0).getBoardNo();
-		
-		//파일 저장
-		int fileResult=0;
-		if(result==1) { //file이 존재하는 경우에만 실행
-				String renamedFilename=mr.getFilesystemName("boardFile");
-				System.out.println("filename:"+renamedFilename);
-				BoardFile bf=BoardFile.builder()
-						.boardFileName(renamedFilename)
-						.boardNo(boardNo)
-						.build();
-				fileResult+=new BoardService().insertBoardFile(bf);
-		}else {
-			System.out.println("file 안들어옴");
-			fileResult=1;
+		//파일
+		int fileresult = 0;
+
+		Enumeration<String> files = mr.getFileNames();
+		List<String> filesNames = new ArrayList();
+		while (files.hasMoreElements()) { //파일명 저장
+			String fileName = files.nextElement();
+			filesNames.add(mr.getFilesystemName(fileName));
 		}
-		if(result>0&&fileResult==1) {
-			response.sendRedirect(request.getContextPath()+"/service/boardList.do?notice=Y");
-		}else {
-			System.out.println("게시글 추가 실패");
-			response.sendRedirect(request.getHeader("referer"));
+		System.out.println(filesNames);
+		if (!filesNames.isEmpty()) { // 저장된 파일명이 존재하는 경우에만 실행
+			for(String file:filesNames) {
+				BoardFile bf = BoardFile.builder().boardFileName(file).boardNo(boardNo).build();
+				fileresult += new BoardService().insertBoardFile(bf);
+			}
 		}
+
+		response.setContentType("application/json;charset=utf-8");
+		//글과 파일이 저장됐으면 true
+		new Gson().toJson(result>0&&fileresult==filesNames.size()?true:false,response.getWriter());
 	}
 
 	
