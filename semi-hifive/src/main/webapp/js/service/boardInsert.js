@@ -19,6 +19,7 @@ const titleCheck = e => {
 		});
 		return false;
 	}
+	return true;
 }
 
 //제목 글자 수 체크
@@ -29,4 +30,14 @@ $("#baordTitle").keyup(e => {
 		focus(e.target);
 	}
 	$("#titleTextNum").text(num + "/40");
+});
+
+//내용 글자 수 체크
+$("#boardContent").keyup(e => {
+	const num = $(e.target).val().length;
+	if (num >= 2000) {
+		alert("내용은 2000자 이하로 작성하세요.");
+		focus(e.target);
+	}
+	$("#contentTextNum").text(num + "/2000");
 });

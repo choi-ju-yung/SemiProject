@@ -1,6 +1,9 @@
 package com.semi.mypage.model.vo;
 
-import java.sql.Date;
+import com.semi.category.model.vo.Category;
+import com.semi.category.model.vo.SubCategory;
+import com.semi.member.model.vo.Member;
+import com.semi.productpage.model.vo.Product;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,18 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class ProductList {
-	private int productId;
-	private String userId;
-	private String productTitle;
-	private String productStatus;
-	private String sellStatus;
-	private int price;
-	private Date registTime;
-	private int viewCount;
-	private String explanation;
-	private String keyword;
-	private String subcategoryName;
-	private int goonguareaId;
+	private Product product;
 	private Member member;
 	private SubCategory subCategory;
 	private Category category;

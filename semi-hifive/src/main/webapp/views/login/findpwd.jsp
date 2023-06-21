@@ -6,7 +6,7 @@
 	href="<%=request.getContextPath()%>/css/member/findname.css" />
 
 <section class="login">
-<form action="<%=request.getContextPath()%>/findPwd.do" id="findpassfrm">
+	<form action="<%=request.getContextPath()%>/findPwd.do" id="findpassfrm">
 		<h2>비밀번호 찾기</h2>
 		<ul>
 			<li><input type="text" placeholder="아이디" name="id" title="아이디입력"></li>
@@ -24,7 +24,7 @@
 				<li><a href="<%=request.getContextPath()%>/enrollMember.do">회원가입</a></li>
 			</ul>
 		</div>
-</form> 
+	</form> 
 </section>
 
 <%@ include file="/views/common/footer.jsp"%>

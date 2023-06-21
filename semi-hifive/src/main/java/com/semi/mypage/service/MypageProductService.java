@@ -7,7 +7,6 @@ import java.util.List;
 
 import com.semi.mypage.dao.MypageProductDao;
 import com.semi.mypage.model.vo.MemberShopPage;
-import com.semi.mypage.model.vo.Product;
 import com.semi.mypage.model.vo.ProductList;
 
 public class MypageProductService {

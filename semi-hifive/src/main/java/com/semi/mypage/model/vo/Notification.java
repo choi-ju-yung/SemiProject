@@ -11,7 +11,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class SubCategory {
-	private String subcategoryName;
-	private String categoryId;
+public class Notification {
+	private int notiCode;
+	private String userId;
+	private int productId;
+	private int notitypeCode;
+	private Date notiDate;
+	private String readYn;
 }

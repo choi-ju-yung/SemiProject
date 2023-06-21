@@ -1,4 +1,4 @@
-package com.semi.mypage.model.vo;
+package com.semi.productpage.model.vo;
 
 import java.sql.Date;
 

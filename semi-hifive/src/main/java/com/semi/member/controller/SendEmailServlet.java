@@ -45,7 +45,7 @@ public class SendEmailServlet extends HttpServlet {
 		final String smtpEmail = "bogdudhkd123@gmail.com"; // 이메일
 		final String password = "uregzrrzxkpfkcld"; // 발급 받은 비밀번호
 
-		Properties p = System.getProperties();
+		Properties p = System.getProperties(); 
 		p.setProperty("mail.transport.protocol", "smtp");
 		/* p.setProperty("mail.host", "smtp.gmail.com"); */
 		p.put("mail.smtp.host", "smtp.gmail.com");

@@ -68,18 +68,18 @@
             <h4 class="h4Size">카테고리 *</h4>
             <form name="frm1">
                 <select class="mainCate" onchange="redirect(this.selectedIndex);">
-                    <option value="0">카테고리를 선택해주세요</option>
-                    <option value="1">패션의류</option>
-                    <option value="2">패션잡화</option>
-                    <option value="3">가전제품</option>
-                    <option value="4">pc/모바일</option>
-                    <option value="5">가구/인테리어</option>
-                    <option value="6">리빙/생활</option>
-                    <option value="7">스포츠/레저</option>
-                    <option value="8">도서/음반/문구</option>
-                    <option value="9">차량/오토바이</option>
-                    <option value="10">무료나눔</option>
-                    <option value="11">기타</option>
+                    <option value="0"></option>
+                    <option value="1"></option>
+                    <option value="2"></option>
+                    <option value="3"></option>
+                    <option value="4"></option>
+                    <option value="5"></option>
+                    <option value="6"></option>
+                    <option value="7"></option>
+                    <option value="8"></option>
+                    <option value="9"></option>
+                    <option value="10"></option>
+                    <option value="11"></option>
                 </select>
                 <select class="middleCate" onchange="redirect1(this.selectedIndex);">
                 </select>

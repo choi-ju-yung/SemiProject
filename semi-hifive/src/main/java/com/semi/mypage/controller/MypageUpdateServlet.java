@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.semi.member.model.vo.Member;
 import com.semi.mypage.model.vo.MemberShopPage;
-import com.semi.mypage.model.vo.ShopPage;
 import com.semi.mypage.service.MypageMemberService;
+import com.semi.productpage.model.vo.ShopPage;
 
 /**
  * Servlet implementation class MypageUpdateServlet
@@ -33,10 +33,10 @@ public class MypageUpdateServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String userId = request.getParameter("userId");
-		MemberShopPage ms = new MypageMemberService().selectByUserId(userId);
+		System.out.println(userId);
+		MemberShopPage m = new MypageMemberService().selectByUserId(userId);
 		
-		request.setAttribute("infoMemberShopPage", ms);
-		
+		request.setAttribute("infoMemberShopPage", m);
 		request.getRequestDispatcher("/views/mypage/myPageUpdate.jsp").forward(request, response);
 	}
 
