@@ -39,7 +39,7 @@
 							<a href="" class="aTag grayFont"><%=mw.getCategory().getCategoryName() %></a> &rsaquo; <a href=""
 								class="aTag grayFont"><%=mw.getSubCategory().getSubcategoryName() %></a>
 						</h5>
-						<p><%=mw.getProduct().getRegistTime()%></p>
+						<p><%=new SimpleDateFormat("yyyy.MM.dd").format(mw.getProduct().getRegistTime())%></p>
 					</div>
 					<h4 class="contentMargin">
 						<a href="" class="aTag productTitle"><%=mw.getProduct().getTitle() %></a>
@@ -54,7 +54,7 @@
 			</div>
 		</div>
 		<%} %>
-		<hr color="#eeeeee" noshade style="margin-top: 16px; margin-bottom: 40px;" />
+	<!-- 	<hr color="#eeeeee" noshade style="margin-top: 16px; margin-bottom: 40px;" /> -->
 		<%} %>
 	</div>
 	<!-- 페이지 버튼 -->
