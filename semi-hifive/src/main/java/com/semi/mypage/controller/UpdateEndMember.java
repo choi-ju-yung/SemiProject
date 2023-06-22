@@ -11,9 +11,10 @@ import javax.servlet.http.HttpSession;
 
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
+import com.semi.member.model.vo.Member;
 import com.semi.mypage.model.vo.MemberShopPage;
-import com.semi.mypage.model.vo.ShopPage;
 import com.semi.mypage.service.MypageMemberService;
+import com.semi.productpage.model.vo.ShopPage;
 
 /**
  * Servlet implementation class UpdateEndMember
@@ -44,9 +45,10 @@ public class UpdateEndMember extends HttpServlet {
 		
 		// 파일제외 업데이트
 		MemberShopPage m = MemberShopPage.builder()
-				.userId(mr.getParameter("myPageUserId"))
-				.nickName(mr.getParameter("myPageNickname"))
-				.profileImg(mr.getFilesystemName("uploadProfile"))
+				.member(Member.builder()
+						.userId(mr.getParameter("myPageUserId"))
+						.nickName(mr.getParameter("myPageNickname"))
+						.profileImg(mr.getFilesystemName("uploadProfile")).build())
 				.shopPage(ShopPage.builder()
 						.introduce(mr.getParameter("myPageIntroduce")).build())
 				.build();
@@ -58,11 +60,11 @@ public class UpdateEndMember extends HttpServlet {
 		if(result>0 && result2>0) {
 			// 성공
 			msg="회원정보가 수정되었습니다.";
-			loc="/mypage/mypageUpdate.do?userId="+m.getUserId();
+			loc="/mypage/mypageUpdate.do?userId="+m.getMember().getUserId();
 		} else {
 			// 실패
 			msg="회원정보 수정에 실패했습니다.";
-			loc="/mypage/mypageUpdate.do?userId="+m.getUserId();
+			loc="/mypage/mypageUpdate.do?userId="+m.getMember().getUserId();
 		}
 		request.setAttribute("msg", msg);
 		request.setAttribute("loc", loc);

@@ -6,7 +6,6 @@ import static com.semi.common.JDBCTemplate.getConnection;
 import static com.semi.common.JDBCTemplate.rollback;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.util.List;
 
 import com.semi.productpage.dao.ProductDao;
@@ -24,9 +23,9 @@ public class ProductPageService {
 		return result;		
 	}
 	
-	public List<ProductComment> selectProductComment(int id){
+	public List<ProductComment> selectAllProductComment(int id){
 		Connection conn=getConnection();
-		List<ProductComment> list=dao.selectProductComment(conn,id);
+		List<ProductComment> list=dao.selectAllProductComment(conn,id);
 		close(conn);
 		return list;
 	}
@@ -70,9 +69,9 @@ public class ProductPageService {
 		return p;
 	}
 	
-	public int deleteAjaxProductComment(int cn) {
+	public int deleteProductComment(int cn) {
 		Connection conn=getConnection();
-		int result=dao.deleteAjaxProductComment(conn,cn);
+		int result=dao.deleteProductComment(conn,cn);
 		if(result>0) commit(conn);
 		else rollback(conn);
 		close(conn);

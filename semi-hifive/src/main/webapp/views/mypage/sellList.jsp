@@ -37,13 +37,13 @@
                 <a href=""><img src="<%=request.getContextPath() %>/img/구매목록img/예시 이미지.jpg" alt=""></a>
                 <div class="proContent">
                     <h5 class="grayFont"><a href="" class="aTag grayFont categoryA"><%=p.getCategory().getCategoryName() %></a> &rsaquo; <a href=""
-                            class="aTag grayFont"><%=p.getSubcategoryName() %></a></h5>
-                    <h4 class="contentMargin"><a href="" class="aTag productTitle"><%=p.getProductTitle() %></a></h4>
-                    <h3><%=new DecimalFormat("###,###").format(p.getPrice()) %>원</h3>
+                            class="aTag grayFont"><%=p.getProduct().getSubCategory() %></a></h5>
+                    <h4 class="contentMargin"><a href="" class="aTag productTitle"><%=p.getProduct().getTitle() %></a></h4>
+                    <h3><%=new DecimalFormat("###,###").format(p.getProduct().getPrice()) %>원</h3>
                 </div>
                 <div class="count">
                     <ion-icon name="heart" class="interestIcon"></ion-icon><span>40</span>
-                    <ion-icon name="eye" class="viewIcon"></ion-icon><span><%=new DecimalFormat("###,###").format(p.getViewCount()) %></span>
+                    <ion-icon name="eye" class="viewIcon"></ion-icon><span><%=new DecimalFormat("###,###").format(p.getProduct().getViewCount()) %></span>
                 </div>
                 <div class="buttonNcategory">
                     <div class="updateDelete">
@@ -51,10 +51,10 @@
                         <button class="delMem openBtn" id="popup_open_btn">삭제</button>
                     </div>
                     <div class="selectNow">
-                        <select class="<%=p.getSellStatus().equals("판매중")?"selectIng":p.getSellStatus().equals("예약중")?"selectRes":"selectSol"%> selectStatus">
-                            <option id="<%=p.getProductId() %>" value="sell" data-color="#20C997" <%=p.getSellStatus().equals("판매중")?"selected":""%>>판매중</option>
-                            <option id="<%=p.getProductId() %>" value="reservation" data-color="#FFD800" <%=p.getSellStatus().equals("예약중")?"selected":""%>>예약중</option>
-                            <option id="<%=p.getProductId() %>" value="soldOut" data-color="#cccccc" <%=p.getSellStatus().equals("판매완료")?"selected":""%>>판매완료</option>
+                        <select class="<%=p.getProduct().getSellStatus().equals("판매중")?"selectIng":p.getProduct().getSellStatus().equals("예약중")?"selectRes":"selectSol"%> selectStatus">
+                            <option id="<%=p.getProduct().getProductId() %>" value="sell" data-color="#20C997" <%=p.getProduct().getSellStatus().equals("판매중")?"selected":""%>>판매중</option>
+                            <option id="<%=p.getProduct().getProductId() %>" value="reservation" data-color="#FFD800" <%=p.getProduct().getSellStatus().equals("예약중")?"selected":""%>>예약중</option>
+                            <option id="<%=p.getProduct().getProductId() %>" value="soldOut" data-color="#cccccc" <%=p.getProduct().getSellStatus().equals("판매완료")?"selected":""%>>판매완료</option>
                         </select>
                     </div>
                 </div>
@@ -83,7 +83,7 @@
             <p>삭제 시, 상품은 삭제되며<br>
                 복구되지 않습니다.</p>
             <div class="modal_button">
-                <button id="<%=p.getProductId() %>" class="modalBtn modalDelBtn">삭제</button>
+                <button id="<%=p.getProduct().getProductId() %>" class="modalBtn modalDelBtn">삭제</button>
                 <button class="closeBtn modalBtn">취소</button>
             </div>
         </div>

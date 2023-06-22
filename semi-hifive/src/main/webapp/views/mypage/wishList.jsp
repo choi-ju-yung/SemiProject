@@ -2,6 +2,11 @@
 	pageEncoding="UTF-8"%>
 <%@ include file="/views/common/header.jsp"%>
 <%@ include file="/views/mypage/myPageCategory.jsp"%>
+<%@ page import="com.semi.mypage.model.vo.MemberWishList,java.util.Date,java.text.SimpleDateFormat, java.text.DecimalFormat" %>
+<%
+	List<MemberWishList> list = (List)request.getAttribute("wishList");
+%>
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/page.css" />
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/css/mypage/wishList.css" />
 <!-- 오른쪽 찜목록 section -->
@@ -13,10 +18,12 @@
 
 	<!-- 찜목록 div -->
 	<div class="productContainer">
+		<%if(!list.isEmpty()) {
+			for(MemberWishList mw : list){ %>
 		<div class="productAll">
 			<div class="product">
 				<div class="productImg">
-					<a href=""><img src="./img/구매목록img/예시 이미지.jpg" alt=""></a>
+					<a href=""><img src="" alt=""></a>
 					<label class="container"> <input checked="checked" type="checkbox">
 						<div class="checkmark">
 							<svg viewBox="0 0 256 256"><rect fill="none" height="256" width="256"></rect>
@@ -29,38 +36,34 @@
 				<div class="proContent">
 					<div class="buyDate">
 						<h5 class="grayFont">
-							<a href="" class="aTag grayFont">의류</a> &rsaquo; <a href=""
-								class="aTag grayFont">상의</a>
+							<a href="" class="aTag grayFont"><%=mw.getCategory().getCategoryName() %></a> &rsaquo; <a href=""
+								class="aTag grayFont"><%=mw.getSubCategory().getSubcategoryName() %></a>
 						</h5>
-						<p>2023.05.10</p>
+						<p><%=new SimpleDateFormat("yyyy.MM.dd").format(mw.getProduct().getRegistTime())%></p>
 					</div>
 					<h4 class="contentMargin">
-						<a href="" class="aTag productTitle">상품명을 작성해주세요.</a>
+						<a href="" class="aTag productTitle"><%=mw.getProduct().getTitle() %></a>
 					</h4>
 					<div class="PriceNStatus">
-						<h3>35,000원</h3>
+						<h3><%=new DecimalFormat("###,###").format(mw.getProduct().getPrice()) %>원</h3>
 						<div class="statusBtnDiv">
-							<span class="statusBtn">판매중</span>
+							<span class="statusBtn"><%=mw.getProduct().getSellStatus() %></span>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+		<%} %>
+	<!-- 	<hr color="#eeeeee" noshade style="margin-top: 16px; margin-bottom: 40px;" /> -->
+		<%} %>
 	</div>
-
 	<!-- 페이지 버튼 -->
-	<div class="pageAll">
-		<ul class="page">
-			<li><a href="#"> < </a></li>
-			<li><a href="#" class="nowPage">1</a></li>
-			<li><a href="#">2</a></li>
-			<li><a href="#">3</a></li>
-			<li><a href="#">4</a></li>
-			<li><a href="#">5</a></li>
-			<li><a href="#">></a></li>
-		</ul>
-	</div>
+	    <div class="pageBar">
+	     	<ul class="page">
+	         <%=request.getAttribute("pageBar") %>
+	         </ul>
+	    </div>
 </div>
-
 </section>
+<script src="<%=request.getContextPath()%>/js/mypage/wishList.js"></script>
 <%@ include file="/views/common/footer.jsp"%>

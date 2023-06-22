@@ -78,7 +78,7 @@
 
         .memberinfo{
             margin-bottom: 10px;
-        }
+ 	   }
         
 
         /* 입력창 */
@@ -95,6 +95,8 @@
 
         }
         
+        		
+        	
         
           .MemberInfo_box input:focus { 
               border: 2px solid #20C997;

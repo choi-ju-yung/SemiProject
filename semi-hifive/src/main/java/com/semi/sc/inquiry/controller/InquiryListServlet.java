@@ -1,4 +1,4 @@
-package com.semi.sc.controller;
+package com.semi.sc.inquiry.controller;
 
 import java.io.IOException;
 import java.util.List;
@@ -9,24 +9,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.semi.sc.model.dto.Board;
-import com.semi.sc.service.BoardService;
+import com.semi.sc.model.dto.Inquiry;
+import com.semi.sc.service.InquiryService;
 
 
-@WebServlet("/service/boardListCategory.do")
-public class BoardListByCategoryServlet extends HttpServlet {
+@WebServlet("/service/inquiryList.do")
+public class InquiryListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     
-    public BoardListByCategoryServlet() {
+    public InquiryListServlet() {
     }
 
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String category=request.getParameter("data"); //카테고리
-		if(category.equals("전체")) {
-			response.sendRedirect(request.getContextPath()+"/service/boardList.do?notice=N");
-		}else {
 		// paging
 		int cPage, numPerpage;
 		try {
@@ -36,38 +32,37 @@ public class BoardListByCategoryServlet extends HttpServlet {
 		}
 		numPerpage = 10;
 		String pageBar = "";
-		int totalData = new BoardService().selectBoardCountByCategory(category);
+		int totalData = new InquiryService().selectInquiryCount();
 		int totalPage = (int) Math.ceil((double) totalData / numPerpage);
 		int pageBarSize = 5;
 		int pageNo = ((cPage - 1) / pageBarSize) * pageBarSize + 1;
 		int pageEnd = pageNo + pageBarSize - 1;
 
 		if (pageNo == 1) {
-			pageBar += "<li><span class='pageMove'>&lt;</span></li>";
+			pageBar += "<li><span class='pageMove'>&lt;&lt;</span></li>";
 		} else {
-			pageBar += "<li><a href='" + request.getRequestURI() + "?cPage=" + (pageNo - 1) + "&notice=N"
-					+ "'>&lt;</a></li>";
+			pageBar += "<li><a href='" + request.getRequestURI() + "?cPage=" + (pageNo - 1) + "&notice=" + "'>&lt;&lt;</a></li>";
 		}
 		while (!(pageNo > pageEnd || pageNo > totalPage)) {
 			if (pageNo == cPage) {
 				pageBar += "<li><span class='nowPage'>" + pageNo + "</span></li>";
 			} else {
-				pageBar += "<li><a href='" + request.getRequestURI() + "?cPage=" + pageNo + "&notice=N'>"
+				pageBar += "<li><a href='" + request.getRequestURI() + "?cPage=" + pageNo + "'>"
 						+ pageNo + "</a></li>";
 			}
 			pageNo++;
 		}
 		if (pageNo > totalPage) {
-			pageBar += "<li><span>&gt;</span></li>";
+			pageBar += "<li><span>&gt;&gt;</span></li>";
 		} else {
-			pageBar += "<li><a href='" + request.getRequestURI() + "?cPage=" + pageNo + "&notice=Y'>&gt;</a></li>";
+			pageBar += "<li><a href='" + request.getRequestURI() + "?cPage=" + pageNo + "'>&gt;&gt;</a></li>";
 		}
 		request.setAttribute("pageBar", pageBar);
 		
-		List<Board> boards=new BoardService().selectBoardByCategory(cPage, numPerpage, category);
-		request.setAttribute("boardList", boards);
-		request.getRequestDispatcher("/views/service/boardList.jsp").forward(request, response);
-		}
+		List<Inquiry> inquiryList=new InquiryService().selectInquiryList(cPage, numPerpage);
+		request.setAttribute("inquiryList", inquiryList);
+		
+		request.getRequestDispatcher("/views/service/inquiryList.jsp").forward(request, response);
 	}
 
 	

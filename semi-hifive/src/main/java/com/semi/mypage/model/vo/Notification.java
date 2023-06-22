@@ -1,5 +1,7 @@
 package com.semi.mypage.model.vo;
 
+import java.sql.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,7 +11,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Category {
-	private String categoryId;
-	private String categoryName;
+public class Notification {
+	private int notiCode;
+	private String userId;
+	private int productId;
+	private int notitypeCode;
+	private Date notiDate;
+	private String readYn;
 }

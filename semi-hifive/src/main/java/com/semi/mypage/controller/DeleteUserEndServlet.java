@@ -7,19 +7,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.semi.mypage.service.MypageProductService;
+import com.semi.mypage.service.MypageMemberService;
 
 /**
- * Servlet implementation class sellListDeletProductServlet
+ * Servlet implementation class DeleteUserEndServlet
  */
-@WebServlet("/mypage/deleteProduct.do")
-public class sellListDeleteProductServlet extends HttpServlet {
+@WebServlet("/mypage/deleteUserEnd.do")
+public class DeleteUserEndServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public sellListDeleteProductServlet() {
+    public DeleteUserEndServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -28,23 +28,22 @@ public class sellListDeleteProductServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String productId = request.getParameter("productId");
 		String userId = request.getParameter("userId");
-		int result = new MypageProductService().deleteProduct(productId);
+		int result = new MypageMemberService().deleteUser(userId);
 		
-		String msg, loc;
+		String msg;
+		String loc = "/";
 		if(result>0) {
-			msg = "상품이 삭제되었습니다.";
-			loc = "/myPage/sellList.do?userId=" + userId;
+			// 탈퇴성공
+			loc = "/logout.do";
+			msg = "탈퇴 완료되었습니다.";
 		} else {
-			msg = "삭제 실패";
-			loc = "/myPage/sellList.do?userId=" + userId;
+			// 탈퇴실패
+			msg = "탈퇴 실패하였습니다. 관리자에게 문의해주세요.";
 		}
-		
 		request.setAttribute("msg", msg);
 		request.setAttribute("loc", loc);
-		request.getRequestDispatcher("/views/common/msg.jsp").forward(request,response);
-		
+		request.getRequestDispatcher("/views/common/msg.jsp").forward(request, response);
 	}
 
 	/**

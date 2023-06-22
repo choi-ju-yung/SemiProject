@@ -5,7 +5,6 @@ import static com.semi.common.JDBCTemplate.close;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -50,12 +49,12 @@ public class ProductDao {
 		}return p;
 	}	
 	
-	public List<ProductComment> selectProductComment(Connection conn,int id){
+	public List<ProductComment> selectAllProductComment(Connection conn,int id){
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
 		List<ProductComment> list=new ArrayList();
 		try {
-			pstmt=conn.prepareStatement(sql.getProperty("selectProductComment"));
+			pstmt=conn.prepareStatement(sql.getProperty("selectAllProductComment"));
 			pstmt.setInt(1, id);
 			rs=pstmt.executeQuery();
 			while(rs.next())
@@ -171,11 +170,11 @@ public class ProductDao {
 		}return p;
 	}
 	
-	public int deleteAjaxProductComment(Connection conn,int cn) {
+	public int deleteProductComment(Connection conn,int cn) {
 		PreparedStatement pstmt=null;
 		int result=0;
 		try {
-			pstmt=conn.prepareStatement(sql.getProperty("deleteAjaxProductComment"));						
+			pstmt=conn.prepareStatement(sql.getProperty("deleteProductComment"));						
 			pstmt.setInt(1,cn);
 			result=pstmt.executeUpdate();
 		}catch(SQLException e) {

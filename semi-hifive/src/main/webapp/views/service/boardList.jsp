@@ -6,8 +6,11 @@
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/service/boardList.css">
 <%
 	List<Board> boardList=(List)request.getAttribute("boardList"); //게시판 리스트
-	char notice='Y'; //게시판 구분하는 기본값 지정
-	if(boardList!=null&&boardList.get(0).getNoticeYn()=='N') notice='N';
+	char notice='Y';//게시판 구분하는 기본값 지정	
+	if(boardList!=null&&boardList.get(0).getNoticeYn()=='N'){
+		notice='N'; 
+	}
+	//if(boardList!=null&&boardList.get(0).getNoticeYn()=='N') notice='N';
 %>
 <section>
 	<%@ include file="/views/service/serviceCategory.jsp" %>
@@ -28,10 +31,10 @@
       <% } %>
       <div class="boardContainer">
         <table>
-        <% if(boardList!=null){ %>
+       <%if(boardList!=null){ %>
 	        <% for(Board b:boardList){ %>
 		        <% if(notice=='Y'){ %>
-					<tr onclick="location.href='<%=request.getContextPath()%>/service/boardContent.do?boardNo='">
+					<tr onclick="location.href='<%=request.getContextPath()%>/service/boardContent.do?boardNo=<%=b.getBoardNo() %>'">
 						<td><%=b.getBoardNo() %></td>
 						<td class="noticeTitle"><%=b.getBoardTitle() %></td>
 						<td><%=b.getBoardDate() %></td>
@@ -40,7 +43,7 @@
 						<td colspan="3"></td>
 					</tr>
 					<% }else{ %>
-					<tr onclick="location.href='<%=request.getContextPath()%>/service/boardContent.do?boardNo='">
+					<tr onclick="location.href='<%=request.getContextPath()%>/service/boardContent.do?boardNo=<%=b.getBoardNo() %>'">
 						<td><%=b.getBoardNo() %></td>
 						<td class="QATitle">[<%=b.getBoardCategory() %>]<%=b.getBoardTitle() %></td>
 					</tr>

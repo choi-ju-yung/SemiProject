@@ -59,6 +59,7 @@ const checkObj = {  // 해당 회원가입 정보입력할 때, 정상적으로 
 	"memberName": false,
 	"memberNickName": false,
 	"sendEmail": false, // 인증번호 성공
+	"successNumber": false
 };
 
 
@@ -137,6 +138,7 @@ sendBtn.addEventListener("click", function() {
 			},
 			error: function() {
 				console.log("이메일 발송 실패");
+				checkObj.sendEmail = false;
 			}
 		})
 
@@ -190,13 +192,16 @@ cBtn.addEventListener("click", function() {
 					if (result == 1) {
 						clearInterval(checkInterval);  // 제일먼저, 타이머 멈춤
 						timerMessageClass.text("인증되었습니다.").css("color","green");
+						checkObj.successNumber = true;
 						cNumber.readOnly = true; // 인증완료되면 더이상입력못하도록 막음
 						memberEmail.readOnly = true;  // 이메일정보 더이상 입력못함
 						sendBtn.disabled = true; // 이메일인증 버튼 비활성화
 						cBtn.disabled = true; // 인증하기 버튼 비활성화
 					} else if (result == 2) {
+						checkObj.successNumber = false;
 						alert("만료된 인증번호 입니다");
 					} else {
+						checkObj.successNumber = false;
 						alert("인증번호가 일치하지 않습니다.");
 					}
 				},
@@ -205,10 +210,12 @@ cBtn.addEventListener("click", function() {
 				}
 			})
 		} else {
+			checkObj.successNumber = false;
 			alert("인증번호를 정확하게 입력해주세요.");
 			cNumber.focus();
 		}
 	} else {
+		checkObj.successNumber = false;
 		alert("인증번호 받기 버튼을 먼저 클릭해주세요.");
 	}
 });
@@ -256,7 +263,7 @@ const memberPwConfirm = document.getElementById("memberPwConfirm");
 const pwMessage = $("#pwMessage");
 /*const regExp2 = /^[\w!@#_-]{6,30}$/;*/
 // 영대소문자, 숫자, 특수기호 최소 하나씩 8글자 이상
-const regExp2 = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[a-zA-Z\d!@#$%^&*()_+]{8,16}$/
+const regExp2 = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*~()_+])[a-zA-Z\d!@#$%^&*~()_+]{8,16}$/
 
 memberPwConfirm.addEventListener("keyup", function() {
 	console.log("dd");
@@ -350,8 +357,10 @@ nickNameId.addEventListener("keyup", function() {
 	if (regNickName.test(nickNameId.value)) {
 
 		$.ajax({
+
 			url: "duplicateNickName.do",
 			data: { "userNickName": nickNameId.value },
+
 			success: function(data) {
 				if (data == 1) {
 					userNickNameMessage.text("이미 사용중인 닉네임입니다").css("color", "red");
@@ -376,10 +385,11 @@ nickNameId.addEventListener("keyup", function() {
 
 
 function fn_registEnrollMember(){ 
-	if(checkObj.memberId && checkObj.memberEmail && checkObj.memberName &&
+	if(checkObj.memberId && checkObj.memberEmail && checkObj.memberName && checkObj.successNumber &&
 		checkObj.memberNickName && checkObj.memberPw&& checkObj.sendEmail && checkObj.memberPwConfirm){
 			return true;	
 	}
+	console.log("다 입력해라")
 	return false;
 }
 

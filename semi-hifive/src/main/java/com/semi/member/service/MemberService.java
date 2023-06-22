@@ -93,6 +93,7 @@ public class MemberService {
 	}
 	
 	// 중복된 닉네임이 있는지 확인해주는 서비스
+
 	public int checkNickName(String userNickName) throws Exception{
 		Connection conn = getConnection();
 		int result = dao.checkNickName(conn,userNickName);
@@ -126,5 +127,17 @@ public class MemberService {
 		close(conn);
 		return result;
 	}
+	
+	
+	// 이메일로 비밀번호를 변경하는 서비스
+	public int changePasswordByEmail(String newPass, String email) {
+		Connection conn=getConnection();
+		int result = dao.changePasswordByEmail(conn,newPass,email);
+		close(conn);
+		return result;
+	}
+	
+	
+	
 	
 }

@@ -18,7 +18,7 @@ import com.semi.sc.model.dto.BoardFile;
 public class BoardDao {
 	private final Properties sql=new Properties();
 	{
-		String path = BoardDao.class.getResource("/sql/service/servicesql.properties").getPath();
+		String path = BoardDao.class.getResource("/sql/service/board_sql.properties").getPath();
 		try {
 			sql.load(new FileReader(path));
 		} catch (IOException e) {
@@ -27,29 +27,20 @@ public class BoardDao {
 	}
 	//Board 객체 반환 메소드
 	public static Board getBoard(ResultSet rs) throws SQLException{
-//		BOARD_NO NUMBER CONSTRAINT BOARD_NO_PK PRIMARY KEY,
-//		BOARD_WRITER VARCHAR2(30) NOT NULL,
-//		BOARD_TITLE	VARCHAR2(150) NOT NULL,
-//		BOARD_CONTENT VARCHAR2(4000) NOT NULL,
-//		BOARD_DATE TIMESTAMP DEFAULT SYSDATE NOT NULL,
-//		BOARD_CATEGORY VARCHAR2(50)	NULL,
-//		NOTICE_YN CHAR(5) DEFAULT 'Y' NOT NULL,
-//		BOARD_FILE VARCHAR2(2000) NULL
 		return Board.builder().boardNo(rs.getInt("board_no"))
 				.boardTitle(rs.getString("board_title"))
 				.boardContent(rs.getString("board_content"))
 				.boardDate(rs.getDate("board_date"))
 				.boardCategory(rs.getString("board_category"))
 				.noticeYn(rs.getString("notice_yn").charAt(0))
-				.boardRenamedFileName(rs.getString("board_original_filename"))
 				.build();
 	}
 	
 	//board file 반환 메소드
 	public static BoardFile getBoardFile(ResultSet rs, int boardNo) throws SQLException{
-		return BoardFile.builder().boardNo(boardNo)
-				.boardFileName("board_filename")
-				.fileNo("file_no").build();
+		return BoardFile.builder().boardNo(rs.getInt("board_no"))
+				.boardFileName(rs.getString("board_renamed_filename"))
+				.fileNo(rs.getInt("file_no")).build();
 	}
 	
 	//board comment 반환 메소드
@@ -71,7 +62,6 @@ public class BoardDao {
 		int count=0;
 		try {
 			pstmt=conn.prepareStatement(sql.getProperty("selectBoardCount"));
-			//SELECT COUNT(*) AS boardCount FROM BOARD WHERE NOTICE_YN=?
 			pstmt.setString(1, noticeYN);
 			rs=pstmt.executeQuery();	
 			if(rs.next()) {
@@ -93,9 +83,6 @@ public class BoardDao {
 		List<Board> boards=new ArrayList();
 		try {
 			pstmt=conn.prepareStatement(sql.getProperty("selectBoardList"));
-			//SELECT * FROM (SELECT ROWNUM AS RNUM, B.*
-			//FROM (SELECT * FROM BOARD WHERE NOTICE_YN=? ORDER BY BOARD_DATE DESC) B)
-			//WHERE RNUM BETWEEN ? AND ?
 			pstmt.setString(1, noticeYN);
 			pstmt.setInt(2, (cPage-1)*numPerpage+1);
 			pstmt.setInt(3, cPage*numPerpage);
@@ -118,15 +105,11 @@ public class BoardDao {
 		int result=0;
 		try {
 			pstmt=conn.prepareStatement(sql.getProperty("insertBoard"));
-			//INSERT INTO BOARD VALUES(SEQ_BOARD_NO.NEXTVAL,?,?,?,DEFAULT,?,?,?,?)
-			//write, title, content, category, noticeYN, orifile, renamefile
 			pstmt.setString(1, b.getBoardWriter());
 			pstmt.setString(2, b.getBoardTitle());
 			pstmt.setString(3, b.getBoardContent());
 			pstmt.setString(4, b.getBoardCategory());
 			pstmt.setString(5, String.valueOf(b.getNoticeYn()));
-			pstmt.setString(6, b.getBoardOriginalFileName());
-			pstmt.setString(7, b.getBoardRenamedFileName());
 			
 			result=pstmt.executeUpdate();
 		}catch(SQLException e){
@@ -157,7 +140,7 @@ public class BoardDao {
 		}
 		return b;
 	}
-	public Board selectBoardFile(Connection conn, int boardNo, Board b) {
+	public List<BoardFile> selectBoardFile(Connection conn, int boardNo) {
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
 		List<BoardFile> files=new ArrayList();
@@ -174,7 +157,7 @@ public class BoardDao {
 			close(rs);
 			close(pstmt);
 		}
-		return b;
+		return files;
 	}
 	public List<BoardComment> selectBoardComment(Connection conn, int boardNo) {
 		PreparedStatement pstmt=null;
@@ -255,6 +238,55 @@ public class BoardDao {
 			pstmt.setString(3, bc.getCommentContent());
 			result=pstmt.executeUpdate();
 			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+	//파일 저장
+	public int insertBoardFile(Connection conn, BoardFile bf) {
+		PreparedStatement pstmt=null;
+		int result=0;
+		try {
+			pstmt=conn.prepareStatement(sql.getProperty("insertFile"));
+			pstmt.setString(1, bf.getBoardFileName());
+			pstmt.setInt(2, bf.getBoardNo());
+			result=pstmt.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+	//댓글 수정
+	public int updateComment(Connection conn, int commentNo, String data) {
+		PreparedStatement pstmt=null;
+		int result=0;
+		try {
+			pstmt=conn.prepareStatement(sql.getProperty("updateComment"));
+			pstmt.setString(1, data);
+			pstmt.setInt(2, commentNo);
+			result=pstmt.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+	public int deleteComment(Connection conn, int commentNo) {
+		PreparedStatement pstmt=null;
+		int result=0;
+		try {
+			pstmt=conn.prepareStatement(sql.getProperty("deleteComment"));
+			pstmt.setInt(1, commentNo);
+			result=pstmt.executeUpdate();
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}finally {

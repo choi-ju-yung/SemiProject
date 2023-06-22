@@ -40,7 +40,7 @@
 		</div>
 		<div class="delMemButton">
 			<button class="delMem openBtn delBtn" id="popup_open_btn">탈퇴</button>
-			<button onclick="location.href='./HY_마이페이지(회원탈퇴-비밀번호확인).html'" class="delBtn">취소</button>
+			<button onclick="location.replace('<%=request.getContextPath() %>/mypage/deleteUserCheck.do?userId=<%=loginMember.getUserId() %>')" class="delBtn">취소</button>
 		</div>
 	</div>
 </div>
@@ -56,12 +56,11 @@
 			탈퇴 시, 계정은 삭제되며<br> 복구되지 않습니다.
 		</p>
 		<div class="modal_button">
-			<button class="delBtn">탈퇴</button>
+			<button onclick="location.replace('<%=request.getContextPath() %>/mypage/deleteUserEnd.do?userId=<%=loginMember.getUserId() %>')" class="delBtn">탈퇴</button>
 			<button class="delBtn closeBtn">취소</button>
 		</div>
 	</div>
 </div>
-
 </section>
 <script src="<%=request.getContextPath()%>/js/mypage/deleteUser.js"></script>
 <%@ include file="/views/common/footer.jsp"%>

@@ -198,7 +198,9 @@ public class MemberDao {
 		ResultSet rs=null;
 		int result = 0;
 		try {
+
 			pstmt=conn.prepareStatement(sql.getProperty("selectByNickName"));
+
 			pstmt.setString(1, userNickName);
 			rs=pstmt.executeQuery();
 			if(rs.next()) {
@@ -271,6 +273,25 @@ public class MemberDao {
 			
 			pstmt.setString(1, cNumber);
 			pstmt.setString(2, inputEmail);	
+
+			result=pstmt.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}return result;
+	}
+	
+	
+	// 이메일로 비밀번호 변경하는 dao
+	public int changePasswordByEmail(Connection conn, String newPass, String email) {
+		PreparedStatement pstmt = null;
+		int result =0;
+		try {
+			pstmt=conn.prepareStatement(sql.getProperty("changePasswordByEmail"));
+			
+			pstmt.setString(1, newPass);
+			pstmt.setString(2, email);	
 
 			result=pstmt.executeUpdate();
 		}catch(SQLException e) {

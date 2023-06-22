@@ -54,7 +54,7 @@ $(document).on("click", ".writeCmt", e => {
 	cmtForm.find("input[name=level]").val("2");
 	cmtForm.find("input[name=commentRef]").val(commentRef);
 
-	$(e.target).parents("div.cmtContainer").css("margin-bottom", "-10px");
+	//$(e.target).parents("div.cmtContainer").css("margin-bottom", "-10px");
 
 	cmtForm.insertAfter($(e.target).parents(".cmtContainer"));
 	cmtForm.insertAfter($(e.target).parents(".reComment"));
@@ -82,32 +82,8 @@ $(document).on("click", ".changeCmt", e => {
 
 })
 
-/*$(document).on("click", ".changeCmt", e => {
-	var text = "";
 
-	if ($(e.target).parent(".cmtContainer")) {
-		text = $(e.target).parent(".cmtContainer").find(".cmt").text()
-		cmtForm2.find("#cmtText").val(text);
-	} else if ($(e.target).parent(".reComment")) {
-		text = $(e.target).parent(".reComment").find(".cmt").text()
-		cmtForm2.find("#cmtText").val(text);
-	}
-	console.log(text)
-	//$(e.target).parents("div.cmtContainer").css("margin-bottom", "40px")
-	cmtForm2.find(".cmtBtn").html("수정");
-	cmtForm2.find(".cmtBtn").html("수정");
-	$(e.target).parents("div.cmtContainer").find("#cmtNone").css("display", "inline-block");
-
-	if ($(e.target).next(cmtForm).length) {
-		cmtForm.remove();
-		cmtForm2.insertAfter($(e.target).parents("div.cmtContainer"));
-		cmtForm2.insertAfter($(e.target).parents(".reComment"));
-	}
-	$(".cancelBtn").not($(".cmtForm:first .cancelBtn")).css("display", "inline-block");
-})*/
-
-/*$(function() {
-	$('.deleteCmt').click(e => {
+	$(document).on("click", ".deleteCmt", e => {
 		const commentNo = $(e.target).parents("div").children("input[name=commentNo]").val();
 		const productId = $("input[name=productId]").val();
 		if (!confirm('댓글을 삭제 하시겠습니까?')) {
@@ -116,7 +92,9 @@ $(document).on("click", ".changeCmt", e => {
 			location.href = getContextPath() + "/deleteComment?commentNo=" + commentNo + "&&productId=" + productId;
 		}
 	});
-});*/
+
+
+
 
 function getContextPath() {
 	var hostIndex = location.href.indexOf(location.host) + location.host.length;
@@ -205,15 +183,15 @@ function selectAjaxProductComment() {
 				}
 			}
 			html +=
-				"<input type='hidden' name='commentNo' value='" + ajaxComment.commentNo + "'>"+
-				"<input type='hidden' name='commentRef' value='" + ajaxComment.commentRef + "'>"+
+				"<input type='hidden' name='commentNo' value='" + ajaxComment.commentNo + "'>" +
+				"<input type='hidden' name='commentRef2' value='" + ajaxComment.commentRef + "'>" +
 				"<hr color='#eeeeee' noshade />" +
 				"</div>"
 
 			if ($(".cmtContainer").length) {
 				$("#comment").append(html);
 			} else {
-				$(".cmtForm:first").after(html);
+				$("#comment >hr:first").after(html);
 			}
 			console.log(html)
 		}
@@ -245,9 +223,9 @@ function selectReAjaxProductComment(cn) {
 				"<button class='writeCmt' value='" + ajaxReComment.commentNo + "'>" + "답글쓰기" + "</button>" +
 				"<button class='changeCmt'>" + "수정하기" + "</button>" +
 				"<button class='deleteCmt'>" + "삭제하기" + "</button>" +
-				"<input type='hidden' name='commentNo' value='" + ajaxReComment.commentNo + "'>"+
-				"<input type='hidden' name='commentRef' value='" + ajaxReComment.commentRef + "'>"+
-			"<hr color='#eeeeee' noshade />" +
+				"<input type='hidden' name='commentNo' value='" + ajaxReComment.commentNo + "'>" +
+				"<input type='hidden' name='commentRef2' value='" + ajaxReComment.commentRef + "'>" +
+				"<hr color='#eeeeee' noshade />" +
 				"</div>"
 
 			console.log(cn);
@@ -294,6 +272,9 @@ function updatetAjaxProductComment(cn) {
 			} else {
 				if ($("input[name=commentNo][value=" + cn + "]").parent("div").attr("class") == "cmtContainer") {
 					$("input[name=commentNo][value=" + cn + "]").parent(".cmtContainer").find(".cmt").html(updateAjaxComment.content);
+					$("input[name=commentNo][value=" + cn + "]").parent(".cmtContainer").find(".cmt").after("<span id='cmtOn'>")
+					$("input[name=commentNo][value=" + cn + "]").parent(".cmtContainer").find("#cmtOn").text("(수정됨)")
+
 				} else {
 					$("input[name=commentNo][value=" + cn + "]").parent(".reComment").find(".cmt").html(updateAjaxComment.content);
 				}
@@ -302,22 +283,45 @@ function updatetAjaxProductComment(cn) {
 	})
 }
 
-$(document).on("click", ".deleteCmt", e => {
+/*$(document).on("click", ".deleteCmt", e => {
+	let deletecommentNo = "";
+	if ($(e.target).parent("div").attr("class") == "reComment") {
+		deletecommentNo = $(e.target).parents(".reComment").find("input[name=commentNo]").val()
+	} else {
+		deletecommentNo = $(e.target).parents(".cmtContainer").find("input[name=commentNo]").val()
+	}
+	console.log(deletecommentNo)
 	$.ajax({
 		type: "POST",
 		url: getContextPath() + "/deleteAjaxComment",
 		dataType: "json",
 		data: {
-			"commentNo": $(e.target).parents(".cmtContainer").find("input[name=commentNo]").val(),
+			"commentNo": deletecommentNo
 		},
 		success: function(result) {
 			if (!confirm('댓글을 삭제 하시겠습니까?')) {
 
 			} else {
-			if (result > 0) {
-				$(e.target).parents(".cmtContainer").remove();
-				const ref=$(e.target).parents(".cmtContainer").find("inpuat[name=commentRef2]").val()
-				$("input[name=commentRef2][value="+ref+"]").parents(".reComment").remove()
+				if (result > 0) {
+					$(".cmtContainer,.reComment,#arrow").remove(length)
+					selectAllAjaxProductComment()
+
+					
+										if ($(e.target).parent("div").attr("class") == "reComment") {
+											$(e.target).parents(".reComment").remove();
+										} else {
+											$(e.target).parents(".cmtContainer").prev("#arrow").remove();
+											$(e.target).parents(".cmtContainer").remove();
+					
+											const ref = $(e.target).parents(".cmtContainer").find("input[name=commentNo]").val()
+											const ref2 = $("input[name=commentRef2][value=" + ref + "]").parents(".reComment").find("input[name=commentNo]").val()
+											console.log(ref)
+											console.log(ref2)
+											$("input[name=commentRef2][value=" + ref + "]").parents(".reComment").prev("#arrow").remove()
+											$("input[name=commentRef2][value=" + ref + "]").parents(".reComment").remove()
+											$("input[name=commentRef2][value=" + ref2 + "]").parents(".reComment").prev("#arrow").remove()
+											$("input[name=commentRef2][value=" + ref2 + "]").parents(".reComment").remove()
+										}
 				}
 			}
 		},
@@ -326,7 +330,7 @@ $(document).on("click", ".deleteCmt", e => {
 		}, complete: function() {
 		}
 	})
-})
+})*/
 
 
 

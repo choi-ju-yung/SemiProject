@@ -49,7 +49,7 @@ public class MypageMemberService {
 		return m;
 	}
 	
-//	유저 정보 수정(닉네임, 소개글)
+//	유저 정보 수정(닉네임)
 	public int updateMemberNickname(MemberShopPage m) {
 		Connection conn = getConnection();
 		int result = dao.updateMemberNickname(conn, m);
@@ -59,9 +59,30 @@ public class MypageMemberService {
 		return result;
 	}
 	
+//	유저 정보 수정(상점소개)
 	public int updateMemberIntroduce(MemberShopPage m) {
 		Connection conn = getConnection();
 		int result = dao.updateMemberIntroduce(conn, m);
+		if(result>0) commit(conn);
+		else rollback(conn);
+		close(conn);
+		return result;
+	}
+	
+//	비밀번호 수정
+	public int updatePassword(String userId, String newPwd) {
+		Connection conn = getConnection();
+		int result = dao.updatePassword(conn, userId, newPwd);
+		if(result>0) commit(conn);
+		else rollback(conn);
+		close(conn);
+		return result;
+	}
+	
+//	회원탈퇴
+	public int deleteUser(String userId) {
+		Connection conn = getConnection();
+		int result = dao.deleteUser(conn, userId);
 		if(result>0) commit(conn);
 		else rollback(conn);
 		close(conn);
