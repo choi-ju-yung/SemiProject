@@ -85,7 +85,7 @@ CategorySubCategory categoryandsubcategoryname = (CategorySubCategory)request.ge
                	<%} %></span></p>
                 <p id="productPlace">
                   <i class="bi bi-geo-alt"></i>
-                  <%=p.getProductCategoryList().getGoonguareaId()%>
+                  <%=p.getProductCategoryList().getAreaName()%>
                 </p>
             </div>
            <%}%>

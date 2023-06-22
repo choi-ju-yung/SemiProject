@@ -119,120 +119,16 @@ if (cookies != null) {
                </div>
             </div>
             <div class="categoryNrank">
-               <input type="checkbox" id="menuIcon" /> <label for="menuIcon"
+                <input type="checkbox" id="menuIcon" /> <label for="menuIcon"
                   class="headercategorybtn"> <span></span> <span></span> <span></span>
                </label>
-
                <div id="menuList">
                   <ul>
-                     <li><a onclick="Test_btn();" id="category0">전체</a></li>
-                     <%-- <%if(categorylist.isEmpty()) {%> <%for(CategoryDto c :
-                  categorylist){%>
-                  <li><a href=""><%=c.getCategoryname()%></a></li>
-                  <%} }%> --%>
-                     <li><a href="#" id="category1">카테고리1</a></li>
-                     <li><a href="#" id="category2">카테고리2</a></li>
-                     <li><a href="#" id="category3">카테고리3</a></li>
-                     <li><a href="#" id="category4">카테고리4</a></li>
-                     <li><a href="#" id="category5">카테고리5</a></li>
-                     <li><a href="#" id="category6">카테고리6</a></li>
-                     <li><a href="#" id="category7">카테고리7</a></li>
-                     <li><a href="#" id="category8">카테고리8</a></li>
-                     <li><a href="#" id="category9">카테고리9</a></li>
-                     <li><a href="#" id="category10">카테고리10</a></li>
-                  </ul>
-               </div>
-               <div class="sideMenu" id="sideMenu-category1">
-                  <ul>
-                     <li><a href="#">세부 카테고리1</a></li>
-                     <li><a href="#">세부 카테고리2</a></li>
-                     <li><a href="#">세부 카테고리3</a></li>
-                     <li><a href="#">세부 카테고리4</a></li>
-                     <li><a href="#">세부 카테고리5</a></li>
-                  </ul>
-               </div>
-               <div class="sideMenu" id="sideMenu-category2">
-                  <ul>
-                     <li><a href="#">세부 카테고리6</a></li>
-                     <li><a href="#">세부 카테고리7</a></li>
-                     <li><a href="#">세부 카테고리8</a></li>
-                     <li><a href="#">세부 카테고리9</a></li>
-                     <li><a href="#">세부 카테고리10</a></li>
-                  </ul>
-               </div>
-               <div class="sideMenu" id="sideMenu-category3">
-                  <ul>
-                     <li><a href="#">세부 카테고리11</a></li>
-                     <li><a href="#">세부 카테고리12</a></li>
-                     <li><a href="#">세부 카테고리13</a></li>
-                     <li><a href="#">세부 카테고리14</a></li>
-                     <li><a href="#">세부 카테고리15</a></li>
-                  </ul>
-               </div>
-               <div class="sideMenu" id="sideMenu-category4">
-                  <ul>
-                     <li><a href="#">세부 카테고리16</a></li>
-                     <li><a href="#">세부 카테고리17</a></li>
-                     <li><a href="#">세부 카테고리18</a></li>
-                     <li><a href="#">세부 카테고리19</a></li>
-                     <li><a href="#">세부 카테고리20</a></li>
-                  </ul>
-               </div>
-               <div class="sideMenu" id="sideMenu-category5">
-                  <ul>
-                     <li><a href="#">세부 카테고리21</a></li>
-                     <li><a href="#">세부 카테고리22</a></li>
-                     <li><a href="#">세부 카테고리23</a></li>
-                     <li><a href="#">세부 카테고리24</a></li>
-                     <li><a href="#">세부 카테고리25</a></li>
-                  </ul>
-               </div>
-               <div class="sideMenu" id="sideMenu-category6">
-                  <ul>
-                     <li><a href="#">세부 카테고리26</a></li>
-                     <li><a href="#">세부 카테고리27</a></li>
-                     <li><a href="#">세부 카테고리28</a></li>
-                     <li><a href="#">세부 카테고리29</a></li>
-                     <li><a href="#">세부 카테고리30</a></li>
-                  </ul>
-               </div>
-               <div class="sideMenu" id="sideMenu-category7">
-                  <ul>
-                     <li><a href="#">세부 카테고리31</a></li>
-                     <li><a href="#">세부 카테고리32</a></li>
-                     <li><a href="#">세부 카테고리33</a></li>
-                     <li><a href="#">세부 카테고리34</a></li>
-                     <li><a href="#">세부 카테고리35</a></li>
-                  </ul>
-               </div>
-               <div class="sideMenu" id="sideMenu-category8">
-                  <ul>
-                     <li><a href="#">세부 카테고리36</a></li>
-                     <li><a href="#">세부 카테고리37</a></li>
-                     <li><a href="#">세부 카테고리38</a></li>
-                     <li><a href="#">세부 카테고리39</a></li>
-                     <li><a href="#">세부 카테고리40</a></li>
-                  </ul>
-               </div>
-               <div class="sideMenu" id="sideMenu-category9">
-                  <ul>
-                     <li><a href="#">세부 카테고리41</a></li>
-                     <li><a href="#">세부 카테고리42</a></li>
-                     <li><a href="#">세부 카테고리43</a></li>
-                     <li><a href="#">세부 카테고리44</a></li>
-                     <li><a href="#">세부 카테고리45</a></li>
-                  </ul>
-               </div>
-               <div class="sideMenu" id="sideMenu-category10">
-                  <ul>
-                     <li><a href="#">세부 카테고리46</a></li>
-                     <li><a href="#">세부 카테고리47</a></li>
-                     <li><a href="#">세부 카테고리48</a></li>
-                     <li><a href="#">세부 카테고리49</a></li>
-                     <li><a href="#">세부 카테고리50</a></li>
-                  </ul>
-               </div>
-
+                   </ul>
+               </div> 
+               
+            
+               
                <p>카테고리</p>
                <div>
                   <img src="<%=request.getContextPath()%>/images/common/ranking.png"
@@ -251,7 +147,7 @@ if (cookies != null) {
       </div>
    </header>
    <script>
-//카테고리 클릭시 상품리스트 출력 ajax
+//헤더에서 카테고리 클릭시 전체상품리스트 출력 ajax
 function Test_btn() {
 	$.ajax({
 		url: "<%=request.getContextPath()%>/categoryproductlist.do",
@@ -261,7 +157,66 @@ function Test_btn() {
           }
 	});
 }
+//헤더에서 카테고리 클릭시 클릭한 카테고리 상품리스트 출력 ajax
+function searchCategory(name) {
+	$.ajax({
+		url: "<%=request.getContextPath()%>/headersearchcategory.do",
+         dateType: 'html',
+         data:{'name': name},
+         success: function(data){
+         	$("section").html(data); 
+          }
+	});
+}
+//헤더에서 서브카테고리 클릭시 클릭한 서브카테고리 상품리스트 출력 ajax
+function searchsubcategory(subname) {
+	$.ajax({
+		url: "<%=request.getContextPath()%>/searchheadersubcategory.do",
+         dateType: 'html',
+         data:{'subname': subname},
+         success: function(data){
+         	$("section").html(data); 
+          }
+	});
+}
 
+// 페이지 로딩되었을때 로딩후 마지막에 실행되는 함수
+$(()=>{HeaderCategoryMenu()});
+// 해더 카테고리에 DB데이터값을 Map으로 가져와서 뿌려주는 ajax 
+function HeaderCategoryMenu() {
+    $.ajax({
+        url: "<%=request.getContextPath()%>/headercategories.do",
+        dataType: 'json',
+        success: function(data) {
+        	$("#menuList>ul").html("<li><a onclick='Test_btn();' id='category0'>전체</a></li>");
+            data.main.forEach(function(category,index) {
+                makeCategoryHeader(category.categoryName, index);
+                const subCategory=data.sub.filter(cate=>cate.category.categoryName==category.categoryName);
+                //console.log(subCategory);
+                makeCatetorySub(subCategory, index);
+            });
+        }
+    });
+}
+function makeCategoryHeader(name, index) {
+	
+    const $li = $("<li>");
+    const $a = $("<a>").attr("id", "category" + (index + 1)).text(name).attr("onclick", "searchCategory('" + name + "');");
+    $li.append($a);
+    $("#menuList>ul").append($li);
+}
+
+ function makeCatetorySub(subcateList, index) {
+	 const $div=$("<div>").attr({"id":"sideMenu-category"+(index+1),"class":"sideMenu"});
+	 const $ul=$("<ul>");
+	 subcateList.forEach(sub=>{
+	        const $a = $("<a href='javascript:void(0);'>").text(sub.subCategory.subcategoryName).attr("onclick", "searchsubcategory('" + sub.subCategory.subcategoryName + "');");
+	        const $li = $("<li>").append($a);
+	        $ul.append($li);
+	 });
+	 $div.html($ul);
+	 $("div#menuList").after($div);
+}
 </script>
    <script src="<%=request.getContextPath()%>/js/common/header.js"></script>
 </body>

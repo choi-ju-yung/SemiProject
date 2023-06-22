@@ -6,57 +6,25 @@ function searchData() {
 }
 // /검색기능/
 
-// 상단메뉴바
-
-$("#menuList a").mouseenter(function () {
-  const id = $(this).attr("id");
-  $(".sideMenu")
-    .not($("#sideMenu-" + id))
-    .css("display", "none");
-  $("#menuList a")
-    .not($(this))
-    .css({"background-color": "white", color: "#afafaf"});
-  console.log(this);
-  $(this).css({"background-color": "#20c997", color: "white"});
-  $("#sideMenu-" + id).css("display", "block");
-});
-$("#category0").mouseleave(function () {
-  $("#menuList a").css({"background-color": "white", color: "#afafaf"});
-});
-$(".sideMenu").mouseleave(function () {
-  $(".sideMenu").css("display", "none");
-  $("#menuList a").css({"background-color": "white", color: "#afafaf"});
-});
-$("section").mouseenter(function () {
-  $(".sideMenu").css("display", "none");
-  $("#menuList a").css({"background-color": "white", color: "#afafaf"});
-});
-$("section").click(function (e) {
-  if ($("#menuIcon").is(":checked")) {
-    $("#menuIcon").prop("checked", false);
-  }
-});
-
-// /상단메뉴바/
 
 // 카테고리 사이드바
 
-$(".pdcCategory> .collapse").on("show.bs.collapse", function () {
+$(".pdcCategory> .collapse").on("show.bs.collapse",".pdcCategory span",".collapse ul li", function () {
   var target = $("[href='#" + $(this).prop("id") + "']");
   target.removeClass("fa-plus-square");
   target.addClass("fa-minus-square");
 });
-$(".pdcCategory >.collapse").on("shown.bs.collapse", function () {
+$(".pdcCategory >.collapse").on("shown.bs.collapse",".pdcCategory span",".collapse ul li", function () {
   var target = $("[href='#" + $(this).prop("id") + "']");
   target.removeClass("fa-plus-square");
   target.addClass("fa-minus-square");
 });
-$(".pdcCategory >.collapse").on("hide.bs.collapse", function () {
+$(".pdcCategory >.collapse").on("hide.bs.collapse",".pdcCategory span",".collapse ul li", function () {
   var target = $("[href='#" + $(this).prop("id") + "']");
   target.removeClass("fa-minus-square");
   target.addClass("fa-plus-square");
 });
-$(".pdcCategory> .collapse").on("hidden.bs.collapse", function () {
+$(".pdcCategory> .collapse").on("hidden.bs.collapse",".pdcCategory span",".collapse ul li", function () {
   var target = $("[href='#" + $(this).prop("id") + "']");
   target.removeClass("fa-minus-square");
   target.addClass("fa-plus-square");

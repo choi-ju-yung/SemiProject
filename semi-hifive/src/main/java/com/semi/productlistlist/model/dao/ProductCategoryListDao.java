@@ -46,7 +46,7 @@ public class ProductCategoryListDao {
 				.explanation(rs.getString("EXPLANATION"))
 				.keyword(rs.getString("KEYWORD")!= null ? rs.getString("KEYWORD").split(",") : null)
 				.subcategoryName(rs.getString("SUBCATEGORY_NAME"))
-				.goonguareaId(rs.getInt("GOONGUAREA_ID")).build())
+				.areaName(rs.getString("AREA_NAME")).build())
 		.category(Category.builder()
 					.categoryId(rs.getString("CATEGORY_ID"))
 					.categoryName(rs.getString("CATEGORY_NAME")).build())

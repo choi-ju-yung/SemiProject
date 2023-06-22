@@ -4,7 +4,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-	Category cn = (Category)request.getAttribute("ccategoryname");
+	Category cn = (Category)request.getAttribute("categoryName");
 %>
 <%
 	List<ProductCategoryTimeList> cpd = (List)request.getAttribute("categoryproduct");
@@ -85,7 +85,7 @@
                	<%} %></span></p>
                 <p id="productPlace">
                   <i class="bi bi-geo-alt"></i>
-                  <%=p.getProductCategoryList().getGoonguareaId()%>
+                  <%=p.getProductCategoryList().getAreaName()%>
                 </p>
             </div>
            <%}%>

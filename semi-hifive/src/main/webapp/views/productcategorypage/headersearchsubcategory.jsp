@@ -5,15 +5,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-	List<ProductCategoryTimeList> productlist = (List)request.getAttribute("productlist");
-%>
-<%
 	List<CategorySubCategory> categorylist = (List)request.getAttribute("categorylist");
 %>
 <%
 	List<Category> selectcategory = (List)request.getAttribute("category");
 %>
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/productsearchchartpage.css" />
+<%
+	Category cn = (Category)request.getAttribute("categoryName");
+%>
+<%
+	List<ProductCategoryTimeList> sub = (List)request.getAttribute("subcategoryproduct");
+%>
+<%
+	CategorySubCategory categoryandsubcategoryname = (CategorySubCategory)request.getAttribute("categoryandsubcategoryname");
+%>
+     <link rel="stylesheet" href="<%=request.getContextPath()%>/css/productsearchchartpage.css" />
     <link rel="stylesheet" href="<%=request.getContextPath()%>/css/page.css" />
     <link
       rel="stylesheet"
@@ -44,13 +50,13 @@
                 <span id="pddfilter"><b>필터</b></span>
 			</div>
 			<div class="plusFilter">
-				  <!-- <a class="plusFiterbox">
-					<div class="plusFiterboxText"></div>
+				   <a class="plusFiterbox">
+					<div class="plusFiterboxText"><%=categoryandsubcategoryname.getSubCategory().getSubcategoryName()%></div>
 					<div class="plusFiterboxbtn"><button><svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512">
                                     <path d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192 192-86 192-192z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/>
                                     <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M320 320L192 192M192 320l128-128"/>
                                   </svg></button></div>
-				</a> -->
+				</a>
 			</div>	        
         </div>
           <div id="pdcContainer">
@@ -434,7 +440,7 @@
         <div id="productContainer">
           <div id="selectCategory">
             <div id="categoryName">
-              <h4>전체   <span><%=request.getAttribute("totalData")%></span></h4>
+              <h4><%=categoryandsubcategoryname.getCategory().getCategoryName()%>   >   <%=categoryandsubcategoryname.getSubCategory().getSubcategoryName()%><span>   <%=request.getAttribute("totalData")%></span></h4>
             </div>
             <div id="categoryFunction">
               <span>최신순</span>
@@ -445,7 +451,7 @@
           </div>
           <div id="contentdata">
 	          <div id="productImgContainer">
-	      		<%for(ProductCategoryTimeList p : productlist){%>
+	      		<%for(ProductCategoryTimeList p : sub){%>
 	            <div id="pimgWraper" onclick="location.href='<%=request.getContextPath()%>/productpage?no=<%=p.getProductCategoryList().getProductId()%>';">
 	              <div class="con-like">
 	                <input title="like" type="checkbox" class="like" />
@@ -528,7 +534,7 @@
     //ajax로 페이징 처리한 페이지 바 선택시 출력해주는 함수
     function changePage(pageNo) {
         $.ajax({
-            url: "<%=request.getContextPath()%>/categoryproductlist.do",
+            url: "<%=request.getContextPath()%>/headersearchcategory.do",
             type: "GET",
             data: {
                 'cPage': pageNo,
