@@ -13,7 +13,8 @@ import java.util.List;
 import java.util.Properties;
 
 import com.semi.category.model.vo.Category;
-import com.semi.category.model.vo.SubCategory;
+import com.semi.member.model.vo.Member;
+import com.semi.product.model.vo.Product;
 
 public class ProductRegistDao {
 	private Properties sql=new Properties(); // Properties 파일객체 만듬
@@ -55,11 +56,11 @@ public class ProductRegistDao {
 	
 	
 	// 서브카테고리 조회하는 작업
-	public List<SubCategory> selectSubCate(Connection conn, String cateId){
+	public List<String> selectSubCate(Connection conn, String cateId){
 		PreparedStatement pstmt = null;
 		ResultSet rs =null;
 		
-		List<SubCategory> subCategorys = new ArrayList();
+		List<String> subCategorys = new ArrayList();
 		try {
 			pstmt=conn.prepareStatement(
 					sql.getProperty("selectSubCate"));
@@ -67,8 +68,8 @@ public class ProductRegistDao {
 			rs=pstmt.executeQuery(); 
 			
 			while(rs.next()) {
-				SubCategory sc=new SubCategory();
-				sc.setSubcategoryName(rs.getString("CATEGORY_NAME"));
+				String sc="";
+				sc = rs.getString("SUBCATEGORY_NAME");
 
 				subCategorys.add(sc);
 			}
@@ -80,5 +81,28 @@ public class ProductRegistDao {
 		}return subCategorys;
 	}
 	
+	
+	
+	public int insertProduct(Connection conn, Product p, Member m){
+		PreparedStatement pstmt = null;
+		int result = 0;
+		try {
+			pstmt=conn.prepareStatement(sql.getProperty("insertProduct"));
+			pstmt.setString(1, m.getUserId());
+			pstmt.setString(2, p.getTitle());
+			pstmt.setString(3, p.getProductStatus());
+			pstmt.setInt(4, p.getPrice());
+			pstmt.setString(5, p.getExplanation());
+			pstmt.setString(6, p.getKeyword());
+			pstmt.setString(7, p.getSubCategoryName());
+			pstmt.setString(8, p.getAreaName());
+			
+			result=pstmt.executeUpdate(); 
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}return result;
+	}
 	
 }

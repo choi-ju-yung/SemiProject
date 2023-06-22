@@ -1,6 +1,9 @@
 package com.semi.sc.service;
 
-import static com.semi.common.JDBCTemplate.*;
+import static com.semi.common.JDBCTemplate.close;
+import static com.semi.common.JDBCTemplate.commit;
+import static com.semi.common.JDBCTemplate.getConnection;
+import static com.semi.common.JDBCTemplate.rollback;
 
 import java.sql.Connection;
 import java.util.List;
@@ -42,11 +45,11 @@ public class BoardService {
 		return b;
 	}
 
-	public Board selectBoardFile(int boardNo, Board b) {
+	public List<BoardFile> selectBoardFile(int boardNo) {
 		Connection conn=getConnection();
-		b=dao.selectBoardFile(conn, boardNo, b);
+		List<BoardFile> files=dao.selectBoardFile(conn, boardNo);
 		close(conn);
-		return b;
+		return files;
 	}
 
 	public List<BoardComment> selectBoardComment(int boardNo) {

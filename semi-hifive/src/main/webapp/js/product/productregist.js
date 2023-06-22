@@ -1,8 +1,3 @@
-// function getImageFiles(e) {
-//     const files = e.currentTarget.files;
-//     console.log(typeof files, files);
-// }
-
 
 const context = "http://localhost:9090/semi-hifive";
 
@@ -99,8 +94,6 @@ realUpload.addEventListener('change', getImageFiles); // file타입에서 값 �
 
 
 
-
-
 // ==== 가격 입력했을 때, 숫자만입력되고, 3자리수마다 ,로 구분해주는 작업
 function comma(str) {
 	str = String(str);
@@ -136,26 +129,34 @@ $(".inputTitle").keyup(e => { // 해당 텍스트부분을 입력할 때
 // -------------------------------------------------------------------------------------------------------------------
 // 카테고리 선택하는 작업
 
+$(()=>{
+	$(".mainCate").trigger("change",$(".mainCate:selected").val());  // 페이지로딩되었을때, 자동으로 change 함수 실행
+	 														//	대상값은 현재 그 select에 선택된 값
+})
 
 function chageSubCate(value) {
-
+	console.log(value);
 	$.ajax({
 		url: "findSubCate",
 		data: {"cateId": value},
 		success: function(result) {
-			console.log("이메일 발송 성공");
-			console.log(result);	
+		
+			const subCate = result.split(","); // 문자열로 넘어온 값들을 ,를 구분자로 배열을 만듬
 			
-
+			$(".middleCate option").remove();   // 메인카테고리 선택할때마다 옵션들 다 삭제
+			for(let i=0; i<subCate.length; i++){
+					var option = $("<option value=" + subCate[i] + ">"+subCate[i]+"</option>");
+					$(".middleCate").append(option);
+			}
 		},
 		error: function() {
-			console.log("이메일 발송 실패");
+			console.log("카테고리 선택 오류발생");
 		}
 	})
-	
-	
-	
 }
+
+
+
 
 
 /*$(function() {
@@ -170,88 +171,6 @@ function chageSubCate(value) {
 	$(".mainCate").append(option);
 	}
 });*/
-
-
-// var groups = $("#aca_coo ").options.length;
-/*var groups = document.querySelectorAll(".mainCate option").length*/
-
-// var groups = document.frm1.aca_coo.options.length
-
-/*var group = new Array(groups)
-
-for (i = 0; i < groups; i++) {
-	group[i] = new Array()
-}
-
-group[0][0] = new Option("카테고리를 선택");
-group[1][0] = new Option("카테고리를 선택");
-group[1][1] = new Option("전체");
-group[1][2] = new Option("상희");
-group[1][3] = new Option("하의");
-group[2][0] = new Option("카테고리를 선택");
-group[2][1] = new Option("전체");
-group[2][2] = new Option("신발");
-group[2][3] = new Option("모자");
-group[2][4] = new Option("가방");
-group[2][5] = new Option("기타잡화");
-group[3][0] = new Option("카테고리를 선택");
-group[3][1] = new Option("전체");
-group[3][2] = new Option("TV");
-group[3][3] = new Option("세탁기");
-group[3][4] = new Option("냉장고");
-group[3][5] = new Option("주방가전");
-group[4][0] = new Option("카테고리를 선택");
-group[4][1] = new Option("전체");
-group[4][2] = new Option("데스크탑");
-group[4][3] = new Option("노트북");
-group[4][4] = new Option("기타 주변기기");
-group[5][0] = new Option("카테고리를 선택");
-group[5][1] = new Option("전체");
-group[5][2] = new Option("가구");
-group[5][3] = new Option("인테리어");
-group[6][0] = new Option("카테고리를 선택");
-group[6][1] = new Option("전체");
-group[6][2] = new Option("주방용품");
-group[6][3] = new Option("식품");
-group[6][4] = new Option("생활잡화");
-group[7][0] = new Option("카테고리를 선택");
-group[7][1] = new Option("전체");
-group[7][2] = new Option("골프");
-group[7][3] = new Option("등산용품");
-group[7][4] = new Option("캠핑용품");
-group[8][0] = new Option("카테고리를 선택");
-group[8][1] = new Option("전체");
-group[8][2] = new Option("교육용품");
-group[8][3] = new Option("소설/만화책");
-group[8][4] = new Option("문구/사무용품");
-group[8][5] = new Option("기타잡화");
-group[9][0] = new Option("카테고리를 선택");
-group[9][1] = new Option("전체");
-group[9][2] = new Option("중고차");
-group[9][3] = new Option("오토바이");
-group[10][0] = new Option("카테고리를 선택");
-group[10][1] = new Option("무료나눔");
-group[11][0] = new Option("카테고리를 선택");
-group[11][1] = new Option("기타");
-
-// var temp = document.frm1.aca_2ndcoo
-var temp = document.querySelector(".middleCate")
-
-function redirect(x) {
-	for (m = temp.options.length - 1; m > 0; m--)temp.options[m] = null;
-	for (i = 0; i < group[x].length; i++) {
-		temp.options[i] = new Option(group[x][i].value)
-	}
-}*/
-
-/*redirect(0);*/
-/* document.querySelector(".mainCate").addEventListener("focus",e=>{
-	$(e.target).find("option").first().css("display","none");
-	*/
-/* document.querySelector(".mainCate").addEventListener("focus",e=>{
-	$(e.target).find("option").first().css("display","none");	
-});*/
-
 
 
 // -------------------------------------------------------------------------------------------------------------------
@@ -488,13 +407,19 @@ $autoComplete.addEventListener("click", e => {  // 관련검색어 클릭했을�
 
 		$button2.appendChild($img);
 
-
 		$button1.innerHTML = key;
 
 		$li.appendChild($button1);
 		$li.appendChild($button2);
 
+		
+		var input1 = document.createElement('input');
+		input1.setAttribute("type", "hidden");
+		input1.setAttribute("name", "data1");
+		input1.setAttribute("value", key);
 
+		$li.appendChild(input1);
+		
 
 		$img.addEventListener("click", e => {  // 해당 이미지 클릭시
 			$(e.target).parent().parent().remove(); // li밑 label+button 밑 img까지 삭제
@@ -507,30 +432,12 @@ $autoComplete.addEventListener("click", e => {  // 관련검색어 클릭했을�
 			}
 		});
 
-
-
 		document.querySelector("#searchTag").dispatchEvent(new KeyboardEvent("keyup", { keyCode: 13 })); // 엔터 한번 발생
 		$("#searchTag").val("");   // document.querySelector("#searchTag").value =""; 
 		$("#searchTag").focus();   // document.getElementById("searchTag").focus(); 
 
 	}
 })
-
-
-/*$("#searchTag").on("focus",
-	function(){
-	  $(".autocomplete").css({
-	  "display":"block"
-	});
-});*/
-
-/*$("#searchTag").on("blur",
-	function(){
-	  $(".autocomplete").css({
-	  "display":"none"
-	});
-});*/
-
 
 
 /*============>  #키 입력 못하도록 설정*/
@@ -543,6 +450,13 @@ $(document).ready(function() {
 	});
 });
 /*=============================*/
+
+
+/* 폼 전송 작업*/
+
+function productRegist(){
+	$(".container").submit();
+}
 
 
 

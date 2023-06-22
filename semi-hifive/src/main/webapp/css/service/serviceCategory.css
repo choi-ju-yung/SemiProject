@@ -32,6 +32,9 @@ div.ServiceCenterCategory li{
   font-weight: bolder;
 }
 
+.ServiceCenterCategory label{
+  cursor: pointer;
+}
 
 div.ServiceCenterCategory li:hover {
   color: #20C997
