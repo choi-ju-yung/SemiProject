@@ -7,7 +7,8 @@ import java.sql.Connection;
 import java.util.List;
 
 import com.semi.category.model.vo.Category;
-import com.semi.category.model.vo.SubCategory;
+import com.semi.member.model.vo.Member;
+import com.semi.product.model.vo.Product;
 import com.semi.productregist.dao.ProductRegistDao;
 
 public class ProductRegistService {
@@ -23,11 +24,21 @@ public class ProductRegistService {
 	}
 
 	// 서브카테고리 찾는 작업
-	public List<SubCategory> selectSubCate(String cateId){
+	public List<String> selectSubCate(String cateId){
 		Connection conn = getConnection(); // jdbc 연결객체
-		List<SubCategory> subCategorys = dao.selectSubCate(conn,cateId);
+		List<String> subCategorys = dao.selectSubCate(conn,cateId);
 		close(conn);
 		return subCategorys;
 	}
+	
+	
+	public int insertProduct(Product p, Member m) {
+		Connection conn = getConnection(); // jdbc 연결객체
+		int result = dao.insertProduct(conn,p,m);
+		close(conn);
+		return result;
+	}
+	
+	
 	
 }
