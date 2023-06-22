@@ -10,7 +10,6 @@
 	if(boardList!=null&&boardList.get(0).getNoticeYn()=='N'){
 		notice='N'; 
 	}
-	//if(boardList!=null&&boardList.get(0).getNoticeYn()=='N') notice='N';
 %>
 <section>
 	<%@ include file="/views/service/serviceCategory.jsp" %>
