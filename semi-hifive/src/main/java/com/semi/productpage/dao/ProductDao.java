@@ -16,7 +16,7 @@ import com.semi.productpage.model.vo.Product;
 import com.semi.productpage.model.vo.ProductComment;
 
 public class ProductDao {
-
+	
 	private Properties sql = new Properties();
 
 	public ProductDao() {
@@ -56,9 +56,10 @@ public class ProductDao {
 		try {
 			pstmt=conn.prepareStatement(sql.getProperty("selectAllProductComment"));
 			pstmt.setInt(1, id);
+			pstmt.setInt(2, id);
 			rs=pstmt.executeQuery();
 			while(rs.next())
-				list.add(getProductComment(rs));
+				list.add(getProductComment2(rs));
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}finally {
@@ -117,12 +118,12 @@ public class ProductDao {
 		int result=0;
 		try {
 			pstmt=conn.prepareStatement(sql.getProperty("insertAjaxProductComment"));
-			pstmt.setString(1,pc.getUserId());
-			pstmt.setInt(2, pc.getProductId());			
-			pstmt.setInt(3,pc.getCommentLevel());
-			pstmt.setString(4,pc.getContent());
-			pstmt.setString(5,pc.getCommentRef()==0?null:
+			pstmt.setInt(1,pc.getProductId());
+			pstmt.setString(2, pc.getUserId());			
+			pstmt.setString(3,pc.getCommentRef()==0?null:
 								String.valueOf(pc.getCommentRef()));
+			pstmt.setString(4,pc.getContent());
+			pstmt.setInt(5,pc.getCommentLevel());
 			pstmt.setString(6,pc.getNickName());
 			result=pstmt.executeUpdate();
 		}catch(SQLException e) {
@@ -183,8 +184,7 @@ public class ProductDao {
 			close(pstmt);
 		}return result;
 	}
-	
-	
+		
 	private Product getProduct(ResultSet rs) throws SQLException{
 		return Product.builder()
 				.productId(rs.getInt("product_id"))
@@ -199,7 +199,7 @@ public class ProductDao {
 				.keyword(rs.getString("keyword")!=null?rs.getString("keyword").split(","):null)
 				.category(rs.getString("category_name"))
 				.subCategory(rs.getString("subcategory_name"))
-				.areaId(rs.getInt("goonguarea_id"))
+				.areaId(rs.getString("area_name"))
 				.build();
 	}
 	
@@ -213,6 +213,19 @@ public class ProductDao {
 				.content(rs.getString("product_comment_content"))
 				.commentRef(rs.getInt("product_comment_ref"))
 				.enrollDate(rs.getDate("product_comment_date"))
+				.build();
+	}
+	private ProductComment getProductComment2(ResultSet rs) throws SQLException{
+		return ProductComment.builder()
+				.userId(rs.getString("user_id"))
+				.productId(rs.getInt("product_id"))
+				.nickName(rs.getString("nickname"))
+				.commentNo(rs.getInt("product_comment_no"))
+				.commentLevel(rs.getInt("product_comment_level"))
+				.content(rs.getString("product_comment_content"))
+				.commentRef(rs.getInt("product_comment_ref"))
+				.enrollDate(rs.getDate("product_comment_date"))
+				.commentCount(rs.getInt("comment_count"))
 				.build();
 	}
 	

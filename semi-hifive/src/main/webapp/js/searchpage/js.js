@@ -78,6 +78,7 @@ $(document).ready(function() {
       $(".recentsearchmeun p").hide();
 
       // Add the search text to recent search tags within the ".recentsearchmeun" area
+      
       var recentSearchTag = $('<a href="" class="recentsearchtag">' +
                               '<div class="recentsearchtagtext">' + searchText + '</div>' +
                               '<div class="recentsearchbtn">' +
@@ -96,16 +97,18 @@ $(document).ready(function() {
       if (recentSearchMenu.children().length >= maxRecentSearchTags) {
         recentSearchMenu.children().last().remove();
       }
-
+      
+		if(searchText.trim()!=0){
       recentSearchMenu.prepend(recentSearchTag);
-
+}
    
       $(this).val("");
     }
+    console.log(searchText)
   });
 
-  $(document).on("click", ".recentsearchbtn button", function(event) {
-    $(event.target).closest(".recentsearchtag").remove();
+  $(document).on("click", ".recentsearchbtn button", function(e) {
+    $(e.target).parents(".recentsearchtag").remove();
     event.preventDefault(); // Prevent the default behavior of the link
   });
 });

@@ -4,10 +4,15 @@
     list-style: none;
     font-family: "NEXON Lv2 Gothic";
 }
-div.searchpage{
-    width: auto;
-    height: 700px;
+.searchpage{
+    position: absolute;
+    top: 200px;
+    right: 400px;
+    width: 400px;
+    height: 400px;
+    background-color: white;
 }
+
 .searchpageremove{
     position: absolute;
     top: 18px;
@@ -28,12 +33,12 @@ div.searchpage{
     padding-top: 50px;
     margin: auto;
 }
-.searchbar{
+/*.searchbar{
     flex: 1;
     padding-bottom: 16px;
     border-bottom: 3px solid black;
     
-}
+}*/
 .searchbartext{
     width: 770px;
     border: 0;

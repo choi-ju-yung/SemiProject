@@ -21,8 +21,7 @@ public class Product {
 	private Date registTime;
 	private int viewCount;
 	private String explanation;
-	private String[] keyword;
+	private String keyword;
 	private int areaId;
-	private String subCategoryName;
-	
+	private String subCategoryName;	
 }

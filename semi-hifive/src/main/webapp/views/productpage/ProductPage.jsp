@@ -9,6 +9,10 @@ java.util.List,com.semi.productpage.model.vo.ProductComment"%>
 Product p = (Product) request.getAttribute("product");
 List<ProductComment> comments = (List) request.getAttribute("comments");
 %>
+<script>sessionStorage.setItem("commentCount",<%=comments.size()>0?comments.get(0).getCommentCount():"0"%>);</script>
+<script>
+	sessionStorage.setItem("userId",'<%=p!=null?p.getUserId():""%>');
+</script>
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
 	rel="stylesheet"
@@ -241,7 +245,9 @@ List<ProductComment> comments = (List) request.getAttribute("comments");
 		</div>
 	</div>
 	<div id="comment">
-		<h4>댓글</h4>
+		<h4>댓글 
+		<span class="commentCount"><%=comments.size()>0?comments.get(0).getCommentCount():0 %></span>
+		</h4>
 		<%
 		if (loginMember != null) {
 		%>
@@ -267,7 +273,7 @@ List<ProductComment> comments = (List) request.getAttribute("comments");
 		<hr>
 
 		<%
-		if (comments != null) {
+		if (comments.size()>0) {
 			for (ProductComment pc : comments) {
 				if (pc.getCommentLevel() == 1) {
 		%>
@@ -278,7 +284,10 @@ List<ProductComment> comments = (List) request.getAttribute("comments");
 					alt="" />
 				</a> <input type="hidden" name="pUserId" value="<%=p.getUserId()%>">
 				<a href="" class="cmtUser" name="userId" id="tagName">
-					<p><%=pc.getNickName()%></p>
+					<%=pc.getNickName()%>
+					<% if (pc.getUserId().equals(p.getUserId())) {%>
+				<span id="rcmtWriter">작성자</span>
+				 <% }%>
 				</a>
 			</div>
 			<p class="cmt" name="content"><%=pc.getContent()%>
@@ -293,14 +302,15 @@ List<ProductComment> comments = (List) request.getAttribute("comments");
 			%>
 			<button class="changeCmt">수정하기</button>
 			<button class="deleteCmt">삭제하기</button>
+
+			<%
+			}
+			%>
+			<%
+			}
+			%>
 			<input type="hidden" name="commentNo" value=<%=pc.getCommentNo()%>>
 			<input type="hidden" name="commentRef2" value=<%=pc.getCommentRef()%>>
-			<%
-			}
-			%>
-			<%
-			}
-			%>
 			<hr color="#eeeeee" noshade />
 		</div>
 		<%
@@ -312,11 +322,10 @@ List<ProductComment> comments = (List) request.getAttribute("comments");
 				<a href=""> <img
 					src="<%=request.getContextPath()%>/images/productpage/profile.jpg"
 					alt="" />
-				</a> <a href="" class="cmtUser"><%=pc.getNickName()%> <%
- if (pc.getUserId().equals(p.getUserId())) {
- %> <span id="rcmtWriter">작성자</span> <%
- }
- %> </a>
+				</a> <a href="" class="cmtUser"><%=pc.getNickName()%> 
+				<% if (pc.getUserId().equals(p.getUserId())) {%>
+				<span id="rcmtWriter">작성자</span>
+				 <% }%> </a>
 			</div>
 			<p class="cmtx" id="reTagName"></p>
 			<p class="cmt"><%=pc.getContent()%></p>
@@ -330,14 +339,15 @@ List<ProductComment> comments = (List) request.getAttribute("comments");
 			%>
 			<button class="changeCmt">수정하기</button>
 			<button class="deleteCmt">삭제하기</button>
+
+			<%
+			}
+			%>
+			<%
+			}
+			%>
 			<input type="hidden" name="commentNo" value=<%=pc.getCommentNo()%>>
 			<input type="hidden" name="commentRef2" value=<%=pc.getCommentRef()%>>
-			<%
-			}
-			%>
-			<%
-			}
-			%>
 			<hr color="#eeeeee" noshade />
 		</div>
 		<%
