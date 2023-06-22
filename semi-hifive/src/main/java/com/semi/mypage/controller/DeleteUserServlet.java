@@ -1,7 +1,6 @@
 package com.semi.mypage.controller;
 
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -9,21 +8,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.semi.member.model.vo.Member;
-import com.semi.mypage.model.vo.MemberShopPage;
-import com.semi.mypage.service.MypageMemberService;
-import com.semi.productpage.model.vo.ShopPage;
+import com.semi.member.service.MemberService;
 
 /**
- * Servlet implementation class MypageUpdateServlet
+ * Servlet implementation class DeleteUserServlet
  */
-@WebServlet(urlPatterns = "/mypage/mypageUpdate.do")
-public class MypageUpdateServlet extends HttpServlet {
+@WebServlet("/mypage/deleteUser.do")
+public class DeleteUserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public MypageUpdateServlet() {
+    public DeleteUserServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,10 +30,19 @@ public class MypageUpdateServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String userId = request.getParameter("userId");
-		MemberShopPage m = new MypageMemberService().selectByUserId(userId);
+		String pwd = request.getParameter("user_password");
 		
-		request.setAttribute("infoMemberShopPage", m);
-		request.getRequestDispatcher("/views/mypage/myPageUpdate.jsp").forward(request, response);
+		Member m = new MemberService().selectByUserIdAndPw(userId, pwd);
+		if(m == null) {
+			// 비밀번호 일치하지 않음
+			String msg = "비밀번호가 일치하지 않습니다.";
+			String loc = "/mypage/deleteUserCheck.do?userId=" + userId;
+			request.setAttribute("msg", msg);
+			request.setAttribute("loc", loc);
+			request.getRequestDispatcher("/views/common/msg.jsp").forward(request, response);
+		} else {
+			request.getRequestDispatcher("/views/mypage/deleteUser.jsp").forward(request, response);
+		}
 	}
 
 	/**

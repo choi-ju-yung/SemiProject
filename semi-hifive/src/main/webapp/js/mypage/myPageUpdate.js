@@ -19,14 +19,20 @@ $(".profileImgUpdate").on("click", function() {
 });
 
 
-// 닉네임 최대 8글자 설정
-$(".nicknameCount").keyup(e => { // 해당 텍스트부분을 입력할 때
-	const length = $(e.target).val().length;
-	if (length > 7) {
+// 닉네임 최대 8글자, 정규표현식 설정
+$("#nicknameInput").keyup(e => { 
+	const regNickName1 = /^[ㄱ-ㅎ가-힣a-zA-Z0-9]{0,8}$/;
+	const nickName = $(e.target).val();
+	const filteredText = nickName.replace(regNickName1, '');
+	
+	if (!regNickName1.test(nickName)) {
+		alert("닉네임은 한글, 영어, 숫자만 사용 가능합니다.");
+		$(e.target).val(filteredText);
+	} else if (nickName.length > 7) {
 		alert("닉네임은 최대 8글자로 입력해주세요.");
-		$(e.target).val($(e.target).val().substring(0, 8));
+		$(e.target).val(nickName.substring(0, 8));
 	}
-})
+});
 
 // 내 상점 가기 버튼
 $(".goToStoreBtn").mouseover(e => {
@@ -96,3 +102,22 @@ const updateMember=()=>{
 	
 	$("#updateUserFrm").attr("action", context+"member/updateEndMember.do").submit();
 } 
+
+// 소개글 최대 글자수 설정
+$("#myPageIntroduce").keyup(e=>{
+	let introduce = $(e.target).val();
+	console.log(introduce);
+	
+	// 글자수 카운트
+	if(introduce.length==0 || introduce==''){
+		$('.introduceSpan').text('0/50');
+	} else {
+		$('.introduceSpan').text(introduce.length + '/50');
+	}
+	
+	// 글자수 제한(50자)
+	if(introduce.length > 50){
+		$(e.target).val(introduce.substring(0, 50));
+		alert('상점소개글은 최대 50자까지 입력 가능합니다.');
+	};
+});

@@ -2,6 +2,7 @@ package com.semi.productregist.controller;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -24,14 +25,17 @@ public class FindSubCate extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String cateId = request.getParameter("cateId");
+		System.out.println(cateId);
 		
+		List<String> subCategorys = new ProductRegistService().selectSubCate(cateId);
 		
-		List<SubCategory> subCategorys = new ProductRegistService().selectSubCate(cateId);
+		String result = subCategorys.stream().map(n->String.valueOf(n)).collect(Collectors.joining(","));
+		// 리스트를 -> 문자열로 만들어줌 (문자열로 만들어줄때 앞뒤로 공백을 없애고 ,로 구분해줌)
+		// [컴퓨터, 노트북, 스마트폰, 소프트웨어, 기타 주변기기]  -> 컴퓨터,노트북,스마트폰,소프트웨어,기타 주변기기
+
 		
-		
-		
-		request.setAttribute("subCategorys", subCategorys);
-		
+		System.out.println(result);
+		response.getWriter().print(result);  // getWriter -> jsp의 data로 들어감
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

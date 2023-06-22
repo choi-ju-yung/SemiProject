@@ -41,7 +41,7 @@ public class WishListServlet extends HttpServlet {
 			cPage = 1;
 		}
 		
-		numPerpage = 3;
+		numPerpage = 9;
 		
 		String pageBar = "";
 		int totalData = new MypageProductService().countWishList(userId);
