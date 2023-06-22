@@ -63,14 +63,29 @@
 //   });
 // });
 
+function getContextPath() {
+	var hostIndex = location.href.indexOf(location.host) + location.host.length;
+	return location.href.substring(hostIndex, location.href.indexOf('/', hostIndex + 1));
+};
+
+$(document).on("keyup", ".search", e => {
+	if (e.which === 13) {
+		 var text = $(this).val();
+		location.href+ "/search?productname="+text;
+	}	
+})
+
+
+
+W
 //input 태그에 비워주는 버튼 
 $(() => {
   $(".removesearch").click(() => $(".searchbartext").val(""));
 });
 
 //
-$(document).ready(function() {
-  $(".searchbartext").keyup(function(e) {
+/*$(document).ready(function() {
+  $(".search").keyup(function(e) {
     if (e.which === 13) { // Check if Enter key is pressed
       var searchText = $(this).val(); // Get the search text
 
@@ -111,10 +126,10 @@ $(document).ready(function() {
     $(e.target).parents(".recentsearchtag").remove();
     event.preventDefault(); // Prevent the default behavior of the link
   });
-});
+});*/
 
 // 
- $(document).ready(function () {
+/* $(document).ready(function () {
   // 자동 완성 기능을 구현할 데이터 배열
   var searchData = ["검색어1", "검색어2", "검색어3", "검색어4", "검색어5", "브랜드", "상품명", "아이폰", "나이키"];
 
@@ -129,6 +144,6 @@ $(document).ready(function() {
      //disabled: true, //자동완성 기능 끄기
        autoFocus : true,
  });
-});
+});*/
 
 //

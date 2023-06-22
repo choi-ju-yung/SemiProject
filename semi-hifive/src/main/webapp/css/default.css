@@ -101,7 +101,7 @@ section {
   -webkit-appearance: none;
   width: 10px;
   height: 10px;
-  background: url(../img/x아이콘.png) center center no-repeat;
+  background: url(/images/commom/xIcon.png) center center no-repeat;
   cursor: pointer;
 }
 .searchDetail > button {
