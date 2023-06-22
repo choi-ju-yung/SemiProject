@@ -27,9 +27,11 @@ public class BoardDao {
 	}
 	//Board 객체 반환 메소드
 	public static Board getBoard(ResultSet rs) throws SQLException{
-		return Board.builder().boardNo(rs.getInt("board_no"))
-				.boardTitle(rs.getString("board_title"))
+		return Board.builder()
 				.boardContent(rs.getString("board_content"))
+				.boardNo(rs.getInt("board_no"))
+				.boardWriter(rs.getString("nickname"))
+				.boardTitle(rs.getString("board_title"))
 				.boardDate(rs.getDate("board_date"))
 				.boardCategory(rs.getString("board_category"))
 				.noticeYn(rs.getString("notice_yn").charAt(0))
@@ -80,7 +82,7 @@ public class BoardDao {
 	public List<Board> selectBoardList(Connection conn, int cPage, int numPerpage, String noticeYN) {
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
-		List<Board> boards=new ArrayList();
+		List<Board> boardList=new ArrayList();
 		try {
 			pstmt=conn.prepareStatement(sql.getProperty("selectBoardList"));
 			pstmt.setString(1, noticeYN);
@@ -88,16 +90,16 @@ public class BoardDao {
 			pstmt.setInt(3, cPage*numPerpage);
 			rs=pstmt.executeQuery();
 			while(rs.next()) {
-				boards.add(getBoard(rs));
+				boardList.add(getBoard(rs));
 			}
-			
+			System.out.println(boardList);
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}finally {
 			close(rs);
 			close(pstmt);
 		}
-		return boards;
+		return boardList;
 	}
 
 	public int insertBoard(Connection conn, Board b) {
@@ -252,8 +254,8 @@ public class BoardDao {
 		int result=0;
 		try {
 			pstmt=conn.prepareStatement(sql.getProperty("insertFile"));
-			pstmt.setString(1, bf.getBoardFileName());
-			pstmt.setInt(2, bf.getBoardNo());
+			pstmt.setInt(1, bf.getBoardNo());
+			pstmt.setString(2, bf.getBoardFileName());
 			result=pstmt.executeUpdate();
 		}catch(SQLException e) {
 			e.printStackTrace();
