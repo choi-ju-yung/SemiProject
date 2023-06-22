@@ -41,7 +41,7 @@ List<Category> categorys = (List) request.getAttribute("categorys");
 			<img
 				src="<%=request.getContextPath()%>/images/productregist/imgregist.png" 
 				class="upload" width="250px" height="250px"> <input
-				type="file" class="real-upload" accept="image/*" required multiple
+				type="file" id="inputFile" class="real-upload" accept="image/*" required multiple
 				style="display: none;">
 
 

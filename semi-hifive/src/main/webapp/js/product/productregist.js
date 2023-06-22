@@ -4,9 +4,8 @@ const context = "http://localhost:9090/semi-hifive";
 // 사진 불러오기 작업 
 
 let prouductImgCnt = 0;
-
+const uploadFiles = [];
 function getImageFiles(e) {
-	const uploadFiles = [];
 	const files = e.currentTarget.files;
 	const imagePreview = document.querySelector('.image-preview');
 
@@ -129,24 +128,24 @@ $(".inputTitle").keyup(e => { // 해당 텍스트부분을 입력할 때
 // -------------------------------------------------------------------------------------------------------------------
 // 카테고리 선택하는 작업
 
-$(()=>{
-	$(".mainCate").trigger("change",$(".mainCate:selected").val());  // 페이지로딩되었을때, 자동으로 change 함수 실행
-	 														//	대상값은 현재 그 select에 선택된 값
+$(() => {
+	$(".mainCate").trigger("change", $(".mainCate:selected").val());  // 페이지로딩되었을때, 자동으로 change 함수 실행
+	//	대상값은 현재 그 select에 선택된 값
 })
 
 function chageSubCate(value) {
 	console.log(value);
 	$.ajax({
 		url: "findSubCate",
-		data: {"cateId": value},
+		data: { "cateId": value },
 		success: function(result) {
-		
+
 			const subCate = result.split(","); // 문자열로 넘어온 값들을 ,를 구분자로 배열을 만듬
-			
+
 			$(".middleCate option").remove();   // 메인카테고리 선택할때마다 옵션들 다 삭제
-			for(let i=0; i<subCate.length; i++){
-					var option = $("<option value=" + subCate[i] + ">"+subCate[i]+"</option>");
-					$(".middleCate").append(option);
+			for (let i = 0; i < subCate.length; i++) {
+				var option = $("<option value=" + subCate[i] + ">" + subCate[i] + "</option>");
+				$(".middleCate").append(option);
 			}
 		},
 		error: function() {
@@ -412,14 +411,14 @@ $autoComplete.addEventListener("click", e => {  // 관련검색어 클릭했을�
 		$li.appendChild($button1);
 		$li.appendChild($button2);
 
-		
+
 		var input1 = document.createElement('input');
 		input1.setAttribute("type", "hidden");
 		input1.setAttribute("name", "data1");
 		input1.setAttribute("value", key);
 
 		$li.appendChild(input1);
-		
+
 
 		$img.addEventListener("click", e => {  // 해당 이미지 클릭시
 			$(e.target).parent().parent().remove(); // li밑 label+button 밑 img까지 삭제
@@ -454,8 +453,43 @@ $(document).ready(function() {
 
 /* 폼 전송 작업*/
 
-function productRegist(){
-	$(".container").submit();
+function productRegist() {
+	const form = new FormData();
+
+	for (let f = 0; f < uploadFiles.length; f++) { // 저장된 파일들 (키:값) 형태로 form객체에 추가함
+		form.append("upfile" + f, uploadFiles[f].name) // 키는 파일마다 달라야하기때문에 + f -> 즉 번호를 붙여서 구별함
+	}
+
+	for (let value of form.values()) {
+		console.log(value);
+	}
+
+	/*document.getElementById('inputFile').files;*/
+
+
+	/*	$.each(uploadFiles[0].files,(i,f)=>{ // i=> 인덱스번호  
+		form.append("upfile"+i,f); // key,value값으로 파일을 form 객체에 넣어줌
+		});*/
+/*
+	$(".container").submit();*/
+		
+
+		$.ajax({
+		url: "productImgFileUpload",
+		data: form,  // data로 파일을 넘김
+		type: "post",
+		processData: false, // 멀티파트폼으로 보내기위해서 설정
+		contentType: false, // 멀티파트폼으로 보내기위해서 설정
+		success: data => {
+			alert("업로드가 완료되었습니다.");
+		}, error: (r, m) => {
+			alert("업로드 실패했습니다.");
+		}, complete: () => {
+			$("#upFile").val('');  // 업로드가 성공하든 실패하든, 다 비워줘야함
+		}
+	});
+
+
 }
 
 

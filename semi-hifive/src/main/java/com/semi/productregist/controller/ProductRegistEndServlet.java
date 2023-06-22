@@ -29,7 +29,7 @@ public class ProductRegistEndServlet extends HttpServlet {
 		String replacePrice = request.getParameter("price");
 		replacePrice = replacePrice.replace(",","");
 		
-	
+		
 		
 		Member m = (Member) session.getAttribute("loginMember");// 세션에서 현재로그인한 정보 갖고옴
 		String userId = m.getUserId();
