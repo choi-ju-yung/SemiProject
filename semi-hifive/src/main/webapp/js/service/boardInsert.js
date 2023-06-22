@@ -1,7 +1,7 @@
 //게시판 카테고리 선택하면 발생하는 이벤트
 $(".titleSelect").change(e => {
-	const title = $(e.target).val();
-	if (title == "notice") {
+	const title = $(".titleSelect :selected").val();
+	if (title == "Y") {
 		$(".QASelect").css("display", "none");
 	} else {
 		$(".QASelect").css("display", "inline");

@@ -2,9 +2,6 @@
     pageEncoding="UTF-8"%>
 <%@ include file="/views/common/header.jsp"%>
 <%@ include file="/views/mypage/myPageCategory.jsp"%>
-<%
-	String userId = (String)request.getAttribute("userId");
-%>
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/css/mypage/deleteUserCheck.css" />
 
@@ -17,15 +14,16 @@
             <!-- 패스워드 입력 div -->
             <div class="pwdAll">
                 <h3>비밀번호를 입력해주세요.</h3>
-                <form class="form card">
+                <form class="form card" method="post" action="<%=request.getContextPath()%>/mypage/deleteUser.do" onsubmit="return checkPwd();">
                     <div class="field">
                         <input class="input" name="user_password" type="password" placeholder="비밀번호 입력" id="password">
+                        <input type="hidden" name="userId" value="<%=request.getParameter("userId")%>">
                     </div>
-                </form>
                 <div class="pwdButton">
-                    <a href="<%=request.getContextPath() %>/mypage/deleteUser.do"><button class="pwdUpdate">확인</button></a>
-                    <button onclick="clearInput();">취소</button>
+                    <button type="submit" class="pwdUpdate">확인</button>
+                    <button type="reset" onclick="clearInput();">취소</button>
                 </div>
+                </form>
             </div>
         </div>
 </section>

@@ -47,7 +47,8 @@
                     <ion-icon name="flame-outline"></ion-icon>
                     <p>이벤트</p>
                 </div>
-            </div>
+            </div><!-- popularCategory -->
+            
         </div>
     </section>
 <script src="<%=request.getContextPath()%>/js/common/main.js"></script>

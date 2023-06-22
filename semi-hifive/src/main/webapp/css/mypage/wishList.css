@@ -18,10 +18,10 @@
 	justify-content: center;
 	align-items: center;
 	width: 60px;
-	height: 20px;
+	height: 23px;
 	background-color: #20C997;
 	border-radius: 100px;
-	margin-left: 7px;
+	margin-left: 6px;
 }
 
 /* 판매내역 버튼 div */
@@ -135,12 +135,13 @@ section {
 /* 판매내역 목록 div */
 .productContainer {
 	margin-bottom: 40px;
+	display: flex;
+	justify-content: space-between;
+	flex-wrap:wrap;
 }
 
 .productAll {
-	margin-bottom: 10px;
-	display: flex;
-	justify-content: space-between;
+	margin-bottom: 18px;
 }
 
 .product {
@@ -184,11 +185,11 @@ section {
 
 .contentMargin {
 	margin-top: 6px;
-	margin-bottom: 25px;
+	margin-bottom: 15px;
 }
 
 .productTitle {
-	font-size: 19px;
+	font-size: 21px;
 }
 
 .grayFont {
@@ -197,8 +198,7 @@ section {
 }
 
 .buyDate {
-	padding-top: 4px;
-	padding-right: 9px;
+	padding-right: 7px;
 	display: flex;
 	justify-content: space-between;
 	color: #afafaf;
@@ -217,7 +217,7 @@ section {
 .container {
 	/* display: flex; */
 	position: relative;
-	bottom: 295px;
+	bottom: 289px;
 	left: 252px;
 	cursor: pointer;
 	font-size: 20px;
@@ -273,4 +273,3 @@ section {
             100% {
                 transform: scale(1);
             }
-}

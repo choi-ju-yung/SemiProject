@@ -22,6 +22,7 @@ public class Product {
 	private int viewCount;
 	private String explanation;
 	private String keyword;
-	private int areaId;
-	private String subCategoryName;	
+	private String areaName;
+	private String subCategoryName;
+	
 }

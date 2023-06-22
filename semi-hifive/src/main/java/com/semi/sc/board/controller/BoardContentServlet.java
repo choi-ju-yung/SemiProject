@@ -1,4 +1,4 @@
-package com.semi.sc.controller;
+package com.semi.sc.board.controller;
 
 import java.io.IOException;
 import java.util.List;
@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.semi.sc.model.dto.Board;
 import com.semi.sc.model.dto.BoardComment;
+import com.semi.sc.model.dto.BoardFile;
 import com.semi.sc.service.BoardService;
 
 
@@ -28,12 +29,13 @@ public class BoardContentServlet extends HttpServlet {
 		Board b=new BoardService().selectBoardContent(boardNo);
 		
 		//첨부파일 불러오는 메소드
-		b=new BoardService().selectBoardFile(boardNo, b);
+		List<BoardFile> files=new BoardService().selectBoardFile(boardNo);
 		
 		//댓글 데이터 가져오는 메소드
 		List<BoardComment> comments=new BoardService().selectBoardComment(boardNo);
 		
 		request.setAttribute("board", b);
+		request.setAttribute("files", files);
 		request.setAttribute("comments", comments);
 		request.getRequestDispatcher("/views/service/boardContent.jsp").forward(request, response);
 	}

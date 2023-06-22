@@ -155,6 +155,20 @@ public class MypageMemberDao {
 			}return result;
 		}
 		
+//		회원탈퇴
+		public int deleteUser(Connection conn, String userId) {
+			PreparedStatement pstmt=null;
+			int result=0;
+			try {
+				pstmt=conn.prepareStatement(sql.getProperty("deleteUser"));
+				pstmt.setString(1, userId);
+				result=pstmt.executeUpdate();
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}finally {
+				close(pstmt);
+			}return result;
+		}
 		
 //		Member
 		public static Member getMember(ResultSet rs) throws SQLException{

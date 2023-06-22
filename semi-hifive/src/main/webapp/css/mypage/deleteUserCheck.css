@@ -5,6 +5,7 @@
 	display: flex;
 	align-items: top;
 	justify-content: left;
+	margin-top: 23px;
 }
 
 .pwdButton button {
@@ -54,31 +55,37 @@
 /* 패스워드 입력창 */
 .card {
 	width: 190px;
-	height: 75px;
+	height: 100px;
 }
 
 .form {
-	padding-top: 16px;
+	padding-top: 15px;
 }
 
 .input {
+	width: 350px;
+	background-color: white;
+	color: #242424;
+	padding-left: 12px;
+	height: 40px;
 	border-radius: 10px;
-	padding: 5px;
-	padding-left: 15px;
-	padding-right: 15px;
-	width: 400px;
-	height: 35px;
-	color: #313030;
-	border: 1px solid #8F8F8F
-}
-
-.input:focus-visible {
-	outline: 1px solid #313030;
+	outline: none;
+	border: none;
+	line-height: 1.15;
+	border: 2px solid #eee;
 }
 
 .input::placeholder {
 	color: #313030;
 	font-size: 14px;
+}
+
+.input:focus {
+	border: 2px solid #20C997;
+}
+
+.input:hover {
+	border: 2px solid #20C997;
 }
 
 /* 오른쪽 구매내역 section */

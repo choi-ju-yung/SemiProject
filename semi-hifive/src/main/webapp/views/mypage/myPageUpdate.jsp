@@ -26,7 +26,7 @@
 					<h1 class="nickname"><%=infoMS.getMember().getNickName()%></h1>
 				</div>
 				<div class="profileButton">
-					<button class="profileImgUpdate">이미지 변경</button>
+					<button type="button" class="profileImgUpdate">이미지 변경</button>
 					<button type="button" class="profileImgDel">삭제</button>
 					<input type="file" accept=".jpg, .png" class="profileImgInput" name="uploadProfile">
 				</div>
@@ -52,7 +52,7 @@
 					value="<%=infoMS.getMember().getUserId()%>" name="myPageUserId" readonly>
 			</div>
 			<hr width="1050px" color="#eee" />
-			<div class="profileUPdateInput">
+			<!-- <div class="profileUPdateInput">
 				<div class="profilePart">
 					<h4>비밀번호 확인</h4>
 				</div>
@@ -60,16 +60,14 @@
 					name="myPagePassword">
 				<button type="button" class="checkDB" onclick="fn_updatePassword();">비밀번호
 					변경</button>
-			</div>
-			<hr width="1050px" color="#eee" />
+			</div> -->
 			<div class="profileUPdateInput">
 				<div class="profilePart">
 					<h4>닉네임</h4>
 				</div>
 				<input id="nicknameInput" name="myPageNickname" type="text"
 					placeholder="<%=infoMS.getMember().getNickName()%>" value="<%=infoMS.getMember().getNickName()%>"
-					class="inputCss nicknameCount">
-				<!-- <button class="checkDB">중복확인</button> -->
+					class="inputCss">
 				<span class="nicknameDuplSpan"></span>
 			</div>
 			<hr width="1050px" color="#eee" />
@@ -77,14 +75,18 @@
 				<div class="profilePart">
 					<h4>상점소개글</h4>
 				</div>
-				<input type="text" placeholder="<%=infoMS.getShopPage().getIntroduce()%>" value="<%=infoMS.getShopPage().getIntroduce()%>"
-					class="inputCss" name="myPageIntroduce">
+				<textarea type="text" placeholder="<%=infoMS.getShopPage().getIntroduce()%>"
+					id="myPageIntroduce" class="inputText" name="myPageIntroduce" rows="3"><%=infoMS.getShopPage().getIntroduce()%></textarea>
+				<span class="introduceSpan"></span>
 			</div>
 			<hr width="1050px" color="#313030" noshade
 				style="margin-bottom: 20px;" />
 			<div class="profileButton btnEndMargin">
-				<button type="submit" class="profileUpdate" onclick="updateMember();">정보 수정</button>
-				<button type="reset" class="resetUpdate">취소</button>
+				<div class="infoBtn">
+					<button type="submit" class="profileUpdate" onclick="updateMember();">정보 수정</button>
+					<button type="reset" class="resetUpdate">취소</button>
+				</div>
+				<button type="button" class="checkDB" onclick="fn_updatePassword();">비밀번호 변경</button>
 			</div>
 		</form>
 

@@ -1,12 +1,15 @@
 package com.semi.mypage.service;
 
-import static com.semi.common.JDBCTemplate.*;
+import static com.semi.common.JDBCTemplate.close;
+import static com.semi.common.JDBCTemplate.commit;
+import static com.semi.common.JDBCTemplate.getConnection;
+import static com.semi.common.JDBCTemplate.rollback;
 
 import java.sql.Connection;
 import java.util.List;
 
 import com.semi.mypage.dao.MypageProductDao;
-import com.semi.mypage.model.vo.MemberShopPage;
+import com.semi.mypage.model.vo.MemberWishList;
 import com.semi.mypage.model.vo.ProductList;
 
 public class MypageProductService {
@@ -102,5 +105,21 @@ public class MypageProductService {
 		List<ProductList> p = dao.sellStatusSell(conn, userId);
 		close(conn);
 		return p;
+	}
+	
+	// 찜목록 카운트
+	public int countWishList(String userId) {
+		Connection conn = getConnection();
+		int count = dao.countWishList(conn, userId);
+		close(conn);
+		return count;
+	}
+	
+	// 찜목록 리스트
+	public List<MemberWishList> selectWishListByUserId(int cPage, int numPerpage, String userId){
+		Connection conn = getConnection();
+		List<MemberWishList> mw = dao.selectWishListByUserId(conn, cPage, numPerpage, userId);
+		close(conn);
+		return mw;
 	}
 }

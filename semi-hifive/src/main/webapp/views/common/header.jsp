@@ -3,8 +3,10 @@
 <%@page import="com.semi.category.model.vo.Category"%>
 <%@page import="java.util.List"%>
 <%@ page import="com.semi.member.model.vo.Member"%>
+<%@ page import="com.semi.search.model.vo.Search"%>
 <%
 Member loginMember = (Member) session.getAttribute("loginMember");//여기 로그인멤버 
+List<Search> search = (List) session.getAttribute("search");
 Cookie[] cookies = request.getCookies(); // 존재하는 쿠키들 다 갖고옴 
 String saveId = null;
 if (cookies != null) {
@@ -82,7 +84,7 @@ if (cookies != null) {
 						<div class="searchDetail">
 							<input type="search" onsearch="" class="search"
 								placeholder="브랜드, 상품명, 상품번호 등" onfocus="this.placeholder = ''"
-								onblur="this.placeholder = '브랜드, 상품명, 상품번호 등'"/>
+								onblur="this.placeholder = '브랜드, 상품명, 상품번호 등'" />
 
 							<button class="search">
 								<img
@@ -98,7 +100,36 @@ if (cookies != null) {
 											<span>최근검색어</span>
 										</div>
 										<div class="recentsearchmeun">
+										<%if(search !=null && !search.isEmpty()) {
+										if(loginMember !=null&&loginMember.getUserId().equals(search.get(0).getUserId())) {											
+												for (Search s : search) { %>
+											<div class="recentsearchtag">
+												<div class="recentsearchtagtext">
+													<%=s.getSearchKeyword() %>
+												</div>
+												<div class="recentsearchbtn">
+													<button>
+														<svg xmlns="http://www.w3.org/2000/svg" class="ionicon"
+															viewBox="0 0 512 512">
+                                   								 <path
+																d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192 192-86 192-192z"
+																fill="none" stroke="currentColor" stroke-miterlimit="10"
+																stroke-width="32" />
+                                    							<path fill="none"
+																stroke="currentColor" stroke-linecap="round"
+																stroke-linejoin="round" stroke-width="32"
+																d="M320 320L192 192M192 320l128-128" />
+                               								  </svg>
+													</button>
+												</div>
+											</div>
+
+												<%}
+											}
+											}else{ %>
 											<p>최근 검색어 내역이 없습니다.</p>
+											<%} %> 
+											
 										</div>
 									</div>
 								</div>
@@ -375,7 +406,8 @@ if (cookies != null) {
 //카테고리 클릭시 상품리스트 출력 ajax
 function Test_btn() {
 	$.ajax({
-		url: "<%=request.getContextPath()%>/categoryproductlist.do",
+		url: "<%=request.getContextPath()%>
+		/categoryproductlist.do",
 				dateType : 'html',
 				success : function(data) {
 					$("section").html(data);

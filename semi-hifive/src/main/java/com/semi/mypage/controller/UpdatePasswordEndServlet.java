@@ -42,11 +42,7 @@ public class UpdatePasswordEndServlet extends HttpServlet {
 			// 일치하는 회원 x
 			msg = "현재 비밀번호가 일치하지 않습니다.";
 		} else {
-			/*
-			 * // 일치하는 회원 o if(oriPwd == newPwd) { // 이전 비밀번호와 같아서 실패 msg =
-			 * "현재 비밀번호와 동일한 비밀번호로 변경할 수 없습니다."; } else if(newPwd != newPwdCheck){ // 새로운
-			 * 비밀번호가 일치하지 않아서 실패 msg = "새 비밀번호가 일치하지 않습니다."; } else { // 성공 }
-			 */
+			// 일치하는 회원 o
 			int result = new MypageMemberService().updatePassword(userId, newPwd);
 			if(result > 0) {
 			msg = "비밀번호가 수정되었습니다.";

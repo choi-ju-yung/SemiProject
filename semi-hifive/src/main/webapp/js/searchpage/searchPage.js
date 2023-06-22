@@ -68,16 +68,30 @@ function getContextPath() {
 	return location.href.substring(hostIndex, location.href.indexOf('/', hostIndex + 1));
 };
 
-$(document).on("keyup", ".search", e => {
+const loginId = sessionStorage.getItem("loginId");
+$(".search").keyup(function(e){	
 	if (e.which === 13) {
 		 var text = $(this).val();
-		location.href+ "/search?productname="+text;
+		 console.log(text);
+		 console.log(loginId);
+		/* if(userId!=null){*/
+		location.href=getContextPath()+"/insertsearch?productname="+text+"&&userId="+loginId;
+		//}
 	}	
 })
 
 
-
-W
+  $(document).on("click", ".recentsearchbtn button", function(e) {
+    $(e.target).parents(".recentsearchtag").remove();
+   // e.preventDefault(); // Prevent the default behavior of the link
+  
+   const text=$(e.target).parents(".recentsearchbtn").prev(".recentsearchtagtext").text()
+    console.log(text)
+    location.href=getContextPath()+"/deletesearch?productname="+text+"&&userId="+loginId;
+   	
+   	
+   	
+  });
 //input 태그에 비워주는 버튼 
 $(() => {
   $(".removesearch").click(() => $(".searchbartext").val(""));
