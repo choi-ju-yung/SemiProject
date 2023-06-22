@@ -25,7 +25,7 @@
 					<option value="회원정보">회원정보</option>
 					<option value="거래">거래</option>
 					<option value="구매">구매</option>
-					<option value="거래">기타</option>
+					<option value="기타">기타</option>
 				</select>
 				<br>
 				<label for="">제목</label>
@@ -93,7 +93,7 @@ function uploadFile(){
         success : function(result) {
 			if (result) {
 				alert("업로드 성공했습니다.");
-				location.replace(<%=request.getContextPath()%>/service/boardList.do?notice=Y);
+				location.replace("<%=request.getContextPath()%>/service/boardList.do?notice=Y");
 			}
 		},
 		error : function() {

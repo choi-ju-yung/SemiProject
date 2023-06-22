@@ -1,26 +1,35 @@
-package com.semi.sc.controller;
+package com.semi.sc.inquiry.controller;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-/**
- * Servlet implementation class BoardInsertServlet
- */
-@WebServlet("/service/boardInsert.do")
-public class BoardInsertServlet extends HttpServlet {
+import com.semi.member.model.vo.Member;
+
+
+@WebServlet("/service/inquiryInsert.do")
+public class InquiryInsertServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     
-    public BoardInsertServlet() {
+    public InquiryInsertServlet() {
     }
 
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.getRequestDispatcher("/views/service/boardInsert.jsp").forward(request, response);
+		HttpSession session=request.getSession();
+		String loginId=null;
+		if(session!=null) {
+			Member loginMember=(Member)session.getAttribute("loginMember");
+			loginId=loginMember.getUserId();
+		}
+		request.setAttribute("loginId", loginId);
+		request.getRequestDispatcher("/views/service/InquiryInsert.jsp").forward(request, response);
 	}
 
 	

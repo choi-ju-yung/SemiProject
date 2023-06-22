@@ -54,7 +54,7 @@ div.btnContainer{
 div.popularCategory{
     display: flex;
     justify-content: space-around;
-    margin-bottom: 20px;
+    margin: 20px 0px;
 }
 div.categoryIcon>*{
     align-items: center;

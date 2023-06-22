@@ -18,7 +18,7 @@ import com.semi.sc.model.dto.BoardFile;
 public class BoardDao {
 	private final Properties sql=new Properties();
 	{
-		String path = BoardDao.class.getResource("/sql/service/servicesql.properties").getPath();
+		String path = BoardDao.class.getResource("/sql/service/board_sql.properties").getPath();
 		try {
 			sql.load(new FileReader(path));
 		} catch (IOException e) {
@@ -38,9 +38,9 @@ public class BoardDao {
 	
 	//board file 반환 메소드
 	public static BoardFile getBoardFile(ResultSet rs, int boardNo) throws SQLException{
-		return BoardFile.builder().boardNo(boardNo)
-				.boardFileName("board_filename")
-				.fileNo("file_no").build();
+		return BoardFile.builder().boardNo(rs.getInt("board_no"))
+				.boardFileName(rs.getString("board_renamed_filename"))
+				.fileNo(rs.getInt("file_no")).build();
 	}
 	
 	//board comment 반환 메소드
@@ -62,7 +62,6 @@ public class BoardDao {
 		int count=0;
 		try {
 			pstmt=conn.prepareStatement(sql.getProperty("selectBoardCount"));
-			//SELECT COUNT(*) AS boardCount FROM BOARD WHERE NOTICE_YN=?
 			pstmt.setString(1, noticeYN);
 			rs=pstmt.executeQuery();	
 			if(rs.next()) {
@@ -84,9 +83,6 @@ public class BoardDao {
 		List<Board> boards=new ArrayList();
 		try {
 			pstmt=conn.prepareStatement(sql.getProperty("selectBoardList"));
-			//SELECT * FROM (SELECT ROWNUM AS RNUM, B.*
-			//FROM (SELECT * FROM BOARD WHERE NOTICE_YN=? ORDER BY BOARD_DATE DESC) B)
-			//WHERE RNUM BETWEEN ? AND ?
 			pstmt.setString(1, noticeYN);
 			pstmt.setInt(2, (cPage-1)*numPerpage+1);
 			pstmt.setInt(3, cPage*numPerpage);
@@ -109,8 +105,6 @@ public class BoardDao {
 		int result=0;
 		try {
 			pstmt=conn.prepareStatement(sql.getProperty("insertBoard"));
-			//INSERT INTO BOARD VALUES(SEQ_BOARD_NO.NEXTVAL,?,?,?,DEFAULT,?,?,?,?)
-			//write, title, content, category, noticeYN, orifile, renamefile
 			pstmt.setString(1, b.getBoardWriter());
 			pstmt.setString(2, b.getBoardTitle());
 			pstmt.setString(3, b.getBoardContent());
@@ -146,7 +140,7 @@ public class BoardDao {
 		}
 		return b;
 	}
-	public Board selectBoardFile(Connection conn, int boardNo, Board b) {
+	public List<BoardFile> selectBoardFile(Connection conn, int boardNo) {
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
 		List<BoardFile> files=new ArrayList();
@@ -163,7 +157,7 @@ public class BoardDao {
 			close(rs);
 			close(pstmt);
 		}
-		return b;
+		return files;
 	}
 	public List<BoardComment> selectBoardComment(Connection conn, int boardNo) {
 		PreparedStatement pstmt=null;
@@ -258,8 +252,8 @@ public class BoardDao {
 		int result=0;
 		try {
 			pstmt=conn.prepareStatement(sql.getProperty("insertFile"));
-			pstmt.setInt(1, bf.getBoardNo());
-			pstmt.setString(2, bf.getBoardFileName());
+			pstmt.setString(1, bf.getBoardFileName());
+			pstmt.setInt(2, bf.getBoardNo());
 			result=pstmt.executeUpdate();
 		}catch(SQLException e) {
 			e.printStackTrace();
