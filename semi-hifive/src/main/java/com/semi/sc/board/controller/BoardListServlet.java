@@ -1,4 +1,4 @@
-package com.semi.sc.controller;
+package com.semi.sc.board.controller;
 
 import java.io.IOException;
 import java.util.List;

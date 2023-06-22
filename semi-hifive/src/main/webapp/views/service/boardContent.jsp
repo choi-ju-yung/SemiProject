@@ -8,6 +8,7 @@
 	<%
 	Board b=(Board)request.getAttribute("board"); //게시판 객체
 	List<BoardComment> comments=(List)request.getAttribute("comments");
+	List<BoardFile> files=(List<BoardFile>)request.getAttribute("files");
 %>
 <%if(b!=null){ %>
 	<div class="ServiceCenter">
@@ -28,10 +29,11 @@
 					<p><%=b.getBoardDate() %></p>
 				</div>
 				<p><%=b.getBoardContent() %></p>
-				<p></p>
-				<img
-					src="https://mblogthumb-phinf.pstatic.net/MjAyMjA2MTBfMjM3/MDAxNjU0ODM2MTEzODc5.rStmvGhTIUIZ_eshzIy-2Dv3hbMDgU5xMEgBe_8hxkEg.JLYYhiefyMgFUHAM0J3x5qlmGhxjaRgEBCVDWboxHKsg.PNG.papapapower/Desktop_Screenshot_2022.06.10_-_13.36.22.51.png?type=w800"
-					alt="">
+				<%if(files!=null){
+					for(BoardFile bf:files){%>
+				<img src="<%=request.getContextPath() %>/upload/board/<%=bf.getBoardFileName() %>" width="800">
+				<%}
+				}%>
 			</div>
 			<%if(b.getNoticeYn()=='Y'){ %>
 			<div class="commentWrite">
@@ -105,7 +107,7 @@ $(document).on("click",".commentDeleteBtn",e=>{
 		type:"post",
 		success : function(result) {
 			if (result) {
-				alert("수정됐습니다.");
+				alert("삭제됐습니다.");
 				location.reload();
 			}
 		},
