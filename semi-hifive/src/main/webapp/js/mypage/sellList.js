@@ -26,7 +26,7 @@ bg.forEach(e => {
 	e.addEventListener("click", close);
 })
 
-// 모달 삭제
+// 모달창 상품삭제하기
 $(".modalDelBtn").click(e => {
 	let productId = $(e.target)[0].id;
 
@@ -53,9 +53,14 @@ $(".selectStatus").change(e => {
 			productId=v.id
 		}
 	});*/
-
+	
 	let productId = $(e.target).children()[0].id;
 	let color = $(e.target).find('option:selected').data('color');
+
+	if (selectValue === '판매완료') {
+    // 새 창 열기
+		window.open(context + '/mypage/buyerIdChoice.do?productId=' + productId, '_blank');
+	}
 
 	$.ajax({
 		url: context + "mypage/ajaxSelect.do",
