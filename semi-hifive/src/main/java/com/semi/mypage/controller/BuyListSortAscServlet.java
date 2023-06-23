@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.semi.mypage.model.vo.ProductList;
+import com.semi.mypage.model.vo.ReviewTrade;
 import com.semi.mypage.service.MypageProductService;
 
 /**
@@ -78,7 +79,10 @@ public class BuyListSortAscServlet extends HttpServlet {
 		request.setAttribute("pageBar", pageBar);
 
 		List<ProductList> sortAsc = new MypageProductService().BuyListSortAsc(cPage, numPerpage, userId);
-
+		//후기목록 가져오기
+		List<ReviewTrade> rt = new MypageProductService().selectReview(userId);
+		
+		request.setAttribute("reviews", rt);
 		request.setAttribute("buyProduct", sortAsc);
 		request.getRequestDispatcher("/views/mypage/buyList.jsp").forward(request, response);
 

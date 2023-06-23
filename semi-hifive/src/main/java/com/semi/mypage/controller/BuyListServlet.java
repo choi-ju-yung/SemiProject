@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.semi.member.model.vo.Member;
 import com.semi.mypage.model.vo.ProductList;
+import com.semi.mypage.model.vo.ReviewTrade;
 import com.semi.mypage.service.MypageMemberService;
 import com.semi.mypage.service.MypageProductService;
 import com.semi.productpage.model.vo.ShopPage;
@@ -36,7 +37,7 @@ public class BuyListServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String userId = request.getParameter("userId");
+		String buyerId = request.getParameter("userId");
 		
 		// 페이징
 		int cPage, numPerpage;
@@ -48,7 +49,7 @@ public class BuyListServlet extends HttpServlet {
 		numPerpage = 5;
 		
 		String pageBar = "";
-		int totalData = new MypageProductService().countBuyList(userId);
+		int totalData = new MypageProductService().countBuyList(buyerId);
 		int totalPage = (int)Math.ceil((double)totalData/numPerpage);
 		int pageBarSize = 5;
 		int pageNo = ((cPage-1)/pageBarSize)*pageBarSize + 1;
@@ -58,14 +59,14 @@ public class BuyListServlet extends HttpServlet {
 			pageBar += "<li><span class='pageMove'>&lt;&lt;</span></li>";
 		} else {
 			pageBar += "<li><a href='" + request.getRequestURI()
-				+ "?cPage=" + (pageNo-1) + "&numPerpage=" + numPerpage + "&userId=" + userId + "'>&lt;&lt;</a></li>";
+				+ "?cPage=" + (pageNo-1) + "&numPerpage=" + numPerpage + "&userId=" + buyerId + "'>&lt;&lt;</a></li>";
 		}
 		while(!(pageNo>pageEnd||pageNo>totalPage)) {
 			if(pageNo==cPage) {
 				pageBar+="<li><span class='nowPage'>"+pageNo+"</span></li>";
 			}else {
 				pageBar+="<li><a href='"+request.getRequestURI()
-					+"?cPage="+pageNo+ "&userId=" + userId + "'>" + pageNo + "</a></li>";
+					+"?cPage="+pageNo+ "&userId=" + buyerId + "'>" + pageNo + "</a></li>";
 			}
 			pageNo++;
 		}
@@ -73,17 +74,18 @@ public class BuyListServlet extends HttpServlet {
 			pageBar += "<li><span>&gt;&gt;</span></li>";
 		} else {
 			pageBar += "<li><a href='" + request.getRequestURI()
-			+ "?cPage=" + pageNo + "&numPerpage=" + numPerpage + "&userId=" + userId + "'>&gt;&gt;</a></li>";
+			+ "?cPage=" + pageNo + "&numPerpage=" + numPerpage + "&userId=" + buyerId + "'>&gt;&gt;</a></li>";
 		}
 		request.setAttribute("pageBar", pageBar);
 		
-
-		
 //		구매목록 가져오기
-		List<ProductList> p = new MypageProductService().selectBuyListByUserId(cPage, numPerpage, userId);
+		List<ProductList> p = new MypageProductService().selectBuyListByUserId(cPage, numPerpage, buyerId);
+//		후기목록 가져오기
+		List<ReviewTrade> rt = new MypageProductService().selectReview(buyerId);
 		
+		request.setAttribute("reviews", rt);
 		request.setAttribute("buyProduct", p);
-		request.setAttribute("userId", userId);
+		request.setAttribute("userId", buyerId);
 		request.getRequestDispatcher("/views/mypage/buyList.jsp").forward(request, response);
 	}
 

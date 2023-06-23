@@ -1,3 +1,6 @@
+const context = "http://localhost:9090/semi-hifive/";
+const userId = sessionStorage.getItem("loginId");
+
 // 찜목록 판매상태 뱃지 컬러 수정
 $(document).ready(function() {
 	$(".statusBtn").each(function() {
@@ -16,28 +19,35 @@ $(document).ready(function() {
 
 // 찜추가, 찜삭제
 $(".wishCheck").click(e => {
-	let isChecked = $('.wishCheck').prop('checked');
-	console.log(isChecked);
-	console.log($(".wishCheck").attr("id"));
+	let isChecked = $(e.target).prop('checked');
+	let productId = $(e.target).attr("id");
 	/* 뭘해도 1이 되는데 현재 모든 하트를 첫번째 상품의 하트로 인식*/
-	if (isChecked) {
-		// 하트가 켜져있는 경우(=찜o)
-
-		// 
-		/*$.ajax({
-			url: '/wishlist/' + itemId, 
-			type: 'DELETE',
-			success: function(response) {
-				console.log('삭제 요청이 성공했습니다.');
-				// 여기서 추가적인 처리를 수행할 수 있습니다.
+	if (!isChecked) {
+		// 하트가 꺼질 경우(=찜 취소) -> 새로고침 시 상품 사라짐
+		$.ajax({
+			url: context + "/myPage/wishListDel.do", 
+			data: {"userId": userId,
+					"productId": productId},
+			success: (data)=> {
+				console.log("삭제 완료");
 			},
-			error: function(xhr, status, error) {
-				console.log('삭제 요청이 실패했습니다: ' + error);
-				// 여기서 에러 처리를 수행할 수 있습니다.
+			error: (data)=>{
+				alert("삭제 실패");
+				// 어떻게 안빠지지?
 			}
-		});*/
+		});
 	} else {
-		// 하트가 꺼져있는 경우(=찜x)
-		isChecked = true;
+		// 취소한거 다시 찜하기
+		$.ajax({
+			url: context + "/mypage/wishListInsert.do", 
+			data: {"userId": userId,
+					"productId": productId},
+			success: (data)=> {
+				console.log("추가 완료");
+			},
+			error: (data)=>{
+				alert("삭제 실패");
+			}
+		});
 	}
 });

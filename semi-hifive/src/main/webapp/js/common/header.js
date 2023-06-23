@@ -1,11 +1,30 @@
 // 검색기능 (ex구글)
-function searchData() {
+/*function searchData() {
   let keyword = document.getElementsByClassName("search")[0].value;
   location.href = "https://www.google.co.kr/search?q=" + keyword;
   console.log(keyword);
-}
+}*/
 // /검색기능/
 
+//검색창
+$(document).on("click", ".searchBar", function () {
+  searchOn();
+});
+
+$(document).on("click", "section", function () {
+  searchOff();
+});
+
+function searchOn() {
+  $(".searchBar,.searchDetail,.search").css({"background-color": "white"});
+  $(".searchpage").css("display", "block");
+}
+
+function searchOff() {
+  $(".searchBar,.searchDetail,.search").css({"background-color": "#eeeeee"});
+  $(".searchpage").css("display", "none");
+}
+// /검색창/
 // 상단메뉴바
 
 $("#menuList a").mouseenter(function () {

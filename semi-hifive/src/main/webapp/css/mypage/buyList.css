@@ -1,4 +1,15 @@
 @charset "UTF-8";
+/* 리뷰 있는 버튼 */
+.hasReview{
+	border:2px solid #ccc !important;
+	color:#ccc !important;
+}
+
+.hasReview:hover{
+	border:2px solid #ccc !important;
+	color:#ccc !important;
+	background-color: white !important;
+}
 
 /* 모달창 */
 .modal_delMem {
@@ -170,18 +181,20 @@ section {
 /* ****후기남기기 모달창**** */
 /* 확인, 취소 버튼 */
 .submitBtn {
-	margin-top: 20px;
+	margin-top: 7px;
 }
 
 .submitBtn button {
 	padding: 5px 10px 5px 10px;
 	text-align: center;
-	font-size: 12px;
+	font-size: 15px;
 	letter-spacing: 1px;
 	text-decoration: none;
 	cursor: pointer;
 	transition: ease-out 0.2s;
 	border-radius: 100px;
+	width: 80px;
+	height: 30px;
 }
 
 .okBtn:hover {
@@ -237,8 +250,8 @@ section {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	width: 60px;
-	height: 60px;
+	width: 50px;
+	height: 50px;
 	border-radius: 50px;
 	margin-top: 14px;
 	margin-bottom: 15px;
@@ -246,8 +259,8 @@ section {
 	/* left: 50%; */
 }
 
-.icon-inner{
-	margin-top: 2px;
+.hydrated{
+	margin-top: 3px;
 }
 
 /* 후기창 제목 */
@@ -301,7 +314,7 @@ section {
 /* 라디오 버튼 DIV */
 .btnSpanDiv p {
 	text-align: center;
-	font-size: 12px;
+	font-size: 14px;
 	font-weight: 700;
 }
 

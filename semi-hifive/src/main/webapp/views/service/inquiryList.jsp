@@ -22,7 +22,7 @@
       <%if(inquiryList!=null){
     	 for(Inquiry q:inquiryList){ %>
           <tr 
-          onclick="<%=request.getContextPath()%>/service/inquiryContent.do?no=<%=q.getInquiryNo() %>&s=<%=q.getInquirySecret()%>">
+          onclick="location.href='<%=request.getContextPath()%>/service/inquiryContent.do?no=<%=q.getInquiryNo() %>&s=<%=q.getInquirySecret()%>'">
             <td><%=q.getInquiryNo() %></td>
             <td class="noticeTitle"><%=q.getInquiryTitle() %>
             	<%if(q.getInquirySecret()=='Y'){ %>
