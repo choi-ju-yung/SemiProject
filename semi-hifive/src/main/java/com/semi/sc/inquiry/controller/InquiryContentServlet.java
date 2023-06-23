@@ -1,6 +1,7 @@
 package com.semi.sc.inquiry.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,7 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.semi.member.model.vo.Member;
+import com.semi.sc.model.dto.BoardComment;
 import com.semi.sc.model.dto.Inquiry;
+import com.semi.sc.model.dto.ServiceFile;
 import com.semi.sc.service.InquiryService;
 
 
@@ -28,20 +31,29 @@ public class InquiryContentServlet extends HttpServlet {
 		
 		HttpSession session = ((HttpServletRequest)request).getSession();
 		Member loginMember = (Member)session.getAttribute("loginMember");
-		
+		System.out.println(loginMember.getAuth()+","+loginMember.getNickName());
 		int inquiryNo=Integer.parseInt(request.getParameter("no"));
 		Inquiry q=new InquiryService().selectInquiryContent(inquiryNo);
 		
-		if(secret=='Y'&& //비밀글
-				(!loginMember.getNickName().equals(q.getInquiryWriter())|| //작성자 일치
-						!loginMember.getAuth().equals("M"))) { //혹은 관리자 권한
-			request.setAttribute("msg", "조회 권한이 없습니다.");
-			request.setAttribute("loc", "/service/inquiryList.do");
-			request.getRequestDispatcher("views/common/msg.jsp").forward(request, response);
+		if (secret == 'Y') {// 비밀글
+			if (loginMember.getAuth().equals("U")&&!loginMember.getNickName().equals(q.getInquiryWriter())) { 
+				//작성자랑 일치하거나 관리자 권한이 아닐때
+				request.setAttribute("msg", "조회 권한이 없습니다.");
+				request.setAttribute("loc", "/service/inquiryList.do");
+				request.getRequestDispatcher("/views/common/msg.jsp").forward(request, response);
+				return;
+			}
 		}
 		
-		request.setAttribute("inquiry", q);
+		//첨부파일 불러오는 메소드
+		List<ServiceFile> files=new InquiryService().selectInquiryFile(inquiryNo);
+				
+		//댓글 데이터 가져오는 메소드
+		List<BoardComment> comments=new InquiryService().selectInquiryComment(inquiryNo);
 		
+		request.setAttribute("inquiry", q);
+		request.setAttribute("files", files);
+		request.setAttribute("comments", comments);
 		request.getRequestDispatcher("/views/service/inquiryContent.jsp").forward(request, response);
 	}
 

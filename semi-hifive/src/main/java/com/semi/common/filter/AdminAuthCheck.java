@@ -1,7 +1,6 @@
 package com.semi.common.filter;
 
 import java.io.IOException;
-
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -15,20 +14,16 @@ import javax.servlet.http.HttpSession;
 
 import com.semi.member.model.vo.Member;
 
-
 /**
- * Servlet Filter implementation class CheckAthunticate
+ * Servlet Filter implementation class AdminAuthCheck
  */
 @WebFilter(urlPatterns = {
-		"/service/inquiryInsert.do","/service/commentInsert.do","/service/boardInsert.do"
-		,"/service/inquiryContent.do","/service/commentDelete.do","/service/commentUpdate.do"
+		"/service/boardInsert.do","/service/boardInsertEnd.do"
 })
-public class LoginCheckFillter extends HttpFilter implements Filter {
+public class AdminAuthCheck extends HttpFilter implements Filter {
        
-    /**
-     * @see HttpFilter#HttpFilter()
-     */
-    public LoginCheckFillter() {
+    
+    public AdminAuthCheck() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -44,13 +39,11 @@ public class LoginCheckFillter extends HttpFilter implements Filter {
 	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
 	 */
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		// TODO Auto-generated method stub
-		// place your code here
 		HttpSession session = ((HttpServletRequest)request).getSession();
 		Member loginMember = (Member)session.getAttribute("loginMember");
-		if(loginMember==null) {
-			request.setAttribute("msg", "로그인 후 사용하세요.");
-			request.setAttribute("loc", "/loginView.do");
+		if(loginMember==null&&!loginMember.getAuth().equals("M")) {
+			request.setAttribute("msg", "접근 권한이 없습니다.");
+			request.setAttribute("loc", "/");
 			request.getRequestDispatcher("/views/common/msg.jsp").forward(request, response);
 		} else {
 			

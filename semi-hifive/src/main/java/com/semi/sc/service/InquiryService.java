@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.util.List;
 
 import com.semi.sc.dao.InquiryDao;
+import com.semi.sc.model.dto.BoardComment;
 import com.semi.sc.model.dto.Inquiry;
 import com.semi.sc.model.dto.ServiceFile;
 
@@ -43,6 +44,20 @@ public class InquiryService {
 		if(result>0&&fileresult==filesNames.size()) commit(conn);
 		else rollback(conn);
 		return result;
+	}
+
+	public List<ServiceFile> selectInquiryFile(int inquiryNo) {
+		Connection conn=getConnection();
+		List<ServiceFile> files=dao.selectInquiryFile(conn, inquiryNo);
+		close(conn);
+		return files;
+	}
+
+	public List<BoardComment> selectInquiryComment(int inquiryNo) {
+		Connection conn=getConnection();
+		List<BoardComment> comments=dao.selectInquiryComment(conn, inquiryNo);
+		close(conn);
+		return comments;
 	}
 
 }
