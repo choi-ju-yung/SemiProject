@@ -1,5 +1,7 @@
 package com.semi.productlistlist.model.dao;
 
+import static com.semi.common.JDBCTemplate.close;
+
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
@@ -9,10 +11,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-import static com.semi.common.JDBCTemplate.*;
-
-
-import javax.naming.spi.DirStateFactory.Result;
 
 import com.semi.category.model.vo.Category;
 import com.semi.category.model.vo.SubCategory;
@@ -200,5 +198,47 @@ public class ProductCategoryListDao {
 				close(pstmt);
 			}return result;
 		}
-	
+		public List<ProductCategoryTimeList> GetProductCondition(Connection conn, int cPage, int numPerpage, List<String> conditions) {
+			PreparedStatement pstmt = null;
+		    ResultSet rs = null;
+		    List<ProductCategoryTimeList> selectgetproduct = new ArrayList<>();
+		    
+		    try {
+				String conditionStr = String.join(" OR ", conditions);
+				pstmt = conn.prepareStatement(sql.getProperty("GetProductCondition"));
+				sql.replace("{CONDITIONS}", conditionStr);
+				pstmt.setInt(10, (cPage-1) * numPerpage + 1);
+				pstmt.setInt(11, cPage * numPerpage);
+				rs = pstmt.executeQuery();
+				while(rs.next()) {
+					selectgetproduct.add(getProduct(rs));
+				}
+						
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}finally {
+				close(rs);
+				close(pstmt);
+			}return selectgetproduct;
+		}
+		public int GetProductConditionCount(Connection conn, List<String> conditions ) {
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			int result = 0;
+			try {
+				String sqlQuery = sql.getProperty("GetProductConditionCount")/*.replaceAll("\\{CONDITIONS\\}", String.join(" OR ", conditions)*/);
+				String conditionStr = String.join(" OR ", conditions);
+				sql.replace("{CONDITIONS}", conditionStr);
+		        pstmt.setArray(1, conditions.toArray());
+				rs = pstmt.executeQuery();
+				if(rs.next()){
+					result = rs.getInt(1);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}finally {
+				close(rs);
+				close(pstmt);
+			}return result;
+		}
 }

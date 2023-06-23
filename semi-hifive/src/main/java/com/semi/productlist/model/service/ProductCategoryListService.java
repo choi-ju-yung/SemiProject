@@ -1,9 +1,10 @@
 package com.semi.productlist.model.service;
 import static com.semi.common.JDBCTemplate.close;
 import static com.semi.common.JDBCTemplate.getConnection;
+
 import java.sql.Connection;
 import java.util.List;
-import com.semi.productlist.model.vo.ProductCategoryList;
+
 import com.semi.productlist.model.vo.ProductCategoryTimeList;
 import com.semi.productlistlist.model.dao.ProductCategoryListDao;
 
@@ -60,5 +61,17 @@ public class ProductCategoryListService {
 			close(conn);
 			return selectcategory;
 	}
-	
+	//where 절 or 로 묶인메소드
+	public List<ProductCategoryTimeList> GetProductCondition(List<String> conditions, int cPage, int numPerpage) {
+		Connection conn = getConnection();
+		List<ProductCategoryTimeList> selectgetproduct = dao.GetProductCondition(conn, cPage, numPerpage, conditions);
+		close(conn);
+		return selectgetproduct;
+	}
+	public int GetProductConditionCount(List<String> conditions) {
+		Connection conn = getConnection();
+		int result = dao.GetProductConditionCount(conn,conditions);
+		close(conn);
+		return result;
+	}
 }

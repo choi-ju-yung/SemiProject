@@ -188,7 +188,7 @@ function HeaderCategoryMenu() {
         url: "<%=request.getContextPath()%>/headercategories.do",
         dataType: 'json',
         success: function(data) {
-        	$("#menuList>ul").html("<li><a onclick='Test_btn();' id='category0'>전체</a></li>");
+        	$("#menuList>ul").html("<li><a href='javascript:void(0);' onclick='Test_btn();' id='category0'>전체</a></li>");
             data.main.forEach(function(category,index) {
                 makeCategoryHeader(category.categoryName, index);
                 const subCategory=data.sub.filter(cate=>cate.category.categoryName==category.categoryName);
@@ -201,7 +201,7 @@ function HeaderCategoryMenu() {
 function makeCategoryHeader(name, index) {
 	
     const $li = $("<li>");
-    const $a = $("<a>").attr("id", "category" + (index + 1)).text(name).attr("onclick", "searchCategory('" + name + "');");
+    const $a = $("<a href='javascript:void(0);'>").attr("id", "category" + (index + 1)).text(name).attr("onclick", "searchCategory('" + name + "');");
     $li.append($a);
     $("#menuList>ul").append($li);
 }

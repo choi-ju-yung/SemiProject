@@ -31,7 +31,6 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css"
     />
-    <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.umd.min.js"></script> -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
@@ -44,13 +43,6 @@
                 <span id="pddfilter"><b>필터</b></span>
 			</div>
 			<div class="plusFilter">
-				  <!-- <a class="plusFiterbox">
-					<div class="plusFiterboxText"></div>
-					<div class="plusFiterboxbtn"><button><svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512">
-                                    <path d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192 192-86 192-192z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/>
-                                    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M320 320L192 192M192 320l128-128"/>
-                                  </svg></button></div>
-				</a> -->
 			</div>	        
         </div>
           <div id="pdcContainer">
@@ -562,12 +554,80 @@
           			}
           		});
           	}
-           	
+           	//카테고리에 있는 여러 조건을 선택해서 원하는 조건 상품리스트 출력해주기
+           	function selectside(){
+           		$.ajax({
+           			url: "<%=request.getContextPath()%>/serachcategory.do",
+           			dateType: 'html',
+           			data:{'Cid':Cid},
+           		})
+           	}
+           	// 지역검색클릭
+           $(document).ready(function() {
+        	  
+   				let conditions = {};
+   				// 상품상태 태그 클릭시 출력하는 함수
+   				
+   				
+   				
+        	   // 조건된 가격을 클릭할때 출력하는 함수
+        	   $(".radio-buttons .radio-button").click(function(e) {
+        		   
+    				var selectedOption = $(this).find("input").val();
+
+    				if (selectedOption === "option1") {
+      					conditions['price']="PRICE <= 100000";
+    				} else if (selectedOption === "option2") {
+    					conditions['price']="PRICE BETWEEN 100000 AND ?";
+    				} else if (selectedOption === "option3") {
+    					conditions['price']="PRICE BETWEEN 300000 AND ?";
+    				} else if (selectedOption === "option4") {
+    					conditions['price']="PRICE BETWEEN 500000 AND ?";
+    				} else if (selectedOption === "option5") {
+    					conditions['price']="PRICE >= 1000000";
+    				}
+    				getselectproduct(conditions);
+  				});	
+        	   
+        	   
+        	   // input태그에 검색한 가격
+        	   $("#prcBtn").click(function() {
+        		    var minPrice = $(".prcinput[name='text'][placeholder='최소값']").val();
+        		    var maxPrice = $(".prcinput[name='text'][placeholder='최대값']").val();
+
+        		    
+        		    if (minPrice && maxPrice) {
+        		    	conditions['price']="PRICE BETWEEN " + minPrice + " AND " + maxPrice;
+        		    } 
+        		    getselectproduct(conditions);
+	           	});
+	        	// 지역검색클릭
+	           	$("#gugun1").change(function() {
+	           		
+	           	    var selectedLocation = $(this).val();
+	           	    if (selectedLocation) {
+	           	    	conditions['area']="AREA_NAME LIKE '%" + selectedLocation + "%'";
+	           	    }
+	           	    getselectproduct(conditions);
+	           	  });
+	           	// 키값으로 여러조건 가져오기 ajax
+	           	function getselectproduct(conditions){
+	           		console.log(conditions);
+	           		<%-- $.ajax({
+	           			url: "<%=request.getContextPath()%>/getproduct.do",
+	           			dateType: 'html',
+	           			data:{conditions: conditions.join(" OR ")},
+	           			success: function(data){
+	          				$("#productContainer").html(data);
+	           			}
+	           		}); --%>
+	           	}
+           });
            	
            	//필터에 넣어주기
 			// 카테고리 클릭 이벤트 처리
 			
-			$(document).ready(function() {
+			$(document).on(function() {
    				 var maxFilters = 2; // 최대 필터 개수
     			 var currentFilters = 0; // 현재 필터 개수
     		$('.pdcCategory span').on('click', function() {
