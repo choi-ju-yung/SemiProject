@@ -6,6 +6,8 @@ const context = "http://localhost:9090/semi-hifive";
 let prouductImgCnt = 0;
 
 function getImageFiles(e) {
+	
+		
 	const uploadFiles = [];
 	const files = e.currentTarget.files;
 	const imagePreview = document.querySelector('.image-preview');
@@ -37,31 +39,6 @@ function getImageFiles(e) {
 			console.log(prouductImgCnt);
 			reader.readAsDataURL(file);  // 업로드 파일 읽어오기 (이문구 없으면 이미지 추가되지않음)
 		}
-
-
-
-		/*		        // 파일 갯수 검사
-				if ((prouductImgCnt+[...files].length) < 11) { // 한번에 10개까지 이미지 등록가능
-		
-					const reader = new FileReader();
-					reader.onload = (e) => {
-						const preview = createElement(e, file);
-						imagePreview.appendChild(preview);  
-					};
-		
-				    
-					// uploadFiles.push(file); // 이미지 파일이 7개 미만이면 배열에 파일추가
-					prouductImgCnt++;  // 이미지 추가시 개수 증가
-					$(".imgCount").text("("+prouductImgCnt+"/10"+")");
-					console.log(prouductImgCnt);
-					reader.readAsDataURL(file);  // 업로드 파일 읽어오기 (이문구 없으면 이미지 추가되지않음)
-				}
-				else{
-					alert('이미지는 한번에 10개까지 등록 가능합니다.');
-					return
-				}*/
-
-
 	});
 }
 
@@ -454,10 +431,11 @@ $(document).ready(function() {
 
 /* 폼 전송 작업*/
 
-function productRegist() {
-	/*$(".container").submit();*/
 
-	const form = new FormData();
+
+function productRegist() {  // 상품등록 버튼 클릭됬을 때,
+	
+	const form = new FormData();  // form 객체에 입력한 값들을 먼저 다 추가함
 	form.append("title", $(".inputTitle").val());
 	form.append("subCate", $(".middleCate").val());
 	form.append("place", $("#sample6_address").val());
@@ -465,44 +443,37 @@ function productRegist() {
 	form.append("price", $("#priceId").val())
 	form.append("explan", $("#explanId").val())
 	let tag="";
-	$("input[name=data1]").each((i,element)=>{
-		//form.append("data1",element.value);
+	$("input[name=data1]").each((i,element)=>{ // jquery로 해당 선택자로 값을 가져옴 .each(i,elemnet) -> 해당 데이터들의 인덱스번호와, 해당 값을 가져옴  
 		if(i!=0) tag+=",";
 		tag+=element.value;	
 	})
 	form.append("tag",tag); 
 	
-	const files=$("input[type=file]")[0].files;
-	console.log(files);
+	const files=$("input[type=file]")[0].files; // 
+	
 	$.each(files,(index,file)=>{
 		form.append("upfile"+index,file);
 	});
 
 
-
 	$.ajax({
-		url: "productRegistEnd.do",
-		data: form,
+		url: "productRegistEnd.do", // 해당 서블릿으로 ajax로 요청
+		data: form,   // 저정한 form 객체를 데이터로 보냄
 		processData:false, // 멀티파트폼으로 보내기위해서 설정
 		contentType:false, // 멀티파트폼으로 보내기위해서 설정
 		type:"post",
 		success: function(result) {
-			console.log("성공");
-			console.log(result);
-		
-			let msg=""; 
-			let loc=""; 
 			if(result==1) { // db는 결과값이 정수로 나옴 // 입력성공
 					alert("등록 성공");
-					location.href = "http://localhost:9090/semi-hifive/";
+					location.replace("http://localhost:9090/semi-hifive/");
 			}else{ 
 					alert("등록 실패");
-					location.href = "http://localhost:9090/semi-hifive/"+"productRegist.do";
+					location.replace("http://localhost:9090/semi-hifive/"+"productRegist.do");
 			}
 		},
 		error: function() {
 			alert("오류발생");
-			location.href = "http://localhost:9090/semi-hifive/"+"views/common/msg.jsp";
+			location.replace("http://localhost:9090/semi-hifive/"+"productRegist.do");
 		}
 	})
 

@@ -133,6 +133,7 @@ public class ProductRegistDao {
 		PreparedStatement pstmt = null;
 		int result = 0;
 		try {
+			// ProudctFile 안의  상품아이디는 SEQ_PRODUCT_ID.CURRVAL 를 통해서 넣어줌 (현재 시퀀스값)
 			pstmt=conn.prepareStatement(sql.getProperty("insertProductFile"));
 			pstmt.setString(1, f.getImageName());
 			pstmt.setString(2, String.valueOf(f.getMainImageYn()));

@@ -43,12 +43,10 @@ public class ProductRegistEndServlet extends HttpServlet {
 		
 
 		HttpSession session = request.getSession();
-		String path=getServletContext().getRealPath("/upload/productRegist");  // ->  /test 안에다 업로드되는 이미지 넣음
+		String path=getServletContext().getRealPath("/upload/productRegist");  // ->  /upload/productRegist 안에다 업로드되는 이미지 넣음
 		
-		// cos.jar에서 제공하는 클래스 => MultipartRequest
 		MultipartRequest mr= new MultipartRequest(request, path, 1024*1024*10,"UTF-8",new DefaultFileRenamePolicy()); 
-	
-		
+		// MultipartRequest 객체 사용하려면, 이 서블릿을 요청시킨 form태그에 enctype="multipart/form-data" 를 넣어야함
 		
 		String replacePrice = mr.getParameter("price"); 
 		replacePrice = replacePrice.replace(",",""); // ,있는 돈 문자열을 ,를 ""로 대체함
@@ -67,21 +65,26 @@ public class ProductRegistEndServlet extends HttpServlet {
 		
 		List<ProductFile> files= new ArrayList();
 		
-		Enumeration<String> names=mr.getFileNames(); // 해당 파일객체들의 키값을 하나씩 출력 
+		Enumeration<String> names=mr.getFileNames(); // 해당 파일객체들의 키값을 하나씩 출력 (Enumeration -> 열거객체 순환) 
 		while(names.hasMoreElements()) {  // 다중 파일들의 이미지를 접근 가능
 			String key=names.nextElement();  // key-> 해당 파일은 객체로 저장되잇음 각각 파일의 키를 저장함
 //			mr.getFilesystemName(key));  new 파일
 //			mr.getOriginalFileName(key)); ori파일
 
-			files.add(ProductFile.builder().imageName(mr.getFilesystemName(key)).build());
+			files.add(ProductFile.builder().imageName(mr.getFilesystemName(key)).build()); 
+			// ProductFile 객체 안에 멤버변수들을 builder를 통해서 각각 넣어줌 (파일이름, 등등)
+			// builder 함수 사용시 마지막에 .build() 해줘야함
 		}
 		
 		 Product p = Product.builder().title(title).productStatus(state).price(price).explanation(explan)
 				 .keyword(tag).areaName(place).subCategoryName(subCate).files(files).build();
-
-
-		 	int result = new ProductRegistService().insertProduct(p,userId); // 상품등록 하는 작업
-		 	response.getWriter().print(result);	
+		 // Product 객체 안에 멤버변수들을 builder를 통해서 넣어줌 (마지막에는 files 멤버변수도 builder를 통해서 해당맞는 타입의 값을 넣어줌)
+		 // Product 클래스안에 결국 ProudctFile 값들도 들어있는것임 
+		 // 그러기 때문에 Product만 객체만 넣어줘도 됨
+		 
+		 int result = new ProductRegistService().insertProduct(p,userId); // 상품등록 및 상품이미지첨부파일 데이터 추가 하는 작업
+		 
+		 response.getWriter().print(result); // 해당 반환되는 0 또는 1의 값을 다시 js로 반환됨 (ajax이기 때문에 해줘야함)-> js에서 정수 값을 통해 분기처리	
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
