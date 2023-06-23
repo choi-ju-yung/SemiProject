@@ -81,31 +81,36 @@ if (cookies != null) {
 						</a>
 					</div>
 					<div class="searchBar">
-						<div class="searchDetail">
-							<input type="search" onsearch="" class="search"
-								placeholder="브랜드, 상품명, 상품번호 등" onfocus="this.placeholder = ''"
-								onblur="this.placeholder = '브랜드, 상품명, 상품번호 등'" />
+				
+							<div class="searchDetail">
+								<input type="search" onsearch="" class="search"
+									placeholder="브랜드, 상품명, 상품번호 등" onfocus="this.placeholder = ''"
+									onblur="this.placeholder = '브랜드, 상품명, 상품번호 등'" />
 
-							<button class="search">
-								<img
-									src="<%=request.getContextPath()%>/images/common/magnifier.png"
-									alt="" />
-							</button>
-						</div>
+								<button class="search">
+									<img
+										src="<%=request.getContextPath()%>/images/common/magnifier.png"
+										alt="" />
+								</button>
+							</div>
+						
 						<div class="searchpage">
 							<div class="searchbody">
+							<hr>
 								<div class="recentsearch">
 									<div class="recentsearchchild">
 										<div class="recentsearchtext">
 											<span>최근검색어</span>
 										</div>
 										<div class="recentsearchmeun">
-										<%if(search !=null && !search.isEmpty()) {
-										if(loginMember !=null&&loginMember.getUserId().equals(search.get(0).getUserId())) {											
-												for (Search s : search) { %>
+											<%
+											if (search != null && !search.isEmpty()) {
+												if (loginMember != null && loginMember.getUserId().equals(search.get(0).getUserId())) {
+													for (Search s : search) {
+											%>
 											<div class="recentsearchtag">
 												<div class="recentsearchtagtext">
-													<%=s.getSearchKeyword() %>
+													<%=s.getSearchKeyword()%>
 												</div>
 												<div class="recentsearchbtn">
 													<button>
@@ -124,119 +129,16 @@ if (cookies != null) {
 												</div>
 											</div>
 
-												<%}
+											<%
 											}
-											}else{ %>
+											}
+											} else {
+											%>
 											<p>최근 검색어 내역이 없습니다.</p>
-											<%} %> 
-											
-										</div>
-									</div>
-								</div>
-								<div class="popularsearch">
-									<div class="popularsearchchild">
-										<div class="popularsearchheader">
-											<span class="popularsearchtitle">인기 검색어</span>
-											<div class="popularsearchtitletime">
-												<span>05.19 22:00 기준</span>
-											</div>
-										</div>
-										<div class="popularsearchbody">
-											<ol class="popularsearchbodychild">
-												<li class="popularsearchrank"><span class="ranking">1</span>
-													<a href="" class="popularsearchranktext"> <span>인기상품명</span>
-												</a></li>
-												<li class="popularsearchrank"><span class="ranking">1</span>
-													<a href="" class="popularsearchranktext"> <span>인기상품명</span>
-												</a></li>
-												<li class="popularsearchrank"><span class="ranking">1</span>
-													<a href="" class="popularsearchranktext"> <span>인기상품명</span>
-												</a></li>
-												<li class="popularsearchrank"><span class="ranking">1</span>
-													<a href="" class="popularsearchranktext"> <span>인기상품명</span>
-												</a></li>
-												<li class="popularsearchrank"><span class="ranking">1</span>
-													<a href="" class="popularsearchranktext"> <span>인기상품명</span>
-												</a></li>
-												<li class="popularsearchrank"><span class="ranking">1</span>
-													<a href="" class="popularsearchranktext"> <span>인기상품명</span>
-												</a></li>
-												<li class="popularsearchrank"><span class="ranking">1</span>
-													<a href="" class="popularsearchranktext"> <span>인기상품명</span>
-												</a></li>
-												<li class="popularsearchrank"><span class="ranking">1</span>
-													<a href="" class="popularsearchranktext"> <span>인기상품명</span>
-												</a></li>
-												<li class="popularsearchrank"><span class="ranking">1</span>
-													<a href="" class="popularsearchranktext"> <span>인기상품명</span>
-												</a></li>
-												<li class="popularsearchrank"><span class="ranking">1</span>
-													<a href="" class="popularsearchranktext"> <span>인기상품명</span>
-												</a></li>
-											</ol>
-										</div>
-									</div>
-								</div>
-								<div class="searchfooter">
-									<div class="searchfooterchild">
-										<div class="recentviewarea">
-											<span class="recentviewtext">최근 본 상품</span>
-											<div class="recentviewremove">
-												<a href="">지우기</a>
-											</div>
-										</div>
-										<div class="recetlyviewarea">
-											<div class="recentlyviewproducarea">
-												<div class="recentlyviewproductlist">
-													<a href="" class="recentlyproductlistarea">
-														<div class="recentlyprdouctimg">
-															<img
-																src="./3차 UI코드/img/a_c8f54fa85db64d6ab90503bb94b52250.webp"
-																alt="" /> <span>상품명</span>
-														</div>
-													</a> <a href="" class="recentlyproductlistarea">
-														<div class="recentlyprdouctimg">
-															<img
-																src="./3차 UI코드/img/a_c8f54fa85db64d6ab90503bb94b52250.webp"
-																alt="" /> <span>상품명</span>
-														</div>
-													</a> <a href="" class="recentlyproductlistarea">
-														<div class="recentlyprdouctimg">
-															<img
-																src="./3차 UI코드/img/a_c8f54fa85db64d6ab90503bb94b52250.webp"
-																alt="" /> <span>상품명</span>
-														</div>
-													</a> <a href="" class="recentlyproductlistarea">
-														<div class="recentlyprdouctimg">
-															<img
-																src="./3차 UI코드/img/a_c8f54fa85db64d6ab90503bb94b52250.webp"
-																alt="" /> <span>상품명</span>
-														</div>
-													</a> <a href="" class="recentlyproductlistarea">
-														<div class="recentlyprdouctimg">
-															<img
-																src="./3차 UI코드/img/a_c8f54fa85db64d6ab90503bb94b52250.webp"
-																alt="" /> <span>상품명</span>
-														</div>
-													</a>
-												</div>
-												<button class="leftbtn">
-													<svg xmlns="http://www.w3.org/2000/svg" fill="none"
-														viewBox="0 0 24 24" stroke-width="1.5"
-														stroke="currentColor" class="w-6 h-6">
-                              <path stroke-linecap="round"
-															stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-                            </svg>
-												</button>
-												<button class="rightbtn">
-													<svg xmlns="http://www.w3.org/2000/svg" fill="none"
-														viewBox="0 0 24 24" stroke-width="1.5"
-														stroke="currentColor" class="w-6 h-6">
-                              <path stroke-linecap="round"
-															stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-                            </svg>
-												</button>
-											</div>
+											<%
+											}
+											%>
+
 										</div>
 									</div>
 								</div>
@@ -406,8 +308,7 @@ if (cookies != null) {
 //카테고리 클릭시 상품리스트 출력 ajax
 function Test_btn() {
 	$.ajax({
-		url: "<%=request.getContextPath()%>
-		/categoryproductlist.do",
+		url: "<%=request.getContextPath()%>/categoryproductlist.do",
 				dateType : 'html',
 				success : function(data) {
 					$("section").html(data);

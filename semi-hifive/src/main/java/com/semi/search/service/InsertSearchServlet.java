@@ -34,9 +34,10 @@ public class InsertSearchServlet extends HttpServlet {
 		String data=request.getParameter("productname");
 		String id=request.getParameter("userId");
 		
-		int result=new SearchController().deleteSearch(data,id);
-		request.setAttribute("result", result);				
-		request.getRequestDispatcher("/views/common/header.jsp").forward(request, response);	
+		int result=new SearchController().insertSearch(data,id);
+		request.setAttribute("result", result);
+		request.setAttribute("productname",data);
+		request.getRequestDispatcher("/search?productname="+data+"&&id="+id).forward(request, response);	
 	}
 
 	/**

@@ -8,7 +8,7 @@ import static com.semi.common.JDBCTemplate.rollback;
 import java.sql.Connection;
 import java.util.List;
 
-import com.semi.productpage.model.vo.ProductComment;
+import com.semi.product.model.vo.Product;
 import com.semi.search.dao.SearchDao;
 import com.semi.search.model.vo.Search;
 public class SearchController {
@@ -40,6 +40,11 @@ public class SearchController {
 		return result;
 	}
 	
-	
+	public List<Product> searchFunction(String data){
+		Connection conn=getConnection();
+		List<Product> p=dao.searchFunction(conn,data);
+		close(conn);
+		return p;
+	}
 	
 }

@@ -89,6 +89,7 @@ section {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  z-index: 3;
 }
 
 .searchDetail > input {
@@ -96,7 +97,8 @@ section {
   border: none;
   background-color: #eeeeee;
   outline: none;
-}
+  font-size: 16px;
+}z
 .searchDetail > input[type="search"]::-webkit-search-cancel-button {
   -webkit-appearance: none;
   width: 10px;

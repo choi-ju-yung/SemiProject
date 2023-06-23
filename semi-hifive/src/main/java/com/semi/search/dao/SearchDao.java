@@ -12,9 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import com.semi.product.model.vo.Product;
 import com.semi.productpage.dao.ProductDao;
-import com.semi.productpage.model.vo.ProductComment;
 import com.semi.search.model.vo.Search;
+import com.semi.search.model.vo.SearchFunction;
+import com.semi.search.model.vo.SearchFunction.SearchFunctionBuilder;
 
 public class SearchDao {
 	
@@ -53,8 +55,8 @@ public class SearchDao {
 		int result=0;
 		try {
 			pstmt=conn.prepareStatement(sql.getProperty("insertSearch"));
-			pstmt.setString(1,data);
-			pstmt.setString(2,id);
+			pstmt.setString(1,id);
+			pstmt.setString(2,data);
 			result=pstmt.executeUpdate();
 		}catch(SQLException e) {
 			e.printStackTrace();
@@ -68,8 +70,8 @@ public class SearchDao {
 		int result=0;
 		try {
 			pstmt=conn.prepareStatement(sql.getProperty("deleteSearch"));
-			pstmt.setString(1,data);
-			pstmt.setString(2,id);
+			pstmt.setString(1,id);
+			pstmt.setString(2,data);
 			result=pstmt.executeUpdate();
 		}catch(SQLException e) {
 			e.printStackTrace();
@@ -78,6 +80,23 @@ public class SearchDao {
 		}return result;
 	}
 	
+	public List<Product> searchFunction(Connection conn,String data){
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		List<Product> p=new ArrayList();
+		try {
+			pstmt=conn.prepareStatement(sql.getProperty("searchFunction"));
+			pstmt.setString(1, "%"+data+"%");
+			rs=pstmt.executeQuery();
+			while(rs.next())
+				p.add(getProduct(rs));
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rs);
+			close(pstmt);
+		}return p;
+	}
 	
 	
 	private Search getSearch(ResultSet rs) throws SQLException{
@@ -85,6 +104,23 @@ public class SearchDao {
 				.searchKeyword(rs.getString("search_keyword"))
 				.searchDate(rs.getDate("search_date"))	
 				.userId(rs.getString("user_id"))
+				.build();
+	}
+	
+	private Product getProduct(ResultSet rs) throws SQLException{
+		return Product.builder()
+				.productId(rs.getInt("product_id"))
+				.userId(rs.getString("user_id"))
+				.title(rs.getString("product_title"))
+				.sellStatus(rs.getString("product_status"))
+				.sellStatus(rs.getString("sell_status"))
+				.price(rs.getInt("price"))
+				.registTime(rs.getDate("regist_time"))
+				.viewCount(rs.getInt("view_count"))
+				.explanation(rs.getString("explanation"))
+				.keyword(rs.getString("keyword"))
+				.subCategoryName(rs.getString("subcategory_name"))
+				.areaName(rs.getString("area_name"))
 				.build();
 	}
 }

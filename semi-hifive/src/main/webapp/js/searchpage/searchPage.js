@@ -69,7 +69,7 @@ function getContextPath() {
 };
 
 const loginId = sessionStorage.getItem("loginId");
-$(".search").keyup(function(e){	
+$(".search").keypress(function(e){	
 	if (e.which === 13) {
 		 var text = $(this).val();
 		 console.log(text);
@@ -80,17 +80,43 @@ $(".search").keyup(function(e){
 	}	
 })
 
+$(".searchDetail >button").click(function(e){	
+		
+		 var text = $(".search").val();
+		 console.log(text);
+		 console.log(loginId);
+		/* if(userId!=null){*/
+		location.href=getContextPath()+"/insertsearch?productname="+text+"&&userId="+loginId;
+		//}
+	
+})
+
 
   $(document).on("click", ".recentsearchbtn button", function(e) {
-    $(e.target).parents(".recentsearchtag").remove();
+   
    // e.preventDefault(); // Prevent the default behavior of the link
   
    const text=$(e.target).parents(".recentsearchbtn").prev(".recentsearchtagtext").text()
-    console.log(text)
-    location.href=getContextPath()+"/deletesearch?productname="+text+"&&userId="+loginId;
-   	
-   	
-   	
+    console.log(text.trim())
+    console.log(loginId);
+    
+    	$.ajax({
+		type: "POST",
+		url: getContextPath() + "/deletesearch",
+		dataType: "json",
+		data: {
+			"text": text.trim(),
+			"userId": loginId,
+		},
+		success: function(result) {
+			if (result > 0) {
+				 $(e.target).parents(".recentsearchtag").remove();
+				}		
+		},
+		error: function() {
+			alert("검색어 삭제 실패")
+		}
+	})
   });
 //input 태그에 비워주는 버튼 
 $(() => {

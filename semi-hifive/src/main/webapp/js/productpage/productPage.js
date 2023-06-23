@@ -50,6 +50,7 @@ $(document).on("click", ".writeCmt", e => {
 	cmtForm.find(".updateBtn").attr("class", "cmtBtn");
 	cmtForm.find(".cmtBtn").html("등록");
 	const commentRef = $(e.target).val();
+	console.log(commmentRef);
 	cmtForm.find("#cmtText").val("");
 	cmtForm.find("input[name=level]").val("2");
 	cmtForm.find("input[name=commentRef]").val(commentRef);
@@ -103,9 +104,9 @@ function getContextPath() {
 
 
 //AJAX JSON
-const loginId = sessionStorage.getItem("loginId");
-			const userId = sessionStorage.getItem("userId");
-			var cc = Number(sessionStorage.getItem("commentCount"));
+//const loginId = sessionStorage.getItem("loginId");
+const userId = sessionStorage.getItem("userId");
+var cc = Number(sessionStorage.getItem("commentCount"));
 //댓글 작성
 
 /*$(function(){
@@ -223,8 +224,8 @@ function selectReAjaxProductComment(cn) {
 		dataType: "json",
 		data: { "productId": $("input[name=productId]").val() },
 		success: function(ajaxReComment) {
-			const loginId = sessionStorage.getItem("loginId");
-			const userId = sessionStorage.getItem("userId");
+			loginId = sessionStorage.getItem("loginId");
+			userId = sessionStorage.getItem("userId");
 			var html = "";
 			html +=
 				"<div id='arrow'></div>" +
