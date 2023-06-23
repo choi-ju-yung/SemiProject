@@ -1,28 +1,40 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="com.semi.sc.model.dto.*" %>
 <%@ include file="/views/common/header.jsp" %>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/service/reportContent.css">
+<%
+	Inquiry q=(Inquiry)request.getAttribute("inquiry");
+%>
 <section>
 <%@ include file="/views/service/serviceCategory.jsp" %>
 	<div class="ServiceCenter">
+		<%if(q!=null){ %>
             <div class="reportContent">
+            <%if(q.getInquirySecret()=='Y'){ %>
                 <ion-icon name="lock-closed-outline"></ion-icon> 비공개
+                <%} %>
                 <div class="contentTitle">
-                    <h2>질문있어요</h2>
-                    <button class="backBtn" onclick="location.href='ServiceCenterNoticeMain.html'">뒤로 가기</button>
+                    <h2><%=q.getInquiryTitle() %></h2>
+                    <input type="hidden" id="inquiryNo" name="inquiryNo" value="<%=q.getInquiryNo()%>">
+                    <button class="backBtn" onclick="history.back();">뒤로 가기</button>
                 </div>
                 <div class="content">
                     <div class="contentTop">
-                        <p>작성자 : user01</p>
-                        <p>2023/04/25</p>
+                        <p>작성자 : <%=q.getInquiryWriter() %></p>
+                        <p><%=q.getInquiryDate() %></p>
                     </div>
-                    <p>질문 내용...</p>
+                    <p><%=q.getInquiryContent() %></p>
+                    <% %>
                     <img src="https://mblogthumb-phinf.pstatic.net/MjAyMjA2MTBfMjM3/MDAxNjU0ODM2MTEzODc5.rStmvGhTIUIZ_eshzIy-2Dv3hbMDgU5xMEgBe_8hxkEg.JLYYhiefyMgFUHAM0J3x5qlmGhxjaRgEBCVDWboxHKsg.PNG.papapapower/Desktop_Screenshot_2022.06.10_-_13.36.22.51.png?type=w800" alt="">
                 </div>
+                <%if(loginMember.getAuth().equals("M")){ %>
                 <div class="commentWrite">
                     <textarea name="comment" id="" cols="120" rows="5" placeholder="관리자만 달 수 있습니다."></textarea>
                     <button class="commentBtn">댓글 작성</button>
                 </div>
+                <%} %>
+                
                 <div class="comment">
                     <div class="commentTop">
                         <h4>관리자</h4>
@@ -57,6 +69,9 @@
                     </div>
                 </div>
             </div>
-        </div>
+            <%}else{ %>
+            <div>조회된 데이터가 없습니다. 관리자에게 문의하세요.</div>
+            <%} %>
+        </div><!-- ServiceCenter -->
 </section>
 <%@ include file="/views/common/footer.jsp" %>

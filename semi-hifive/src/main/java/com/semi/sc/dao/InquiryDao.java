@@ -12,7 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import com.semi.sc.model.dto.BoardFile;
 import com.semi.sc.model.dto.Inquiry;
+import com.semi.sc.model.dto.ServiceFile;
 
 public class InquiryDao {
 	private final Properties sql=new Properties();
@@ -35,6 +37,14 @@ public class InquiryDao {
 				.inquiryDate(rs.getDate("inquiry_date"))
 				.inquirySecret(rs.getString("inquiry_secret").charAt(0))
 				.build();
+	}
+	
+	//board file 반환 메소드
+	public static ServiceFile getBoardFile(ResultSet rs, int boardNo) throws SQLException {
+		return ServiceFile.builder()
+				.contentNo(rs.getInt("inquiry_no"))
+				.filename(rs.getString("inquiry_renamed_filename"))
+				.fileNo(rs.getInt("file_no")).build();
 	}
 	
 	//문의글 전체 수
@@ -78,4 +88,63 @@ public class InquiryDao {
 		}
 		return inquiryList;
 	}
+
+	//문의글 내용
+	public Inquiry selectInquiryContent(Connection conn, int inquiryNo) {
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		Inquiry q=null;
+		try {
+			pstmt=conn.prepareStatement(sql.getProperty("selectInquiryContent"));
+			pstmt.setInt(1, inquiryNo);
+			rs=pstmt.executeQuery();
+			if(rs.next()) {
+				q=getInquiry(rs);
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rs);
+			close(pstmt);
+		}
+		return q;
+	}
+
+	//파일 저장
+	public int insertInquiryFile(Connection conn, String file) {
+		PreparedStatement pstmt=null;
+		int result=0;
+		try {
+			pstmt=conn.prepareStatement(sql.getProperty("insertFile"));
+			pstmt.setString(1, file);
+			result=pstmt.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+	//문의글 저장
+	public int insertInquiry(Connection conn, Inquiry q) {
+		PreparedStatement pstmt=null;
+		int result=0;
+		try {
+			pstmt=conn.prepareStatement(sql.getProperty("insertInquiry"));
+			pstmt.setString(1, q.getInquiryWriter());
+			pstmt.setString(2, q.getInquiryTitle());
+			pstmt.setString(3, q.getInquiryContent());
+			pstmt.setString(4, String.valueOf(q.getInquirySecret()));
+			result=pstmt.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return result;
+	}
+	
+	
+	
 }
