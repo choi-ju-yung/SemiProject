@@ -64,7 +64,6 @@ public class BoardInsertEndServlet extends HttpServlet {
 			String fileName = files.nextElement();
 			filesNames.add(mr.getFilesystemName(fileName));
 		}
-		System.out.println(filesNames);
 		if (!filesNames.isEmpty()) { // 저장된 파일명이 존재하는 경우에만 실행
 			for(String file:filesNames) {
 				BoardFile bf = BoardFile.builder().boardFileName(file).boardNo(boardNo).build();

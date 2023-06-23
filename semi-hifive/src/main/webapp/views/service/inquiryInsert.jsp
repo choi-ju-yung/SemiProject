@@ -3,11 +3,14 @@
 <%@ include file="/views/common/header.jsp" %>
 <section>
 <%@ include file="/views/service/serviceCategory.jsp" %>
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/service/inquiryInsert.css">
+<form action="<%=request.getContextPath()%>/service/boardInsertEnd.do?login=admin"
+		onsubmit="return titleCheck();" method="post" enctype="multipart/form-data">
 <div class="ServiceCenter">
       <h2 class="ServietHead">1:1 문의하기</h2>
       <div class="writeTitle">
           <label for="">제목</label>
-          <input type="text" id="reportTitle" placeholder="제목을 입력하세요.">
+          <input type="text" id="contentTitle" name="contentTitle" placeholder="제목을 입력하세요.">
           <span id="titleTextNum">0/40</span>
       </div>
       <div class="writeBody">
@@ -23,11 +26,11 @@
       
       <div class="contentPrivate">
         <ion-icon name="lock-closed-outline"></ion-icon>
-          <div class="container">
-            <input type="checkbox" class="checkbox" id="checkbox">
-            <label class="switch" for="checkbox">
-              <span class="slider"></span>
-            </label>
+          <div class="slideContainer">
+           	 	<label class="list-label">
+                  <input type="checkbox" checked>
+                  <div class="secretCk"></div>
+               	</label>
           </div>
         </div>
         <p>* 문의글을 비공개로 작성하면 작성자만 확인 가능합니다.</p>
@@ -35,9 +38,11 @@
         <button class="serviceCancelBtn">취소</button>
         <button class="serviceSubmitBtn">완료</button>
       </div>
-      <div class="pageBar">
-      
-      </div>
 </div>
+</form>
 </section>
+<script type="text/javascript">
+
+</script>
+<script src="<%=request.getContextPath()%>/js/service/inquiryInsert.js"></script>
 <%@ include file="/views/common/footer.jsp" %>
