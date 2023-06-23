@@ -23,7 +23,7 @@
 		<div class="productAll">
 			<div class="product">
 				<div class="productImg">
-					<a href=""><img src="" alt=""></a>
+					<a href=""><img src="<%=request.getContextPath() %>/upload/productRegist/<%=mw.getProductfile().getImageName() %>" alt=""></a>
 					<label class="container"> <input id="<%=mw.getProduct().getProductId() %>" class="wishCheck" checked="checked" type="checkbox">
 						<div class="checkmark">
 							<svg viewBox="0 0 256 256">
@@ -54,9 +54,10 @@
 				</div>
 			</div>
 		</div>
-		<%} %>
-	<!-- 	<hr color="#eeeeee" noshade style="margin-top: 16px; margin-bottom: 40px;" /> -->
-		<%} %>
+		<%}
+        } else { %>
+        <span>찜한 상품이 없습니다.</span>
+        <%} %>
 	</div>
 	<!-- 페이지 버튼 -->
 	    <div class="pageBar">

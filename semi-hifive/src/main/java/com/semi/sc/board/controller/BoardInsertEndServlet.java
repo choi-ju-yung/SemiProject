@@ -45,6 +45,7 @@ public class BoardInsertEndServlet extends HttpServlet {
 		String encode="UTF-8";
 		DefaultFileRenamePolicy dfr=new DefaultFileRenamePolicy();
 		MultipartRequest mr=new MultipartRequest(request, path, maxSize, encode, dfr);
+		
 		//게시판 저장
 		Board b=Board.builder()
 				.boardWriter(mr.getParameter("login"))
@@ -53,27 +54,19 @@ public class BoardInsertEndServlet extends HttpServlet {
 				.boardTitle(mr.getParameter("boardTitle"))
 				.boardContent(mr.getParameter("boardContent").replaceAll("\n", "<br>"))
 				.build();
-		int result=new BoardService().insertBoard(b);
-		int boardNo=new BoardService().selectBoardList(1, 1, mr.getParameter("titleCategory")).get(0).getBoardNo();
+		
 		//파일
-		int fileresult = 0;
-
 		Enumeration<String> files = mr.getFileNames();
 		List<String> filesNames = new ArrayList();
 		while (files.hasMoreElements()) { //파일명 저장
 			String fileName = files.nextElement();
 			filesNames.add(mr.getFilesystemName(fileName));
 		}
-		if (!filesNames.isEmpty()) { // 저장된 파일명이 존재하는 경우에만 실행
-			for(String file:filesNames) {
-				BoardFile bf = BoardFile.builder().boardFileName(file).boardNo(boardNo).build();
-				fileresult += new BoardService().insertBoardFile(bf);
-			}
-		}
+		int result=new BoardService().insertBoard(b, filesNames);
 
 		response.setContentType("application/json;charset=utf-8");
 		//글과 파일이 저장됐으면 true
-		new Gson().toJson(result>0&&fileresult==filesNames.size()?true:false,response.getWriter());
+		new Gson().toJson(result>0?true:false,response.getWriter());
 	}
 
 	

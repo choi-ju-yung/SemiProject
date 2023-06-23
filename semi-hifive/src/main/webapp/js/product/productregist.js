@@ -4,8 +4,12 @@ const context = "http://localhost:9090/semi-hifive";
 // 사진 불러오기 작업 
 
 let prouductImgCnt = 0;
-const uploadFiles = [];
+
 function getImageFiles(e) {
+	
+	
+	const uploadFiles = [];
+
 	const files = e.currentTarget.files;
 	const imagePreview = document.querySelector('.image-preview');
 
@@ -36,31 +40,6 @@ function getImageFiles(e) {
 			console.log(prouductImgCnt);
 			reader.readAsDataURL(file);  // 업로드 파일 읽어오기 (이문구 없으면 이미지 추가되지않음)
 		}
-
-
-
-		/*		        // 파일 갯수 검사
-				if ((prouductImgCnt+[...files].length) < 11) { // 한번에 10개까지 이미지 등록가능
-		
-					const reader = new FileReader();
-					reader.onload = (e) => {
-						const preview = createElement(e, file);
-						imagePreview.appendChild(preview);  
-					};
-		
-				    
-					// uploadFiles.push(file); // 이미지 파일이 7개 미만이면 배열에 파일추가
-					prouductImgCnt++;  // 이미지 추가시 개수 증가
-					$(".imgCount").text("("+prouductImgCnt+"/10"+")");
-					console.log(prouductImgCnt);
-					reader.readAsDataURL(file);  // 업로드 파일 읽어오기 (이문구 없으면 이미지 추가되지않음)
-				}
-				else{
-					alert('이미지는 한번에 10개까지 등록 가능합니다.');
-					return
-				}*/
-
-
 	});
 }
 
@@ -451,43 +430,51 @@ $(document).ready(function() {
 /*=============================*/
 
 
-/* 폼 전송 작업*/
-
-function productRegist() {
-	const form = new FormData();
-
-	for (let f = 0; f < uploadFiles.length; f++) { // 저장된 파일들 (키:값) 형태로 form객체에 추가함
-		form.append("upfile" + f, uploadFiles[f].name) // 키는 파일마다 달라야하기때문에 + f -> 즉 번호를 붙여서 구별함
-	}
-
-	for (let value of form.values()) {
-		console.log(value);
-	}
-
-	/*document.getElementById('inputFile').files;*/
 
 
-	/*	$.each(uploadFiles[0].files,(i,f)=>{ // i=> 인덱스번호  
-		form.append("upfile"+i,f); // key,value값으로 파일을 form 객체에 넣어줌
-		});*/
-/*
-	$(".container").submit();*/
-		
-
-		$.ajax({
-		url: "productImgFileUpload",
-		data: form,  // data로 파일을 넘김
-		type: "post",
-		processData: false, // 멀티파트폼으로 보내기위해서 설정
-		contentType: false, // 멀티파트폼으로 보내기위해서 설정
-		success: data => {
-			alert("업로드가 완료되었습니다.");
-		}, error: (r, m) => {
-			alert("업로드 실패했습니다.");
-		}, complete: () => {
-			$("#upFile").val('');  // 업로드가 성공하든 실패하든, 다 비워줘야함
-		}
+function productRegist() {  // 상품등록 버튼 클릭됬을 때,
+	
+	const form = new FormData();  // form 객체에 입력한 값들을 먼저 다 추가함
+	form.append("title", $(".inputTitle").val());
+	form.append("subCate", $(".middleCate").val());
+	form.append("place", $("#sample6_address").val());
+	form.append("state", $("input[name=state]:checked").val());
+	form.append("price", $("#priceId").val())
+	form.append("explan", $("#explanId").val())
+	let tag="";
+	$("input[name=data1]").each((i,element)=>{ // jquery로 해당 선택자로 값을 가져옴 .each(i,elemnet) -> 해당 데이터들의 인덱스번호와, 해당 값을 가져옴  
+		if(i!=0) tag+=",";
+		tag+=element.value;	
+	})
+	form.append("tag",tag); 
+	
+	const files=$("input[type=file]")[0].files; // 
+	
+	$.each(files,(index,file)=>{
+		form.append("upfile"+index,file);
 	});
+
+
+	$.ajax({
+		url: "productRegistEnd.do", // 해당 서블릿으로 ajax로 요청
+		data: form,   // 저정한 form 객체를 데이터로 보냄
+		processData:false, // 멀티파트폼으로 보내기위해서 설정
+		contentType:false, // 멀티파트폼으로 보내기위해서 설정
+		type:"post",
+		success: function(result) {
+			if(result==1) { // db는 결과값이 정수로 나옴 // 입력성공
+					alert("등록 성공");
+					location.replace("http://localhost:9090/semi-hifive/");
+			}else{ 
+					alert("등록 실패");
+					location.replace("http://localhost:9090/semi-hifive/"+"productRegist.do");
+			}
+		},
+		error: function() {
+			alert("오류발생");
+			location.replace("http://localhost:9090/semi-hifive/"+"productRegist.do");
+		}
+	})
 
 
 }

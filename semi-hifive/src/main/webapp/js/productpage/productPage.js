@@ -50,6 +50,7 @@ $(document).on("click", ".writeCmt", e => {
 	cmtForm.find(".updateBtn").attr("class", "cmtBtn");
 	cmtForm.find(".cmtBtn").html("등록");
 	const commentRef = $(e.target).val();
+	console.log(commmentRef);
 	cmtForm.find("#cmtText").val("");
 	cmtForm.find("input[name=level]").val("2");
 	cmtForm.find("input[name=commentRef]").val(commentRef);
@@ -83,15 +84,15 @@ $(document).on("click", ".changeCmt", e => {
 })
 
 
-	$(document).on("click", ".deleteCmt", e => {
-		const commentNo = $(e.target).parents("div").children("input[name=commentNo]").val();
-		const productId = $("input[name=productId]").val();
-		if (!confirm('댓글을 삭제 하시겠습니까?')) {
+$(document).on("click", ".deleteCmt", e => {
+	const commentNo = $(e.target).parents("div").children("input[name=commentNo]").val();
+	const productId = $("input[name=productId]").val();
+	if (!confirm('댓글을 삭제 하시겠습니까?')) {
 
-		} else {
-			location.href = getContextPath() + "/deleteComment?commentNo=" + commentNo + "&&productId=" + productId;
-		}
-	});
+	} else {
+		location.href = getContextPath() + "/deleteComment?commentNo=" + commentNo + "&&productId=" + productId;
+	}
+});
 
 
 
@@ -103,8 +104,28 @@ function getContextPath() {
 
 
 //AJAX JSON
-
+//const loginId = sessionStorage.getItem("loginId");
+const userId = sessionStorage.getItem("userId");
+var cc = Number(sessionStorage.getItem("commentCount"));
 //댓글 작성
+
+/*$(function(){
+	cmtBtnOff();
+	if($("#cmtText").val().length()){
+		cmtBtnOn()		
+	}else{
+		cmtBtnOff();
+	}
+})
+
+
+function cmtBtnOff(){
+	$(".cmtBtn").attr("disabled", true);
+}
+function cmtBtnOn(){
+	$(".cmtBtn").attr("disabled", false);
+}
+*/
 $(document).on("click", ".cmtBtn", e => {
 	//console.log("e",e.target);
 	$.ajax({
@@ -131,6 +152,8 @@ $(document).on("click", ".cmtBtn", e => {
 					selectReAjaxProductComment(cn);
 				}
 				console.log(cn)
+				
+				$(".commentCount").html(cc=cc+1)
 			}
 		},
 		error: function() {
@@ -155,8 +178,7 @@ function selectAjaxProductComment() {
 		dataType: "json",
 		data: { "productId": $("input[name=productId]").val() },
 		success: function(ajaxComment) {
-			console.log(ajaxComment.commentLevel)
-			const loginId = sessionStorage.getItem("loginId");
+			
 			var html = "";
 			console.log(loginId)
 			html +=
@@ -165,24 +187,20 @@ function selectAjaxProductComment() {
 				"<a href=''>" +
 				"<img name='userProfile' src='" + getContextPath() + "/images/productpage/comment1.jpg" + "' alt='' />" +
 				"</a>" +
-				"<a href='' class='cmtUser' name='userId' id='tagName'>" +
-				"<p>" + ajaxComment.nickName + "</p>" +
+				"<a href='' class='cmtUser' name='userId' id='tagName'>" + ajaxComment.nickName
+			if (userId == ajaxComment.userId) {
+				html +=
+					"<span id='rcmtWriter'>" + " 작성자" + "</span>"
+			}
+
+			html +=
 				"</a>" +
 				"</div>" +
 				"<p class='cmt' name='content''>" + ajaxComment.content + "</p>" +
-				"<span class='time' name='enrollDate''>" + ajaxComment.enrollDate + "</span>"
-
-
-			if (loginId != null) {
-				html +=
-					"<button class='writeCmt' value='" + ajaxComment.commentNo + "'>" + "답글쓰기" + "</button>"
-				if (loginId == ajaxComment.userId) {
-					html +=
-						"<button class='changeCmt'>" + "수정하기" + "</button>" +
-						"<button class='deleteCmt'>" + "삭제하기" + "</button>"
-				}
-			}
-			html +=
+				"<span class='time' name='enrollDate''>" + ajaxComment.enrollDate + "</span>" +
+				"<button class='writeCmt' value='" + ajaxComment.commentNo + "'>" + "답글쓰기" + "</button>"+
+				"<button class='changeCmt'>" + "수정하기" + "</button>" +
+				"<button class='deleteCmt'>" + "삭제하기" + "</button>" +
 				"<input type='hidden' name='commentNo' value='" + ajaxComment.commentNo + "'>" +
 				"<input type='hidden' name='commentRef2' value='" + ajaxComment.commentRef + "'>" +
 				"<hr color='#eeeeee' noshade />" +
@@ -193,7 +211,8 @@ function selectAjaxProductComment() {
 			} else {
 				$("#comment >hr:first").after(html);
 			}
-			console.log(html)
+		},complete:function(){
+			
 		}
 	})
 }
@@ -205,7 +224,8 @@ function selectReAjaxProductComment(cn) {
 		dataType: "json",
 		data: { "productId": $("input[name=productId]").val() },
 		success: function(ajaxReComment) {
-			console.log(ajaxReComment.commentLevel)
+			loginId = sessionStorage.getItem("loginId");
+			userId = sessionStorage.getItem("userId");
 			var html = "";
 			html +=
 				"<div id='arrow'></div>" +
@@ -214,8 +234,12 @@ function selectReAjaxProductComment(cn) {
 				"<a href=''>" +
 				"<img name='userProfile' src='" + getContextPath() + "/images/productpage/profile.jpg" + "' alt='' />" +
 				"</a>" +
-				"<a href='' class='cmtUser' name='userId' id='tagName'>" +
-				"<p>" + ajaxReComment.nickName + "</p>" +
+				"<a href='' class='cmtUser' name='userId' id='tagName'>" + ajaxReComment.nickName
+			if (userId == ajaxReComment.userId) {
+				html +=
+					"<span id='rcmtWriter'>" + " 작성자" + "</span>"
+			}
+			html +=
 				"</a>" +
 				"</div>" +
 				"<p class='cmt' name='content''>" + ajaxReComment.content + "</p>" +
@@ -228,8 +252,13 @@ function selectReAjaxProductComment(cn) {
 				"<hr color='#eeeeee' noshade />" +
 				"</div>"
 
+
 			console.log(cn);
-			$($('input[value=' + cn + '][name=commentNo]')).parent("div").after(html);
+			const replycoment=($($('input[value=' + cn + '][name=commentNo]')).parent("div").nextUntil("div.cmtContainer"));
+			if(replycoment.length>0)
+				$($('input[value=' + cn + '][name=commentNo]')).parent("div").nextUntil("div.cmtContainer").last().after(html);
+			else
+				$($('input[value=' + cn + '][name=commentNo]')).parent("div").after(html);
 		}
 	})
 }
@@ -272,9 +301,8 @@ function updatetAjaxProductComment(cn) {
 			} else {
 				if ($("input[name=commentNo][value=" + cn + "]").parent("div").attr("class") == "cmtContainer") {
 					$("input[name=commentNo][value=" + cn + "]").parent(".cmtContainer").find(".cmt").html(updateAjaxComment.content);
-					$("input[name=commentNo][value=" + cn + "]").parent(".cmtContainer").find(".cmt").after("<span id='cmtOn'>")
-					$("input[name=commentNo][value=" + cn + "]").parent(".cmtContainer").find("#cmtOn").text("(수정됨)")
-
+					//$("input[name=commentNo][value=" + cn + "]").parent(".cmtContainer").find(".cmt").after("<span id='cmtOn'>")
+					//$("input[name=commentNo][value=" + cn + "]").parent(".cmtContainer").find("#cmtOn").text("(수정됨)")
 				} else {
 					$("input[name=commentNo][value=" + cn + "]").parent(".reComment").find(".cmt").html(updateAjaxComment.content);
 				}
