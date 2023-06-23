@@ -4,6 +4,8 @@ const context = "http://localhost:9090/semi-hifive";
 // 사진 불러오기 작업 
 
 let prouductImgCnt = 0;
+const dataTransfer = new DataTransfer();
+
 
 function getImageFiles(e) {
 	
@@ -13,10 +15,12 @@ function getImageFiles(e) {
 	const files = e.currentTarget.files;
 	const imagePreview = document.querySelector('.image-preview');
 
-	if (prouductImgCnt >= 10) {
-		alert('이미지는 최대 10개 까지 업로드가 가능합니다.');
-		return;
-	}
+/*	for(var i=0; i<files.length; i++){  // 한번 이미지 받아올때 dataTransfer에 다 저장함 (그이후 또 받아와도 누적시킴)
+		dataTransfer.items.add(files[i]);
+	}*/
+	
+	console.log(dataTransfer);
+
 
 	// 파일 타입 검사
 	[...files].forEach(file => {  // 이미지 파일외 다른 파일 업로드시 (문구 + 이미지 적용 x)
@@ -26,21 +30,35 @@ function getImageFiles(e) {
 		}
 
 		// 파일 갯수 검사
-		if ([...files].length < 11) { // 한번에 10개까지 이미지 등록가능
+		if (dataTransfer.items.length+[...files].length < 11) { // 한번에 10개까지 이미지 등록가능
+
+/*				if (dataTransfer.items.length > 10) {
+				alert('이미지는 최대 10개 까지 업로드가 가능합니다.');
+				return;
+			}*/
+
 
 			const reader = new FileReader();
 			reader.onload = (e) => {
 				const preview = createElement(e, file);
+				
 				imagePreview.appendChild(preview);
+				dataTransfer.items.add(file);
 			};
-
+			
+			
 			uploadFiles.push(file); // 이미지 파일이 7개 미만이면 배열에 파일추가
 			prouductImgCnt++;  // 이미지 추가시 개수 증가
 			$(".imgCount").text("(" + prouductImgCnt + "/10" + ")");
 			console.log(prouductImgCnt);
 			reader.readAsDataURL(file);  // 업로드 파일 읽어오기 (이문구 없으면 이미지 추가되지않음)
 		}
+		else{
+
+		}
+
 	});
+	
 }
 
 
@@ -50,12 +68,23 @@ function createElement(e, file) {
 	const img = document.createElement('img');  // img 태그 만들기
 	img.setAttribute('src', e.target.result); // 만든 img 태그에 경로 속성 값 넣어줌
 	img.setAttribute('data-file', file.name); // 만들 ing 태그에 파일 이름 속성 값 넣어줌
-
-
+	
+	
+	
 	img.addEventListener("click", e => {  // 해당 이미지 클릭시
 		prouductImgCnt--; // 이미지 삭제시 개수 감소
 		$(e.target).parent().remove(); // li안의 img까지 삭제
 		$(".imgCount").text("(" + prouductImgCnt + "/10" + ")");
+		
+		console.log(e);
+		
+		 for(var i=0; i<dataTransfer.files.length; i++){
+             if(dataTransfer.files[i].name==e.target.dataset.file){
+                    dataTransfer.items.remove(i)
+                    break;
+             }
+          }
+		
 	});
 
 	li.appendChild(img); // 이미지가 있는 li 태그 완성하여 li 리턴
@@ -448,10 +477,12 @@ function productRegist() {  // 상품등록 버튼 클릭됬을 때,
 	})
 	form.append("tag",tag); 
 	
-	const files=$("input[type=file]")[0].files; // 
-	
+	const files= dataTransfer.files;
+	/*const files=$("input[type=file]")[0].files;*/ // 
+
 	$.each(files,(index,file)=>{
 		form.append("upfile"+index,file);
+		console.log(files[index]);
 	});
 
 
