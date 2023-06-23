@@ -19,7 +19,7 @@ List<Category> categorys = (List) request.getAttribute("categorys");
 	if (loginMember != null) { // 로그인된상태에서 직접 login.view 화면으로 갔을때 로그인페이지가 아닌 메인화면으로 이동되는 예외처리
 	%>
 
-	<form class="container" method="post" enctype="multipart/form-data">
+	<!-- <form class="container" method="post" enctype="multipart/form-data"> -->
 
 		<div class="information">
 			<div>
@@ -69,6 +69,7 @@ List<Category> categorys = (List) request.getAttribute("categorys");
 					<input type="text" placeholder="상품제목을 입력하세요" class="inputTitle" name="title">
 				<p class="countTitle">0/40</p>
 			</div>
+			<span id="spanTitle" ></span>
 			<hr>
 		</div>
 
@@ -97,12 +98,13 @@ List<Category> categorys = (List) request.getAttribute("categorys");
 
 		<div class="productPlace">
 			<h4 class="h4Size">거래지역 *</h4>
-			<input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"> 
+			<input type="button" id="sample6Id" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"> 
 			<input type="text" id="sample6_address" placeholder="주소" name="place" readonly> 
 			<input type="hidden" id="sample6_postcode" placeholder="우편번호"> 
 			<input type="hidden" id="sample6_detailAddress" placeholder="상세주소">
 			<input type="hidden" id="sample6_extraAddress" placeholder="참고항목">
 		</div>
+		<span id="spanPlace" ></span>
 		<hr>
 
 		<div class="productStatus">
@@ -124,12 +126,14 @@ List<Category> categorys = (List) request.getAttribute("categorys");
 			<input type="text" id="priceId" oninput="inputNumberFormat(this);" placeholder="숫자만 입력해주세요." name="price">
 			<p>원</p>
 		</div>
+		<span id="spanPrice" ></span>
 		<hr>
 
 		<div class="explan">
 			<h4 class="h4Size">설명 *</h4>
 			<textarea id="explanId" name="explan" placeholder="여러 장의 상품 사진과 구입 연도, 브랜드, 사용감, 하자 유무 등 구매자에게 필요한 정보를 꼭 포함해 주세요. (10자 이상)"></textarea>
 		</div>
+		<span id="spanExplan" ></span>
 		<h3 class="countExpaln">0/2000</h3>
 		<hr>
 

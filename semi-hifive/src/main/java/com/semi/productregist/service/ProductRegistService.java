@@ -42,7 +42,7 @@ public class ProductRegistService {
 			for(ProductFile f: files) { // 저장해놓은 이미지파일객체들을 모두 순회하면서 각 f객체에 하나씩 값을 넣으면서 하나의 로우를 만들어줌
 				f.setImageName(f.getImageName());
 				f.setMainImageYn('N'); // 첫번째이미지외 나머지들은 N으로해줌
-				if(count == 0) { // 첫번째 이미지는 대표이미지 표시인 Y로 해줌
+				if(count == p.getFiles().size()-1) { // 첫번째 이미지는 대표이미지 표시인 Y로 해줌
 					f.setMainImageYn('Y');
 				}
 				result=dao.insertProductFile(conn,f);

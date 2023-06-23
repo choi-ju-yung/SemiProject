@@ -1,6 +1,17 @@
 
 const context = "http://localhost:9090/semi-hifive";
 
+
+const checkProductRegist = {  // 상품등록할 때, 각 부분마다 정상적으로 처리됬는지 구분하는 객체 (다 true일경우에만 상품등록됨)
+	"productImg": false,  
+	"productTitle": false,
+	"productPlace": false,
+	"productPrice": false,
+	"productExplan": false,
+};
+
+
+
 // 사진 불러오기 작업 
 
 let prouductImgCnt = 0;
@@ -8,7 +19,6 @@ const dataTransfer = new DataTransfer();
 
 
 function getImageFiles(e) {
-	
 	
 	const uploadFiles = [];
 
@@ -68,7 +78,7 @@ function createElement(e, file) {
 	const img = document.createElement('img');  // img 태그 만들기
 	img.setAttribute('src', e.target.result); // 만든 img 태그에 경로 속성 값 넣어줌
 	img.setAttribute('data-file', file.name); // 만들 ing 태그에 파일 이름 속성 값 넣어줌
-	
+	checkProductRegist.productImg = true; 
 	
 	
 	img.addEventListener("click", e => {  // 해당 이미지 클릭시
@@ -76,14 +86,17 @@ function createElement(e, file) {
 		$(e.target).parent().remove(); // li안의 img까지 삭제
 		$(".imgCount").text("(" + prouductImgCnt + "/10" + ")");
 		
-		console.log(e);
-		
 		 for(var i=0; i<dataTransfer.files.length; i++){
              if(dataTransfer.files[i].name==e.target.dataset.file){
                     dataTransfer.items.remove(i)
                     break;
              }
           }
+		
+		
+		if(dataTransfer.files.length == 0){  
+			checkProductRegist.productImg = false; 
+		}
 		
 	});
 
@@ -115,22 +128,55 @@ function uncomma(str) {
 function inputNumberFormat(obj) {
 	obj.value = comma(uncomma(obj.value));
 }
+
+
+const priceValue = document.getElementById("priceId")
+const spanPrice = $("#spanPrice");
+priceValue.addEventListener("keyup", function() {
+
+	if (priceValue.value.length == 0) {
+		spanPrice.text("");
+		checkProductRegist.productPrice=false;
+	}else{
+		replacePrice = priceValue.value.replace(",","");
+		if(replacePrice <= 0){
+			spanPrice.text("0원보다 크게 입력하세요").css("color","red");
+			checkProductRegist.productPrice=false;
+		}else{
+			spanPrice.text("○").css("color","green");
+			checkProductRegist.productPrice=true;
+		}
+	}
+});
+
+
 //=====================================================
 
-
+const spanTitle = $("#spanTitle");
 // ==== 제목 글자수 세주는 작업=====
 $(".inputTitle").keyup(e => { // 해당 텍스트부분을 입력할 때
 	$(".countTitle").text($(e.target).val().length + "/40");
 	const length = $(e.target).val().length;
-
-	if (length > 40) {
+	
+	if (length>40) {
 		alert("40글자 이하로 작성하세요");
 		$(e.target).val($(e.target).val().substring(0, 40));
+		checkProductRegist.productTitle=false;
 	}
+	
+	if(length<=0){
+		spanTitle.text("");
+		checkProductRegist.productTitle=false;
+	}else if(length<10){
+		spanTitle.text("최소 10글자 이상 작성하세요").css("color","red");
+		checkProductRegist.productTitle=false;
+	}else{
+		spanTitle.text("");
+		checkProductRegist.productTitle=true;
+	}
+	
 	$(".countTitle").text($(e.target).val().length + "/40");
 })
-
-
 
 
 // -------------------------------------------------------------------------------------------------------------------
@@ -161,10 +207,6 @@ function chageSubCate(value) {
 		}
 	})
 }
-
-
-
-
 
 /*$(function() {
 	var arr = ["서울", "경기도", "인천"];
@@ -232,20 +274,56 @@ function sample6_execDaumPostcode() {
 }
 
 
+const placeValue = document.getElementById("sample6_address");
+const spanPlace = $("#spanPlace");
+/*		spanPlace.text("지역을 반드시 선택해주세요").css("color","red");
+		checkProductRegist.productPlace=false;
+/*const placeLen = document.getElementById("sample6_address");*/
+   $(function() {
+		if(placeValue.value.length == 0){
+			spanPlace.text("지역을 반드시 선택해주세요").css("color","red");
+			checkProductRegist.productPlace=false;
+		}else{
+			spanPlace.text("○").css("color","green");
+			checkProductRegist.productPlace=true;
+		}
+   });
+
+
+
+/*priceValue.addEventListener("load", function() {
+		spanPlace.text("○").css("color","green");
+		checkProductRegist.productPlace=true;
+});*/
+
+
+
 
 // -------------------------------------------------------------------------------------------------------------------
 
 
 
+const spanExplan = $("#spanExplan");
 // ==== 설명 글자수 세주는 작업=====
 $(".explan").keyup(e => { // 해당 텍스트부분을 입력할 때
 	$(".countExpaln").text($(e.target).val().length + "/40");
 	const length = $(e.target).val().length;
 
-	if (length > 2000) {
+	if (length>2000) {
 		alert("2000글자 이하로 작성하세요");
 		$(e.target).val($(e.target).val().substring(0, 2000));
+		checkProductRegist.productExplan=false;
+	}else if(length>10){
+		spanExplan.text("○").css("color","green");
+		checkProductRegist.productExplan=true;
+	}else if(length>0){
+		spanExplan.text("최소 10글자 이상 작성하세요").css("color","red");
+		checkProductRegist.productExplan=false;
+	}else{
+		spanExplan.text("").css("color","red");
+		checkProductRegist.productExplan=false;
 	}
+	
 	$(".countExpaln").text($(e.target).val().length + "/2000");
 })
 
@@ -463,6 +541,16 @@ $(document).ready(function() {
 
 function productRegist() {  // 상품등록 버튼 클릭됬을 때,
 	
+
+	if(checkProductRegist.productTitle && checkProductRegist.productPrice && checkProductRegist.productExplan
+		&& checkProductRegist.productImg){
+	}else{
+			console.log("다 입력해라")
+			return;
+	}
+
+
+	
 	const form = new FormData();  // form 객체에 입력한 값들을 먼저 다 추가함
 	form.append("title", $(".inputTitle").val());
 	form.append("subCate", $(".middleCate").val());
@@ -506,8 +594,6 @@ function productRegist() {  // 상품등록 버튼 클릭됬을 때,
 			location.replace("http://localhost:9090/semi-hifive/"+"productRegist.do");
 		}
 	})
-
-
 }
 
 
