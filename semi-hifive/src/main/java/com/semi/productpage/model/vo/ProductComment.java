@@ -20,6 +20,7 @@ public class ProductComment {
 	private String content;
 	private int commentRef;
 	private Date enrollDate;
+	private int commentCount;
 
 }
 
