@@ -112,11 +112,26 @@ public class BoardDao {
 			pstmt.setString(3, b.getBoardContent());
 			pstmt.setString(4, b.getBoardCategory());
 			pstmt.setString(5, String.valueOf(b.getNoticeYn()));
-			
 			result=pstmt.executeUpdate();
 		}catch(SQLException e){
 			e.printStackTrace();
 		}finally {
+			close(pstmt);
+		}
+		return result;
+	}
+	
+	//파일 저장
+	public int insertBoardFile(Connection conn, String file) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		try {
+			pstmt = conn.prepareStatement(sql.getProperty("insertFile"));
+			pstmt.setString(1, file);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
 			close(pstmt);
 		}
 		return result;
@@ -240,23 +255,6 @@ public class BoardDao {
 			pstmt.setString(3, bc.getCommentContent());
 			result=pstmt.executeUpdate();
 			
-		}catch(SQLException e) {
-			e.printStackTrace();
-		}finally {
-			close(pstmt);
-		}
-		return result;
-	}
-
-	//파일 저장
-	public int insertBoardFile(Connection conn, BoardFile bf) {
-		PreparedStatement pstmt=null;
-		int result=0;
-		try {
-			pstmt=conn.prepareStatement(sql.getProperty("insertFile"));
-			pstmt.setInt(1, bf.getBoardNo());
-			pstmt.setString(2, bf.getBoardFileName());
-			result=pstmt.executeUpdate();
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}finally {

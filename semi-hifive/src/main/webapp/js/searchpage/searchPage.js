@@ -63,14 +63,69 @@
 //   });
 // });
 
+function getContextPath() {
+	var hostIndex = location.href.indexOf(location.host) + location.host.length;
+	return location.href.substring(hostIndex, location.href.indexOf('/', hostIndex + 1));
+};
+
+const loginId = sessionStorage.getItem("loginId");
+$(".search").keypress(function(e){	
+	if (e.which === 13) {
+		 var text = $(this).val();
+		 console.log(text);
+		 console.log(loginId);
+		/* if(userId!=null){*/
+		location.href=getContextPath()+"/insertsearch?productname="+text+"&&userId="+loginId;
+		//}
+	}	
+})
+
+$(".searchDetail >button").click(function(e){	
+		
+		 var text = $(".search").val();
+		 console.log(text);
+		 console.log(loginId);
+		/* if(userId!=null){*/
+		location.href=getContextPath()+"/insertsearch?productname="+text+"&&userId="+loginId;
+		//}
+	
+})
+
+
+  $(document).on("click", ".recentsearchbtn button", function(e) {
+   
+   // e.preventDefault(); // Prevent the default behavior of the link
+  
+   const text=$(e.target).parents(".recentsearchbtn").prev(".recentsearchtagtext").text()
+    console.log(text.trim())
+    console.log(loginId);
+    
+    	$.ajax({
+		type: "POST",
+		url: getContextPath() + "/deletesearch",
+		dataType: "json",
+		data: {
+			"text": text.trim(),
+			"userId": loginId,
+		},
+		success: function(result) {
+			if (result > 0) {
+				 $(e.target).parents(".recentsearchtag").remove();
+				}		
+		},
+		error: function() {
+			alert("검색어 삭제 실패")
+		}
+	})
+  });
 //input 태그에 비워주는 버튼 
 $(() => {
   $(".removesearch").click(() => $(".searchbartext").val(""));
 });
 
 //
-$(document).ready(function() {
-  $(".searchbartext").keyup(function(e) {
+/*$(document).ready(function() {
+  $(".search").keyup(function(e) {
     if (e.which === 13) { // Check if Enter key is pressed
       var searchText = $(this).val(); // Get the search text
 
@@ -78,6 +133,7 @@ $(document).ready(function() {
       $(".recentsearchmeun p").hide();
 
       // Add the search text to recent search tags within the ".recentsearchmeun" area
+      
       var recentSearchTag = $('<a href="" class="recentsearchtag">' +
                               '<div class="recentsearchtagtext">' + searchText + '</div>' +
                               '<div class="recentsearchbtn">' +
@@ -96,22 +152,24 @@ $(document).ready(function() {
       if (recentSearchMenu.children().length >= maxRecentSearchTags) {
         recentSearchMenu.children().last().remove();
       }
-
+      
+		if(searchText.trim()!=0){
       recentSearchMenu.prepend(recentSearchTag);
-
+}
    
       $(this).val("");
     }
+    console.log(searchText)
   });
 
-  $(document).on("click", ".recentsearchbtn button", function(event) {
-    $(event.target).closest(".recentsearchtag").remove();
+  $(document).on("click", ".recentsearchbtn button", function(e) {
+    $(e.target).parents(".recentsearchtag").remove();
     event.preventDefault(); // Prevent the default behavior of the link
   });
-});
+});*/
 
 // 
- $(document).ready(function () {
+/* $(document).ready(function () {
   // 자동 완성 기능을 구현할 데이터 배열
   var searchData = ["검색어1", "검색어2", "검색어3", "검색어4", "검색어5", "브랜드", "상품명", "아이폰", "나이키"];
 
@@ -126,6 +184,6 @@ $(document).ready(function() {
      //disabled: true, //자동완성 기능 끄기
        autoFocus : true,
  });
-});
+});*/
 
 //
