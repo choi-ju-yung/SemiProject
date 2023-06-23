@@ -129,24 +129,24 @@ $(".inputTitle").keyup(e => { // 해당 텍스트부분을 입력할 때
 // -------------------------------------------------------------------------------------------------------------------
 // 카테고리 선택하는 작업
 
-$(()=>{
-	$(".mainCate").trigger("change",$(".mainCate:selected").val());  // 페이지로딩되었을때, 자동으로 change 함수 실행
-	 														//	대상값은 현재 그 select에 선택된 값
+$(() => {
+	$(".mainCate").trigger("change", $(".mainCate:selected").val());  // 페이지로딩되었을때, 자동으로 change 함수 실행
+	//	대상값은 현재 그 select에 선택된 값
 })
 
 function chageSubCate(value) {
 	console.log(value);
 	$.ajax({
 		url: "findSubCate",
-		data: {"cateId": value},
+		data: { "cateId": value },
 		success: function(result) {
-		
+
 			const subCate = result.split(","); // 문자열로 넘어온 값들을 ,를 구분자로 배열을 만듬
-			
+
 			$(".middleCate option").remove();   // 메인카테고리 선택할때마다 옵션들 다 삭제
-			for(let i=0; i<subCate.length; i++){
-					var option = $("<option value=" + subCate[i] + ">"+subCate[i]+"</option>");
-					$(".middleCate").append(option);
+			for (let i = 0; i < subCate.length; i++) {
+				var option = $("<option value=" + subCate[i] + ">" + subCate[i] + "</option>");
+				$(".middleCate").append(option);
 			}
 		},
 		error: function() {
@@ -412,14 +412,14 @@ $autoComplete.addEventListener("click", e => {  // 관련검색어 클릭했을�
 		$li.appendChild($button1);
 		$li.appendChild($button2);
 
-		
+
 		var input1 = document.createElement('input');
 		input1.setAttribute("type", "hidden");
 		input1.setAttribute("name", "data1");
 		input1.setAttribute("value", key);
 
 		$li.appendChild(input1);
-		
+
 
 		$img.addEventListener("click", e => {  // 해당 이미지 클릭시
 			$(e.target).parent().parent().remove(); // li밑 label+button 밑 img까지 삭제
@@ -454,8 +454,60 @@ $(document).ready(function() {
 
 /* 폼 전송 작업*/
 
-function productRegist(){
-	$(".container").submit();
+function productRegist() {
+	/*$(".container").submit();*/
+
+	const form = new FormData();
+	form.append("title", $(".inputTitle").val());
+	form.append("subCate", $(".middleCate").val());
+	form.append("place", $("#sample6_address").val());
+	form.append("state", $("input[name=state]:checked").val());
+	form.append("price", $("#priceId").val())
+	form.append("explan", $("#explanId").val())
+	let tag="";
+	$("input[name=data1]").each((i,element)=>{
+		//form.append("data1",element.value);
+		if(i!=0) tag+=",";
+		tag+=element.value;	
+	})
+	form.append("tag",tag); 
+	
+	const files=$("input[type=file]")[0].files;
+	console.log(files);
+	$.each(files,(index,file)=>{
+		form.append("upfile"+index,file);
+	});
+
+
+
+	$.ajax({
+		url: "productRegistEnd.do",
+		data: form,
+		processData:false, // 멀티파트폼으로 보내기위해서 설정
+		contentType:false, // 멀티파트폼으로 보내기위해서 설정
+		type:"post",
+		success: function(result) {
+			console.log("성공");
+			console.log(result);
+		
+			let msg=""; 
+			let loc=""; 
+			if(result==1) { // db는 결과값이 정수로 나옴 // 입력성공
+					alert("등록 성공");
+					location.href = "http://localhost:9090/semi-hifive/";
+			}else{ 
+					alert("등록 실패");
+					location.href = "http://localhost:9090/semi-hifive/"+"productRegist.do";
+			}
+		},
+		error: function() {
+			alert("오류발생");
+			location.href = "http://localhost:9090/semi-hifive/"+"views/common/msg.jsp";
+		}
+	})
+
+
+
 }
 
 

@@ -13,8 +13,8 @@ import java.util.List;
 import java.util.Properties;
 
 import com.semi.category.model.vo.Category;
-import com.semi.member.model.vo.Member;
 import com.semi.product.model.vo.Product;
+import com.semi.product.model.vo.ProductFile;
 
 public class ProductRegistDao {
 	private Properties sql=new Properties(); // Properties 파일객체 만듬
@@ -83,12 +83,12 @@ public class ProductRegistDao {
 	
 	
 	
-	public int insertProduct(Connection conn, Product p, Member m){
+	public int insertProduct(Connection conn, Product p, String userId){
 		PreparedStatement pstmt = null;
 		int result = 0;
 		try {
 			pstmt=conn.prepareStatement(sql.getProperty("insertProduct"));
-			pstmt.setString(1, m.getUserId());
+			pstmt.setString(1, userId);
 			pstmt.setString(2, p.getTitle());
 			pstmt.setString(3, p.getProductStatus());
 			pstmt.setInt(4, p.getPrice());
@@ -96,6 +96,7 @@ public class ProductRegistDao {
 			pstmt.setString(6, p.getKeyword());
 			pstmt.setString(7, p.getSubCategoryName());
 			pstmt.setString(8, p.getAreaName());
+	
 			
 			result=pstmt.executeUpdate(); 
 		}catch(SQLException e) {
@@ -104,5 +105,46 @@ public class ProductRegistDao {
 			close(pstmt);
 		}return result;
 	}
+	
+	
+//	public int selectSequenceNo(Connection conn) {
+//		PreparedStatement pstmt = null;
+//		int result = 0;
+//		ResultSet rs=null;
+//		try {
+//			pstmt=conn.prepareStatement(sql.getProperty("selectSequenceNo"));
+//			
+//			rs=pstmt.executeQuery();
+//			if(rs.next()) {
+//				result = rs.getInt(1);
+//			}
+//			
+//			result=pstmt.executeUpdate(); 
+//		}catch(SQLException e) {
+//			e.printStackTrace();
+//		}finally {
+//			close(pstmt);
+//		}return result;
+//	}
+	
+	
+	
+	public int insertProductFile(Connection conn, ProductFile f) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		try {
+			pstmt=conn.prepareStatement(sql.getProperty("insertProductFile"));
+			pstmt.setString(1, f.getImageName());
+			pstmt.setString(2, String.valueOf(f.getMainImageYn()));
+			
+			result=pstmt.executeUpdate(); 
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}return result;
+	}
+	
+	
 	
 }

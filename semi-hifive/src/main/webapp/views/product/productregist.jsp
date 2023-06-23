@@ -19,7 +19,7 @@ List<Category> categorys = (List) request.getAttribute("categorys");
 	if (loginMember != null) { // 로그인된상태에서 직접 login.view 화면으로 갔을때 로그인페이지가 아닌 메인화면으로 이동되는 예외처리
 	%>
 
-	<form action="<%=request.getContextPath()%>/productRegistEnd.do" class="container" method="post">
+	<form action="<%=request.getContextPath()%>/productRegistEnd.do" class="container" method="post" enctype="multipart/form-data">
 
 		<div class="information">
 			<div>
@@ -74,7 +74,7 @@ List<Category> categorys = (List) request.getAttribute("categorys");
 
 		<div class="cate">
 			<h4 class="h4Size">카테고리 *</h4>
-			<form name="frm1">
+<!-- 			<form name="frm1"> -->
 				<select class="mainCate" onchange="chageSubCate(this.value);">
 					<!-- this.value -> 선택된 option의 밸류값을 매개변수로 넣음 -->
 					<%
@@ -110,7 +110,7 @@ List<Category> categorys = (List) request.getAttribute("categorys");
 			<fieldset>
 				<label> <input type="radio" name="state" value="미개봉"
 					checked /> <span>미개봉</span>
-				</label> <label> <input type="radio" name="state" value="사용감있음" />
+				</label> <label> <input type="radio" name="state" value="사용감 있음" />
 					<span>사용감있음</span>
 				</label>
 			</fieldset>
@@ -121,14 +121,14 @@ List<Category> categorys = (List) request.getAttribute("categorys");
 			<h4 class="h4Size">가격 *</h4>
 			<!--             <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
                 placeholder="숫자만 입력해주세요."> -->
-			<input type="text" oninput="inputNumberFormat(this);" placeholder="숫자만 입력해주세요."  name="price">
+			<input type="text" id="priceId" oninput="inputNumberFormat(this);" placeholder="숫자만 입력해주세요." name="price">
 			<p>원</p>
 		</div>
 		<hr>
 
 		<div class="explan">
 			<h4 class="h4Size">설명 *</h4>
-			<textarea name="explan" placeholder="여러 장의 상품 사진과 구입 연도, 브랜드, 사용감, 하자 유무 등 구매자에게 필요한 정보를 꼭 포함해 주세요. (10자 이상)"></textarea>
+			<textarea id="explanId" name="explan" placeholder="여러 장의 상품 사진과 구입 연도, 브랜드, 사용감, 하자 유무 등 구매자에게 필요한 정보를 꼭 포함해 주세요. (10자 이상)"></textarea>
 		</div>
 		<h3 class="countExpaln">0/2000</h3>
 		<hr>
@@ -182,7 +182,7 @@ List<Category> categorys = (List) request.getAttribute("categorys");
 		<%
 		}
 		%>
-	</form>
+<!-- 	</form> -->
 </section>
 
 

@@ -1,14 +1,13 @@
 package com.semi.productregist.service;
 
-import static com.semi.common.JDBCTemplate.close;
-import static com.semi.common.JDBCTemplate.getConnection;
+import static com.semi.common.JDBCTemplate.*;
 
 import java.sql.Connection;
 import java.util.List;
 
 import com.semi.category.model.vo.Category;
-import com.semi.member.model.vo.Member;
 import com.semi.product.model.vo.Product;
+import com.semi.product.model.vo.ProductFile;
 import com.semi.productregist.dao.ProductRegistDao;
 
 public class ProductRegistService {
@@ -32,9 +31,30 @@ public class ProductRegistService {
 	}
 	
 	
-	public int insertProduct(Product p, Member m) {
+	public int insertProduct(Product p, String userId) {
 		Connection conn = getConnection(); // jdbc 연결객체
-		int result = dao.insertProduct(conn,p,m);
+		int result = dao.insertProduct(conn,p,userId);
+
+		List<ProductFile> files=p.getFiles();
+		System.out.println(files);
+
+		
+		int count = 0;
+		if(p.getFiles().size()>0) {
+			for(ProductFile f: files) {
+				f.setImageName(f.getImageName());
+				f.setMainImageYn('N');
+				if(count == 0) {
+					f.setMainImageYn('Y');
+				}
+				result=dao.insertProductFile(conn,f);
+				count++;
+				if(result>0)commit(conn);
+				else rollback(conn);
+			}
+		}else {
+			rollback(conn);
+		}
 		close(conn);
 		return result;
 	}
