@@ -1,14 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="java.util.List,com.semi.mypage.model.vo.ProductList,java.util.Date,java.text.SimpleDateFormat, java.text.DecimalFormat" %>
+<%@ page import="com.semi.mypage.model.vo.ReviewTrade" %>
 <%@ include file="/views/common/header.jsp"%>
 <%@ include file="/views/mypage/myPageCategory.jsp" %>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/mypage/buyList.css" />
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/page.css" />
 <%
 	List<ProductList> product = (List)request.getAttribute("buyProduct");
-/* 	String userId = (String)request.getAttribute("userId");
- */%>
+	List<ReviewTrade> reviews = (List)request.getAttribute("reviews");
+%>
 <!-- 오른쪽 구매내역 section -->
     <div class="mypageMain">
       <!-- 구매내역 헤더 div -->
@@ -26,7 +27,7 @@
              for(ProductList p : product){
         %>
         <div class="product">
-          <a href=""><img src="" alt=""></a>
+          <a href=""><img src="<%=request.getContextPath() %>/upload/productRegist/<%=p.getProductfile().getImageName() %>" alt=""></a>
           <div class="proContent">
             <h5 class="grayFont"><a href="" class="aTag grayFont"><%=p.getCategory().getCategoryName() %></a> &rsaquo; <a href=""
                 class="aTag grayFont"><%=p.getProduct().getSubCategory() %></a></h5>
@@ -35,7 +36,7 @@
           </div>
           <div class="buyDate">
             <p><%=new SimpleDateFormat("yyyy.MM.dd").format(new Date(p.getTrade().getSellDate().getTime())) %></p>
-          	<button class="reviewBtn delMem openBtn">후기 남기기</button>
+          	<button id="<%=p.getProduct().getProductId() %>" class="reviewBtn delMem openBtn <%=p.getReview().getReviewId()!=0?"hasReview":""%>" <%=p.getReview().getReviewId()!=0?"disabled":""%>>후기 남기기</button>
           </div>
         </div>
         <hr color="#eeeeee" noshade style="margin-top: 23px; margin-bottom: 23px;" />
@@ -88,7 +89,7 @@
 		                            </path>
 		                        </svg>
 		                    </label>
-		                    <p>보통예요.</p>
+		                    <p>보통이에요.</p>
 		                </div>
 		                <div class="btnSpanDiv">
 		                    <label for="super-sad" class="lb">

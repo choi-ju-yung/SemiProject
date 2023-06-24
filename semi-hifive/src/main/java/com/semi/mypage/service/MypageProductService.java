@@ -11,6 +11,7 @@ import java.util.List;
 import com.semi.mypage.dao.MypageProductDao;
 import com.semi.mypage.model.vo.MemberWishList;
 import com.semi.mypage.model.vo.ProductList;
+import com.semi.mypage.model.vo.ReviewTrade;
 
 public class MypageProductService {
 	private MypageProductDao dao = new MypageProductDao();
@@ -122,4 +123,54 @@ public class MypageProductService {
 		close(conn);
 		return mw;
 	}
+	
+	// 판매자 온도 수정
+	public int sellerScore(String productId, double reviewScore) {
+		Connection conn = getConnection();
+		int result = dao.sellerScore(conn, productId, reviewScore);
+		if(result>0) commit(conn);
+		else rollback(conn);
+		close(conn);
+		return result;
+	}
+	
+	// 거래후기 저장
+	public int insertReview(String productId, double reviewScore, String reviewMsg) {
+		Connection conn = getConnection();
+		int result = dao.insertReview(conn, productId, reviewScore, reviewMsg);
+		if(result>0) commit(conn);
+		else rollback(conn);
+		close(conn);
+		return result;
+	}
+	
+	// 거래후기 조회
+	public List<ReviewTrade> selectReview(String buyerId) {
+		Connection conn = getConnection();
+		List<ReviewTrade> productId = dao.selectReview(conn, buyerId);
+		close(conn);
+		return productId;
+	}
+	
+	// 찜목록 삭제
+	public int deleteWishList(String userId, String productId) {
+		Connection conn = getConnection();
+		int result = dao.deleteWishList(conn, userId, productId);
+		if(result>0) commit(conn);
+		else rollback(conn);
+		close(conn);
+		return result;
+	}
+	
+	// 찜목록 추가
+	public int insertWishList(String userId, String productId) {
+		Connection conn = getConnection();
+		int result = dao.insertWishList(conn, userId, productId);
+		if(result>0) commit(conn);
+		else rollback(conn);
+		close(conn);
+		return result;
+	}
+	
+	
 }
