@@ -268,7 +268,7 @@ function sample6_execDaumPostcode() {
 			document.getElementById('sample6_postcode').value = data.zonecode;
 			document.getElementById("sample6_address").value = addr;
 			// 커서를 상세주소 필드로 이동한다.
-			document.getElementById("sample6_detailAddress").focus();
+			document.getElementById("sample6_address").focus();
 		}
 	}).open();
 }
@@ -279,7 +279,7 @@ const spanPlace = $("#spanPlace");
 /*		spanPlace.text("지역을 반드시 선택해주세요").css("color","red");
 		checkProductRegist.productPlace=false;
 /*const placeLen = document.getElementById("sample6_address");*/
-   $(function() {
+/*   $(function() {
 		if(placeValue.value.length == 0){
 			spanPlace.text("지역을 반드시 선택해주세요").css("color","red");
 			checkProductRegist.productPlace=false;
@@ -287,14 +287,12 @@ const spanPlace = $("#spanPlace");
 			spanPlace.text("○").css("color","green");
 			checkProductRegist.productPlace=true;
 		}
-   });
+   });*/
 
-
-
-/*priceValue.addEventListener("load", function() {
+placeValue.addEventListener("input", function() {
 		spanPlace.text("○").css("color","green");
 		checkProductRegist.productPlace=true;
-});*/
+});
 
 
 

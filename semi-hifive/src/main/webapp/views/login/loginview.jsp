@@ -15,9 +15,9 @@
 				method="post" onsubmit="return fn_validation()"> 
 			<h2>로그인</h2>
 			<ul>
-				<li><input type="text" id="loginUserId" name="userId" placeholder="아이디" title="아이디입력"></li>
+				<li><input type="text" id="loginUserId" name="userId" placeholder="아이디" title="아이디입력" value="<%=saveId != null ? saveId : ""%>"></li>
 				<li><input type="password" name="password" placeholder="비밀번호" title="비밀번호입력"></li>
-				<li><input type="checkbox" id="saveId" <%=saveId!=null?"checked":""%>>
+				<li><input type="checkbox" name="saveId" id="saveId" <%=saveId!=null?"checked":""%>>
 				<label for="saveId">아이디 저장</label></li>
 				<!-- <li><input type="submit" value="로그인"></li> -->
 				<li><button>로그인</button></li>
