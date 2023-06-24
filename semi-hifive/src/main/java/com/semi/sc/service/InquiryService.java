@@ -1,6 +1,9 @@
 package com.semi.sc.service;
 
-import static com.semi.common.JDBCTemplate.*;
+import static com.semi.common.JDBCTemplate.close;
+import static com.semi.common.JDBCTemplate.commit;
+import static com.semi.common.JDBCTemplate.getConnection;
+import static com.semi.common.JDBCTemplate.rollback;
 
 import java.sql.Connection;
 import java.util.List;
@@ -58,6 +61,14 @@ public class InquiryService {
 		List<BoardComment> comments=dao.selectInquiryComment(conn, inquiryNo);
 		close(conn);
 		return comments;
+	}
+
+	public int insertComment(BoardComment bc) {
+		Connection conn=getConnection();
+		int result=dao.insertComment(conn, bc);
+		if(result>0) commit(conn);
+		else rollback(conn);
+		return result;
 	}
 
 }

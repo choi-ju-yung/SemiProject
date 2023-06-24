@@ -6,6 +6,7 @@
 <%
 	Inquiry q=(Inquiry)request.getAttribute("inquiry");
 	List<BoardComment> comments=(List)request.getAttribute("comments");
+	List<ServiceFile> files=(List<ServiceFile>)request.getAttribute("files");
 %>
 <section>
 <%@ include file="/views/service/serviceCategory.jsp" %>
@@ -26,13 +27,17 @@
                         <p><%=q.getInquiryDate() %></p>
                     </div>
                     <p><%=q.getInquiryContent() %></p>
-                    <% %>
-                    <img src="https://mblogthumb-phinf.pstatic.net/MjAyMjA2MTBfMjM3/MDAxNjU0ODM2MTEzODc5.rStmvGhTIUIZ_eshzIy-2Dv3hbMDgU5xMEgBe_8hxkEg.JLYYhiefyMgFUHAM0J3x5qlmGhxjaRgEBCVDWboxHKsg.PNG.papapapower/Desktop_Screenshot_2022.06.10_-_13.36.22.51.png?type=w800" alt="">
+                    <%if(files!=null){
+						for(ServiceFile sf:files){%>
+						<img src="<%=request.getContextPath() %>/upload/inquiry/<%=sf.getFilename() %>" width="800">
+						<%}
+                    }%>
                 </div>
                 <%if(loginMember.getAuth().equals("M")){ %>
                 <div class="commentWrite">
                     <textarea name="comment" id="" cols="120" rows="5" placeholder="관리자만 달 수 있습니다."></textarea>
                     <button class="commentBtn">댓글 작성</button>
+                    <input type="hidden" value="0" class="commentFK">
                 </div>
                 <%} %>
                 
@@ -143,7 +148,7 @@ $(document).on("click",".updateCommentData",e=>{
 $(document).on("click",".commentBtn",e=>{ //동적 태그에도 이벤트 부여
 	const comment=$(e.target).parent().find("textarea");
 	$.ajax({
-		url : "<%=request.getContextPath()%>/service/commentInsert.do",
+		url : "<%=request.getContextPath()%>/service/inquiryCommentInsert.do",
 		data : {
 			"writer" : "<%=loginMember != null ? loginMember.getUserId() : null%>",
 			"inquiryNo":<%=q.getInquiryNo()%>,
@@ -153,15 +158,18 @@ $(document).on("click",".commentBtn",e=>{ //동적 태그에도 이벤트 부여
 		type : "post",
 		success : function(result) {
 			if (result) {
-				alert("등록성공");
+				alert("댓글 등록됐습니다.");
+			}else{
+				alert("등록 실패했습니다.");
 			}
 			comment.val(''); //댓글 등록시 댓글 등록창 초기화
 			location.reload();
 		},
 		error : function() {
-			alert("등록 실패");
+			alert("등록 실패했습니다.");
 		}
 	});
 });
 </script>
+<script src="<%=request.getContextPath()%>/js/service/inquiryContent.js"></script>
 <%@ include file="/views/common/footer.jsp" %>

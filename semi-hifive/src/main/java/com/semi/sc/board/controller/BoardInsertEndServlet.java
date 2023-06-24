@@ -62,6 +62,7 @@ public class BoardInsertEndServlet extends HttpServlet {
 			String fileName = files.nextElement();
 			filesNames.add(mr.getFilesystemName(fileName));
 		}
+		
 		int result=new BoardService().insertBoard(b, filesNames);
 
 		response.setContentType("application/json;charset=utf-8");

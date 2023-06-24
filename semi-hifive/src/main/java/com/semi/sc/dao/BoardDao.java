@@ -92,7 +92,6 @@ public class BoardDao {
 			while(rs.next()) {
 				boardList.add(getBoard(rs));
 			}
-			System.out.println(boardList);
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}finally {

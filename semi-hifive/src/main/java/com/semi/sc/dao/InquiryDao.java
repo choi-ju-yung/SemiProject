@@ -198,6 +198,25 @@ public class InquiryDao {
 		}
 		return comments;
 	}
+
+	public int insertComment(Connection conn, BoardComment bc) {
+		PreparedStatement pstmt=null;
+		int result=0;
+		String query=sql.getProperty("insertComment");
+		try {
+			query=query.replaceAll("#FK", bc.getCommentNoFK()==0?"null":String.valueOf(bc.getCommentNoFK()));
+			pstmt=conn.prepareStatement(query);
+			pstmt.setString(1, bc.getCommentWriter());
+			pstmt.setInt(2, bc.getBoardNo());
+			pstmt.setString(3, bc.getCommentContent());
+			result=pstmt.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return result;
+	}
 	
 	
 	

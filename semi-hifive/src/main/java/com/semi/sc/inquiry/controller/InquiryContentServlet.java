@@ -31,7 +31,6 @@ public class InquiryContentServlet extends HttpServlet {
 		
 		HttpSession session = ((HttpServletRequest)request).getSession();
 		Member loginMember = (Member)session.getAttribute("loginMember");
-		System.out.println(loginMember.getAuth()+","+loginMember.getNickName());
 		int inquiryNo=Integer.parseInt(request.getParameter("no"));
 		Inquiry q=new InquiryService().selectInquiryContent(inquiryNo);
 		

@@ -20,10 +20,10 @@ import com.semi.member.model.vo.Member;
 @WebFilter(urlPatterns = {
 		"/service/boardInsert.do","/service/boardInsertEnd.do"
 })
-public class AdminAuthCheckFilter extends HttpFilter implements Filter {
+public class AdminAuthCheck extends HttpFilter implements Filter {
        
     
-    public AdminAuthCheckFilter() {
+    public AdminAuthCheck() {
         super();
         // TODO Auto-generated constructor stub
     }
