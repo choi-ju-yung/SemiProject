@@ -105,7 +105,7 @@
 		            </div>
 		            <input type="text" placeholder="후기메세지를 작성해주세요.(최대 30자)" class="inputCss reviewMsg">
 		            <div class="submitBtn">
-		                <button id="<%=p.getProduct().getProductId() %>" class="okBtn">확인</button>
+		                <button class="okBtn">확인</button>
 		                <button class="noBtn closeBtn">취소</button>
 		            </div>
 		    </div>

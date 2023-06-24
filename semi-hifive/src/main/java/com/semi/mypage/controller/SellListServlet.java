@@ -74,7 +74,6 @@ public class SellListServlet extends HttpServlet {
 					+ "&userId=" + userId + "'>&gt;&gt;</a></li>";
 		}
 		request.setAttribute("pageBar", pageBar);
-
 		
 		// 판매목록 가져오기
 		List<ProductList> p = new MypageProductService().selectSellListByUserId(cPage, numPerpage, userId);

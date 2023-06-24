@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.util.List;
 
 import com.semi.mypage.dao.MypageProductDao;
+import com.semi.mypage.model.vo.MemberComment;
 import com.semi.mypage.model.vo.MemberWishList;
 import com.semi.mypage.model.vo.ProductList;
 import com.semi.mypage.model.vo.ReviewTrade;
@@ -125,9 +126,9 @@ public class MypageProductService {
 	}
 	
 	// 판매자 온도 수정
-	public int sellerScore(String productId, double reviewScore) {
+	public int sellerScore(String productId, double changeTem) {
 		Connection conn = getConnection();
-		int result = dao.sellerScore(conn, productId, reviewScore);
+		int result = dao.sellerScore(conn, productId, changeTem);
 		if(result>0) commit(conn);
 		else rollback(conn);
 		close(conn);
@@ -172,5 +173,20 @@ public class MypageProductService {
 		return result;
 	}
 	
+	// 판매자 현재 온도 조회
+	public double nowTemperature(String productId) {
+		Connection conn = getConnection();
+		double tem = dao.nowTemperature(conn, productId);
+		close(conn);
+		return tem;
+	}
+	
+	// 댓글 리스트 가져오기
+	public List<MemberComment> commentList(String productId){
+		Connection conn = getConnection();
+		List<MemberComment> mc = dao.commentList(conn, productId);
+		close(conn);
+		return mc;
+	}
 	
 }
