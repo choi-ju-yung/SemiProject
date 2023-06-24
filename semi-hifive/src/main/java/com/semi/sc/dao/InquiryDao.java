@@ -39,7 +39,7 @@ public class InquiryDao {
 				.build();
 	}
 	
-	//board file 반환 메소드
+	//file 반환 메소드
 	public static ServiceFile getFile(ResultSet rs) throws SQLException {
 		return ServiceFile.builder()
 				.contentNo(rs.getInt("inquiry_no"))
@@ -47,7 +47,7 @@ public class InquiryDao {
 				.fileNo(rs.getInt("file_no")).build();
 	}
 	
-	// board comment 반환 메소드
+	//comment 반환 메소드
 	public static BoardComment getComment(ResultSet rs) throws SQLException {
 		return BoardComment.builder()
 				.commentNo(rs.getInt("inquiry_comment_no"))

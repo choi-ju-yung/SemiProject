@@ -45,6 +45,7 @@ public class AdminAuthCheck extends HttpFilter implements Filter {
 			request.setAttribute("msg", "접근 권한이 없습니다.");
 			request.setAttribute("loc", "/");
 			request.getRequestDispatcher("/views/common/msg.jsp").forward(request, response);
+			return;
 		} else {
 			
 		}

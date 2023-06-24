@@ -1,8 +1,8 @@
+=\=\=\=\=\=\=
+<<<<<<<=HEAD
+>>>>>>>=branch 'KCE' of https\://github.com/choi-ju-yung/SemiProject.git
 eclipse.preferences.version=1
 encoding//src/main/webapp/index.jsp=UTF-8
 encoding//src/main/webapp/views/common/footer.jsp=UTF-8
-<<<<<<< HEAD
-=======
 encoding//src/main/webapp/views/productpage/ProductPage.jsp=UTF-8
->>>>>>> branch 'KCE' of https://github.com/choi-ju-yung/SemiProject.git
 encoding/<project>=UTF-8

@@ -21,7 +21,8 @@ import com.semi.member.model.vo.Member;
  */
 @WebFilter(urlPatterns = {
 		"/service/inquiryInsert.do","/service/commentInsert.do","/service/boardInsert.do"
-		,"/service/inquiryContent.do","/service/commentDelete.do","/service/commentUpdate.do","/productRegist.do"
+		,"/service/reportList.do","/service/inquiryContent.do","/service/commentDelete.do"
+		,"/service/commentUpdate.do","/productRegist.do"
 
 })
 public class LoginCheckFillter extends HttpFilter implements Filter {
@@ -53,6 +54,7 @@ public class LoginCheckFillter extends HttpFilter implements Filter {
 			request.setAttribute("msg", "로그인 후 사용하세요.");
 			request.setAttribute("loc", "/loginView.do");
 			request.getRequestDispatcher("/views/common/msg.jsp").forward(request, response);
+			return;
 		} else {
 			
 		}

@@ -23,6 +23,7 @@
         <input class="form-control" type="file" id="formFileMultiple" multiple>
         <span id="contentTextNum">0/1000</span>
       </div>
+      <div id="fileList"></div>
       
       <div class="contentPrivate">
         <ion-icon name="lock-closed-outline"></ion-icon>
