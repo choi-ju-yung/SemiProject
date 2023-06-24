@@ -48,7 +48,7 @@
                 <div class="buttonNcategory">
                     <div class="updateDelete">
                         <button>수정</button>
-                        <button class="delMem openBtn" id="popup_open_btn">삭제</button>
+                        <button class="delMem openBtn" id="<%=p.getProduct().getProductId() %>">삭제</button>
                     </div>
                     <div class="selectNow">
                         <select class="<%=p.getProduct().getSellStatus().equals("판매중")?"selectIng":p.getProduct().getSellStatus().equals("예약중")?"selectRes":"selectSol"%> selectStatus">
