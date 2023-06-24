@@ -62,13 +62,13 @@ public class ProductCategoryListService {
 			return selectcategory;
 	}
 	//where 절 or 로 묶인메소드
-	public List<ProductCategoryTimeList> GetProductCondition(List<String> conditions, int cPage, int numPerpage) {
+	public List<ProductCategoryTimeList> GetProductCondition(String conditions, int cPage, int numPerpage) {
 		Connection conn = getConnection();
 		List<ProductCategoryTimeList> selectgetproduct = dao.GetProductCondition(conn, cPage, numPerpage, conditions);
 		close(conn);
 		return selectgetproduct;
 	}
-	public int GetProductConditionCount(List<String> conditions) {
+	public int GetProductConditionCount(String conditions) {
 		Connection conn = getConnection();
 		int result = dao.GetProductConditionCount(conn,conditions);
 		close(conn);

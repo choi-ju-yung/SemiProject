@@ -332,7 +332,7 @@ $("document").ready(function () {
 
   // 시/도 선택시 구/군 설정
 
-  $("select[name^=sido]").change(function () {
+  $("select[name^=sido]").off("change").on("change",function () {
     var area =
       "area" + $("option", $(this)).index($("option:selected", $(this))); // 선택지역의 구군 Array
     var $gugun = $(this).next(); // 선택영역 군구 객체
@@ -346,7 +346,14 @@ $("document").ready(function () {
     }
   });
 });
-
+$(document).ready(function() {
+	$("#categoryFunction span").click(function() {
+	// 클릭한 span 태그에 active 클래스 추가
+	  $(this).addClass("active");
+	// 다른 span 태그에서 active 클래스 제거
+	$("#categoryFunction span").not(this).removeClass("active");
+	});
+});
 // 시세 차트 설정
 // 먼저 범례부분에 담을 div를 가져옴
 /* window.onload = function () {

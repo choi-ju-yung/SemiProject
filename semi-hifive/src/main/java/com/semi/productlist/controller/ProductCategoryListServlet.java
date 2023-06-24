@@ -72,6 +72,7 @@ public class ProductCategoryListServlet extends HttpServlet {
 				} else {
 					pageBar += "<li><a href='javascript:void(0);'onclick='changePage("+ pageNo + ");'&numPerpage=" + numPerpage + "'>&gt;</a></li>";
 				}
+				request.setAttribute("totalData", totalData);
 				request.setAttribute("pageBar", pageBar);
 				
 		

@@ -172,10 +172,14 @@ width: 15px;
 #categoryFunction span {
   margin-right: 8px;
   color: #afafaf;
+  cursor: pointer;
 }
 #categoryFunction span:hover {
   color: #20c997;
-  cursor: pointer;
+  font-weight: bold;
+} 
+#categoryFunction span.active{
+  color: #20c997;
   font-weight: bold;
 }
 #productImgContainer {

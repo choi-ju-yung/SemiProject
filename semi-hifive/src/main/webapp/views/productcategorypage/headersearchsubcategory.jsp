@@ -573,7 +573,7 @@
            	//필터에 넣어주기
 			// 카테고리 클릭 이벤트 처리
 			
-			$(document).on(function() {
+			$(document).ready(function() {
    				 var maxFilters = 2; // 최대 필터 개수
     			 var currentFilters = 0; // 현재 필터 개수
     		$('.pdcCategory span').on('click', function() {

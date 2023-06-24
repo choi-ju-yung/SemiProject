@@ -1,22 +1,22 @@
+<%@page import="com.semi.category.model.vo.CategorySubCategory"%>
 <%@page import="com.semi.productlist.model.vo.ProductCategoryTimeList"%>
+<%@page import="com.semi.category.model.vo.Category"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
 	List<ProductCategoryTimeList> gd = (List)request.getAttribute("getselectproduct"); 
 %> 
+<%-- <%
+	Category cn = (Category)request.getAttribute("category");
+%>
+<%
+	CategorySubCategory sub = (CategorySubCategory)request.getAttribute("subcategory");
+%> --%>
 
-
-
-<%for(ProductCategoryTimeList p : gd){ %>
-<div>
-<%=p.getProductCategoryList().getAreaName()%>
-</div>
-    
-<%} %>    
-<%-- <div id="selectCategory">
+ <div id="selectCategory">
             <div id="categoryName">
-            	<h4><%=cn.getCategoryName()%><span>   <%=request.getAttribute("totalData")%></span></h4>
+            	<h4><span>   <%=request.getAttribute("totalData")%></span></h4>
             </div>
             <div id="categoryFunction">
               <span>최신순</span>
@@ -26,7 +26,7 @@
             </div>
           </div>
 		<div id="productImgContainer">
-		<%for(ProductCategoryTimeList p : cpd){%>
+		<%for(ProductCategoryTimeList p : gd){%>
             <div id="pimgWraper" onclick="location.href='<%=request.getContextPath()%>/productpage?no=<%=p.getProductCategoryList().getProductId()%>';">
               <div class="con-like">
                 <input title="like" type="checkbox" class="like" />
@@ -101,5 +101,4 @@
 	        </ul>
 	   	</div>	
 	    
-    <script src="<%=request.getContextPath()%>/js/productsearchchartpage/test.js"></script>/body>
-</html> --%>
+    <script src="<%=request.getContextPath()%>/js/productsearchchartpage/test.js"></script>

@@ -198,18 +198,20 @@ public class ProductCategoryListDao {
 				close(pstmt);
 			}return result;
 		}
-		public List<ProductCategoryTimeList> GetProductCondition(Connection conn, int cPage, int numPerpage, List<String> conditions) {
+		public List<ProductCategoryTimeList> GetProductCondition(Connection conn, int cPage, int numPerpage, String conditions) {
 			PreparedStatement pstmt = null;
 		    ResultSet rs = null;
 		    List<ProductCategoryTimeList> selectgetproduct = new ArrayList<>();
 		    
+		    String query=sql.getProperty("GetProductCondition").replace("#CONDITIONS#", conditions);
 		    try {
-				String conditionStr = String.join(" OR ", conditions);
-				pstmt = conn.prepareStatement(sql.getProperty("GetProductCondition"));
-				sql.replace("{CONDITIONS}", conditionStr);
-				pstmt.setInt(10, (cPage-1) * numPerpage + 1);
-				pstmt.setInt(11, cPage * numPerpage);
+				pstmt = conn.prepareStatement(query);
+				
+				pstmt.setInt(1, (cPage-1) * numPerpage + 1);
+				pstmt.setInt(2, cPage * numPerpage);
+				
 				rs = pstmt.executeQuery();
+				
 				while(rs.next()) {
 					selectgetproduct.add(getProduct(rs));
 				}
@@ -221,15 +223,12 @@ public class ProductCategoryListDao {
 				close(pstmt);
 			}return selectgetproduct;
 		}
-		public int GetProductConditionCount(Connection conn, List<String> conditions ) {
+		public int GetProductConditionCount(Connection conn, String conditions ) {
 			PreparedStatement pstmt = null;
 			ResultSet rs = null;
 			int result = 0;
 			try {
-				String sqlQuery = sql.getProperty("GetProductConditionCount")/*.replaceAll("\\{CONDITIONS\\}", String.join(" OR ", conditions)*/);
-				String conditionStr = String.join(" OR ", conditions);
-				sql.replace("{CONDITIONS}", conditionStr);
-		        pstmt.setArray(1, conditions.toArray());
+				pstmt = conn.prepareStatement(sql.getProperty("GetProductConditionCount").replace("#CONDITIONS#", conditions));
 				rs = pstmt.executeQuery();
 				if(rs.next()){
 					result = rs.getInt(1);
