@@ -22,14 +22,8 @@ public class InquiryInsertServlet extends HttpServlet {
 
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session=request.getSession();
-		String loginId=null;
-		if(session!=null) {
-			Member loginMember=(Member)session.getAttribute("loginMember");
-			loginId=loginMember.getUserId();
-		}
-		request.setAttribute("loginId", loginId);
-		request.getRequestDispatcher("/views/service/InquiryInsert.jsp").forward(request, response);
+		
+		request.getRequestDispatcher("/views/service/inquiryInsert.jsp").forward(request, response);
 	}
 
 	

@@ -16,9 +16,11 @@ import com.semi.category.model.vo.Category;
 import com.semi.member.model.vo.Member;
 import com.semi.product.model.vo.Product;
 import com.semi.product.model.vo.ProductComment;
+import com.semi.product.model.vo.ProductFile;
 import com.semi.productpage.model.vo.AjaxProductComment;
 import com.semi.productpage.model.vo.ProductCategory;
 import com.semi.productpage.model.vo.ProductCommentUser;
+import com.semi.productpage.model.vo.ProductUser;
 
 public class ProductDao {
 
@@ -31,6 +33,20 @@ public class ProductDao {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public int updateViewCount(Connection conn,int no) {
+		PreparedStatement pstmt=null;
+		int result=0;
+		try {
+			pstmt=conn.prepareStatement(sql.getProperty("updateViewCount"));
+			pstmt.setInt(1, no);
+			result=pstmt.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}return result;
 	}
 
 	public ProductCategory selectProduct(Connection conn, int id) {
@@ -54,7 +70,47 @@ public class ProductDao {
 		}
 		return p;
 	}
-
+	
+	public List<ProductFile> selectProductFile(Connection conn, int id) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<ProductFile> list = new ArrayList();
+		try {
+			pstmt = conn.prepareStatement(sql.getProperty("selectProductFile"));
+			pstmt.setInt(1, id);
+			rs = pstmt.executeQuery();
+			while (rs.next())
+				list.add(getProductFile(rs));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rs);
+			close(pstmt);
+		}
+		return list;
+	}
+	
+	public List<ProductUser> selectProductUser(Connection conn, int id) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<ProductUser> list = new ArrayList();
+		try {
+			pstmt = conn.prepareStatement(sql.getProperty("selectProductUser"));
+			pstmt.setInt(1, id);
+			pstmt.setInt(2, id);
+			pstmt.setInt(3, id);
+			rs = pstmt.executeQuery();
+			while (rs.next())
+				list.add(getProductUser(rs));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rs);
+			close(pstmt);
+		}
+		return list;
+	}
+	
 	public List<ProductCommentUser> selectAllProductComment(Connection conn, int id) {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -192,17 +248,7 @@ public class ProductDao {
 		return result;
 	}
 
-	/*
-	 * private Product getProduct(ResultSet rs) throws SQLException { return
-	 * Product.builder() .productId(rs.getInt("product_id"))
-	 * .userId(rs.getString("user_id")) .title(rs.getString("product_title"))
-	 * .productStatus(rs.getString("product_status"))
-	 * .sellStatus(rs.getString("sell_status")) .price(rs.getInt("price"))
-	 * .registTime(rs.getDate("regist_time")) .viewCount(rs.getInt("view_count"))
-	 * .explanation(rs.getString("explanation")) .keyword(rs.getString("keyword"))
-	 * .subCategoryName(rs.getString("subcategory_name"))
-	 * .areaName(rs.getString("area_name")) .build(); }
-	 */
+
 	private ProductCategory getProductCategory(ResultSet rs) throws SQLException {
 		return ProductCategory.builder()
 				.product(Product.builder()				
@@ -224,18 +270,44 @@ public class ProductDao {
 						.build())
 				.build();
 	}
-
-	private ProductComment getProductComment(ResultSet rs) throws SQLException {
-		return ProductComment.builder()
-				.userId(rs.getString("user_id"))
-				.productId(rs.getInt("product_id"))
-				.commentNo(rs.getInt("product_comment_no"))
-				.commentLevel(rs.getInt("product_comment_level"))
-				.content(rs.getString("product_comment_content"))
-				.commentRef(rs.getInt("product_comment_ref"))
-				.enrollDate(rs.getDate("product_comment_date"))
+	
+	private ProductFile getProductFile(ResultSet rs) throws SQLException {
+		return ProductFile.builder()								
+						.productId(rs.getInt("product_id"))
+						.imageName(rs.getString("product_image_name"))
+						.mainImageYn(rs.getString("main_image_yn").charAt(0))
+						.build();
+				
+	}
+		
+	private ProductUser getProductUser(ResultSet rs) throws SQLException {
+		return ProductUser.builder()
+				.product(Product.builder()				
+						.productId(rs.getInt("product_id"))
+						.userId(rs.getString("user_id"))
+						.title(rs.getString("product_title"))
+						.productStatus(rs.getString("product_status"))
+						.sellStatus(rs.getString("sell_status"))
+						.price(rs.getInt("price"))
+						.registTime(rs.getDate("regist_time"))
+						.viewCount(rs.getInt("view_count"))
+						.explanation(rs.getString("explanation"))
+						.keyword(rs.getString("keyword"))
+						.subCategoryName(rs.getString("subcategory_name"))
+						.areaName(rs.getString("area_name"))
+						.build())
+				.member(Member.builder()
+						.nickName(rs.getString("nickname"))
+						.profileImg(rs.getString("profile_img"))
+						.temperature(rs.getDouble("temperature"))
+						.build())
+				.file(ProductFile.builder()
+						.imageName(rs.getString("product_image_name"))
+						.build())
+				.count(rs.getInt("count"))
 				.build();
 	}
+
 		
 	private ProductCommentUser getProductCommentUser(ResultSet rs) throws SQLException {
 		return ProductCommentUser.builder()

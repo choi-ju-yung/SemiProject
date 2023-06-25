@@ -141,7 +141,7 @@ section {
 }
 
 .productAll {
-	margin-bottom: 18px;
+	margin-bottom: 60px;
 }
 
 .product {
@@ -217,7 +217,7 @@ section {
 .container {
 	/* display: flex; */
 	position: relative;
-	bottom: 289px;
+	bottom: 293px;
 	left: 252px;
 	cursor: pointer;
 	font-size: 20px;
@@ -273,3 +273,4 @@ section {
             100% {
                 transform: scale(1);
             }
+}

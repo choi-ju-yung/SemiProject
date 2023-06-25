@@ -1,9 +1,8 @@
 package com.semi.productpage.model.vo;
 
 import com.semi.category.model.vo.Category;
-import com.semi.member.model.vo.Member;
 import com.semi.product.model.vo.Product;
-import com.semi.product.model.vo.ProductComment;
+import com.semi.product.model.vo.ProductFile;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

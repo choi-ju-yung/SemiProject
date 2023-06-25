@@ -34,7 +34,7 @@
                         	for(ProductList p : product){
         %>
             <div class="product">
-                <a href=""><img src="<%=request.getContextPath() %>/img/구매목록img/예시 이미지.jpg" alt=""></a>
+                <a href=""><img src="<%=request.getContextPath() %>/upload/productRegist/<%=p.getProductfile().getImageName() %>" alt=""></a>
                 <div class="proContent">
                     <h5 class="grayFont"><a href="" class="aTag grayFont categoryA"><%=p.getCategory().getCategoryName() %></a> &rsaquo; <a href=""
                             class="aTag grayFont"><%=p.getProduct().getSubCategoryName() %></a></h5>
@@ -48,7 +48,7 @@
                 <div class="buttonNcategory">
                     <div class="updateDelete">
                         <button>수정</button>
-                        <button class="delMem openBtn" id="popup_open_btn">삭제</button>
+                        <button class="delMem openBtn" id="<%=p.getProduct().getProductId() %>">삭제</button>
                     </div>
                     <div class="selectNow">
                         <select class="<%=p.getProduct().getSellStatus().equals("판매중")?"selectIng":p.getProduct().getSellStatus().equals("예약중")?"selectRes":"selectSol"%> selectStatus">

@@ -3,10 +3,12 @@
 	pageEncoding="UTF-8"%>
 <%@ include file="/views/common/header.jsp"%>
 <%@ page
-	import="com.semi.product.model.vo.Product,com.semi.productpage.model.vo.ProductCategory,
-com.semi.productpage.model.vo.ProductCommentUser,java.util.List"%>
+	import="com.semi.product.model.vo.Product,com.semi.product.model.vo.ProductFile,com.semi.productpage.model.vo.ProductUser,com.semi.productpage.model.vo.ProductCategory,
+com.semi.productpage.model.vo.ProductCommentUser,java.util.List,java.text.DecimalFormat"%>
 <%
 ProductCategory p = (ProductCategory) request.getAttribute("product");
+List<ProductFile> files = (List) request.getAttribute("files");
+List<ProductUser> users = (List) request.getAttribute("users");
 List<ProductCommentUser> comments = (List) request.getAttribute("comments");
 %>
 <script>sessionStorage.setItem("commentCount",<%=comments.size()>0?comments.get(0).getCount():"0"%>);</script>
@@ -27,37 +29,35 @@ List<ProductCommentUser> comments = (List) request.getAttribute("comments");
 <section>
 	<div class="product">
 		<div id="carouselExampleIndicators" class="carousel slide">
+		
+		
 			<div class="carousel-indicators">
+			<%for(int i=0;i<files.size();i++) {%>
+				<%if(i==0) {%>
 				<button type="button" data-bs-target="#carouselExampleIndicators"
 					data-bs-slide-to="0" class="active" aria-current="true"
 					aria-label="Slide 1"></button>
+				<%}else{%>				
 				<button type="button" data-bs-target="#carouselExampleIndicators"
-					data-bs-slide-to="1" aria-label="Slide 2"></button>
-				<button type="button" data-bs-target="#carouselExampleIndicators"
-					data-bs-slide-to="2" aria-label="Slide 3"></button>
-				<button type="button" data-bs-target="#carouselExampleIndicators"
-					data-bs-slide-to="3" aria-label="Slide 4"></button>
+					data-bs-slide-to="<%=i%>" aria-label="Slide <%=i+1%>"></button>
+			<%} }%>		
 			</div>
 			<div class="carousel-inner">
+				<%for(ProductFile pf:files){
+				if(pf.getMainImageYn()=='Y'){ %>
 				<div class="carousel-item active">
-					<img src="<%=request.getContextPath()%>/images/productpage/아이폰.png"
+					<img src="<%=request.getContextPath()%>/upload/productregist/<%=pf.getImageName() %>"
 						class="d-block w-100" alt="..." />
 				</div>
+				<%}}				
+				for(ProductFile pf:files){ 
+				if(pf.getMainImageYn()!='Y'){%>
 				<div class="carousel-item">
 					<img
-						src="<%=request.getContextPath()%>/images/productpage/아이폰2.jpg"
+						src="<%=request.getContextPath()%>/upload/productregist/<%=pf.getImageName() %>"
 						class="d-block w-100" alt="..." />
 				</div>
-				<div class="carousel-item">
-					<img
-						src="<%=request.getContextPath()%>/images/productpage/아이폰3.png"
-						class="d-block w-100" alt="..." />
-				</div>
-				<div class="carousel-item">
-					<img
-						src="<%=request.getContextPath()%>/images/productpage/아이폰4.png"
-						class="d-block w-100" alt="..." />
-				</div>
+				<%}}%>
 			</div>
 			<button class="carousel-control-prev" type="button"
 				data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
@@ -91,9 +91,9 @@ List<ProductCommentUser> comments = (List) request.getAttribute("comments");
 			<div class="productIcon">
 				<div id="normalIcon">
 					<ion-icon name="heart"></ion-icon>
-					<b> <%=p.getProduct().getViewCount()%></b>
+					<b> 0</b>
 					<ion-icon name="eye"></ion-icon>
-					<b> 54</b>
+					<b> <%=p.getProduct().getViewCount()%></b>
 					<ion-icon name="time"></ion-icon>
 					<b> <%=p.getProduct().getRegistTime()%></b>
 				</div>
@@ -190,51 +190,39 @@ List<ProductCommentUser> comments = (List) request.getAttribute("comments");
 			<div class="shopProfile">
 				<div id="profile">
 					<a href=""><img
-						src="<%=request.getContextPath()%>/images/productpage/프로필.jpg"
+						src="<%=request.getContextPath()%>/upload/memberregist/<%=users.get(0).getMember().getProfileImg() %>"
 						alt="" /></a>
 				</div>
 				<div id="userInfo">
-					<a id="userName" href=""><p><%=p.getProduct().getUserId()%></p></a> <a
-						id="userProduct" href=""><p>상품 6</p></a>
+					<a id="userName" href=""><p><%=users.get(0).getMember().getNickName()%></p></a> <a
+						id="userProduct" href=""><p>상품 <%=users.get(0).getCount() %></p></a>
 				</div>
 				<div id="userManner">
 					<ion-icon name="thermometer-outline"></ion-icon>
-					<b>43℃</b>
+					<b><%=users.get(0).getMember().getTemperature() %>℃</b>
 				</div>
 			</div>
 			<div id="otherProduct">
 				<div id="opContent">
 					<p>
-						<%=p.getProduct().getUserId()%>님의 판매 상품 <strong style="color: #20c997">6</strong>
-					</p>s
+						<%=users.get(0).getMember().getNickName()%>님의 판매 상품 <strong style="color: #20c997"><%=users.get(0).getCount() %></strong>
+					</p>
 					<a href="">더보기 <ion-icon name="chevron-forward-sharp"></ion-icon>
 					</a>
 				</div>
 				<div id="opContainer">
+					<%for(int i=0;i<3;i++){ %>
 					<div class="opProduct">
 						<a href=""> <img
-							src="<%=request.getContextPath()%>/images/productpage/추가상품1.jpg"
-							alt="" />
-							<p class="opPrice">40,000원</p>
-							<p class="opName">(새제품)지방...</p>
+							src="<%=request.getContextPath()%>/upload/productregist/<%=users.get(i).getFile().getImageName() %>"
+							alt="" />							
+
+							<p class="opPrice"><%=String.valueOf(users.get(i).getProduct().getPrice()).replaceAll("\\B(?=(\\d{3})+(?!\\d))", ",")%>원</p>
+							<%String a=(users.get(i).getProduct().getTitle()).substring(0,6); String b="....."; %>
+							<p class="opName"><%= a+b %></p>
 						</a>
 					</div>
-					<div class="opProduct">
-						<a href=""> <img
-							src="<%=request.getContextPath()%>/images/productpage/추가상품2.jpg"
-							alt="" />
-							<p class="opPrice">12,345원</p>
-							<p class="opName">[개인]양식,...</p>
-						</a>
-					</div>
-					<div class="opProduct">
-						<a href=""> <img
-							src="<%=request.getContextPath()%>/images/productpage/추가상품3.jpg"
-							alt="" />
-							<p class="opPrice">12,345원</p>
-							<p class="opName">[가격내림]그...</p>
-						</a>
-					</div>
+					<%} %>
 				</div>
 			</div>
 		</div>

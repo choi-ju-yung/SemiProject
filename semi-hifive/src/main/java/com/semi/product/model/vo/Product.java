@@ -1,6 +1,8 @@
 package com.semi.product.model.vo;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,5 +26,6 @@ public class Product {
 	private String keyword;
 	private String areaName;
 	private String subCategoryName;
+	private List<ProductFile> files=new ArrayList();
 	
 }

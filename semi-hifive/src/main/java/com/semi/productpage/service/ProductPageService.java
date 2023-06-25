@@ -8,20 +8,46 @@ import static com.semi.common.JDBCTemplate.rollback;
 import java.sql.Connection;
 import java.util.List;
 
+import com.semi.product.model.vo.Product;
+import com.semi.product.model.vo.ProductFile;
 import com.semi.productpage.dao.ProductDao;
 import com.semi.productpage.model.vo.AjaxProductComment;
 import com.semi.productpage.model.vo.ProductCategory;
 import com.semi.productpage.model.vo.ProductCommentUser;
+import com.semi.productpage.model.vo.ProductUser;
+import com.semi.sc.model.dto.Board;
 
 public class ProductPageService {
 	
 	ProductDao dao=new ProductDao();
-	
-	public ProductCategory selectProduct(int id) {
+		
+	public ProductCategory selectProduct(int id,boolean isRead) {
 		Connection conn=getConnection();
-		ProductCategory result=dao.selectProduct(conn,id);
+		ProductCategory selectProduct=dao.selectProduct(conn,id);
+		if(selectProduct!=null&&!isRead) {
+			int result=dao.updateViewCount(conn,id);
+			if(result>0) {
+				commit(conn);
+				selectProduct.getProduct().setViewCount(selectProduct.getProduct().getViewCount()+1);
+			}
+			else rollback(conn);
+		}
 		close(conn);
-		return result;		
+		return selectProduct;		
+	}
+	
+	public List<ProductFile> selectProductFile(int id){
+		Connection conn=getConnection();
+		List<ProductFile> list=dao.selectProductFile(conn,id);
+		close(conn);
+		return list;
+	}
+	
+	public List<ProductUser> selectProductUser(int id){
+		Connection conn=getConnection();
+		List<ProductUser> list=dao.selectProductUser(conn,id);
+		close(conn);
+		return list;
 	}
 	
 	public List<ProductCommentUser> selectAllProductComment(int id){
@@ -78,5 +104,6 @@ public class ProductPageService {
 		close(conn);
 		return result;
 	}
+	
 
 }

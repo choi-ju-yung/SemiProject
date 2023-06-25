@@ -23,10 +23,11 @@
 		<div class="productAll">
 			<div class="product">
 				<div class="productImg">
-					<a href=""><img src="" alt=""></a>
-					<label class="container"> <input checked="checked" type="checkbox">
+					<a href=""><img src="<%=request.getContextPath() %>/upload/productRegist/<%=mw.getProductfile().getImageName() %>" alt=""></a>
+					<label class="container"> <input id="<%=mw.getProduct().getProductId() %>" class="wishCheck" checked="checked" type="checkbox">
 						<div class="checkmark">
-							<svg viewBox="0 0 256 256"><rect fill="none" height="256" width="256"></rect>
+							<svg viewBox="0 0 256 256">
+								<rect fill="none" height="256" width="256"></rect>
                                 <path d="M224.6,51.9a59.5,59.5,0,0,0-43-19.9,60.5,60.5,0,0,0-44,17.6L128,59.1l-7.5-7.4C97.2,28.3,59.2,26.3,35.9,47.4a59.9,59.9,0,0,0-2.3,87l83.1,83.1a15.9,15.9,0,0,0,22.6,0l81-81C243.7,113.2,245.6,75.2,224.6,51.9Z"
 									stroke-width="20px" stroke="#FFF" fill="none"></path>
                             </svg>
@@ -53,9 +54,10 @@
 				</div>
 			</div>
 		</div>
-		<%} %>
-	<!-- 	<hr color="#eeeeee" noshade style="margin-top: 16px; margin-bottom: 40px;" /> -->
-		<%} %>
+		<%}
+        } else { %>
+        <span>찜한 상품이 없습니다.</span>
+        <%} %>
 	</div>
 	<!-- 페이지 버튼 -->
 	    <div class="pageBar">

@@ -2,7 +2,6 @@
 	pageEncoding="UTF-8"%>
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/css/mypage/updatePassword.css" />
-<script src="<%=request.getContextPath()%>/js/jquery-3.7.0.min.js"></script>	
 <form action="<%=request.getContextPath()%>/mypage/updatePasswordEnd.do" method="post" onsubmit="return fn_pwdCheck();">
 	<div class="pwdUpdatefrm">
 		<h2 class="pwdTitle">비밀번호 변경</h2>

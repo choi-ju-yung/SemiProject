@@ -26,24 +26,26 @@ bg.forEach(e => {
 	e.addEventListener("click", close);
 })
 
-// 모달 삭제
-$(".modalDelBtn").click(e => {
+// 상품 삭제하기
+$(".openBtn").click(e => {
 	let productId = $(e.target)[0].id;
-
-	let form = $("<form>").attr("method", "post").attr("action", context + "mypage/deleteProduct.do");
-	let input = $("<input>").attr("type", "hidden").attr("name", "productId").val(productId);
-	let input2 = $("<input>").attr("type", "hidden").attr("name", "userId").val(userId);
-	form.append(input);
-	form.append(input2);
-	form.appendTo("body").submit();
-	form.submit();
-});
+	console.log(productId);
+	$(".modalDelBtn").click(e => {
+		let form = $("<form>").attr("method", "post").attr("action", context + "mypage/deleteProduct.do");
+		let input = $("<input>").attr("type", "hidden").attr("name", "productId").val(productId);
+		let input2 = $("<input>").attr("type", "hidden").attr("name", "userId").val(userId);
+		form.append(input);
+		form.append(input2);
+		form.appendTo("body").submit();
+		form.submit();
+	});
+})
 
 // 판매중, 예약중, 판매완료 데이터 변경 ajax
 $(".selectStatus").change(e => {
 
 	const selectValue = $(e.target).val();
-	console.log(userId);
+	console.log(selectValue);
 	/* i = 인덱스, v = $(e.target).children() 배열 */
 	/* option 3개 순회 */
 	/* 클라이언트가 선택한 value가 option value와 같다면 */
@@ -56,6 +58,17 @@ $(".selectStatus").change(e => {
 
 	let productId = $(e.target).children()[0].id;
 	let color = $(e.target).find('option:selected').data('color');
+
+	if (selectValue === 'soldOut') {
+		// 새 창 열기
+		var width = '450';
+		var height = '400';
+		// 팝업창 가운데
+		let left = Math.ceil((window.screen.width - width) / 2);
+		let top = Math.ceil((window.screen.height - height) / 2);
+
+		window.open(context + "mypage/buyerIdChoice.do?productId=" + productId, "_blank", 'width=' + width + ', height=' + height + ', left=' + left + ', top = ' + top);
+	}
 
 	$.ajax({
 		url: context + "mypage/ajaxSelect.do",
@@ -82,72 +95,3 @@ $(".selectStatus").change(e => {
 		}
 	});
 })
-
-
-// 판매상태별 상품 나타내기 ajax
-$("#allBtn").click(e => {
-	$.ajax({
-		url: context + "mypage/sellBtn.do",
-		data: {
-			"userId": userId,
-			"status": "전체"
-		},
-		success: (data) => {
-			$(e.target).attr({
-				class: "nowButton"
-			})
-		}
-	});
-});
-
-$("#sellBtn").click(e => {
-	$.ajax({
-		url: context + "mypage/sellBtn.do",
-		data: {
-			"userId": userId,
-			"status": "판매중"
-		},
-		success: (data) => {
-			$(e.target).attr({
-				class: "nowButton"
-			})
-			$("#allBtn").attr("class", "");
-			console.log(data);
-			/*for(let i = 0; i < data.length; i++){
-				$(".categoryA").text(data.subcategoryName);
-			}*/
-		}
-	});
-});
-
-$("#resBtn").click(e => {
-	$.ajax({
-		url: context + "mypage/sellBtn.do",
-		data: {
-			"userId": userId,
-			"status": "예약중"
-		},
-		success: (data) => {
-			$(e.target).attr({
-				class: "nowButton"
-			})
-			$("#allBtn").attr("class", "");
-		}
-	});
-});
-
-$("#solBtn").click(e => {
-	$.ajax({
-		url: context + "mypage/sellBtn.do",
-		data: {
-			"userId": userId,
-			"status": "판매완료"
-		},
-		success: (data) => {
-			$(e.target).attr({
-				class: "nowButton"
-			})
-			$("#allBtn").attr("class", "");
-		}
-	});
-});
