@@ -7,19 +7,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.semi.mypage.service.MypageMemberService;
 import com.semi.mypage.service.MypageProductService;
 
 /**
- * Servlet implementation class WishListInsertAjaxServlet
+ * Servlet implementation class SellListBuyerChoiceEndServlet
  */
-@WebServlet("/mypage/wishListInsert.do")
-public class WishListInsertAjaxServlet extends HttpServlet {
+@WebServlet("/mypage/sellListBuyerChoiceEnd.do")
+public class SellListBuyerChoiceEndServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public WishListInsertAjaxServlet() {
+    public SellListBuyerChoiceEndServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -28,10 +29,25 @@ public class WishListInsertAjaxServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String userId = request.getParameter("userId");
 		String productId = request.getParameter("productId");
+		String userId = request.getParameter("userId");
+		String buyerId = request.getParameter("buyerId");
 		
-		int result = new MypageProductService().insertWishList(userId, productId);
+		int result = new MypageProductService().insertTrade(productId, buyerId);
+		
+		String msg;
+		String loc = "/myPage/sellList.do?userId=" + userId;
+		if(result>0) {
+			msg = "거래가 완료되었습니다!";
+			request.setAttribute("script", "opener.location.replace('" + request.getContextPath() + "/myPage/sellList.do?userId=" + userId + "'); close();");
+		} else {
+			msg = "거래 실패했습니다.";
+			request.setAttribute("script", "opener.location.replace('" + request.getContextPath() + "/myPage/sellList.do?userId=" + userId + "'); close();");
+		}
+		
+		request.setAttribute("msg", msg);
+		request.setAttribute("loc", loc);
+		request.getRequestDispatcher("/views/common/msg.jsp").forward(request, response);
 	}
 
 	/**

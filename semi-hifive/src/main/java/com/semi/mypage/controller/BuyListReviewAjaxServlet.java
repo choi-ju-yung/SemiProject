@@ -64,7 +64,6 @@ public class BuyListReviewAjaxServlet extends HttpServlet {
 		}
 		changeTem = Math.round(changeTem * 1000.0) / 1000.0;
 
-		System.out.println(productId);
 		// 판매자 온도 수정
 		int scoreResult = new MypageProductService().sellerScore(productId, changeTem);
 		

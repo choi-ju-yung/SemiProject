@@ -9,6 +9,7 @@
 	int countStatusSell = (int)request.getAttribute("countStatusSell");
 	int countStatusRes = (int)request.getAttribute("countStatusRes");
 	int countStatusSol = (int)request.getAttribute("countStatusSol");
+	String status = (String)request.getAttribute("nowButton");
 %>
 <link rel="stylesheet" href="<%=request.getContextPath() %>/css/mypage/sellList.css" />
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/page.css" />
@@ -22,10 +23,10 @@
 
         <!-- 판매상태 아이콘 div -->
         <div class="buttonAll">
-            <button id="allBtn" class="nowButton">전체 <%=countAll%></button>
-            <button id="sellBtn">판매중 <%=countStatusSell%></button>
-            <button id="resBtn">예약중 <%=countStatusRes%></button>
-            <button id="solBtn">판매완료 <%=countStatusSol%></button>
+            <button id="allBtn" class="<%=status.equals("all")?"nowButton":""%>">전체 <%=countAll%></button>
+            <button id="sellBtn" class="<%=status.equals("sell")?"nowButton":""%>">판매중 <%=countStatusSell%></button>
+            <button id="resBtn" class="<%=status.equals("res")?"nowButton":""%>">예약중 <%=countStatusRes%></button>
+            <button id="solBtn" class="<%=status.equals("sol")?"nowButton":""%>">판매완료 <%=countStatusSol%></button>
         </div>
 
         <!-- 판매내역 목록 div -->

@@ -9,21 +9,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.gson.Gson;
 import com.semi.mypage.model.vo.ProductList;
 import com.semi.mypage.service.MypageProductService;
 
 /**
- * Servlet implementation class StatusAllAjaxServlet
+ * Servlet implementation class StatusResAjaxServlet
  */
-@WebServlet("/mypage/sellBtn.do")
-public class StatusSellAjaxServlet extends HttpServlet {
+@WebServlet("/mypage/resBtn.do")
+public class StatusResAjaxServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public StatusSellAjaxServlet() {
+	public StatusResAjaxServlet() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -35,7 +34,6 @@ public class StatusSellAjaxServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String userId = request.getParameter("userId");
-
 		// 판매상태 카운트(판매중, 예약중, 판매완료)
 		String selling = "판매중";
 		int countStatusSell = new MypageProductService().countSellStatusSell(userId, selling);
@@ -58,7 +56,7 @@ public class StatusSellAjaxServlet extends HttpServlet {
 		numPerpage = 5;
 
 		String pageBar = "";
-		int totalData = new MypageProductService().countSellStatusSell(userId, selling);
+		int totalData = new MypageProductService().countSellStatusSell(userId, reserve);
 		int totalPage = (int) Math.ceil((double) totalData / numPerpage);
 		int pageBarSize = 5;
 		int pageNo = ((cPage - 1) / pageBarSize) * pageBarSize + 1;
@@ -87,7 +85,7 @@ public class StatusSellAjaxServlet extends HttpServlet {
 		}
 		request.setAttribute("pageBar", pageBar);
 
-		List<ProductList> p = new MypageProductService().sellStatusSell(cPage, numPerpage, userId);
+		List<ProductList> p = new MypageProductService().resStatusSell(cPage, numPerpage, userId);
 		request.setAttribute("sellProduct", p);
 
 		// 판매상태 카운트(전체)
@@ -95,7 +93,7 @@ public class StatusSellAjaxServlet extends HttpServlet {
 		request.setAttribute("countAll", total);
 
 		// 버튼 클래스
-		request.setAttribute("nowButton", "sell");
+		request.setAttribute("nowButton", "res");
 
 		request.getRequestDispatcher("/views/mypage/sellList.jsp").forward(request, response);
 	}
