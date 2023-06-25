@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.semi.productpage.model.vo.Product;
-import com.semi.productpage.model.vo.ProductComment;
+import com.semi.productpage.model.vo.ProductCategory;
+import com.semi.productpage.model.vo.ProductCommentUser;
 import com.semi.productpage.service.ProductPageService;
 
 /**
@@ -36,8 +36,8 @@ public class ProductPageServlet extends HttpServlet {
 			throws ServletException, IOException {
 		// Product테이블 데이터 가져오기
 		int no = Integer.parseInt(request.getParameter("no"));
-		Product p = new ProductPageService().selectProduct(no);
-		List<ProductComment> comments = new ProductPageService().selectAllProductComment(no);
+		ProductCategory p = new ProductPageService().selectProduct(no);
+		List<ProductCommentUser> comments = new ProductPageService().selectAllProductComment(no);
 		
 		request.setAttribute("product", p);
 		request.setAttribute("comments", comments);

@@ -3,15 +3,15 @@
 	pageEncoding="UTF-8"%>
 <%@ include file="/views/common/header.jsp"%>
 <%@ page
-	import="com.semi.productpage.model.vo.Product,
-java.util.List,com.semi.productpage.model.vo.ProductComment"%>
+	import="com.semi.product.model.vo.Product,com.semi.productpage.model.vo.ProductCategory,
+com.semi.productpage.model.vo.ProductCommentUser,java.util.List"%>
 <%
-Product p = (Product) request.getAttribute("product");
-List<ProductComment> comments = (List) request.getAttribute("comments");
+ProductCategory p = (ProductCategory) request.getAttribute("product");
+List<ProductCommentUser> comments = (List) request.getAttribute("comments");
 %>
-<script>sessionStorage.setItem("commentCount",<%=comments.size()>0?comments.get(0).getCommentCount():"0"%>);</script>
+<script>sessionStorage.setItem("commentCount",<%=comments.size()>0?comments.get(0).getCount():"0"%>);</script>
 <script>
-	sessionStorage.setItem("userId",'<%=p!=null?p.getUserId():""%>');
+	sessionStorage.setItem("userId",'<%=p!=null?p.getProduct().getUserId():""%>');
 </script>
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
@@ -73,29 +73,29 @@ List<ProductComment> comments = (List) request.getAttribute("comments");
 
 		<div class="productInfo">
 			<input type="hidden" name="ajaxProductId"
-				value="<%=p.getProductId()%>">
+				value="<%=p.getProduct().getProductId()%>">
 			<div id="productCategory">
 				<a href="">홈</a>
 				<ion-icon name="chevron-forward-sharp"></ion-icon>
-				<a href=""> <%=p.getCategory()%></a>
+				<a href=""> <%=p.getCategory().getCategoryName()%></a>
 				<ion-icon name="chevron-forward-sharp"></ion-icon>
-				<a href=""> <%=p.getSubCategory()%></a>
+				<a href=""> <%=p.getProduct().getSubCategoryName()%></a>
 			</div>
 			<h2 id="productName">
-				<%=p.getTitle()%><span id="productStatus"><p><%=p.getSellStatus()%></p></span>
+				<%=p.getProduct().getTitle()%><span id="productStatus"><p><%=p.getProduct().getSellStatus()%></p></span>
 			</h2>
 
-			<h2 id="productPrice"><%=p.getPrice()%>원
+			<h2 id="productPrice"><%=p.getProduct().getPrice()%>원
 			</h2>
 			<hr width="695px" color="#eeeeee" noshade />
 			<div class="productIcon">
 				<div id="normalIcon">
 					<ion-icon name="heart"></ion-icon>
-					<b> <%=p.getViewCount()%></b>
+					<b> <%=p.getProduct().getViewCount()%></b>
 					<ion-icon name="eye"></ion-icon>
 					<b> 54</b>
 					<ion-icon name="time"></ion-icon>
-					<b> <%=p.getRegistTime()%></b>
+					<b> <%=p.getProduct().getRegistTime()%></b>
 				</div>
 				<div id="ban">
 					<a href=""><ion-icon name="ban"></ion-icon> <b> 신고하기</b> </a>
@@ -114,10 +114,10 @@ List<ProductComment> comments = (List) request.getAttribute("comments");
 						</td>
 						<td>
 							<ul class="productId">
-								<li><%=p.getStatus()%></li>
+								<li><%=p.getProduct().getProductStatus()%></li>
 								<li>가능</li>
 								<li style="color: #20c997">직거래</li>
-								<li><%=p.getAreaId()%></li>
+								<li><%=p.getProduct().getAreaName()%></li>
 							</ul>
 						</td>
 					</tr>
@@ -151,20 +151,20 @@ List<ProductComment> comments = (List) request.getAttribute("comments");
 			<h3>상품정보</h3>
 			<div id="explanation">
 				<pre>
-<%=p.getExplanation()%>
+		<%=p.getProduct().getExplanation()%>
             </pre>
 			</div>
 			<div id="introTag">
 				<div class="introBox">
 					<ion-icon name="map-sharp"></ion-icon>
 					<span>거래지역</span>
-					<p><%=p.getAreaId()%></p>
+					<p><%=p.getProduct().getAreaName()%></p>
 				</div>
 				<div class="introBox">
 					<ion-icon name="apps-sharp"></ion-icon>
 					<span>카테고리</span>
 					<p>
-						<a href=""><%=p.getSubCategory()%></a>
+						<a href=""><%=p.getProduct().getSubCategoryName()%></a>
 					</p>
 				</div>
 				<div class="introBox">
@@ -172,20 +172,15 @@ List<ProductComment> comments = (List) request.getAttribute("comments");
 					<span>상품태그</span> <br>
 					<p></p>
 					<div>
-						<%
-						if (p.getKeyword().length == 0) {
-						%>
-						<p>없음</p>
-						<%
-						} else {
-						for (int i = 0; i < p.getKeyword().length; i++) {
-						%>
-						<a href=""> <%=p.getKeyword()[i]%>
-						</a>
-						<%
-						}
-						}
-						%>
+					<%if(p.getProduct().getKeyword()!=null) {%>
+					<%String keywordArr[]=(p.getProduct().getKeyword()).split(","); 
+						for(int i=0;i<keywordArr.length;i++){%>
+					<a href="">
+						<%=keywordArr[i] %>
+					</a>						
+				<%}} else{ %>
+					<p>없음</p>			
+						<%} %>
 					</div>
 				</div>
 			</div>
@@ -199,7 +194,7 @@ List<ProductComment> comments = (List) request.getAttribute("comments");
 						alt="" /></a>
 				</div>
 				<div id="userInfo">
-					<a id="userName" href=""><p><%=p.getUserId()%></p></a> <a
+					<a id="userName" href=""><p><%=p.getProduct().getUserId()%></p></a> <a
 						id="userProduct" href=""><p>상품 6</p></a>
 				</div>
 				<div id="userManner">
@@ -210,8 +205,8 @@ List<ProductComment> comments = (List) request.getAttribute("comments");
 			<div id="otherProduct">
 				<div id="opContent">
 					<p>
-						<%=p.getUserId()%>님의 판매 상품 <strong style="color: #20c997">6</strong>
-					</p>
+						<%=p.getProduct().getUserId()%>님의 판매 상품 <strong style="color: #20c997">6</strong>
+					</p>s
 					<a href="">더보기 <ion-icon name="chevron-forward-sharp"></ion-icon>
 					</a>
 				</div>
@@ -245,8 +240,8 @@ List<ProductComment> comments = (List) request.getAttribute("comments");
 		</div>
 	</div>
 	<div id="comment">
-		<h4>댓글 
-		<span class="commentCount"><%=comments.size()>0?comments.get(0).getCommentCount():0 %></span>
+		<h4>
+			댓글 <span class="commentCount"><%=comments.size()>0?comments.get(0).getCount():0%></span>
 		</h4>
 		<%
 		if (loginMember != null) {
@@ -254,12 +249,11 @@ List<ProductComment> comments = (List) request.getAttribute("comments");
 		<form class="cmtForm">
 			<div class="textContainer">
 				<textarea id="cmtText" placeholder="댓글을 입력하세요" name="content"></textarea>
-				<input type="hidden" name="productId" value="<%=p.getProductId()%>">
-				<input type="hidden" name="userId"
-					value="<%=loginMember.getUserId()%>"> <input type="hidden"
-					name="level" value="1"> <input type="hidden"
-					name="nickName" value=<%=loginMember.getNickName()%>> <input
-					type="hidden" name="commentRef" value="0">
+				<input type="hidden" name="productId" value="<%=p.getProduct().getProductId()%>">
+				<input type="hidden" name="userId" value="<%=loginMember.getUserId()%>"> 
+				<input type="hidden"name="level" value="1">
+				 <input type="hidden"name="nickName" value="<%=loginMember.getNickName()%>">
+				 <input type="hidden" name="commentRef" value="0">
 				<div class="tcBtn">
 					<button type="button" class="cancelBtn">취소</button>
 					<button type="button" class="cmtBtn">등록</button>
@@ -268,37 +262,35 @@ List<ProductComment> comments = (List) request.getAttribute("comments");
 			<hr color="#eeeeee" noshade />
 		</form>
 		<%
-		}
+				}
 		%>
 		<hr>
 
 		<%
-		if (comments.size()>0) {
-			for (ProductComment pc : comments) {
-				if (pc.getCommentLevel() == 1) {
+				if (comments.size()>0) {
+			for (ProductCommentUser pc : comments) {
+				if (pc.getProductComment().getCommentLevel() == 1) {
 		%>
 		<div class="cmtContainer">
 			<div class="cmtProfile">
 				<a href=""> <img name="userProfile"
 					src="<%=request.getContextPath()%>/images/productpage/comment1.jpg"
 					alt="" />
-				</a> <input type="hidden" name="pUserId" value="<%=p.getUserId()%>">
-				<a href="" class="cmtUser" name="userId" id="tagName">
-					<%=pc.getNickName()%>
-					<% if (pc.getUserId().equals(p.getUserId())) {%>
-				<span id="rcmtWriter">작성자</span>
-				 <% }%>
+				</a> <input type="hidden" name="pUserId" value="<%=p.getProduct().getUserId()%>">
+				<a href="" class="cmtUser" name="userId" id="tagName"> <%=pc.getMember().getNickName()%>
+					<% if (pc.getProduct().getUserId().equals(p.getProduct().getUserId())) {%> <span
+					id="rcmtWriter">작성자</span> <% }%>
 				</a>
 			</div>
-			<p class="cmt" name="content"><%=pc.getContent()%>
+			<p class="cmt" name="content"><%=pc.getProductComment().getContent()%>
 			</p>
-			<span class="time" name="enrollDate"><%=pc.getEnrollDate()%></span>
+			<span class="time" name="enrollDate"><%=pc.getProductComment().getEnrollDate()%></span>
 			<%
 			if (loginMember != null) {
 			%>
-			<button class="writeCmt" value="<%=pc.getCommentNo()%>">답글쓰기</button>
+			<button class="writeCmt" value="<%=pc.getProductComment().getCommentNo()%>">답글쓰기</button>
 			<%
-			if (loginMember.getUserId().equals(pc.getUserId())) {
+			if (loginMember.getUserId().equals(pc.getProductComment().getUserId())) {
 			%>
 			<button class="changeCmt">수정하기</button>
 			<button class="deleteCmt">삭제하기</button>
@@ -309,8 +301,8 @@ List<ProductComment> comments = (List) request.getAttribute("comments");
 			<%
 			}
 			%>
-			<input type="hidden" name="commentNo" value=<%=pc.getCommentNo()%>>
-			<input type="hidden" name="commentRef2" value=<%=pc.getCommentRef()%>>
+			<input type="hidden" name="commentNo" value=<%=pc.getProductComment().getCommentNo()%>>
+			<input type="hidden" name="commentRef2" value=<%=pc.getProductComment().getCommentRef()%>>
 			<hr color="#eeeeee" noshade />
 		</div>
 		<%
@@ -322,20 +314,18 @@ List<ProductComment> comments = (List) request.getAttribute("comments");
 				<a href=""> <img
 					src="<%=request.getContextPath()%>/images/productpage/profile.jpg"
 					alt="" />
-				</a> <a href="" class="cmtUser"><%=pc.getNickName()%> 
-				<% if (pc.getUserId().equals(p.getUserId())) {%>
-				<span id="rcmtWriter">작성자</span>
-				 <% }%> </a>
+				</a> <a href="" class="cmtUser"><%=pc.getMember().getNickName()%> <% if (pc.getProductComment().getUserId().equals(p.getProduct().getUserId())) {%>
+					<span id="rcmtWriter">작성자</span> <% }%> </a>
 			</div>
 			<p class="cmtx" id="reTagName"></p>
-			<p class="cmt"><%=pc.getContent()%></p>
-			<span class="time"><%=pc.getEnrollDate()%></span>
+			<p class="cmt"><%=pc.getProductComment().getContent()%></p>
+			<span class="time"><%=pc.getProductComment().getEnrollDate()%></span>
 			<%
 			if (loginMember != null) {
 			%>
-			<button class="writeCmt" value="<%=pc.getCommentNo()%>">답글쓰기</button>
+			<button class="writeCmt" value="<%=pc.getProductComment().getCommentNo()%>">답글쓰기</button>
 			<%
-			if (loginMember.getUserId().equals(pc.getUserId())) {
+			if (loginMember.getUserId().equals(pc.getProductComment().getUserId())) {
 			%>
 			<button class="changeCmt">수정하기</button>
 			<button class="deleteCmt">삭제하기</button>
@@ -346,8 +336,8 @@ List<ProductComment> comments = (List) request.getAttribute("comments");
 			<%
 			}
 			%>
-			<input type="hidden" name="commentNo" value=<%=pc.getCommentNo()%>>
-			<input type="hidden" name="commentRef2" value=<%=pc.getCommentRef()%>>
+			<input type="hidden" name="commentNo" value=<%=pc.getProductComment().getCommentNo()%>>
+			<input type="hidden" name="commentRef2" value=<%=pc.getProductComment().getCommentRef()%>>
 			<hr color="#eeeeee" noshade />
 		</div>
 		<%

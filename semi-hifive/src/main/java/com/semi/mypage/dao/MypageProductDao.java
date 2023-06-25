@@ -19,7 +19,7 @@ import com.semi.mypage.model.vo.MemberWishList;
 import com.semi.mypage.model.vo.ProductList;
 import com.semi.mypage.model.vo.Trade;
 import com.semi.mypage.model.vo.WishList;
-import com.semi.productpage.model.vo.Product;
+import com.semi.product.model.vo.Product;
 
 public class MypageProductDao {
 	private Properties sql = new Properties();
@@ -298,12 +298,12 @@ public class MypageProductDao {
 						.productId(rs.getInt("product_Id"))
 						.userId(rs.getString("user_Id"))
 						.title(rs.getString("product_Title"))
-						.status(rs.getString("product_Status"))
+						.productStatus(rs.getString("product_Status"))
 						.sellStatus(rs.getString("sell_Status"))
 						.price(rs.getInt("price"))
 						.registTime(rs.getDate("regist_Time"))
 						.viewCount(rs.getInt("view_Count"))
-						.subCategory(rs.getString("subcategory_Name")).build())
+						.subCategoryName(rs.getString("subcategory_Name")).build())
 				.member(Member.builder()
 						.userId(rs.getString("user_Id")).build())
 				.subCategory(SubCategory.builder()
@@ -319,12 +319,12 @@ public class MypageProductDao {
 						.productId(rs.getInt("product_Id"))
 						.userId(rs.getString("user_Id"))
 						.title(rs.getString("product_Title"))
-						.status(rs.getString("product_Status"))
+						.productStatus(rs.getString("product_Status"))
 						.sellStatus(rs.getString("sell_Status"))
 						.price(rs.getInt("price"))
 						.registTime(rs.getDate("regist_Time"))
 						.viewCount(rs.getInt("view_Count"))
-						.subCategory(rs.getString("subcategory_Name")).build())
+						.subCategoryName(rs.getString("subcategory_Name")).build())
 				.member(Member.builder()
 						.userId(rs.getString("user_Id")).build())
 				.subCategory(SubCategory.builder()
@@ -342,12 +342,12 @@ public class MypageProductDao {
 						.productId(rs.getInt("product_Id"))
 						.userId(rs.getString("user_Id"))
 						.title(rs.getString("product_Title"))
-						.status(rs.getString("product_Status"))
+						.productStatus(rs.getString("product_Status"))
 						.sellStatus(rs.getString("sell_Status"))
 						.price(rs.getInt("price"))
 						.registTime(rs.getDate("regist_Time"))
 						.viewCount(rs.getInt("view_Count"))
-						.subCategory(rs.getString("subcategory_Name")).build())
+						.subCategoryName(rs.getString("subcategory_Name")).build())
 				.subCategory(SubCategory.builder()
 						.subcategoryName(rs.getString("subcategory_Name")).build())
 				.category(Category.builder()

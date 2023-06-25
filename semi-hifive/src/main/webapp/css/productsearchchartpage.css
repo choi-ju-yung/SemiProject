@@ -138,6 +138,10 @@ label {
 #selectCategory span {
   color: #afafaf;
 }
+
+#selectCategory span:first-child{
+	color:#20c997;
+}
 #categoryFunction span {
   margin-right: 8px;
   color: #afafaf;
@@ -149,12 +153,14 @@ label {
 }
 #productImgContainer {
   display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
+  flex-wrap:wrap;
 }
-#pimgWraper {
+.pimgWraper {
   height: 370px;
-  /* margin-top: 10px; */
+  width:20%;
+  margin-left:20px;
+  margin-right:25px;
+  margin-top:10px;
 }
 #productImgContainer img {
   width: 240px;
@@ -162,10 +168,10 @@ label {
   border: 1px solid #eeeeee;
   border-radius: 10px;
 }
-#pimgWraper a {
+.pimgWraper a {
   text-decoration: none;
 }
-#pimgWraper p {
+.pimgWraper p {
   position: relative;
   top: 15px;
 }
@@ -448,9 +454,12 @@ label {
   background-color: #20c997;
   margin-top: 210px;
   margin-left: 15px;
-  text-align: center;
+  display:flex;
+  justify-content:center;
+  align-items:center;	
 }
 #payBtn span {
+
   font-size: 12px;
   color: #eeeeee;
   font-weight: bold;
@@ -458,7 +467,7 @@ label {
 /* 페이지 이동 부분 */
 .pageContainer {
   text-align: center;
-  width: 1050px;
+  width: 1080px;
   padding-top: 20px;
 }
 /* 페이지 이동 링크 리스트 */
@@ -512,7 +521,8 @@ label {
   margin-top: 10px;
 }
 #productImgContainer {
-  margin-top: 30px;
+  margin-top: 100px;
+  margin-bottom:50px;
 }
 
 .prcSearch {
@@ -618,7 +628,24 @@ option {
   font-family: FontAwesome !important;
 }
 
-#pimgWraperpricechart{
-	margin-top: 110px;
-	
+.pimgWraperpricechart{
+	margin-top: 110px;	
+}
+
+#noProductContainer{
+	margin-top:150px;
+	display:grid;
+	justify-content:center;
+	/* margin-bottom:100px; */
+}
+
+#noProductContainer img{
+	margin-top:30px;
+	margin-left:50px;
+	width:250px;
+	height:250px;
+}
+
+#noProductContainer span{
+color:#20c997;	
 }

@@ -2,6 +2,8 @@ package com.semi.productpage.model.vo;
 
 import java.sql.Date;
 
+import com.semi.product.model.vo.ProductComment;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,17 +12,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ProductComment {
-	
+public class AjaxProductComment {
 	private String userId;
 	private int productId;
-	private String nickName;
 	private int commentNo;
 	private int commentLevel;
 	private String content;
 	private int commentRef;
 	private Date enrollDate;
-	private int commentCount;
-
+	private String nickName;
+	private String profileImg;
 }
-

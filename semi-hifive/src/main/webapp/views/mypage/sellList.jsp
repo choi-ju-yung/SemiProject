@@ -37,7 +37,7 @@
                 <a href=""><img src="<%=request.getContextPath() %>/img/구매목록img/예시 이미지.jpg" alt=""></a>
                 <div class="proContent">
                     <h5 class="grayFont"><a href="" class="aTag grayFont categoryA"><%=p.getCategory().getCategoryName() %></a> &rsaquo; <a href=""
-                            class="aTag grayFont"><%=p.getProduct().getSubCategory() %></a></h5>
+                            class="aTag grayFont"><%=p.getProduct().getSubCategoryName() %></a></h5>
                     <h4 class="contentMargin"><a href="" class="aTag productTitle"><%=p.getProduct().getTitle() %></a></h4>
                     <h3><%=new DecimalFormat("###,###").format(p.getProduct().getPrice()) %>원</h3>
                 </div>
