@@ -75,10 +75,33 @@ public class MypageProductDao {
 			pstmt.setInt(3, cPage * numPerpage);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
-				ProductList pl=getProductBuyList(rs);
-				pl.setReview(Review.builder()
-							.reviewId(rs.getInt("review_id")).build());
-				System.out.println(pl);
+				ProductList pl = getProductBuyList(rs);
+				pl.setReview(Review.builder().reviewId(rs.getInt("review_id")).build());
+				list.add(pl);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rs);
+			close(pstmt);
+		}
+		return list;
+	}
+
+	// 구매내역 오래된순
+	public List<ProductList> BuyListSortAsc(Connection conn, int cPage, int numPerpage, String userId) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<ProductList> list = new ArrayList();
+		try {
+			pstmt = conn.prepareStatement(sql.getProperty("BuyListSortAsc"));
+			pstmt.setString(1, userId);
+			pstmt.setInt(2, (cPage - 1) * numPerpage + 1);
+			pstmt.setInt(3, cPage * numPerpage);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				ProductList pl = getProductBuyList(rs);
+				pl.setReview(Review.builder().reviewId(rs.getInt("review_id")).build());
 				list.add(pl);
 			}
 		} catch (SQLException e) {
@@ -149,29 +172,6 @@ public class MypageProductDao {
 		return trade;
 	}
 
-	// 구매내역 오래된순
-	public List<ProductList> BuyListSortAsc(Connection conn, int cPage, int numPerpage, String userId) {
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		List<ProductList> list = new ArrayList();
-		try {
-			pstmt = conn.prepareStatement(sql.getProperty("BuyListSortAsc"));
-			pstmt.setString(1, userId);
-			pstmt.setInt(2, cPage);
-			pstmt.setInt(3, numPerpage);
-			rs = pstmt.executeQuery();
-			while (rs.next()) {
-				list.add(getProductBuyList(rs));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			close(rs);
-			close(pstmt);
-		}
-		return list;
-	}
-
 	// 페이징처리(구매내역 상품 수)
 	public int countBuyList(Connection conn, String userId) {
 		PreparedStatement pstmt = null;
@@ -191,7 +191,7 @@ public class MypageProductDao {
 		return totalData;
 	}
 
-	// 페이징처리(판매내역 상품 수)
+	// 페이징처리(판매내역 판매중 상품 수)
 	public int countSellList(Connection conn, String userId) {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -243,8 +243,8 @@ public class MypageProductDao {
 		return result;
 	}
 
-	// 판매상태가 전체인 상품 리스트
-	public List<ProductList> sellStatusSell(Connection conn, String userId) {
+	// 판매상태가 판매중인 상품 리스트
+	public List<ProductList> sellStatusSell(Connection conn, int cPage, int numPerpage, String userId) {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		List<ProductList> list = new ArrayList();
@@ -252,6 +252,8 @@ public class MypageProductDao {
 			pstmt = conn.prepareStatement(sql.getProperty("sellStatus"));
 			pstmt.setString(1, userId);
 			pstmt.setString(2, "판매중");
+			pstmt.setInt(3, (cPage - 1) * numPerpage + 1);
+			pstmt.setInt(4, cPage * numPerpage);
 			rs = pstmt.executeQuery();
 			while (rs.next())
 				list.add(getProductSellList(rs));
@@ -263,7 +265,53 @@ public class MypageProductDao {
 		}
 		return list;
 	}
-	
+
+	// 판매상태가 예약중인 상품 리스트
+	public List<ProductList> resStatusSell(Connection conn, int cPage, int numPerpage, String userId) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<ProductList> list = new ArrayList();
+		try {
+			pstmt = conn.prepareStatement(sql.getProperty("resStatus"));
+			pstmt.setString(1, userId);
+			pstmt.setString(2, "예약중");
+			pstmt.setInt(3, (cPage - 1) * numPerpage + 1);
+			pstmt.setInt(4, cPage * numPerpage);
+			rs = pstmt.executeQuery();
+			while (rs.next())
+				list.add(getProductSellList(rs));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rs);
+			close(pstmt);
+		}
+		return list;
+	}
+
+	// 판매상태가 판매완료인 상품 리스트
+	public List<ProductList> solStatusSell(Connection conn, int cPage, int numPerpage, String userId) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<ProductList> list = new ArrayList();
+		try {
+			pstmt = conn.prepareStatement(sql.getProperty("solStatus"));
+			pstmt.setString(1, userId);
+			pstmt.setString(2, "판매완료");
+			pstmt.setInt(3, (cPage - 1) * numPerpage + 1);
+			pstmt.setInt(4, cPage * numPerpage);
+			rs = pstmt.executeQuery();
+			while (rs.next())
+				list.add(getProductSellList(rs));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rs);
+			close(pstmt);
+		}
+		return list;
+	}
+
 	// 찜목록 카운트
 	public int countWishList(Connection conn, String userId) {
 		PreparedStatement pstmt = null;
@@ -279,11 +327,12 @@ public class MypageProductDao {
 			e.printStackTrace();
 		} finally {
 			close(pstmt);
-		} return totalData;
+		}
+		return totalData;
 	}
-	
+
 	// 찜목록 리스트
-	public List<MemberWishList> selectWishListByUserId(Connection conn, int cPage, int numPerpage, String userId){
+	public List<MemberWishList> selectWishListByUserId(Connection conn, int cPage, int numPerpage, String userId) {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		List<MemberWishList> list = new ArrayList();
@@ -303,7 +352,7 @@ public class MypageProductDao {
 		}
 		return list;
 	}
-	
+
 	// 판매자 온도 수정
 	public int sellerScore(Connection conn, String productId, double changeTem) {
 		PreparedStatement pstmt = null;
@@ -320,7 +369,7 @@ public class MypageProductDao {
 		}
 		return result;
 	}
-	
+
 	// 거래후기 저장
 	public int insertReview(Connection conn, String productId, double reviewScore, String reviewMsg) {
 		PreparedStatement pstmt = null;
@@ -338,7 +387,7 @@ public class MypageProductDao {
 		}
 		return result;
 	}
-	
+
 	// 거래후기 가져오기
 	public List<ReviewTrade> selectReview(Connection conn, String buyerId) {
 		PreparedStatement pstmt = null;
@@ -348,7 +397,8 @@ public class MypageProductDao {
 			pstmt = conn.prepareStatement(sql.getProperty("selectReview"));
 			pstmt.setString(1, buyerId);
 			rs = pstmt.executeQuery();
-			while (rs.next()) productId.add(getReviewTrade(rs));
+			while (rs.next())
+				productId.add(getReviewTrade(rs));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -357,7 +407,7 @@ public class MypageProductDao {
 		}
 		return productId;
 	}
-	
+
 	// 찜목록 삭제
 	public int deleteWishList(Connection conn, String userId, String productId) {
 		PreparedStatement pstmt = null;
@@ -374,7 +424,7 @@ public class MypageProductDao {
 		}
 		return result;
 	}
-	
+
 	// 찜목록 추가
 	public int insertWishList(Connection conn, String userId, String productId) {
 		PreparedStatement pstmt = null;
@@ -401,7 +451,8 @@ public class MypageProductDao {
 			pstmt = conn.prepareStatement(sql.getProperty("nowTemperature"));
 			pstmt.setString(1, productId);
 			rs = pstmt.executeQuery();
-			if (rs.next()) nowTem = rs.getDouble(1);
+			if (rs.next())
+				nowTem = rs.getDouble(1);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -410,17 +461,19 @@ public class MypageProductDao {
 		}
 		return nowTem;
 	}
-	
+
 	// 댓글 리스트 가져오기
-	public List<MemberComment> commentList(Connection conn, String productId) {
+	public List<MemberComment> commentList(Connection conn, String productId, String userId) {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		List<MemberComment> mc = new ArrayList();
 		try {
 			pstmt = conn.prepareStatement(sql.getProperty("selectCommentList"));
 			pstmt.setString(1, productId);
+			pstmt.setString(2, "%" + userId + "%");
 			rs = pstmt.executeQuery();
-			while (rs.next()) mc.add(getMemberComment(rs));
+			while (rs.next())
+				mc.add(getMemberComment(rs));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -430,8 +483,26 @@ public class MypageProductDao {
 		return mc;
 	}
 	
+	// 거래자 선택
+	public int insertTrade(Connection conn, String productId, String buyerId) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		try {
+			pstmt = conn.prepareStatement(sql.getProperty("insertTrade"));
+			pstmt.setString(1, productId);
+			pstmt.setString(2, buyerId);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
 	private ProductList getProductSellList(ResultSet rs) throws SQLException {
 		return ProductList.builder()
+
 				.product(Product.builder()
 						.productId(rs.getInt("product_Id"))
 						.userId(rs.getString("user_Id"))
@@ -452,10 +523,12 @@ public class MypageProductDao {
 						.imageName(rs.getString("product_image_name"))
 						.build())
 				.build();
+
 	}
 
 	private ProductList getProductBuyList(ResultSet rs) throws SQLException {
 		return ProductList.builder()
+
 				.product(Product.builder()
 						.productId(rs.getInt("product_Id"))
 						.userId(rs.getString("user_Id"))
@@ -479,10 +552,12 @@ public class MypageProductDao {
 						.imageName(rs.getString("product_image_name"))
 						.build())
 				.build();
+
 	}
 
 	private MemberWishList getMemberWishList(ResultSet rs) throws SQLException {
 		return MemberWishList.builder()
+
 				.product(Product.builder()
 						.productId(rs.getInt("product_Id"))
 						.userId(rs.getString("user_Id"))
@@ -503,29 +578,20 @@ public class MypageProductDao {
 						.imageName(rs.getString("product_image_name"))
 						.build())
 				.build();
+
 	}
-	
-	private ReviewTrade getReviewTrade(ResultSet rs) throws SQLException{
-		return ReviewTrade.builder()
-				.review(Review.builder()
-						.tradeId(rs.getInt("trade_id")).build())
-				.trade(Trade.builder()
-						.tradeId(rs.getInt("trade_id"))
-						.productId(rs.getInt("product_id"))
-						.buyerId(rs.getString("buyer_id"))
-						.build())
+
+	private ReviewTrade getReviewTrade(ResultSet rs) throws SQLException {
+		return ReviewTrade.builder().review(Review.builder().tradeId(rs.getInt("trade_id")).build())
+				.trade(Trade.builder().tradeId(rs.getInt("trade_id")).productId(rs.getInt("product_id"))
+						.buyerId(rs.getString("buyer_id")).build())
 				.build();
 	}
-	
-	private MemberComment getMemberComment(ResultSet rs) throws SQLException{
+
+	private MemberComment getMemberComment(ResultSet rs) throws SQLException {
 		return MemberComment.builder()
-				.member(Member.builder()
-						.userId(rs.getString("user_Id"))
-						.nickName(rs.getString("nickName"))
-						.profileImg(rs.getString("profile_Img"))
-						.build())
-				.productComment(ProductComment.builder()
-						.build())
-				.build();
+				.member(Member.builder().userId(rs.getString("user_Id")).nickName(rs.getString("nickName"))
+						.profileImg(rs.getString("profile_Img")).build())
+				.productComment(ProductComment.builder().build()).build();
 	}
 }

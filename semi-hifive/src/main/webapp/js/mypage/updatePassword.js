@@ -36,5 +36,5 @@ const fn_pwdCheck = () => {
 
 // 비밀번호 변경창 닫기
 $(".resetBtn").click(e=>{
-	close();
+	window.close();
 });
