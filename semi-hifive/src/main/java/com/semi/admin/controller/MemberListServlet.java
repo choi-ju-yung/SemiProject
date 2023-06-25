@@ -37,7 +37,7 @@ public class MemberListServlet extends HttpServlet {
 		try {
 			numPerpage=Integer.parseInt(request.getParameter("numPerPage"));
 		}catch(NumberFormatException e) {
-			numPerpage = 10;
+			numPerpage = 5;
 		}
 		
 		//1. DB에서 member테이블에 있는 데이터 가져오기

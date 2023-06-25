@@ -125,3 +125,6 @@ a {
 			%>
 		</tbody>
 	</table>
+	<div id="pageBar">
+		<%=request.getAttribute("pageBar")%>
+	</div>
