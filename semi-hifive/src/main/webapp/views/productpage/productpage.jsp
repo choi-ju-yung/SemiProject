@@ -29,7 +29,7 @@ List<ProductCommentUser> comments = (List) request.getAttribute("comments");
 	href="<%=request.getContextPath()%>/css/productpage/productPage.css" />
 <section>
 
-	<%if(p!=null) {%>{
+	<%if(p!=null) {%>
 	<div class="product">
 		<div id="carouselExampleIndicators" class="carousel slide">
 		
@@ -50,7 +50,7 @@ List<ProductCommentUser> comments = (List) request.getAttribute("comments");
 				if(pf.getMainImageYn()=='Y'){ %>
 				<div class="carousel-item active">
 					<img src="<%=request.getContextPath()%>/upload/productRegist/<%=pf.getImageName() %>"
-						class="d-block w-100" alt="..." />
+						class="d-block w-100" alt="…" />
 				</div>
 				<%}}				
 				for(ProductFile pf:files){ 
@@ -58,7 +58,7 @@ List<ProductCommentUser> comments = (List) request.getAttribute("comments");
 				<div class="carousel-item">
 					<img
 						src="<%=request.getContextPath()%>/upload/productRegist/<%=pf.getImageName() %>"
-						class="d-block w-100" alt="..." />
+						class="d-block w-100" alt="…" />
 				</div>
 				<%}}%>
 			</div>
@@ -234,7 +234,7 @@ List<ProductCommentUser> comments = (List) request.getAttribute("comments");
 							alt="" />							
 
 							<p class="opPrice"><%=String.valueOf(users.get(i).getProduct().getPrice()).replaceAll("\\B(?=(\\d{3})+(?!\\d))", ",")%>원</p>
-							<%String a=(users.get(i).getProduct().getTitle()).substring(0,6); String b="....."; %>
+							<%String a=(users.get(i).getProduct().getTitle()).substring(0,6); String b="….."; %>
 							<p class="opName"><%= a+b %></p>
 						</a>
 					</div>
@@ -367,19 +367,19 @@ List<ProductCommentUser> comments = (List) request.getAttribute("comments");
 				<a href=""><img
 					src="<%=request.getContextPath()%>/images/productpage/연관2.jpg"
 					alt="" />
-					<p>중고폰매입 파손폰매입...</p></a>
+					<p>중고폰매입 파손폰매입…</p></a>
 			</div>
 			<div class="rProduct">
 				<a href=""><img
 					src="<%=request.getContextPath()%>/images/productpage/연관3.jpg"
 					alt="" />
-					<p>아이폰 12프로맥스 128기...</p></a>
+					<p>아이폰 12프로맥스 128기…</p></a>
 			</div>
 			<div class="rProduct">
 				<a href=""><img
 					src="<%=request.getContextPath()%>/images/productpage/연관4.jpg"
 					alt="" />
-					<p>파손폰매입 중고폰매입...</p></a>
+					<p>파손폰매입 중고폰매입…</p></a>
 			</div>
 			<div class="rProduct">
 				<a href=""><img
@@ -387,12 +387,6 @@ List<ProductCommentUser> comments = (List) request.getAttribute("comments");
 					alt="" />
 					<p>아이폰14pro 128기가</p></a>
 			</div>
-			<!-- <div class="rProduct">
-            <a href=""
-              ><img src="./img/연관6.jpg" alt="" />
-              <p>중고폰매입 파손폰매입...</p></a
-            >
-          </div> -->
 		</div>
 	</div>
 	<%} else{%>
