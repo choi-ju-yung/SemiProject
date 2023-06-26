@@ -48,11 +48,9 @@ public class MemberLoginServlet extends HttpServlet {
 		
 		
 		//2. DB에 접속해서 id와 password가 일치하는 회원이 있는지 확인
-		Member loginMember = new MemberService()
-				.selectByUserIdAndPw(userId, password);
+		Member loginMember = new MemberService().selectByUserIdAndPw(userId, password);
 		
 		//System.out.println(loginMember);
-
 
 		// loginMember null을 기준으로 로그인처리 여부를 결정할 수 있음
 		if(loginMember!=null) {

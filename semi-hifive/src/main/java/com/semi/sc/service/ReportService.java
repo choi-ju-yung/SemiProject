@@ -3,7 +3,7 @@ package com.semi.sc.service;
 import java.sql.Connection;
 import java.util.List;
 
-import com.semi.productpage.model.vo.Product;
+import com.semi.product.model.vo.Product;
 import com.semi.sc.dao.ReportDao;
 import com.semi.sc.model.dto.Report;
 

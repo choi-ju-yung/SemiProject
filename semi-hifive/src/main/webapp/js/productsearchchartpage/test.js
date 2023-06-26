@@ -367,6 +367,18 @@ $("document").ready(function () {
     }
   });
 });
+
+$(document).ready(function(){
+	if($("#searchCount").text()==0){
+		$("#pimgWraperpricechart").css("display","none");
+	}	
+})
+
+$(document).ready(function(){
+	if($("#productImgContainer").length==0){
+		$(".pageContainer").css("display","none");	
+		}
+})	
 $(document).ready(function() {
 	$("#categoryFunction span").click(function() {
 	// 클릭한 span 태그에 active 클래스 추가
@@ -375,6 +387,7 @@ $(document).ready(function() {
 	$("#categoryFunction span").not(this).removeClass("active");
 	});
 });
+
 // 시세 차트 설정
 // 먼저 범례부분에 담을 div를 가져옴
 /* window.onload = function () {

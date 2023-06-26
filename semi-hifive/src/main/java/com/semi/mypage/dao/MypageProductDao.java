@@ -22,9 +22,11 @@ import com.semi.mypage.model.vo.Review;
 import com.semi.mypage.model.vo.ReviewTrade;
 import com.semi.mypage.model.vo.Trade;
 import com.semi.mypage.model.vo.WishList;
+
+import com.semi.product.model.vo.Product;
 import com.semi.product.model.vo.ProductComment;
 import com.semi.product.model.vo.ProductFile;
-import com.semi.productpage.model.vo.Product;
+
 
 public class MypageProductDao {
 	private Properties sql = new Properties();
@@ -500,42 +502,83 @@ public class MypageProductDao {
 
 	private ProductList getProductSellList(ResultSet rs) throws SQLException {
 		return ProductList.builder()
-				.product(Product.builder().productId(rs.getInt("product_Id")).userId(rs.getString("user_Id"))
-						.title(rs.getString("product_Title")).status(rs.getString("product_Status"))
-						.sellStatus(rs.getString("sell_Status")).price(rs.getInt("price"))
-						.registTime(rs.getDate("regist_Time")).viewCount(rs.getInt("view_Count"))
-						.subCategory(rs.getString("subcategory_Name")).build())
-				.member(Member.builder().userId(rs.getString("user_Id")).build())
-				.subCategory(SubCategory.builder().subcategoryName(rs.getString("subcategory_Name")).build())
-				.category(Category.builder().categoryName(rs.getString("category_Name")).build())
-				.productfile(ProductFile.builder().imageName(rs.getString("product_image_name")).build()).build();
+
+				.product(Product.builder()
+						.productId(rs.getInt("product_Id"))
+						.userId(rs.getString("user_Id"))
+						.title(rs.getString("product_Title"))
+						.productStatus(rs.getString("product_Status"))
+						.sellStatus(rs.getString("sell_Status"))
+						.price(rs.getInt("price"))
+						.registTime(rs.getDate("regist_Time"))
+						.viewCount(rs.getInt("view_Count"))
+						.subCategoryName(rs.getString("subcategory_Name")).build())
+				.member(Member.builder()
+						.userId(rs.getString("user_Id")).build())
+				.subCategory(SubCategory.builder()
+						.subcategoryName(rs.getString("subcategory_Name")).build())
+				.category(Category.builder()
+						.categoryName(rs.getString("category_Name")).build())
+				.productfile(ProductFile.builder()
+						.imageName(rs.getString("product_image_name"))
+						.build())
+				.build();
+
 	}
 
 	private ProductList getProductBuyList(ResultSet rs) throws SQLException {
 		return ProductList.builder()
-				.product(Product.builder().productId(rs.getInt("product_Id")).userId(rs.getString("user_Id"))
-						.title(rs.getString("product_Title")).status(rs.getString("product_Status"))
-						.sellStatus(rs.getString("sell_Status")).price(rs.getInt("price"))
-						.registTime(rs.getDate("regist_Time")).viewCount(rs.getInt("view_Count"))
-						.subCategory(rs.getString("subcategory_Name")).build())
-				.member(Member.builder().userId(rs.getString("user_Id")).nickName(rs.getString("nickName")).build())
-				.subCategory(SubCategory.builder().subcategoryName(rs.getString("subcategory_Name")).build())
-				.category(Category.builder().categoryName(rs.getString("category_Name")).build())
-				.trade(Trade.builder().sellDate(rs.getDate("sell_Date")).build())
-				.productfile(ProductFile.builder().imageName(rs.getString("product_image_name")).build()).build();
+
+				.product(Product.builder()
+						.productId(rs.getInt("product_Id"))
+						.userId(rs.getString("user_Id"))
+						.title(rs.getString("product_Title"))
+						.productStatus(rs.getString("product_Status"))
+						.sellStatus(rs.getString("sell_Status"))
+						.price(rs.getInt("price"))
+						.registTime(rs.getDate("regist_Time"))
+						.viewCount(rs.getInt("view_Count"))
+						.subCategoryName(rs.getString("subcategory_Name")).build())
+				.member(Member.builder()
+						.userId(rs.getString("user_Id"))
+						.nickName(rs.getString("nickName")).build())
+				.subCategory(SubCategory.builder()
+						.subcategoryName(rs.getString("subcategory_Name")).build())
+				.category(Category.builder()
+						.categoryName(rs.getString("category_Name")).build())
+				.trade(Trade.builder()
+						.sellDate(rs.getDate("sell_Date")).build())
+				.productfile(ProductFile.builder()
+						.imageName(rs.getString("product_image_name"))
+						.build())
+				.build();
+
 	}
 
 	private MemberWishList getMemberWishList(ResultSet rs) throws SQLException {
 		return MemberWishList.builder()
-				.product(Product.builder().productId(rs.getInt("product_Id")).userId(rs.getString("user_Id"))
-						.title(rs.getString("product_Title")).status(rs.getString("product_Status"))
-						.sellStatus(rs.getString("sell_Status")).price(rs.getInt("price"))
-						.registTime(rs.getDate("regist_Time")).viewCount(rs.getInt("view_Count"))
-						.subCategory(rs.getString("subcategory_Name")).build())
-				.subCategory(SubCategory.builder().subcategoryName(rs.getString("subcategory_Name")).build())
-				.category(Category.builder().categoryName(rs.getString("category_Name")).build())
-				.wishList(WishList.builder().productId(rs.getInt("product_Id")).build())
-				.productfile(ProductFile.builder().imageName(rs.getString("product_image_name")).build()).build();
+
+				.product(Product.builder()
+						.productId(rs.getInt("product_Id"))
+						.userId(rs.getString("user_Id"))
+						.title(rs.getString("product_Title"))
+						.productStatus(rs.getString("product_Status"))
+						.sellStatus(rs.getString("sell_Status"))
+						.price(rs.getInt("price"))
+						.registTime(rs.getDate("regist_Time"))
+						.viewCount(rs.getInt("view_Count"))
+						.subCategoryName(rs.getString("subcategory_Name")).build())
+				.subCategory(SubCategory.builder()
+						.subcategoryName(rs.getString("subcategory_Name")).build())
+				.category(Category.builder()
+						.categoryName(rs.getString("category_Name")).build())
+				.wishList(WishList.builder()
+						.productId(rs.getInt("product_Id")).build())
+				.productfile(ProductFile.builder()
+						.imageName(rs.getString("product_image_name"))
+						.build())
+				.build();
+
 	}
 
 	private ReviewTrade getReviewTrade(ResultSet rs) throws SQLException {

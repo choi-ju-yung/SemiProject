@@ -16,5 +16,4 @@ import lombok.NoArgsConstructor;
 public class Search {
 	private String searchKeyword;
 	private Date searchDate;
-	private String userId;
 }
