@@ -22,7 +22,7 @@ import com.semi.member.model.vo.Member;
 @WebFilter(urlPatterns = {
 		"/service/inquiryInsert.do","/service/commentInsert.do","/service/boardInsert.do"
 		,"/service/reportList.do","/service/inquiryContent.do","/service/commentDelete.do"
-		,"/service/commentUpdate.do","/productRegist.do"
+		,"/service/commentUpdate.do","/productRegist.do","/service/reportContent.do"
 
 })
 public class LoginCheckFillter extends HttpFilter implements Filter {

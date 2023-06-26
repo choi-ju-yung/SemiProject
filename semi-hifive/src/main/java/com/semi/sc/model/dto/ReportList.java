@@ -11,11 +11,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Report {
+public class ReportList {
+
+	private int reportListNo;
 	private int reportNo;
-	private String reportWriter;
-	private String reportTitle;
-	private String reportContent;
-	private Date reportDate;
-	private String reportCategory;
+	private int productId;
+	private int tradeId;
+	private String userId;
+	private String reportedUserId;
 }

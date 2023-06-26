@@ -8,7 +8,7 @@
 <section>
 <%@ include file="/views/service/serviceCategory.jsp"%>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/service/buylistInsert.css">
-<form action="<%=request.getContextPath()%>/service/reportInsertEnd.do"
+<form action="<%=request.getContextPath()%>/service/reportBuylistInsertEnd.do"
 		onsubmit="return titleCheck();" method="post" enctype="multipart/form-data">
 	<div class="ServiceCenter">
 		<h2 class="reportHead">거래 신고하기</h2>
@@ -41,7 +41,7 @@
 						<td class="reportCheck">
 				          <div class="checkContainer">
 				           	 	<label class="list-label">
-				                  <input type="checkbox" id="secretCheck" value="Y" checked>
+				                  <input type="checkbox" id="buyListCk" value="<%=p.getProductId() %>" checked>
 				                  <div class="buyCk"></div>
 				               	</label>
 				          </div>
@@ -70,9 +70,8 @@
 		<div id="fileList"></div>
 		<div class="serviceInsertBtn">
 			<button class="serviceCancelBtn">취소</button>
-			<input type="button" class="serviceSubmitBtn">완료</button>
+			<input type="button" onclick="uploadFile();" class="serviceSubmitBtn">완료</button>
 		</div>
-		<div class="pageBar"></div>
 	</div>
 </section>
 <script>
@@ -104,10 +103,15 @@ function uploadFile(){
     formData.append("writer","<%=loginMember.getUserId()%>");
     formData.append("title",$("#reportTitle").val());
     formData.append("content",$("#reportContent").val());
-    //const buyList=$(".buyListCk").cheked().val();
+    let checkData="";
+    $(".checkContainer").find('input:checked').each(function(index){
+    	checkData+=$(this).val()+",";
+    });
+    formData.append("check",checkData);
+    
     
     $.ajax({
-        url : "<%=request.getContextPath()%>/service/inquiryInsertEnd.do",
+        url : "<%=request.getContextPath()%>/service/reportBuylistInsertEnd.do",
         type : "post",
         data : formData,
         contentType : false,
@@ -115,10 +119,10 @@ function uploadFile(){
         success : function(result) {
 			if (result) {
 				alert("업로드 성공했습니다.");
-				location.replace("<%=request.getContextPath()%>/service/inquiryList.do");
+				location.replace("<%=request.getContextPath()%>/service/reportList.do");
 			}else{
-				alert("업로드 실패했습니다.");
-				location.replace("<%=request.getContextPath()%>/service/inquiryList.do");
+				alert("신고할 글을 다시 작성하세요. 업로드에 실패했습니다.");
+				location.replace("<%=request.getContextPath()%>/service/reportList.do");
 			}
 		},
 		error : function() {
