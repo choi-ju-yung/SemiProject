@@ -85,6 +85,53 @@ label {
   color: #20c997;
   margin-left: 5px;
 }
+/*필터부분  */
+#filter{border-bottom: 1px solid #eeeeee;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+}
+#pddfilter{
+  font-size: 20px;
+  font-weight: bold;
+}
+.plusFilter{
+padding-top: 0.5rem;
+margin: -0.375rem
+}
+.plusFiterbox{
+max-width: 142px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 14px;
+    color: rgba(34,34,34,.8);
+    background: #f4f4f4;
+    border: 1px solid #ebebeb;
+    border-radius: 10px;
+    padding: 8px 12px;
+    display: inline-block;
+    margin: 0 8px 12px 0;
+    display: inline-flex;
+    text-decoration: none;
+}
+.plusFiterboxText{
+text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.plusFiterboxbtn{
+	width: 15px;
+    height: 15px;
+    float: right;
+    margin-inline: 3px;
+}
+.plusFiterboxbtn>button{
+width: 15px;
+    height: 15px;
+    cursor: pointer;
+    border: none;
+}
+/* 필터부분 여기까지 */
 #pdcContainer span {
   font-size: 14px;
   font-weight: bold;
@@ -145,10 +192,14 @@ label {
 #categoryFunction span {
   margin-right: 8px;
   color: #afafaf;
+  cursor: pointer;
 }
 #categoryFunction span:hover {
   color: #20c997;
-  cursor: pointer;
+  font-weight: bold;
+} 
+#categoryFunction span.active{
+  color: #20c997;
   font-weight: bold;
 }
 #productImgContainer {

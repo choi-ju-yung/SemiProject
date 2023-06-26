@@ -251,7 +251,6 @@ $(document).ready(function() {
 // /검색창/
 
 // 상단메뉴바
-
 $("#menuList a").mouseenter(function() {
 	const id = $(this).attr("id");
 	$(".sideMenu")
@@ -263,6 +262,18 @@ $("#menuList a").mouseenter(function() {
 	console.log(this);
 	$(this).css({ "background-color": "#20c997", color: "white" });
 	$("#sideMenu-" + id).css("display", "block");
+	
+	})
+$(document).on("mouseenter",'#menuList a', function () {
+  const id = $(this).attr("id");
+  $(".sideMenu")
+    .not($("#sideMenu-" + id))
+    .css("display", "none");
+  $("#menuList a")
+    .not($(this))
+    .css({"background-color": "white", color: "#afafaf"});
+  $(this).css({"background-color": "#20c997", color: "white"});
+  $("#sideMenu-" + id).css("display", "block");
 });
 $("#category0").mouseleave(function() {
 	$("#menuList a").css({ "background-color": "white", color: "#afafaf" });
@@ -270,11 +281,17 @@ $("#category0").mouseleave(function() {
 $(".sideMenu").mouseleave(function() {
 	$(".sideMenu").css("display", "none");
 	$("#menuList a").css({ "background-color": "white", color: "#afafaf" });
+	})
+$(document).on("moustleave",".sideMenu", function () {
+  $(".sideMenu").css("display", "none");
+  $("#menuList a").css({"background-color": "white", color: "#afafaf"});
 });
+
 $("section").mouseenter(function() {
 	$(".sideMenu").css("display", "none");
 	$("#menuList a").css({ "background-color": "white", color: "#afafaf" });
 });
+
 $("section").click(function(e) {
 	if ($("#menuIcon").is(":checked")) {
 		$("#menuIcon").prop("checked", false);
@@ -288,32 +305,6 @@ $(".headercategorybtn").click(function(e) {
 		success: function(data) {
 			console.log(data);
 			$("#menuList>ul>li").html(data);
-		},
-	});
+		}
+	})
 });
-
-// /상단메뉴바/
-
-// 카테고리 사이드바
-
-$(".collapse").on("show.bs.collapse", function() {
-	var target = $("[href='#" + $(this).prop("id") + "']");
-	target.removeClass("fa-plus-square");
-	target.addClass("fa-minus-square");
-});
-$(".collapse").on("shown.bs.collapse", function() {
-	var target = $("[href='#" + $(this).prop("id") + "']");
-	target.removeClass("fa-plus-square");
-	target.addClass("fa-minus-square");
-});
-$(".collapse").on("hide.bs.collapse", function() {
-	var target = $("[href='#" + $(this).prop("id") + "']");
-	target.removeClass("fa-minus-square");
-	target.addClass("fa-plus-square");
-});
-$(".collapse").on("hidden.bs.collapse", function() {
-	var target = $("[href='#" + $(this).prop("id") + "']");
-	target.removeClass("fa-minus-square");
-	target.addClass("fa-plus-square");
-});
-//카테고리 사이드바

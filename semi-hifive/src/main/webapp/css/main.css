@@ -1,9 +1,3 @@
-
-section{
-    display: flex;
-    justify-content: center;
-    width: 1050px;
-}
 /* 이벤트 베너 부분 */
 .slideContainer {
 	width: 1000px;

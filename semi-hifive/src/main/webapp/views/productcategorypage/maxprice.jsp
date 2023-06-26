@@ -1,17 +1,22 @@
 <%@page import="com.semi.category.model.vo.CategorySubCategory"%>
 <%@page import="com.semi.productlist.model.vo.ProductCategoryTimeList"%>
+<%@page import="com.semi.category.model.vo.Category"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-List<ProductCategoryTimeList> sub = (List)request.getAttribute("subcategoryproduct");
+	List<ProductCategoryTimeList> gd = (List)request.getAttribute("getselectproduct"); 
+%> 
+<%-- <%
+	Category cn = (Category)request.getAttribute("category");
 %>
 <%
-CategorySubCategory categoryandsubcategoryname = (CategorySubCategory)request.getAttribute("categoryandsubcategoryname");
-%>
-<div id="selectCategory">
+	CategorySubCategory sub = (CategorySubCategory)request.getAttribute("subcategory");
+%> --%>
+
+ <div id="selectCategory">
             <div id="categoryName">
-            	<h4><%=categoryandsubcategoryname.getCategory().getCategoryName()%>   >   <%=categoryandsubcategoryname.getSubCategory().getSubcategoryName()%><span>   <%=request.getAttribute("totalData")%></span></h4>
+            	<h4><span>   <%=request.getAttribute("totalData")%></span></h4>
             </div>
             <div id="categoryFunction">
               <span>최신순</span>
@@ -21,7 +26,7 @@ CategorySubCategory categoryandsubcategoryname = (CategorySubCategory)request.ge
             </div>
           </div>
 		<div id="productImgContainer">
-		<%for(ProductCategoryTimeList p : sub){%>
+		<%for(ProductCategoryTimeList p : gd){%>
             <div id="pimgWraper" onclick="location.href='<%=request.getContextPath()%>/productpage?no=<%=p.getProductCategoryList().getProductId()%>';">
               <div class="con-like">
                 <input title="like" type="checkbox" class="like" />

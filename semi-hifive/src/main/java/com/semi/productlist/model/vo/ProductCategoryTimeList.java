@@ -14,6 +14,8 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ProductCategoryTimeList {
 	private ProductCategoryList productCategoryList;
+//	private String productAndSubCategoryname;
+//	private String categorySubCategoryname;
 	private long elapsedTime;
 	private Category category;
 	private SubCategory subCategory;

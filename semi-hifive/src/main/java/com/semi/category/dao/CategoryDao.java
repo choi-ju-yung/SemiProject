@@ -117,6 +117,24 @@ public class CategoryDao {
 				close(pstmt);
 			}return sc;
 		}
-		
+//		대표카테고리 이름을 검색해서 서브카테고리이름 찾기
+		public CategorySubCategory SelectSubCategoryName(Connection conn, String subcategoryname) {
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			CategorySubCategory sc = null;
+			try {
+				pstmt = conn.prepareStatement(sql.getProperty("SelectSubCategoryName"));
+				pstmt.setString(1, subcategoryname);
+				rs = pstmt.executeQuery();
+				if(rs.next()) {
+					sc = getcategorysubcategory(rs);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}finally {
+				close(rs);
+				close(pstmt);
+			}return sc;
+		}
 
 }

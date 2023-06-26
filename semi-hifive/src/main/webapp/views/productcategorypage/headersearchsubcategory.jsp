@@ -1,5 +1,5 @@
-<%@page import="com.semi.category.model.vo.Category"%>
 <%@page import="com.semi.productlist.model.vo.ProductCategoryTimeList"%>
+<%@page import="com.semi.category.model.vo.Category"%>
 <%@page import="com.semi.category.model.vo.CategorySubCategory"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -14,12 +14,13 @@
 	Category cn = (Category)request.getAttribute("categoryName");
 %>
 <%
-	List<ProductCategoryTimeList> cpd = (List)request.getAttribute("categoryproduct");
+	List<ProductCategoryTimeList> sub = (List)request.getAttribute("subcategoryproduct");
 %>
-
-	<link rel="stylesheet" href="<%=request.getContextPath()%>/css/productsearchchartpage.css" />
+<%
+	CategorySubCategory categoryandsubcategoryname = (CategorySubCategory)request.getAttribute("categoryandsubcategoryname");
+%>
+     <link rel="stylesheet" href="<%=request.getContextPath()%>/css/productsearchchartpage.css" />
     <link rel="stylesheet" href="<%=request.getContextPath()%>/css/page.css" />
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/main.css" />
     <link
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
@@ -36,6 +37,7 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css"
     />
+    <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.umd.min.js"></script> -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
@@ -48,6 +50,13 @@
                 <span id="pddfilter"><b>필터</b></span>
 			</div>
 			<div class="plusFilter">
+				   <a class="plusFiterbox">
+					<div class="plusFiterboxText"><%=categoryandsubcategoryname.getSubCategory().getSubcategoryName()%></div>
+					<div class="plusFiterboxbtn"><button><svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512">
+                                    <path d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192 192-86 192-192z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/>
+                                    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M320 320L192 192M192 320l128-128"/>
+                                  </svg></button></div>
+				</a>
 			</div>	        
         </div>
           <div id="pdcContainer">
@@ -65,13 +74,13 @@
                
               <div class="collapse" id="pddCategory">
               
-                <div id="pddContainer" class="chbtn">
+                <div id="pddContainer">
                	
                   <ul>
-                  <div class="pdcCategory">
+                    <div class="pdcCategory">
                     <%for(Category c : selectcategory) {
                     	if(c.getCategoryId().equals("A")){%>
-                      <span><%=c.getCategoryName()%></span>
+                      <span onclick="searchProduct('<%=c.getCategoryName()%>');"><%=c.getCategoryName()%></span>
                       <%} } %>
                       <i
                         class="fa fa-plus-square"
@@ -85,7 +94,7 @@
                         <%for(CategorySubCategory sc : categorylist){
                         	if(sc.getCategory().getCategoryId().equals("A")) {%>
                         <ul>
-                          <li><a href='javascript:void(0);'><%=sc.getSubCategory().getSubcategoryName()%></a></li>
+                          <li><a href='javascript:void(0);' onclick="subsearchProduct('<%=sc.getSubCategory().getSubcategoryName()%>');"><%=sc.getSubCategory().getSubcategoryName()%></a></li>
                         </ul>
                         <%} }%>
                       </div>
@@ -94,7 +103,7 @@
                    <div class="pdcCategory">
                       <%for(Category c : selectcategory) {
                     	if(c.getCategoryId().equals("B")){%>
-                      <span><%=c.getCategoryName()%></span>
+                      <span onclick="searchProduct('<%=c.getCategoryName()%>');"><%=c.getCategoryName()%></span>
                       <%} } %>
                       <i
                         class="fa fa-plus-square"
@@ -108,7 +117,7 @@
                         <%for(CategorySubCategory sc : categorylist){
                         	if(sc.getCategory().getCategoryId().equals("B")) {%>
                         <ul>
-                          <li><a href='javascript:void(0);'><%=sc.getSubCategory().getSubcategoryName()%></a></li>
+                          <li><a href='javascript:void(0);' onclick="subsearchProduct('<%=sc.getSubCategory().getSubcategoryName()%>');"><%=sc.getSubCategory().getSubcategoryName()%></a></li>
                         </ul>
                         <%} }%>
                       </div>
@@ -116,7 +125,7 @@
                     <div class="pdcCategory">
                        <%for(Category c : selectcategory) {
                     	if(c.getCategoryId().equals("C")){%>
-                      <span><%=c.getCategoryName()%></span>
+                      <span onclick="searchProduct('<%=c.getCategoryName()%>');"><%=c.getCategoryName()%></span>
                       <%} } %>
                       <i
                         class="fa fa-plus-square"
@@ -346,7 +355,7 @@
               <div class="radio-buttons">
                 <label class="radio-button">
                   <input
-                    value="option0"
+                    value="option1"
                     name="option"
                     type="radio"
                     checked=""
@@ -431,7 +440,7 @@
         <div id="productContainer">
           <div id="selectCategory">
             <div id="categoryName">
-              <h4> <span><%=request.getAttribute("totalData")%></span></h4>
+              <h4><%=categoryandsubcategoryname.getCategory().getCategoryName()%>   >   <%=categoryandsubcategoryname.getSubCategory().getSubcategoryName()%><span>   <%=request.getAttribute("totalData")%></span></h4>
             </div>
             <div id="categoryFunction">
               <span>최신순</span>
@@ -440,9 +449,9 @@
               <span>최저가순</span>
             </div>
           </div>
-           <div id="contentdata">
+          <div id="contentdata">
 	          <div id="productImgContainer">
-	      		<%for(ProductCategoryTimeList p : cpd){%>
+	      		<%for(ProductCategoryTimeList p : sub){%>
 	            <div id="pimgWraper" onclick="location.href='<%=request.getContextPath()%>/productpage?no=<%=p.getProductCategoryList().getProductId()%>';">
 	              <div class="con-like">
 	                <input title="like" type="checkbox" class="like" />
@@ -525,7 +534,7 @@
     //ajax로 페이징 처리한 페이지 바 선택시 출력해주는 함수
     function changePage(pageNo) {
         $.ajax({
-            url: "<%=request.getContextPath()%>/categoryproductlist.do",
+            url: "<%=request.getContextPath()%>/headersearchcategory.do",
             type: "GET",
             data: {
                 'cPage': pageNo,
@@ -537,122 +546,18 @@
             }
         });
     }
-    $(() => {
-    	  HeaderCategoryMenu();
-    	});
-
-    	function HeaderCategoryMenu() {
-    	  $.ajax({
-    	    url: "<%=request.getContextPath()%>/headercategoryajax",
-    	    dataType: 'json', // "데이터 유형" 대신 "dataType" 속성 사용
-    	    success: function(data) { // "성공" 대신 "success" 속성 사용
-    	      data.main.forEach(function(category, index) {
-    	        // 서브 카테고리를 가져오기 위해 필터링
-    	        const subCategory = data.sub.filter(function(sub) {
-    	          return sub.category.categoryName === category.categoryName;
-    	        });
-    	        makeCategoryHeader(category.categoryName, subCategory, index);
-    	      });
-    	    }
-    	  });
-    	}
-    	function makeCategoryHeader(categoryName, subCategory, index) {
-    		  var categoryHtml = `
-    		    <div class="pdcCategory">
-    		      <span>${categoryName}</span>
-    		      <i class="fa fa-plus-square" data-toggle="collapse" href="#pddCategory${index + 1}" aria-expanded="false" aria-controls="pddCategory${index + 1}"></i>
-    		      <div class="collapse" id="pddCategory${index + 1}">
-    		        <ul>
-    		  `;
-
-    		  subCategory.forEach(function (sub) {
-    		    categoryHtml += `
-    		          <li><a href="javascript:void(0);">${sub.subcategoryName}</a></li>
-    		        `;
-    		  });
-
-    		  categoryHtml += `
-    		        </ul>
-    		      </div>
-    		    </div>
-    		  `;
-
-    		  console.log(categoryHtml);
-    		  $(".chbtn ul").append(categoryHtml);
-    		}
-
-    	/* function makeCategoryHeader(categoryName, subCategory, index) {
-    	  var categoryHtml = `
-    	    <div class="pdcCategory">
-    	      <span>${categoryName}</span>
-    	      <i class="fa fa-plus-square" data-toggle="collapse" href="#pddCategory${index + 1}" aria-expanded="false" aria-controls="pddCategory${index + 1}"></i>
-    	      <div class="collapse" id="pddCategory${index + 1}">
-    	        <ul>
-    	        ;
-    	        subCategory.forEach(function(sub) {
-    	    	    `
-    	    	      <li><a href="javascript:void(0);">${sub.subCategory.subcategoryName}</a></li>
-    	    	    `;
-    	        </ul>
-    	      </div>
-    	    </div>
-    	  `;
-    	  console.log(categoryHtml);
-    	  $(".chbtn ul").append(categoryHtml);
-    	} */
-
-    	/* function generateSubCategoryHtml(subCategory) {
-    	  var subCategoryHtml = '';
-    	  subCategory.forEach(function(sub) {
-    	    subCategoryHtml += `
-    	      <li><a href="javascript:void(0);">${sub.subCategory.subcategoryName}</a></li>
-    	    `;
-    	  });
-    	  return subCategoryHtml;
-    	} */
-
-<%-- $(()=>{HeaderCategoryMenu()});    
-    function HeaderCategoryMenu() {
-        $.ajax({
-            url: "<%=request.getContextPath()%>/headercategoryajax",
-            dataType: 'json',
-            success: function(data) {
-                data.main.forEach(function(category,index) {
-                	const subCategory=data.sub.filter(cate=>cate.category.categoryName==category.categoryName);
-                    makeCategoryHeader(category.categoryName, subCategory, index);
-                    /* const subCategory=data.sub.filter(cate=>cate.category.categoryName==category.categoryName); */
-                    //console.log(subCategory);
-                     makeCatetorySub(subCategory, index);
-                });
-            }
-        });
-    }
-    function makeCategoryHeader(categoryName, subCategory, index) {
-    	  var categoryHtml = `
-    	    <div class="pdcCategory">
-    	      <span>${categoryName}</span>
-    	      <i class="fa fa-plus-square" data-toggle="collapse" href="#pddCategory${index + 1}" aria-expanded="false" aria-controls="pddCategory${index + 1}"></i>
-    	      <div class="collapse" id="pddCategory${index + 1}">
-    	        <ul>
-    	        ${generateSubCategoryHtml(subCategory)}
-    	        </ul>
-    	      </div>
-    	    </div>
-    	  `;
-    	  console.log(categoryHtml);
-    	  $(".chbtn ul").append(categoryHtml);
-    	}
-    function generateSubCategoryHtml(subCategory) {
-        var subCategoryHtml = '';
-        subCategory.forEach(function(sub) {
-            subCategoryHtml += `
-                <li><a href="javascript:void(0);">${sub.subCategory.subcategoryName}</a></li>
-            `;
-        });
-        return subCategoryHtml;
-    }
-   
-            	// 서브카테고리 클릭시 출력 ajax
+    //대표카테고리 클릭시 출력 ajax
+            function searchProduct(Cid){
+           		$.ajax({
+           			url: "<%=request.getContextPath()%>/serachcategory.do",
+           			dateType: 'html',
+           			data:{'Cid':Cid},
+           			success: function(data){
+           				$("#productContainer").html(data); 
+           			}
+           		});
+           	};
+           	// 서브카테고리 클릭시 출력 ajax
 			function subsearchProduct(sub){
 				$.ajax({
           			url: "<%=request.getContextPath()%>/subserachcategory.do",
@@ -662,113 +567,16 @@
           				$("#productContainer").html(data);
           			}
           		});
-          	} --%>
-           
-          	// 왼쪽 카테고리 밑에서 중복 조건 추가
-           $(document).ready(function() {
-        	  
-   				let conditions = {};
-   				 //상품 카테고리 태그 클릭시 출력하는 함수
-   				$(".pdcCategory span").click(function() {
-    				var categoryName = $(this).text();
-    				conditions['categoryName'] = "CATEGORY_NAME = '" + categoryName + "'";
-    				
-    				$("#categoryName h4 span").text(categoryName);
-    				console.log(conditions);
-    			getselectproduct(conditions);
-   			});
-   				
-   				 $(".collapse ul li").click(function(){
-   					 var subCategoryName = $(this).text();
-   				  	 var categoryName = $(this).closest(".pdcCategory").find("span").text();
-
-   					 conditions['subCategoryName'] = "SUBCATEGORY_NAME = '" + subCategoryName +"'";
-   					 
-   				  $("#categoryName h4 span").text(categoryName + " > " + subCategoryName);
-   					console.log(conditions);
-   					getselectproduct(subCategoryName);
-   				 });
-   				// 상품상태 태그 클릭시 출력하는 함수
-   				$("#prdCategory label").click(function() {
-    				var spanText = $(this).find("span").text();
-
-    				if (spanText === "전체") {
-      					conditions['STATUS'] = "";
-    				} else if(spanText === "미개봉"){
-      					conditions['STATUS'] = "SELL_STATUS = '" + spanText + "'";
-    				} else if(spanText === "사용감 있음"){
-    					conditions['STATUS'] = "SELL_STATUS = '" + spanText + "'";
-    				}
-    				console.log(conditions);
-    			getselectproduct(conditions);
-  			});
-        	   // 조건된 가격을 클릭할때 출력하는 함수
-        	   $(".radio-buttons .radio-button").click(function(e) {
-        		   
-    				var selectedOption = $(this).find("input").val();
-					
-    				if(selectedOption === "option0"){
-    					conditions['price']= "";
-        	   		} else if (selectedOption === "option1") {
-      					conditions['price']="PRICE <= 100000";
-    				} else if (selectedOption === "option2") {
-    					conditions['price']="PRICE BETWEEN 100000 AND ?";
-    				} else if (selectedOption === "option3") {
-    					conditions['price']="PRICE BETWEEN 300000 AND ?";
-    				} else if (selectedOption === "option4") {
-    					conditions['price']="PRICE BETWEEN 500000 AND ?";
-    				} else if (selectedOption === "option5") {
-    					conditions['price']="PRICE >= 1000000";
-    				}
-    				console.log(conditions);
-    				getselectproduct(conditions);
-  				});	
-        	   
-        	   // input태그에 검색한 가격
-        	   $("#prcBtn").click(function() {
-        		    var minPrice = $(".prcinput[name='text'][placeholder='최소값']").val();
-        		    var maxPrice = $(".prcinput[name='text'][placeholder='최대값']").val();
-
-        		    
-        		    if (minPrice && maxPrice) {
-        		    	conditions['price']="PRICE BETWEEN " + minPrice + " AND " + maxPrice;
-        		    } 
-        		    console.log(conditions);
-        		    getselectproduct(conditions);
-	           	});
-	        	// 지역검색클릭
-	           	$("#gugun1").change(function() {
-	           		
-	           	    var selectedLocation = $(this).val();
-	           	    if (selectedLocation) {
-	           	    	conditions['area']="AREA_NAME LIKE '%" + selectedLocation + "%'";
-	           	    }
-	           	 	console.log(conditions);
-	           	    getselectproduct(conditions);
-	           	  });
-	           	// 키값으로 여러조건 가져오기 ajax
-	           	function getselectproduct(conditions){
-	           		 console.log(conditions);
-	           		  $.ajax({
-	           			url: "<%=request.getContextPath()%>/getproduct.do",
-	           			dateType: 'html',
-	           			data:conditions,
-	           			success: function(data){
-	          				$("#productContainer").html(data);
-	           			}
-	           		});
-	           	}
-           });
-          	
+          	}
+           	
+           	
            	//필터에 넣어주기
 			// 카테고리 클릭 이벤트 처리
 			
-			$(document).on('mouseenter','#menuList a',function() {
-   				 /* var maxFilters = 2; // 최대 필터 개수
-    			 var currentFilters = 0; // 현재 필터 개수 */
+			$(document).ready(function() {
+   				 var maxFilters = 2; // 최대 필터 개수
+    			 var currentFilters = 0; // 현재 필터 개수
     		$('.pdcCategory span').on('click', function() {
-    			var maxFilters = 2; // 최대 필터 개수
-   			 	var currentFilters = 0; // 현재 필터 개수
         	if (currentFilters < maxFilters) {
             var categoryName = $(this).text(); // 클릭한 카테고리명 가져오기
 
@@ -821,64 +629,6 @@
                 $('.plusFilter').empty().append(newFilter); // 필터 컨테이너에 새로운 필터 추가
             }
         });
-    		$('.radio-button').on('click', function() {
-    			var maxFilters = 2; // 최대 필터 개수
-   			 	var currentFilters = 0; // 현재 필터 개수
-        	if (currentFilters < maxFilters) {
-        		var radioname = $(this).find('.radio-label').text(); // 클릭한 카테고리명 가져오기
-
-            // 새로운 필터 태그 생성
-            var newFilter = $('<div>').addClass('plusFiterbox')
-                                      .append($('<div>').addClass('plusFiterboxText').text(radioname))
-                                      .append($('<div>').addClass('plusFiterboxbtn').html('<button><svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><path d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192 192-86 192-192z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M320 320L192 192M192 320l128-128"/></svg></button>'));
-
-           $('.plusFilter').empty().append(newFilter); // 필터 컨테이너에 새로운 필터 추가
-
-            currentFilters = 1; // 현재 필터 개수 증가
-        } else {
-            var oldestFilter = $('.plusFilter .plusFiterbox:first-child'); // 가장 오래된 필터 선택
-            oldestFilter.remove(); // 가장 오래된 필터 삭제
-
-            var radioname = $(this).find('.radio-label').text(); // 클릭한 카테고리명 가져오기
-
-            // 새로운 필터 태그 생성
-            var newFilter = $('<div>').addClass('plusFiterbox')
-                                      .append($('<div>').addClass('plusFiterboxText').text(radioname))
-                                      .append($('<div>').addClass('plusFiterboxbtn').html('<button><svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><path d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192 192-86 192-192z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M320 320L192 192M192 320l128-128"/></svg></button>'));
-
-            $('.plusFilter').empty().append(newFilter); // 필터 컨테이너에 새로운 필터 추가
-        }
-    });
-    	
-    		$('.collapse ul li').on('click', function() {
-            	if (currentFilters < maxFilters) {
-            	var radioname = $(this).find('.radio-label').text(); // 클릭한 카테고리명 가져오기
-
-                // 새로운 필터 태그 생성
-                var newFilter = $('<div>').addClass('plusFiterbox')
-                                          .append($('<div>').addClass('plusFiterboxText').text(radioname))
-                                          .append($('<div>').addClass('plusFiterboxbtn').html('<button><svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><path d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192 192-86 192-192z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M320 320L192 192M192 320l128-128"/></svg></button>'));
-
-               $('.plusFilter').empty().append(newFilter); // 필터 컨테이너에 새로운 필터 추가
-
-                currentFilters = 1; // 현재 필터 개수 증가
-            } else {
-                var oldestFilter = $('.plusFilter .plusFiterbox:first-child'); // 가장 오래된 필터 선택
-                oldestFilter.remove(); // 가장 오래된 필터 삭제
-
-                var categoryName = $(this).text(); // 클릭한 카테고리명 가져오기
-
-                // 새로운 필터 태그 생성
-                var newFilter = $('<div>').addClass('plusFiterbox')
-                                          .append($('<div>').addClass('plusFiterboxText').text(radioname))
-                                          .append($('<div>').addClass('plusFiterboxbtn').html('<button><svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><path d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192 192-86 192-192z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M320 320L192 192M192 320l128-128"/></svg></button>'));
-
-                $('.plusFilter').empty().append(newFilter); // 필터 컨테이너에 새로운 필터 추가
-            }
-        });	
 });
-
     	</script>
-</section>
     <script src="<%=request.getContextPath()%>/js/productsearchchartpage/test.js"></script>
- <%@ include file="/views/common/footer.jsp" %>

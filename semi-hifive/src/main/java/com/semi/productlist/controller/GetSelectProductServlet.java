@@ -1,28 +1,34 @@
-package com.semi.category.controller;
+package com.semi.productlist.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import com.semi.category.model.vo.Category;
+import com.semi.category.model.vo.CategorySubCategory;
 import com.semi.category.service.CategoryService;
 import com.semi.productlist.model.service.ProductCategoryListService;
 import com.semi.productlist.model.vo.ProductCategoryTimeList;
 
 /**
- * Servlet implementation class HeaderCategoryServlet
+ * Servlet implementation class GetProductServlet
  */
-@WebServlet("/serachcategory.do")
-public class SearchCategoryServlet extends HttpServlet {
+@WebServlet("/getproduct.do")
+public class GetSelectProductServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public SearchCategoryServlet() {
+    public GetSelectProductServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -30,9 +36,15 @@ public class SearchCategoryServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-			String categoryname = request.getParameter("Cid");
+		protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 			
+			String categoryNameCondition = request.getParameter("categoryname");
+			String subCategoryNameCondition = request.getParameter("subcategoryname");
+			String statusCondition = request.getParameter("status");
+			String priceCondition = request.getParameter("price");
+			String areaCondition = request.getParameter("area");
+			String condition="";
+			// 페이징
 			int cPage, numPerpage;
 			try {
 				cPage = Integer.parseInt(request.getParameter("cPage"));
@@ -45,7 +57,24 @@ public class SearchCategoryServlet extends HttpServlet {
 				numPerpage = 32;
 			}
 			String pageBar = "";
-			int totalData = new ProductCategoryListService().CategoryCount(categoryname);
+			int totalData = 0;
+		 	if (categoryNameCondition != null) {
+		        condition+=categoryNameCondition;
+		    }
+		    if (subCategoryNameCondition != null) {
+		    	condition += (condition.length()>0?" OR ":"")+subCategoryNameCondition;
+		    }
+		    if (statusCondition != null) {
+		    	condition += (condition.length()>0?" OR ":"")+statusCondition;
+		    }
+		    if (priceCondition != null) {
+		    	condition += (condition.length()>0?" OR ":"")+priceCondition;
+		    }
+		    if (areaCondition != null) {
+		    	condition += (condition.length()>0?" OR ":"")+areaCondition;
+		    }
+		    
+		    totalData = new ProductCategoryListService().GetProductConditionCount(condition);
 			int totalPage = (int)Math.ceil((double)totalData/numPerpage);
 			int pageBarSize = 5;
 			int pageNo = ((cPage-1)/pageBarSize)*pageBarSize + 1;
@@ -70,18 +99,13 @@ public class SearchCategoryServlet extends HttpServlet {
 				pageBar += "<li><a href='javascript:void(0);'onclick='changePage("+ pageNo + ");'&numPerpage=" + numPerpage + "'>&gt;</a></li>";
 			}
 			request.setAttribute("pageBar", pageBar);
-			// 카테고리 테이블에서 카테고리 이름찾아서 가져오는 객체
-			Category categoryName = new CategoryService().CategoryName(categoryname);
-			// 대표카테고리를 찾아서 상품List를 가져오는 객체
-			List<ProductCategoryTimeList> searchcategory = new ProductCategoryListService().CategoryList(cPage, numPerpage, categoryname);
 			
-			//totalData가 카테고리 이름만 찾아서 상품List 갯수 set에 저장
-			request.setAttribute("totalData", totalData);
-			request.setAttribute("categoryName", categoryName);
-		    request.setAttribute("categoryproduct", searchcategory);
-			request.getRequestDispatcher("/views/productcategorypage/searchcategorylist.jsp").forward(request, response);
-		 
-	}
+			
+			List<ProductCategoryTimeList> getselectproduct = new ProductCategoryListService().GetProductCondition(condition, cPage, numPerpage);
+			
+			request.setAttribute("getselectproduct", getselectproduct);
+			request.getRequestDispatcher("/views/productcategorypage/getselectproduct.jsp").forward(request, response);
+		}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
