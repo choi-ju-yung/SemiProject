@@ -26,8 +26,7 @@ function searchOff() {
 }
 // /검색창/
 // 상단메뉴바
-
-$("#menuList a").mouseenter(function () {
+$(document).on("mouseenter",'#menuList a', function () {
   const id = $(this).attr("id");
   $(".sideMenu")
     .not($("#sideMenu-" + id))
@@ -35,14 +34,13 @@ $("#menuList a").mouseenter(function () {
   $("#menuList a")
     .not($(this))
     .css({"background-color": "white", color: "#afafaf"});
-  console.log(this);
   $(this).css({"background-color": "#20c997", color: "white"});
   $("#sideMenu-" + id).css("display", "block");
 });
 $("#category0").mouseleave(function () {
   $("#menuList a").css({"background-color": "white", color: "#afafaf"});
 });
-$(".sideMenu").mouseleave(function () {
+$(document).on("moustleave",".sideMenu", function () {
   $(".sideMenu").css("display", "none");
   $("#menuList a").css({"background-color": "white", color: "#afafaf"});
 });
@@ -56,21 +54,26 @@ $("section").click(function (e) {
   }
 });
 
-// 상단 메뉴바 카테고리 클릭시 카테고리 출력 함수
-$(".headercategorybtn").click(function(e) {
-				$.ajax({
-					url: "<%=request.getContextPath()%>/ajax/headercategory.do",
-					success: function(data){
-						console.log(data);
-						$("#menuList>ul>li").html(data);
-					}
-				})
-			})
+/*$(document).on("mouseenter", '#menuList a', function () {
+  const id = $(this).attr("id");
+  $(".sideMenu")
+    .not($("#sideMenu-" + id))
+    .css("display", "none");
+  $("#menuList a")
+    .not($(this))
+    .css({"background-color": "white", color: "#afafaf"});
+  $(this).css({"background-color": "#20c997", color: "white"});
+  $("#sideMenu-" + id).css("display", "block");
+});
 
+$(document).on("mouseleave", '#menuList', function () {
+  $(".sideMenu").css("display", "none");
+  $("#menuList a").css({"background-color": "white", color: "#afafaf"});
+});*/
 
 // /상단메뉴바/
 
-// 카테고리 사이드바
+/*// 카테고리 사이드바
 
 $(".collapse").on("show.bs.collapse", function () {
   var target = $("[href='#" + $(this).prop("id") + "']");
@@ -92,6 +95,4 @@ $(".collapse").on("hidden.bs.collapse", function () {
   target.removeClass("fa-minus-square");
   target.addClass("fa-plus-square");
 });
-//카테고리 사이드바
-
-
+//카테고리 사이드바*/

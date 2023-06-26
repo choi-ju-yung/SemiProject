@@ -6,38 +6,6 @@ function searchData() {
 }
 // /검색기능/
 
-// 상단메뉴바
-
-$("#menuList a").mouseenter(function () {
-  const id = $(this).attr("id");
-  $(".sideMenu")
-    .not($("#sideMenu-" + id))
-    .css("display", "none");
-  $("#menuList a")
-    .not($(this))
-    .css({"background-color": "white", color: "#afafaf"});
-  console.log(this);
-  $(this).css({"background-color": "#20c997", color: "white"});
-  $("#sideMenu-" + id).css("display", "block");
-});
-$("#category0").mouseleave(function () {
-  $("#menuList a").css({"background-color": "white", color: "#afafaf"});
-});
-$(".sideMenu").mouseleave(function () {
-  $(".sideMenu").css("display", "none");
-  $("#menuList a").css({"background-color": "white", color: "#afafaf"});
-});
-$("section").mouseenter(function () {
-  $(".sideMenu").css("display", "none");
-  $("#menuList a").css({"background-color": "white", color: "#afafaf"});
-});
-$("section").click(function (e) {
-  if ($("#menuIcon").is(":checked")) {
-    $("#menuIcon").prop("checked", false);
-  }
-});
-
-// /상단메뉴바/
 
 // 카테고리 사이드바
 
@@ -61,6 +29,27 @@ $(".pdcCategory> .collapse").on("hidden.bs.collapse", function () {
   target.removeClass("fa-minus-square");
   target.addClass("fa-plus-square");
 });
+
+/*$(document).on("show.bs.collapse", ".pdcCategory> .collapse", function () {
+  var target = $("[href='#" + $(this).prop("id") + "']");
+  target.removeClass("fa-plus-square");
+  target.addClass("fa-minus-square");
+});
+$(document).on("show.bs.collapse", ".pdcCategory > .collapse", function () {
+  var target = $("[href='#" + $(this).prop("id") + "']");
+  target.removeClass("fa-plus-square");
+  target.addClass("fa-minus-square");
+});
+$(document).on("show.bs.collapse", ".pdcCategory > .collapse", function () {
+  var target = $("[href='#" + $(this).prop("id") + "']");
+  target.removeClass("fa-plus-square");
+  target.addClass("fa-minus-square");
+});
+$(document).on("show.bs.collapse", ".pdcCategory> .collapse", function () {
+  var target = $("[href='#" + $(this).prop("id") + "']");
+  target.removeClass("fa-plus-square");
+  target.addClass("fa-minus-square");
+});*/
 // /카테고리 사이드바/
 
 //가격검색 콤마//
@@ -364,7 +353,7 @@ $("document").ready(function () {
 
   // 시/도 선택시 구/군 설정
 
-  $("select[name^=sido]").change(function () {
+  $("select[name^=sido]").off("change").on("change",function () {
     var area =
       "area" + $("option", $(this)).index($("option:selected", $(this))); // 선택지역의 구군 Array
     var $gugun = $(this).next(); // 선택영역 군구 객체
@@ -378,7 +367,14 @@ $("document").ready(function () {
     }
   });
 });
-
+$(document).ready(function() {
+	$("#categoryFunction span").click(function() {
+	// 클릭한 span 태그에 active 클래스 추가
+	  $(this).addClass("active");
+	// 다른 span 태그에서 active 클래스 제거
+	$("#categoryFunction span").not(this).removeClass("active");
+	});
+});
 // 시세 차트 설정
 // 먼저 범례부분에 담을 div를 가져옴
 /* window.onload = function () {

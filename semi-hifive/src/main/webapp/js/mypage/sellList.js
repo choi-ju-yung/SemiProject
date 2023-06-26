@@ -45,7 +45,6 @@ $(".openBtn").click(e => {
 $(".selectStatus").change(e => {
 
 	const selectValue = $(e.target).val();
-	console.log(selectValue);
 	/* i = 인덱스, v = $(e.target).children() 배열 */
 	/* option 3개 순회 */
 	/* 클라이언트가 선택한 value가 option value와 같다면 */
@@ -67,7 +66,7 @@ $(".selectStatus").change(e => {
 		let left = Math.ceil((window.screen.width - width) / 2);
 		let top = Math.ceil((window.screen.height - height) / 2);
 
-		window.open(context + "mypage/buyerIdChoice.do?productId=" + productId, "_blank", 'width=' + width + ', height=' + height + ', left=' + left + ', top = ' + top);
+		window.open(context + "mypage/buyerIdChoice.do?userId=" + userId + "&productId=" + productId, "_blank", 'width=' + width + ', height=' + height + ', left=' + left + ', top = ' + top);
 	}
 
 	$.ajax({
@@ -95,3 +94,20 @@ $(".selectStatus").change(e => {
 		}
 	});
 })
+
+// 판매상태 별 이동
+$("#allBtn").click(e => {
+	location.assign(context + "myPage/sellList.do?userId=" + userId);
+});
+
+$("#sellBtn").click(e => {
+	location.assign(context + "mypage/sellBtn.do?userId=" + userId);
+});
+
+$("#resBtn").click(e => {
+	location.assign(context + "mypage/resBtn.do?userId=" + userId);
+});
+
+$("#solBtn").click(e => {
+	location.assign(context + "mypage/solBtn.do?userId=" + userId);
+});

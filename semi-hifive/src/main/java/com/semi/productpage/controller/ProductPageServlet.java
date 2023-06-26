@@ -36,9 +36,11 @@ public class ProductPageServlet extends HttpServlet {
 			throws ServletException, IOException {
 		// Product테이블 데이터 가져오기
 		int no = Integer.parseInt(request.getParameter("no"));
+		System.out.println("서블릿" + no);
 		Product p = new ProductPageService().selectProduct(no);
-		List<ProductComment> comments = new ProductPageService().selectAllProductComment(no);
+		System.out.println("서블릿" + p);
 		
+		List<ProductComment> comments = new ProductPageService().selectAllProductComment(no);
 		request.setAttribute("product", p);
 		request.setAttribute("comments", comments);
 		// 출력할 화면 선택

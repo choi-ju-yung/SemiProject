@@ -94,6 +94,9 @@ public class SellListServlet extends HttpServlet {
 		request.setAttribute("countStatusRes", countStatusRes);
 		request.setAttribute("countStatusSol", countStatusSol);
 
+		// 버튼 클래스
+		request.setAttribute("nowButton", "all");
+			
 		request.getRequestDispatcher("/views/mypage/sellList.jsp").forward(request, response);
 	}
 

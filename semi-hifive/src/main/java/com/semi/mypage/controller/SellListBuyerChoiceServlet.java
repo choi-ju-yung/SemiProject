@@ -33,17 +33,13 @@ public class SellListBuyerChoiceServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String productId = request.getParameter("productId");
-		// 해당 상품 댓글 작성자 아이디 가져오기
-		List<MemberComment> mc = new MypageProductService().commentList(productId);
-		request.setAttribute("comments", mc);
-		// 상품코드로 거래테이블 열고
-		// 상품코드로 댓글을 남긴 사람 데이터 가져옴(구매자 리스트)
-		// 1. 구매자 후보 가져오기(채팅 상대 || 댓글 남긴 사람)
-		// jsp통해서 출력
+		String userId = request.getParameter("userId");
 		
-		// 다음 서블릿에서 구현
-		// 2. insert문에 buyer_id = 구매자, where product_id = productId 주기
-		// jsp에서 선택 시 다른 서블릿 이동, 구매자아이디 가져오기
+		// 해당 상품 댓글 작성자 아이디 가져오기
+		List<MemberComment> mc = new MypageProductService().commentList(productId, userId);
+		request.setAttribute("comments", mc);
+		request.setAttribute("productId", productId);
+
 		request.getRequestDispatcher("/views/mypage/sellListBuyerChoice.jsp").forward(request, response);
 	}
 

@@ -38,37 +38,46 @@ $(".reviewBtn").click(e => {
 });
 
 $(".okBtn").click(e => {
-		// 좋아요, 보통, 싫어요 선택(super-happy, neutra1, super-sad)
-		const rating = document.getElementsByName('rating');  // 이름값(js)
-		let radioValue;
+	// 좋아요, 보통, 싫어요 선택(super-happy, neutra1, super-sad)
+	const rating = document.getElementsByName('rating');  // 이름값(js)
+	let radioValue;
 
-		for (var i = 0; i < rating.length; i++) {
-			if (rating[i].checked) {
-				radioValue = rating[i].value;
-				break;
-			}
+	for (var i = 0; i < rating.length; i++) {
+		if (rating[i].checked) {
+			radioValue = rating[i].value;
+			break;
 		}
-		
-		// 후기 메세지
-		let reviewMsg = $(".reviewMsg").val();
-		
-		$.ajax({
-			url: context + "mypage/reviewWrite.do",
-			type: "POST",
-			data: {
-				"userId": userId,
-				"productId": productId,
-				"radioValue": radioValue,
-				"reviewMsg": reviewMsg
-			},
-			success: (data) => {
-				$(".btnSpanDiv input[type=radio]").prop("checked", false);
-				$(".reviewMsg").val("");
-				alert(data);
-				$(".modal").addClass("hidden");
+	}
+
+	// 후기 메세지
+	let reviewMsg = $(".reviewMsg").val();
+
+	$.ajax({
+		url: context + "mypage/reviewWrite.do",
+		type: "POST",
+		data: {
+			"userId": userId,
+			"productId": productId,
+			"radioValue": radioValue,
+			"reviewMsg": reviewMsg
+		},
+		success: (data) => {
+			$(".btnSpanDiv input[type=radio]").prop("checked", false);
+			$(".reviewMsg").val("");
+			if (data == "거래후기가 등록되었습니다.") {
+				$(".reviewBtn[id='" + productId + "']").prop({
+					"disabled": true
+				}).css({
+					"color": "#ccc",
+					"border": "2px solid #ccc",
+					"background-color": "white"
+				});
 			}
-		});
+			alert(data);
+			$(".modal").addClass("hidden");
+		}
 	});
+});
 
 
 // 후기메세지 최대 글자수 설정

@@ -32,14 +32,15 @@ public class ProductDao {
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
 		Product p=null;
-		String sql=this.sql.getProperty("selectProduct");
-		
+		System.out.println("dao" + id);
 		try {
-			pstmt=conn.prepareStatement(sql);
-			pstmt.setInt(1,id);
+			pstmt=conn.prepareStatement(sql.getProperty("selectProduct"));
+			pstmt.setInt(1, id);
+			System.out.println("dao" + id);
 			rs=pstmt.executeQuery();
 			if(rs.next()) {
 				p=getProduct(rs);
+				System.out.println("dao" + p);
 			}
 		}catch(SQLException e) {
 			e.printStackTrace();
