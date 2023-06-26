@@ -19,10 +19,10 @@
             	<h4><span>   <%=request.getAttribute("totalData")%></span></h4>
             </div>
             <div id="categoryFunction">
-              <span>최신순</span>
-              <span>인기도순</span>
-              <span>최고가순</span>
-              <span>최저가순</span>
+             <span id ="recently" onclick="handleRecentlyClick();">최신순</span>
+              <span id ="popular" onclick="handleRecentlyClick();">인기도순</span>
+              <span id ="desc" onclick="handleDescClick();">최고가순</span>
+              <span id ="asc" onclick="handleAscClick();">최저가순</span>
             </div>
           </div>
 		<div id="productImgContainer">
@@ -70,9 +70,9 @@
                   <span>하마페이</span>
                 </div>
                 <img
-                  src="https://upload.wikimedia.org/wikipedia/ko/8/87/Kakaofriends.png"
+                  src=""
                   alt=""
-                />
+                /><%=p.getProductfile().getImageName()%>
                 <p id="productName"><%=p.getProductCategoryList().getProductTitle()%></p>
                 <p id="productPrice"><%=p.getProductCategoryList().getPrice()%>
                 <span><%if(p.getElapsedTime() < 60){%>

@@ -286,6 +286,3 @@ function makeCategoryHeader(name, index) {
 </script>
 	<script src="<%=request.getContextPath()%>/js/common/header.js"></script>
 	<script src="<%=request.getContextPath()%>/js/searchpage/searchPage.js"></script>
-
-</body>
-</html>

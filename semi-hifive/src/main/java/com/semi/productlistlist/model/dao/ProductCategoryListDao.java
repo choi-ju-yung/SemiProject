@@ -2,6 +2,7 @@ package com.semi.productlistlist.model.dao;
 
 import static com.semi.common.JDBCTemplate.close;
 
+
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
@@ -16,9 +17,9 @@ import java.util.Set;
 
 import com.semi.category.model.vo.Category;
 import com.semi.category.model.vo.SubCategory;
+import com.semi.product.model.vo.ProductFile;
 import com.semi.productlist.model.vo.ProductCategoryList;
 import com.semi.productlist.model.vo.ProductCategoryTimeList;
-
 public class ProductCategoryListDao {
 	private Properties sql = new Properties();
 	{
@@ -54,6 +55,8 @@ public class ProductCategoryListDao {
 					.categoryName(rs.getString("CATEGORY_NAME")).build())
 		.subCategory(SubCategory.builder()
 					.subcategoryName(rs.getString("SUBCATEGORY_NAME")).build())
+		.productfile(ProductFile.builder()
+				.imageName(rs.getString("PRODUCT_IMAGE_NAME")).build())
 		.build();
 	}
 	// 전체 상품리스트 가져오기 카테고리, 세부카테고리 모두 join해서 가져온것
@@ -61,7 +64,6 @@ public class ProductCategoryListDao {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		List<ProductCategoryTimeList> productlist = new ArrayList<>();
-	
 	try {
 		pstmt = conn.prepareStatement(sql.getProperty("CategoryProductList"));
 		pstmt.setInt(1, (cPage-1) * numPerpage + 1);
@@ -69,6 +71,8 @@ public class ProductCategoryListDao {
 		rs = pstmt.executeQuery();
 		while(rs.next()) {
 			productlist.add(getProduct(rs));
+			System.out.println("dao" + rs);
+			System.out.println("dao" + productlist);
 		}
 	} catch (SQLException e) {
 		e.printStackTrace();
@@ -328,7 +332,46 @@ public class ProductCategoryListDao {
 				close(pstmt);
 			}return result;
 		}
+		public List<ProductCategoryTimeList> EntireMaxPrice(Connection conn, int cPage, int numPerpage) {
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			List<ProductCategoryTimeList> productlist = new ArrayList<>();
 		
+		try {
+			pstmt = conn.prepareStatement(sql.getProperty("EntireMaxPrice"));
+			pstmt.setInt(1, (cPage-1) * numPerpage + 1);
+			pstmt.setInt(2, cPage * numPerpage);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				productlist.add(getProduct(rs));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rs);
+			close(pstmt);
+		}return productlist;
+		}
+		public List<ProductCategoryTimeList> EntireMinPrice(Connection conn, int cPage, int numPerpage) {
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			List<ProductCategoryTimeList> productlist = new ArrayList<>();
+		
+		try {
+			pstmt = conn.prepareStatement(sql.getProperty("EntireMinPrice"));
+			pstmt.setInt(1, (cPage-1) * numPerpage + 1);
+			pstmt.setInt(2, cPage * numPerpage);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				productlist.add(getProduct(rs));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rs);
+			close(pstmt);
+		}return productlist;
+		}
 		
 		
 		

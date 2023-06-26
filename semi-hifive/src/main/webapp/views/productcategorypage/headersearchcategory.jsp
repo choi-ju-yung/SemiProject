@@ -492,9 +492,9 @@
 	                  <span>하마페이</span>
 	                </div>
 	                <img
-	                  src="https://upload.wikimedia.org/wikipedia/ko/8/87/Kakaofriends.png"
+	                  src=""
 	                  alt=""
-	                />
+	                /><%=p.getProductfile().getImageName()%>
 	               <p id="productName"><%=p.getProductCategoryList().getProductTitle()%></p>
                 <p id="productPrice"><%=p.getProductCategoryList().getPrice()%>
                 <span><%if(p.getElapsedTime() < 60){%>

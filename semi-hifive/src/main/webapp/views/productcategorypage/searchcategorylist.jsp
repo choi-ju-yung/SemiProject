@@ -434,10 +434,10 @@
               <h4> <span><%=request.getAttribute("totalData")%></span></h4>
             </div>
             <div id="categoryFunction">
-              <span>최신순</span>
-              <span>인기도순</span>
-              <span>최고가순</span>
-              <span>최저가순</span>
+              <span id ="recently" onclick="handleRecentlyClick();">최신순</span>
+              <span id ="popular" onclick="handleRecentlyClick();">인기도순</span>
+              <span id ="desc" onclick="handleDescClick();">최고가순</span>
+              <span id ="asc" onclick="handleAscClick();">최저가순</span>
             </div>
           </div>
            <div id="contentdata">
@@ -541,344 +541,676 @@
     	  HeaderCategoryMenu();
     	});
 
-    	function HeaderCategoryMenu() {
-    	  $.ajax({
-    	    url: "<%=request.getContextPath()%>/headercategoryajax",
-    	    dataType: 'json', // "데이터 유형" 대신 "dataType" 속성 사용
-    	    success: function(data) { // "성공" 대신 "success" 속성 사용
-    	      data.main.forEach(function(category, index) {
-    	        // 서브 카테고리를 가져오기 위해 필터링
-    	        const subCategory = data.sub.filter(function(sub) {
-    	          return sub.category.categoryName === category.categoryName;
-    	        });
-    	        makeCategoryHeader(category.categoryName, subCategory, index);
-    	      });
-    	    }
-    	  });
-    	}
-    	function makeCategoryHeader(categoryName, subCategory, index) {
-    		  var categoryHtml = `
-    		    <div class="pdcCategory">
-    		      <span>${categoryName}</span>
-    		      <i class="fa fa-plus-square" data-toggle="collapse" href="#pddCategory${index + 1}" aria-expanded="false" aria-controls="pddCategory${index + 1}"></i>
-    		      <div class="collapse" id="pddCategory${index + 1}">
-    		        <ul>
-    		  `;
-
-    		  subCategory.forEach(function (sub) {
-    		    categoryHtml += `
-    		          <li><a href="javascript:void(0);">${sub.subcategoryName}</a></li>
-    		        `;
-    		  });
-
-    		  categoryHtml += `
-    		        </ul>
-    		      </div>
-    		    </div>
-    		  `;
-
-    		  console.log(categoryHtml);
-    		  $(".chbtn ul").append(categoryHtml);
-    		}
-
-    	/* function makeCategoryHeader(categoryName, subCategory, index) {
-    	  var categoryHtml = `
-    	    <div class="pdcCategory">
-    	      <span>${categoryName}</span>
-    	      <i class="fa fa-plus-square" data-toggle="collapse" href="#pddCategory${index + 1}" aria-expanded="false" aria-controls="pddCategory${index + 1}"></i>
-    	      <div class="collapse" id="pddCategory${index + 1}">
-    	        <ul>
-    	        ;
-    	        subCategory.forEach(function(sub) {
-    	    	    `
-    	    	      <li><a href="javascript:void(0);">${sub.subCategory.subcategoryName}</a></li>
-    	    	    `;
-    	        </ul>
-    	      </div>
-    	    </div>
-    	  `;
-    	  console.log(categoryHtml);
-    	  $(".chbtn ul").append(categoryHtml);
-    	} */
-
-    	/* function generateSubCategoryHtml(subCategory) {
-    	  var subCategoryHtml = '';
-    	  subCategory.forEach(function(sub) {
-    	    subCategoryHtml += `
-    	      <li><a href="javascript:void(0);">${sub.subCategory.subcategoryName}</a></li>
-    	    `;
-    	  });
-    	  return subCategoryHtml;
-    	} */
-
-<%-- $(()=>{HeaderCategoryMenu()});    
-    function HeaderCategoryMenu() {
-        $.ajax({
-            url: "<%=request.getContextPath()%>/headercategoryajax",
-            dataType: 'json',
-            success: function(data) {
-                data.main.forEach(function(category,index) {
-                	const subCategory=data.sub.filter(cate=>cate.category.categoryName==category.categoryName);
-                    makeCategoryHeader(category.categoryName, subCategory, index);
-                    /* const subCategory=data.sub.filter(cate=>cate.category.categoryName==category.categoryName); */
-                    //console.log(subCategory);
-                     makeCatetorySub(subCategory, index);
-                });
-            }
-        });
-    }
-    function makeCategoryHeader(categoryName, subCategory, index) {
-    	  var categoryHtml = `
-    	    <div class="pdcCategory">
-    	      <span>${categoryName}</span>
-    	      <i class="fa fa-plus-square" data-toggle="collapse" href="#pddCategory${index + 1}" aria-expanded="false" aria-controls="pddCategory${index + 1}"></i>
-    	      <div class="collapse" id="pddCategory${index + 1}">
-    	        <ul>
-    	        ${generateSubCategoryHtml(subCategory)}
-    	        </ul>
-    	      </div>
-    	    </div>
-    	  `;
-    	  console.log(categoryHtml);
-    	  $(".chbtn ul").append(categoryHtml);
-    	}
-    function generateSubCategoryHtml(subCategory) {
-        var subCategoryHtml = '';
-        subCategory.forEach(function(sub) {
-            subCategoryHtml += `
-                <li><a href="javascript:void(0);">${sub.subCategory.subcategoryName}</a></li>
-            `;
-        });
-        return subCategoryHtml;
-    }
-   
-            	// 서브카테고리 클릭시 출력 ajax
-			function subsearchProduct(sub){
-				$.ajax({
-          			url: "<%=request.getContextPath()%>/subserachcategory.do",
-          			dateType: 'html',
-          			data:{'sub':sub},
-          			success: function(data){
-          				$("#productContainer").html(data);
-          			}
-          		});
-          	} --%>
-           
-          	// 왼쪽 카테고리 밑에서 중복 조건 추가
-           $(document).ready(function() {
-        	  
-   				let conditions = {};
-   				 //상품 카테고리 태그 클릭시 출력하는 함수
-   				$(".pdcCategory span").click(function() {
-    				var categoryName = $(this).text();
-    				conditions['categoryName'] = "CATEGORY_NAME = '" + categoryName + "'";
-    				
-    				$("#categoryName h4 span").text(categoryName);
-    				console.log(conditions);
-    			getselectproduct(conditions);
-   			});
-   				
-   				 $(".collapse ul li").click(function(){
-   					 var subCategoryName = $(this).text();
-   				  	 var categoryName = $(this).closest(".pdcCategory").find("span").text();
-
-   					 conditions['subCategoryName'] = "SUBCATEGORY_NAME = '" + subCategoryName +"'";
-   					 
-   				  $("#categoryName h4 span").text(categoryName + " > " + subCategoryName);
-   					console.log(conditions);
-   					getselectproduct(subCategoryName);
-   				 });
-   				// 상품상태 태그 클릭시 출력하는 함수
-   				$("#prdCategory label").click(function() {
-    				var spanText = $(this).find("span").text();
-
-    				if (spanText === "전체") {
-      					conditions['STATUS'] = "";
-    				} else if(spanText === "미개봉"){
-      					conditions['STATUS'] = "SELL_STATUS = '" + spanText + "'";
-    				} else if(spanText === "사용감 있음"){
-    					conditions['STATUS'] = "SELL_STATUS = '" + spanText + "'";
-    				}
-    				console.log(conditions);
-    			getselectproduct(conditions);
-  			});
-        	   // 조건된 가격을 클릭할때 출력하는 함수
-        	   $(".radio-buttons .radio-button").click(function(e) {
-        		   
-    				var selectedOption = $(this).find("input").val();
-					
-    				if(selectedOption === "option0"){
-    					conditions['price']= "";
-        	   		} else if (selectedOption === "option1") {
-      					conditions['price']="PRICE <= 100000";
-    				} else if (selectedOption === "option2") {
-    					conditions['price']="PRICE BETWEEN 100000 AND ?";
-    				} else if (selectedOption === "option3") {
-    					conditions['price']="PRICE BETWEEN 300000 AND ?";
-    				} else if (selectedOption === "option4") {
-    					conditions['price']="PRICE BETWEEN 500000 AND ?";
-    				} else if (selectedOption === "option5") {
-    					conditions['price']="PRICE >= 1000000";
-    				}
-    				console.log(conditions);
-    				getselectproduct(conditions);
-  				});	
-        	   
-        	   // input태그에 검색한 가격
-        	   $("#prcBtn").click(function() {
-        		    var minPrice = $(".prcinput[name='text'][placeholder='최소값']").val();
-        		    var maxPrice = $(".prcinput[name='text'][placeholder='최대값']").val();
-
-        		    
-        		    if (minPrice && maxPrice) {
-        		    	conditions['price']="PRICE BETWEEN " + minPrice + " AND " + maxPrice;
-        		    } 
-        		    console.log(conditions);
-        		    getselectproduct(conditions);
-	           	});
-	        	// 지역검색클릭
-	           	$("#gugun1").change(function() {
-	           		
-	           	    var selectedLocation = $(this).val();
-	           	    if (selectedLocation) {
-	           	    	conditions['area']="AREA_NAME LIKE '%" + selectedLocation + "%'";
-	           	    }
-	           	 	console.log(conditions);
-	           	    getselectproduct(conditions);
-	           	  });
-	           	// 키값으로 여러조건 가져오기 ajax
-	           	function getselectproduct(conditions){
-	           		 console.log(conditions);
-	           		  $.ajax({
-	           			url: "<%=request.getContextPath()%>/getproduct.do",
-	           			dateType: 'html',
-	           			data:conditions,
-	           			success: function(data){
-	          				$("#productContainer").html(data);
-	           			}
-	           		});
-	           	}
-           });
-          	
-           	//필터에 넣어주기
-			// 카테고리 클릭 이벤트 처리
+    <%-- //대표카테고리 클릭시 출력 ajax
+    function searchProduct(Cid){
+   		$.ajax({
+   			url: "<%=request.getContextPath()%>/serachcategory.do",
+   			dateType: 'html',
+   			data:{'Cid':Cid},
+   			success: function(data){
+   				$("#productContainer").html(data); 
+   			}
+   		});
+   	}; --%>
+   <%-- 	// 서브카테고리 클릭시 출력 ajax
+	function subsearchProduct(sub){
+		$.ajax({
+  			url: "<%=request.getContextPath()%>/subserachcategory.do",
+  			dateType: 'html',
+  			data:{'sub':sub},
+  			success: function(data){
+  				$("#productContainer").html(data);
+  			}
+  		});
+  	} --%>
+  	let conditions = {};
+  	// 왼쪽 카테고리 밑에서 중복 조건 추가
+    $(document).ready(function() { 
+			/* let conditions = {}; */
+			let categoryName="";
+			let subcategoryname="";
+			 //상품 카테고리 태그 클릭시 출력하는 함수
+			$(".pdcCategory span").click(function() {
+				categoryName = $(this).text();
+			conditions['categoryname'] = "CATEGORY_NAME = '" + categoryName + "'";
 			
-			$(document).on('mouseenter','#menuList a',function() {
-   				 /* var maxFilters = 2; // 최대 필터 개수
-    			 var currentFilters = 0; // 현재 필터 개수 */
-    		$('.pdcCategory span').on('click', function() {
-    			var maxFilters = 2; // 최대 필터 개수
-   			 	var currentFilters = 0; // 현재 필터 개수
-        	if (currentFilters < maxFilters) {
-            var categoryName = $(this).text(); // 클릭한 카테고리명 가져오기
+			
+			console.log(conditions);
+			getselectproduct(conditions);
+				removeKeyFromProduct(conditions);
+		});
+			// 서브카테고리
+			 $(".collapse ul li").click(function(){
+				 subcategoryname = $(this).text();
+			  	 var categoryName = $(this).closest(".pdcCategory").find("span").text();
 
-            // 새로운 필터 태그 생성
-            var newFilter = $('<div>').addClass('plusFiterbox')
-                                      .append($('<div>').addClass('plusFiterboxText').text(categoryName))
-                                      .append($('<div>').addClass('plusFiterboxbtn').html('<button><svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><path d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192 192-86 192-192z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M320 320L192 192M192 320l128-128"/></svg></button>'));
+				 conditions['subcategoryname'] = "SUBCATEGORY_NAME = '" + subcategoryname +"'" ;
+				 
+			  
+				console.log(conditions);
+				getselectproduct(subcategoryname);
+				removeKeyFromProduct(conditions);
+			 });
+			// 상품상태 태그 클릭시 출력하는 함수
+			$("#prdCategory label").click(function() {
+			var spanText = $(this).find("span").text();
 
-           $('.plusFilter').empty().append(newFilter); // 필터 컨테이너에 새로운 필터 추가
+			if (spanText === "전체") {
+					conditions['status'] = "";
+			} else if(spanText === "미개봉"){
+					conditions['status'] = "SELL_STATUS = '" + spanText + "'";
+			} else if(spanText === "사용감 있음"){
+				conditions['status'] = "SELL_STATUS = '" + spanText + "'";
+			}
+			console.log(conditions);
+			getselectproduct(conditions);
+				removeKeyFromProduct(conditions);
+		});
+	   // 조건된 가격을 클릭할때 출력하는 함수
+	   $(".radio-buttons .radio-button").click(function(e) {
+		   
+			var selectedOption = $(this).find("input").val();
+			
+			if(selectedOption === "option0"){
+				conditions['price']= "";
+	   		} else if (selectedOption === "option1") {
+					conditions['price']="PRICE <= 100000 ";
+			} else if (selectedOption === "option2") {
+				conditions['price']="PRICE BETWEEN 100000 AND ?";
+			} else if (selectedOption === "option3") {
+				conditions['price']="PRICE BETWEEN 300000 AND ?";
+			} else if (selectedOption === "option4") {
+				conditions['price']="PRICE BETWEEN 500000 AND ?";
+			} else if (selectedOption === "option5") {
+				conditions['price']="PRICE >= 1000000";
+			}
+			console.log(conditions);
+			getselectproduct(conditions);
+				removeKeyFromProduct(conditions);
+			});	
+	   
+	   // input태그에 검색한 가격
+	   $("#prcBtn").click(function() {
+		    var minPrice = $(".prcinput[name='text'][placeholder='최소값']").val();
+		    var maxPrice = $(".prcinput[name='text'][placeholder='최대값']").val();
 
-            currentFilters = 1; // 현재 필터 개수 증가
-        } else {
-            var oldestFilter = $('.plusFilter .plusFiterbox:first-child'); // 가장 오래된 필터 선택
-            oldestFilter.remove(); // 가장 오래된 필터 삭제
+		    
+		    if (minPrice && maxPrice) {
+		    	conditions['price']="PRICE BETWEEN " + minPrice + " AND " + maxPrice;
+		    } 
+		    console.log(conditions);
+		    getselectproduct(conditions);
+ 		    removeKeyFromProduct(conditions);
+        	});
+    	// 지역검색클릭
+       	$("#gugun1").change(function() {
+       		
+       	    var selectedLocation = $('#sido1').val() + $(this).val();
+       	    if (selectedLocation) {
+       	    	conditions['area']="AREA_NAME LIKE '%" + selectedLocation + "%'";
+       	    }
+       	 	console.log(conditions);
+       	    getselectproduct(conditions);
+        	 	removeKeyFromProduct(conditions);
+        	  });
+     	
+/* 	       $(document).ready(function() {
+    // 필터에 넣기
+    	var currentFilters = 0; // 현재 필터 개수
+		var existingFilter = null; // 기존 필터 객체
+	$('.pdcCategory span').on('click', function() {
+	if (currentFilters === 0) {
+     categoryName = $(this).text(); // 클릭한 카테고리명 가져오기
 
-            var categoryName = $(this).text(); // 클릭한 카테고리명 가져오기
-
-            // 새로운 필터 태그 생성
-            var newFilter = $('<div>').addClass('plusFiterbox')
-                                      .append($('<div>').addClass('plusFiterboxText').text(categoryName))
-                                      .append($('<div>').addClass('plusFiterboxbtn').html('<button><svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><path d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192 192-86 192-192z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M320 320L192 192M192 320l128-128"/></svg></button>'));
-
-            $('.plusFilter').empty().append(newFilter); // 필터 컨테이너에 새로운 필터 추가
-        }
-    });
-    	
-    		$('.collapse ul li').on('click', function() {
-            	if (currentFilters < maxFilters) {
-                var categoryName = $(this).text(); // 클릭한 카테고리명 가져오기
-
-                // 새로운 필터 태그 생성
-                var newFilter = $('<div>').addClass('plusFiterbox')
-                                          .append($('<div>').addClass('plusFiterboxText').text(categoryName))
-                                          .append($('<div>').addClass('plusFiterboxbtn').html('<button><svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><path d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192 192-86 192-192z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M320 320L192 192M192 320l128-128"/></svg></button>'));
-
-               $('.plusFilter').empty().append(newFilter); // 필터 컨테이너에 새로운 필터 추가
-
-                currentFilters = 1; // 현재 필터 개수 증가
-            } else {
-                var oldestFilter = $('.plusFilter .plusFiterbox:first-child'); // 가장 오래된 필터 선택
-                oldestFilter.remove(); // 가장 오래된 필터 삭제
-
-                var categoryName = $(this).text(); // 클릭한 카테고리명 가져오기
-
-                // 새로운 필터 태그 생성
-                var newFilter = $('<div>').addClass('plusFiterbox')
-                                          .append($('<div>').addClass('plusFiterboxText').text(categoryName))
-                                          .append($('<div>').addClass('plusFiterboxbtn').html('<button><svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><path d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192 192-86 192-192z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M320 320L192 192M192 320l128-128"/></svg></button>'));
-
-                $('.plusFilter').empty().append(newFilter); // 필터 컨테이너에 새로운 필터 추가
-            }
-        });
-    		$('.radio-button').on('click', function() {
-    			var maxFilters = 2; // 최대 필터 개수
-   			 	var currentFilters = 0; // 현재 필터 개수
-        	if (currentFilters < maxFilters) {
-        		var radioname = $(this).find('.radio-label').text(); // 클릭한 카테고리명 가져오기
-
-            // 새로운 필터 태그 생성
-            var newFilter = $('<div>').addClass('plusFiterbox')
-                                      .append($('<div>').addClass('plusFiterboxText').text(radioname))
-                                      .append($('<div>').addClass('plusFiterboxbtn').html('<button><svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><path d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192 192-86 192-192z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M320 320L192 192M192 320l128-128"/></svg></button>'));
-
-           $('.plusFilter').empty().append(newFilter); // 필터 컨테이너에 새로운 필터 추가
-
-            currentFilters = 1; // 현재 필터 개수 증가
-        } else {
-            var oldestFilter = $('.plusFilter .plusFiterbox:first-child'); // 가장 오래된 필터 선택
-            oldestFilter.remove(); // 가장 오래된 필터 삭제
-
-            var radioname = $(this).find('.radio-label').text(); // 클릭한 카테고리명 가져오기
-
-            // 새로운 필터 태그 생성
-            var newFilter = $('<div>').addClass('plusFiterbox')
-                                      .append($('<div>').addClass('plusFiterboxText').text(radioname))
-                                      .append($('<div>').addClass('plusFiterboxbtn').html('<button><svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><path d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192 192-86 192-192z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M320 320L192 192M192 320l128-128"/></svg></button>'));
-
-            $('.plusFilter').empty().append(newFilter); // 필터 컨테이너에 새로운 필터 추가
-        }
-    });
-    	
-    		$('.collapse ul li').on('click', function() {
-            	if (currentFilters < maxFilters) {
-            	var radioname = $(this).find('.radio-label').text(); // 클릭한 카테고리명 가져오기
-
-                // 새로운 필터 태그 생성
-                var newFilter = $('<div>').addClass('plusFiterbox')
-                                          .append($('<div>').addClass('plusFiterboxText').text(radioname))
-                                          .append($('<div>').addClass('plusFiterboxbtn').html('<button><svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><path d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192 192-86 192-192z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M320 320L192 192M192 320l128-128"/></svg></button>'));
-
-               $('.plusFilter').empty().append(newFilter); // 필터 컨테이너에 새로운 필터 추가
-
-                currentFilters = 1; // 현재 필터 개수 증가
-            } else {
-                var oldestFilter = $('.plusFilter .plusFiterbox:first-child'); // 가장 오래된 필터 선택
-                oldestFilter.remove(); // 가장 오래된 필터 삭제
-
-                var categoryName = $(this).text(); // 클릭한 카테고리명 가져오기
-
-                // 새로운 필터 태그 생성
-                var newFilter = $('<div>').addClass('plusFiterbox')
-                                          .append($('<div>').addClass('plusFiterboxText').text(radioname))
-                                          .append($('<div>').addClass('plusFiterboxbtn').html('<button><svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><path d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192 192-86 192-192z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M320 320L192 192M192 320l128-128"/></svg></button>'));
-
-                $('.plusFilter').empty().append(newFilter); // 필터 컨테이너에 새로운 필터 추가
-            }
-        });	
+    // 새로운 필터 태그 생성
+    existingFilter = $('<div>').addClass('plusFiterbox')
+                              .append($('<div>').addClass('plusFiterboxText').text(categoryName))
+                              .append($('<div>').addClass('plusFiterboxbtn').html('<button><svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><path d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192 192-86 192-192z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M320 320L192 192M192 320l128-128"/></svg></button>'))
+							  .attr('categoryName', categoryName);
+    $('.plusFilter').append(existingFilter); // 필터 컨테이너에 새로운 필터 추가
+    currentFilters++; // 현재 필터 개수 증가
+} else if (currentFilters === 1) {
+	var categoryName = $(this).text();
+	existingFilter.attr('categoryName', categoryName);
+	existingFilter.find('.plusFiterboxText').text(categoryName);
+}
+	
+});
+//서브카테고리 필터에 넣어주기
+	$('.collapse ul li').on('click', function() {
+    	if (currentFilters === 0) {
+        subcategoryname = $(this).text(); // 클릭한 카테고리명 가져오기
+        // 새로운 필터 태그 생성
+        existingFilter = $('<div>').addClass('plusFiterbox')
+                                  .append($('<div>').addClass('plusFiterboxText').text(subcategoryname))
+                                  .append($('<div>').addClass('plusFiterboxbtn').html('<button><svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><path d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192 192-86 192-192z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M320 320L192 192M192 320l128-128"/></svg></button>'))
+								  .attr('subcategoryname', subcategoryname);
+        $('.plusFilter').append(existingFilter); // 필터 컨테이너에 새로운 필터 추가
+	    currentFilters++; // 현재 필터 개수 증가
+    } else if (currentFilters === 1) {
+    	//필터의 text값 업데이트시켜주기
+    	subcategoryname = $(this).text(); // 클릭한 카테고리명 가져오기
+    	existingFilter.attr('subcategoryname', subcategoryname);
+    	existingFilter.find('.plusFiterboxText').text(subcategoryname);
+    }
 });
 
-    	</script>
-</section>
+	$(document).on("click", ".plusFiterboxbtn button", function() {
+		$(this).closest(".plusFiterbox").remove();	
+});
+	
+	$('.statusbtn span').on('click', function() {
+	    if (currentFilters === 0) {
+	    // 새로운 필터 태그 생성
+	      var statusTag = $(this).text(); // 클릭한 카테고리명 가져오기
+	      existingFilter = $('<div>').addClass('plusFiterbox')
+	        .append($('<div>').addClass('plusFiterboxText').text(statusTag))
+	        .append($('<div>').addClass('plusFiterboxbtn').html('<button><svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><path d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192 192-86 192-192z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M320 320L192 192M192 320l128-128"/></svg></button>'))
+	        .attr('status', statusTag); // 태그의 속성값으로 키값 설정
+
+	      $('.plusFilter').append(existingFilter); // 필터 컨테이너에 새로운 필터 추가
+	      currentFilters++; // 현재 필터 개수 증가
+	    } else if (currentFilters === 1) {
+	      //필터의 text값 업데이트시켜주기
+	      var statusTag = $(this).text(); // 클릭한 카테고리명 가져오기
+	      existingFilter.attr('status', statusTag); // 필터의 태그 속성값 변경
+	      existingFilter.find('.plusFiterboxText').text(statusTag); // 필터의 텍스트 값 업데이트
+	    }
+ });		
+	
+}); */
+   
+    	// 클릭시 조건 삭제 함수
+    	 	/* var currentFilters = 0; // 현재 필터 개수
+			var existingFilter = null; // 기존 필터 객체 */
+          
+		function removeKeyFromProduct(conditions) {
+			var currentFilters = 0; // 현재 필터 개수
+			var existingFilter = null; // 기존 필터 객체
+			
+        	var categoryname, subcategoryname, status, price, area;
+    		 /* $(document).on("click", ".plusFiterboxbtn button", function() {
+    			$(this).closest(".plusFiterbox").remove();
+                currentFilters--;// 현재 필터 개수 감소
+                existingFilter = null; // 기존 필터 객체 초기화  */
+
+    		categoryname = $(this).closest(".plusFiterbox").attr("categoryname"); // 삭제할 키 값을 가져옴
+    		subcategoryname = $(this).closest(".plusFiterbox").attr("subcategoryname"); // 삭제할 키 값을 가져옴
+    		status = $(this).closest(".plusFiterbox").attr("status"); // 삭제할 키 값을 가져옴
+    		price = $(this).closest(".plusFiterbox").attr("price"); // 삭제할 키 값을 가져옴
+    		area = $(this).closest(".plusFiterbox").attr("area"); // 삭제할 키 값을 가져옴
+	 		
+    		if(categoryname != null){
+    			delete conditions['categoryname'];
+    			delete conditions['subcategoryname'];
+    		}else if(subcategoryname != null){
+    			delete conditions['subcategoryname'];
+    		}else if(status != null){
+    			delete conditions['status'];
+    		}else if(price != null){
+    			delete conditions['price'];
+    		}else if(area != null){
+    			delete conditions['area'];
+    		}
+    		console.log(conditions);
+    		getselectproduct(conditions);
+    		/* }); */
+    		
+          }
+			
+         <%-- $("#desc").click(function(){
+	        	$.ajax({
+		            url: "<%=request.getContextPath()%>/maxprice",
+		            dataType: 'html',
+		            /* data: conditions, */
+		            success: function(data) {
+		                $("#productContainer").html(data);
+		                 if (conditions['subcategoryname'] == null) {
+		                    $("#categoryName span").text(categoryName);
+		                } else {
+		                    $("#categoryName span").text(categoryName + " > " + subcategoryname);
+		                }
+		            }
+		        });
+	        }); --%>
+       	// 키값으로 여러조건 가져오기 ajax
+       	function getselectproduct(conditions){
+       		 console.log(conditions);
+       		 <%--  $.ajax({
+       			url: "<%=request.getContextPath()%>/getproduct.do",
+       			dateType: 'html',
+       			data:conditions,
+       			success: function(data){ --%>
+      				if(conditions['categoryname'] == null && conditions['subcategoryname'] == null && conditions['status'] == null && conditions['price'] == null && conditions['area'] == null) {
+      					$.ajax({
+      						url: "<%=request.getContextPath()%>/categoryproductlist.do",
+      						dateType: 'html',
+      						success: function(data){
+      							$("section").html(data);
+      						}
+      					});
+      				}  else {
+      			        $.ajax({
+      			            url: "<%=request.getContextPath()%>/getproduct.do",
+      			            dataType: 'html',
+      			            data: conditions,
+      			            success: function(data) {
+      			                $("#productContainer").html(data);
+      			                if (conditions['subcategoryname'] == null) {
+      			                    $("#categoryName span").text(categoryName);
+      			                } else {
+      			                    $("#categoryName span").text(categoryName + " > " + subcategoryname);
+      			                }
+      			            }
+      			        });
+      			    }
+       			/* } */
+       		/* }); */
+       	}
+     /* // 동적 생성된 요소에 대한 이벤트 위임
+	 	$(document).on("click", ".plusFiterboxbtn button", function() {
+			$(this).closest(".plusFiterbox").remove();
+			currentFilters--; // 현재 필터 개수 감소
+		    existingFilter = null; // 기존 필터 객체 초기화	
+	 	
+	 	}); */
+    	   
+        }); 
+	
+   	//필터에 넣어주
+ 
+   //
+   function handleRecentlyClick() {
+			if(conditions['categoryname'] == null && conditions['subcategoryname'] == null && conditions['status'] == null && conditions['price'] == null && conditions['area'] == null){
+                console.log(conditions);
+				$.ajax({
+                    url: "<%=request.getContextPath()%>/resentlyproductlist",
+                    dataType: 'html',
+                    success: function(data) {
+                        $("#productContainer").html(data);
+                    }
+                });
+            	}else if(conditions['categoryname'] !== null || conditions['subcategoryname'] !== null || conditions['status'] !== null || conditions['price'] !== null || conditions['area'] !== null){
+            		console.log(conditions);
+            		$.ajax({
+	                    url: "<%=request.getContextPath()%>/getproduct.do",
+	                    dataType: 'html',
+	                    data: conditions,
+	                    success: function(data) {
+	                        $("#productContainer").html(data);
+	                    }
+	                });
+            	}
+		}
+		function handleDescClick() {
+     	if(conditions['categoryname'] == null && conditions['subcategoryname'] == null && conditions['status'] == null && conditions['price'] == null && conditions['area'] == null){
+     		console.log(conditions);
+     	$.ajax({
+             url: "<%=request.getContextPath()%>/entiremaxprice",
+             dataType: 'html',
+             success: function(data) {
+                 $("#productContainer").html(data);
+             }
+         });
+     	}else if(conditions['categoryname'] !== null || conditions['subcategoryname'] !== null || conditions['status'] !== null || conditions['price'] !== null || conditions['area'] !== null){
+     		console.log(conditions);
+     		$.ajax({
+                    url: "<%=request.getContextPath()%>/maxprice",
+                    dataType: 'html',
+                    data: conditions,
+                    success: function(data) {
+                        $("#productContainer").html(data);
+                    }
+                });
+     	}
+     }
+     function handleAscClick() {
+     	if(conditions['categoryname'] == null && conditions['subcategoryname'] == null && conditions['status'] == null && conditions['price'] == null && conditions['area'] == null){
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/entireminprice",
+                    dataType: 'html',
+                    success: function(data) {
+                        $("#productContainer").html(data);
+                    }
+                });
+            	}else if(conditions['categoryname'] !== null || conditions['subcategoryname'] !== null || conditions['status'] !== null || conditions['price'] !== null || conditions['area'] !== null){
+            		$.ajax({
+	                    url: "<%=request.getContextPath()%>/minprice",
+	                    dataType: 'html',
+	                    data: conditions,
+	                    success: function(data) {
+	                        $("#productContainer").html(data);
+	                    }
+	                });
+            	}
+     }	
+   
+   
+var currentFilters = 0; // 현재 필터 개수
+var existingFilters = []; // 기존 필터 객체 배열
+
+function addFilter(categoryName) {
+// 새로운 필터 태그 생성
+var newFilter = $('<div>').addClass('plusFiterbox')
+.append($('<div>').addClass('plusFiterboxText').text(categoryName))
+.append($('<div>').addClass('plusFiterboxbtn').html('<button><svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><path d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192 192-86 192-192z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M320 320L192 192M192 320l128-128"/></svg></button>'))
+.attr('categoryName', categoryName);
+
+$('.plusFilter').append(newFilter); // 필터 컨테이너에 새로운 필터 추가
+existingFilters.push(newFilter); // 기존 필터 객체 배열에 추가
+currentFilters++; // 현재 필터 개수 증가
+}
+
+/* function updateFilterText(filter, categoryName) {
+filter.attr('categoryName', categoryName);
+filter.find('.plusFiterboxText').text(categoryName);
+} */
+
+function removeFilter(filter) {
+filter.remove();
+existingFilters.splice(existingFilters.indexOf(filter), 1); // 기존 필터 객체 배열에서 제거
+currentFilters--; // 현재 필터 개수 감소
+}
+
+$('.pdcCategory span').on('click', function() {
+var categoryName = $(this).text(); // 클릭한 카테고리명 가져오기
+
+if (currentFilters < existingFilters.length) {
+// 기존 필터 개수보다 적을 경우 기존 필터 업데이트
+updateFilterText(existingFilters[currentFilters], categoryName);
+} else {
+// 새로운 필터 추가
+addFilter(categoryName);
+}
+});
+
+$('.collapse ul li').on('click', function() {
+var subCategoryName = $(this).text(); // 클릭한 카테고리명 가져오기
+
+if (currentFilters < existingFilters.length) {
+// 기존 필터 개수보다 적을 경우 기존 필터 업데이트
+updateFilterText(existingFilters[currentFilters], subCategoryName);
+} else {
+// 새로운 필터 추가
+addFilter(subCategoryName);
+}
+});
+
+$('.statusbtn span').on('click', function() {
+var statusTag = $(this).text(); // 클릭한 카테고리명 가져오기
+
+if (currentFilters < existingFilters.length) {
+// 기존 필터 개수보다 적을 경우 기존 필터 업데이트
+updateFilterText(existingFilters[currentFilters], statusTag);
+} else {
+// 새로운 필터 추가
+addFilter(statusTag);
+}
+});
+
+$(document).on('click', '.plusFiterboxbtn button', function() {
+var filterIndex = $(this).closest('.plusFiterbox').index();
+removeFilter(existingFilters[filterIndex]);
+});
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+
+	
+		
+	// 상품가격클릭시 필터에 적용
+ 		/* $('.radio-label').on('click', function() {
+ 			/* var currentFilters = 0; // 현재 필터 개수
+			var existingFilter = null; // 기존 필터 객체 */
+		    /* if (currentFilters === 0) {
+		    // 새로운 필터 태그 생성
+		      var price = $(this).text(); // 클릭한 카테고리명 가져오기
+		      existingFilter = $('<div>').addClass('plusFiterbox')
+		        .append($('<div>').addClass('plusFiterboxText').text(price))
+		        .append($('<div>').addClass('plusFiterboxbtn').html('<button><svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><path d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192 192-86 192-192z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M320 320L192 192M192 320l128-128"/></svg></button>'))
+		        .attr('price', price); // 태그의 속성값으로 키값 설정
+
+		      $('.plusFilter').append(existingFilter); // 필터 컨테이너에 새로운 필터 추가
+		      currentFilters++; // 현재 필터 개수 증가
+		    } else if (currentFilters === 1) {
+		      //필터의 text값 업데이트시켜주기
+		      var price = $(this).text(); // 클릭한 카테고리명 가져오기
+		      existingFilter.attr('price', price); // 필터의 태그 속성값 변경
+		      existingFilter.find('.plusFiterboxText').text(price); // 필터의 텍스트 값 업데이트
+		    }
+ 	 });  */
+		
+		  
+		  // 지역옵션태그에 클릭시 필터에 적용
+		  /* $('.gugun1').on('change', function() {
+			/* var currentFilters = 0; // 현재 필터 개수
+			var existingFilter = null; // 기존 필터 객체 */
+		   /*  var selectedOption = $(this).find('option:selected');
+		    var area = $('#sido1').val() + selectedOption.val(); // 클릭한 지역명
+
+		    if (currentFilters === 0) {
+		      // 새로운 필터 태그 생성
+		      existingFilter = $('<div>')
+		        .addClass('plusFiterbox')
+		        .append(
+		          $('<div>').addClass('plusFiterboxText').text(area),
+		          $('<div>').addClass('plusFiterboxbtn').html('<button><svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><path d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192 192-86 192-192z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M320 320L192 192M192 320l128-128"/></svg></button>')
+		        )
+		        .attr('area', area); // 태그의 속성값으로 키값 설정
+
+		      $('.plusFilter').append(existingFilter); // 필터 컨테이너에 새로운 필터 추가
+		      currentFilters++; // 현재 필터 개수 증가
+		    } else if (currentFilters === 1) {
+		      // 필터의 text값 업데이트시켜주기
+		      existingFilter.attr('area', area); // 필터의 태그 속성값 변경
+		      existingFilter.find('.plusFiterboxText').text(area); // 필터의 텍스트 값 업데이트
+		    }
+		  });  */
+   	
+   
+	// 카테고리 클릭 이벤트 처리
+	
+		/* var currentFilters = 0; // 현재 필터 개수
+	var existingFilter = null; // 기존 필터 객체 */
+	/* $('.pdcCategory span').on('click', function() {
+	/* var currentFilters = 0; // 현재 필터 개수
+	var existingFilter = null; // 기존 필터 객체 */
+	/* if (currentFilters === 0) {
+    var categoryName = $(this).text(); // 클릭한 카테고리명 가져오기
+
+    // 새로운 필터 태그 생성
+    existingFilter = $('<div>').addClass('plusFiterbox')
+                              .append($('<div>').addClass('plusFiterboxText').text(categoryName))
+                              .append($('<div>').addClass('plusFiterboxbtn').html('<button><svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><path d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192 192-86 192-192z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M320 320L192 192M192 320l128-128"/></svg></button>'))
+							  .attr('categoryName', categoryName);
+    $('.plusFilter').append(existingFilter); // 필터 컨테이너에 새로운 필터 추가
+    currentFilters++; // 현재 필터 개수 증가
+} else if (currentFilters === 1) {
+	var categoryName = $(this).text();
+	existingFilter.attr('categoryName', categoryName);
+	existingFilter.find('.plusFiterboxText').text(categoryName);
+}
+	
+}); */
+//서브카테고리 필터에 넣어주기
+/* 		$('.collapse ul li').on('click', function() {
+    	if (currentFilters === 0) {
+        var subCategoryName = $(this).text(); // 클릭한 카테고리명 가져오기
+        // 새로운 필터 태그 생성
+        existingFilter = $('<div>').addClass('plusFiterbox')
+                                  .append($('<div>').addClass('plusFiterboxText').text(subCategoryName))
+                                  .append($('<div>').addClass('plusFiterboxbtn').html('<button><svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><path d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192 192-86 192-192z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M320 320L192 192M192 320l128-128"/></svg></button>'))
+								  .attr('subCategoryName', subCategoryName);
+        $('.plusFilter').append(existingFilter); // 필터 컨테이너에 새로운 필터 추가
+	    currentFilters++; // 현재 필터 개수 증가
+    } else if (currentFilters === 1) {
+    	//필터의 text값 업데이트시켜주기
+    	var subCategoryName = $(this).text(); // 클릭한 카테고리명 가져오기
+    	existingFilter.attr('subCategoryName', subCategoryName);
+    	existingFilter.find('.plusFiterboxText').text(subCategoryName);
+    }
+}); */
+	 //삭제
+	/* function removeKeyFromProduct(conditions) {
+		$(document).on("click", ".plusFiterboxbtn button", function() {
+		$(this).closest(".plusFiterbox").remove();
+        currentFilters--;// 현재 필터 개수 감소
+        existingFilter = null; // 기존 필터 객체 초기화
+ 	}); */
+		/* delete conditions['categoryname'];
+		getselectproduct(conditions);
+		console.log(conditions); */
+     /*  }  */ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*          function removeKeyFromProduct(conditions) {
+	  $(document).on("click", ".plusFiterboxbtn button", function(event) {
+	    event.stopPropagation(); // 이벤트 버블링 방지
+
+	    $(this).closest(".plusFiterbox").remove();
+	    currentFilters--; // 현재 필터 개수 감소
+	    existingFilters.splice($(this).closest(".plusFiterbox").index(), 1); // 배열에서 삭제된 필터 객체 제거
+	  });
+	}
+
+	var currentFilters = 0; // 현재 필터 개수
+	var existingFilters = []; // 기존 필터 객체들을 저장할 배열
+
+	function createFilterTag(text) {
+	  var filterTag = $('<div>')
+	    .addClass('plusFiterbox')
+	    .append($('<div>').addClass('plusFiterboxText').text(text))
+	    .append($('<div>').addClass('plusFiterboxbtn').html('<button><svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><path d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192 192-86 192-192z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M320 320L192 192M192 320l128-128"/></svg></button>'));
+
+	  return filterTag;
+	}
+
+	function pdcCategoryClickHandler() {
+	  var categoryName = $(this).text(); // 클릭한 카테고리명 가져오기
+
+	  var newFilter = createFilterTag(categoryName);
+	  $('.plusFilter').append(newFilter); // 필터 컨테이너에 새로운 필터 추가
+	  existingFilters.push(newFilter); // 새로운 필터 객체를 배열에 추가
+	  currentFilters = existingFilters.length; // 현재 필터 개수 갱신
+	}
+
+	$('.pdcCategory span').on('click', pdcCategoryClickHandler);
+
+
+	function collapseItemClickHandler() {
+	  var subCategoryName = $(this).text(); // 클릭한 카테고리명 가져오기
+
+	  var newFilter = createFilterTag(subCategoryName);
+	  $('.plusFilter').append(newFilter); // 필터 컨테이너에 새로운 필터 추가
+	  existingFilters.push(newFilter); // 새로운 필터 객체를 배열에 추가
+	  currentFilters = existingFilters.length; // 현재 필터 개수 갱신
+	}
+
+	$('.collapse ul li').on('click', collapseItemClickHandler);
+
+	function statusBtnClickHandler() {
+	  var statusTag = $(this).text(); // 클릭한 카테고리명 가져오기
+
+	  var newFilter = createFilterTag(statusTag);
+	  $('.plusFilter').append(newFilter); // 필터 컨테이너에 새로운 필터 추가
+	  existingFilters.push(newFilter); // 새로운 필터 객체를 배열에 추가
+	  currentFilters = existingFilters.length; // 현재 필터 개수 갱신
+	}
+
+	$('.statusbtn span').on('click', statusBtnClickHandler);
+
+
+	function radioLabelClickHandler() {
+	  var price = $(this).text(); // 클릭한 카테고리명 가져오기
+
+	  var newFilter = createFilterTag(price);
+	  $('.plusFilter').append(newFilter); // 필터 컨테이너에 새로운 필터 추가
+	  existingFilters.push(newFilter); // 새로운 필터 객체를 배열에 추가
+	  currentFilters = existingFilters.length; // 현재 필터 개수 갱신
+	}
+
+	$('.radio-label').on('click', radioLabelClickHandler);
+
+	// 지역옵션태그에 클릭시 필터에 적용
+	function gugun1ChangeHandler() {
+	  var selectedOption = $(this).find('option:selected');
+	  var area = $('#sido1').val() + selectedOption.val(); // 클릭한 지역명
+
+	  var newFilter = createFilterTag(area);
+	  $('.plusFilter').append(newFilter); // 필터 컨테이너에 새로운 필터 추가
+	  existingFilters.push(newFilter); // 새로운 필터 객체를 배열에 추가
+	  currentFilters = existingFilters.length; // 현재 필터 개수 갱신
+	}
+
+	$('.gugun1').on('change', gugun1ChangeHandler);
+
+	removeKeyFromProduct(); // 삭제 기능 활성화  */
+
+	
+	
+	
+	
+
+
+
+
+
+
+		/* // 상품상태클릭시 필터에 적용
+	 	   $('.statusbtn span').on('click', function() {
+	 			var currentFilters = 0; // 현재 필터 개수
+				var existingFilter = null; // 기존 필터 객체 */
+		   /*  if (currentFilters === 0) {
+		    // 새로운 필터 태그 생성
+		      var statusTag = $(this).text(); // 클릭한 카테고리명 가져오기
+		      existingFilter = $('<div>').addClass('plusFiterbox')
+		        .append($('<div>').addClass('plusFiterboxText').text(statusTag))
+		        .append($('<div>').addClass('plusFiterboxbtn').html('<button><svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><path d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192 192-86 192-192z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M320 320L192 192M192 320l128-128"/></svg></button>'))
+		        .attr('status', statusTag); // 태그의 속성값으로 키값 설정
+
+		      $('.plusFilter').append(existingFilter); // 필터 컨테이너에 새로운 필터 추가
+		      currentFilters++; // 현재 필터 개수 증가
+		    } else if (currentFilters === 1) {
+		      //필터의 text값 업데이트시켜주기
+		      var statusTag = $(this).text(); // 클릭한 카테고리명 가져오기
+		      existingFilter.attr('status', statusTag); // 필터의 태그 속성값 변경
+		      existingFilter.find('.plusFiterboxText').text(statusTag); // 필터의 텍스트 값 업데이트
+	    }
+	 }); */ 
+		
+</script>
     <script src="<%=request.getContextPath()%>/js/productsearchchartpage/test.js"></script>
  <%@ include file="/views/common/footer.jsp" %>

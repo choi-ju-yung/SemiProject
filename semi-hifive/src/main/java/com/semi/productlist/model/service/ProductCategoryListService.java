@@ -100,6 +100,23 @@ public class ProductCategoryListService {
 			close(conn);
 			return result;
 		}
+		
+//		전체 상품리스트 가져오기 카테고리, 세부카테고리 모두 join해서 가져온것	
+		public List<ProductCategoryTimeList> EntireMaxPrice(int cPage, int numPerpage){
+			Connection conn = getConnection();
+			List<ProductCategoryTimeList> list = dao.EntireMaxPrice(conn, cPage, numPerpage);
+			close(conn);
+			return list;
+		}
+//		전체 상품리스트 가져오기 카테고리, 세부카테고리 모두 join해서 가져온것	
+		public List<ProductCategoryTimeList> EntireMinPrice(int cPage, int numPerpage){
+			Connection conn = getConnection();
+			List<ProductCategoryTimeList> list = dao.EntireMinPrice(conn, cPage, numPerpage);
+			close(conn);
+			return list;
+		}
+		
+		
 	
 	
 	public List<ProductCategoryTimeList> Test(String test, int cPage, int numPerpage) {
