@@ -13,8 +13,8 @@ import javax.servlet.http.HttpSession;
 
 import com.semi.member.model.vo.Member;
 import com.semi.member.service.MemberService;
-import com.semi.search.controller.SearchController;
 import com.semi.search.model.vo.Search;
+import com.semi.search.service.SearchController;
 
 
 @WebServlet("/login.do")

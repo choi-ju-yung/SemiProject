@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class Review {
 	private int reviewId;
 	private int tradeId;
-	private int reviewScore;
+	private double reviewScore;
 	private String reviewMsg;
 	private Date reviewDate;
 }

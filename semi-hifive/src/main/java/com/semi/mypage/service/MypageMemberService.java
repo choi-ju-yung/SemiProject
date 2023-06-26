@@ -42,9 +42,25 @@ public class MypageMemberService {
 	}
 	
 //	닉네임으로 유저조회
-	public Member selectByNickname(String nickname) {
+	public Member selectByNickname(String nickname, String userId) {
 		Connection conn = getConnection();
-		Member m = dao.selectByNickname(conn, nickname);
+		Member m = dao.selectByNickname(conn, nickname, userId);
+		close(conn);
+		return m;
+	}
+	
+//	닉네임으로 유저조회
+	public Member selectByNicknameAll(String nickname) {
+		Connection conn = getConnection();
+		Member m = dao.selectByNicknameAll(conn, nickname);
+		close(conn);
+		return m;
+	}
+	
+//	현재 내 닉네임 조회
+	public Member selectNicknameByUserId(String userId) {
+		Connection conn = getConnection();
+		Member m = dao.selectNicknameByUserId(conn, userId);
 		close(conn);
 		return m;
 	}

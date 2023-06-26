@@ -1,4 +1,4 @@
-package com.semi.search.service;
+package com.semi.search.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.semi.product.model.vo.Product;
-import com.semi.search.controller.SearchController;
 import com.semi.search.model.vo.SearchCount;
+import com.semi.search.service.SearchController;
 
 /**
  * Servlet implementation class SearchFunctionServlet

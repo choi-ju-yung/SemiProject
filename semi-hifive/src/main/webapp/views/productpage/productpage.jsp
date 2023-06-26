@@ -29,6 +29,7 @@ List<ProductCommentUser> comments = (List) request.getAttribute("comments");
 	href="<%=request.getContextPath()%>/css/productpage/productPage.css" />
 <section>
 
+
 	<%if(p!=null) {%>
 	<div class="product">
 		<div id="carouselExampleIndicators" class="carousel slide">
@@ -205,13 +206,13 @@ List<ProductCommentUser> comments = (List) request.getAttribute("comments");
 			<h3>상점정보</h3>
 			<div class="shopProfile">
 				<div id="profile">
-					<a href=""><img
+					<a href="<%=request.getContextPath()%>/shop?id=<%=users.get(0).getMember().getUserId() %>"><img
 						src="<%=request.getContextPath()%>/upload/profileImg/<%=users.get(0).getMember().getProfileImg() %>"
 						alt="" /></a>
 				</div>
 				<div id="userInfo">
-					<a id="userName" href=""><p><%=users.get(0).getMember().getNickName()%></p></a> <a
-						id="userProduct" href=""><p>상품 <%=users.get(0).getCount() %></p></a>
+					<a id="userName" href="<%=request.getContextPath()%>/shop?id=<%=users.get(0).getMember().getUserId() %>"><p><%=users.get(0).getMember().getNickName()%></p></a> 
+					<a id="userProduct" href="<%=request.getContextPath()%>/shop?id=<%=users.get(0).getMember().getUserId() %>"><p>상품 <%=users.get(0).getCount() %></p></a>
 				</div>
 				<div id="userManner">
 					<ion-icon name="thermometer-outline"></ion-icon>
@@ -223,22 +224,33 @@ List<ProductCommentUser> comments = (List) request.getAttribute("comments");
 					<p>
 						<%=users.get(0).getMember().getNickName()%>님의 판매 상품 <strong style="color: #20c997"><%=users.get(0).getCount() %></strong>
 					</p>
-					<a href="">더보기 <ion-icon name="chevron-forward-sharp"></ion-icon>
+					<a href="<%=request.getContextPath()%>/shop?id=<%=users.get(0).getMember().getUserId() %>">더보기 <ion-icon name="chevron-forward-sharp"></ion-icon>
 					</a>
 				</div>
 				<div id="opContainer">
+				<%if(users.size()>3){ %>
 					<%for(int i=0;i<3;i++){ %>
 					<div class="opProduct">
-						<a href=""> <img
-							src="<%=request.getContextPath()%>/upload/productregist/<%=users.get(i).getFile().getImageName() %>"
+						<a href="<%=request.getContextPath()%>/productpage?no=<%=users.get(i).getProduct().getProductId() %>"> <img
+							src="<%=request.getContextPath()%>/upload/productRegist/<%=users.get(i).getFile().getImageName() %>"
 							alt="" />							
-
 							<p class="opPrice"><%=String.valueOf(users.get(i).getProduct().getPrice()).replaceAll("\\B(?=(\\d{3})+(?!\\d))", ",")%>원</p>
 							<%String a=(users.get(i).getProduct().getTitle()).substring(0,6); String b="….."; %>
 							<p class="opName"><%= a+b %></p>
 						</a>
 					</div>
-					<%} %>
+					<%}}else{
+						for(int i=0;i<users.size();i++){	%>
+					<div class="opProduct">
+						<a href="<%=request.getContextPath()%>/productpage?no=<%=users.get(i).getProduct().getProductId() %>"> <img
+							src="<%=request.getContextPath()%>/upload/productRegist/<%=users.get(i).getFile().getImageName() %>"
+							alt="" />							
+							<p class="opPrice"><%=String.valueOf(users.get(i).getProduct().getPrice()).replaceAll("\\B(?=(\\d{3})+(?!\\d))", ",")%>원</p>
+							<%String a=(users.get(i).getProduct().getTitle()).substring(0,6); String b="….."; %>
+							<p class="opName"><%= a+b %></p>
+						</a>
+					</div>
+					<%}} %>
 				</div>
 			</div>
 		</div>

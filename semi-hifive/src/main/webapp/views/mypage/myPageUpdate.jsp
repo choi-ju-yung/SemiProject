@@ -16,7 +16,7 @@
 	</div>
 	<!-- 회원정보관리 div -->
 	<div class="updateMember">
-	<form id="updateUserFrm" method="post" enctype="multipart/form-data">
+	<form action="<%=request.getContextPath() %>/member/updateEndMember.do" id="updateUserFrm" method="post" enctype="multipart/form-data" onsubmit="return updateMember();">
 		<div class="infoMem">
 			<img
 				src="<%=request.getContextPath()%>/upload/profileImg/<%=infoMS.getMember().getProfileImg()%>"
@@ -52,15 +52,6 @@
 					value="<%=infoMS.getMember().getUserId()%>" name="myPageUserId" readonly>
 			</div>
 			<hr width="1050px" color="#eee" />
-			<!-- <div class="profileUPdateInput">
-				<div class="profilePart">
-					<h4>비밀번호 확인</h4>
-				</div>
-				<input type="password" placeholder="" class="inputCss"
-					name="myPagePassword">
-				<button type="button" class="checkDB" onclick="fn_updatePassword();">비밀번호
-					변경</button>
-			</div> -->
 			<div class="profileUPdateInput">
 				<div class="profilePart">
 					<h4>닉네임</h4>
@@ -83,7 +74,7 @@
 				style="margin-bottom: 20px;" />
 			<div class="profileButton btnEndMargin">
 				<div class="infoBtn">
-					<button type="submit" class="profileUpdate" onclick="updateMember();">정보 수정</button>
+					<button type="submit" class="profileUpdate">정보 수정</button>
 					<button type="reset" class="resetUpdate">취소</button>
 				</div>
 				<button type="button" class="checkDB" onclick="fn_updatePassword();">비밀번호 변경</button>

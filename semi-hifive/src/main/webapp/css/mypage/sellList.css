@@ -224,6 +224,7 @@
         .product img {
             width: 160px;
             height: 160px;
+            border: 1px solid #eee;
         }
 
         .proContent {
@@ -283,6 +284,8 @@
 
         .viewIcon {
             padding-left: 10px;
+            padding-right: 1px;
+            padding-bottom: 1px;
         }
 
         .interestIcon {

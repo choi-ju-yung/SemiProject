@@ -1,4 +1,4 @@
-package com.semi.search.controller;
+package com.semi.search.service;
 
 import static com.semi.common.JDBCTemplate.close;
 import static com.semi.common.JDBCTemplate.commit;
