@@ -83,7 +83,7 @@ public class ProductCategoryListServlet extends HttpServlet {
 		//카테고리만 가져오는 List객체
 		List<Category> category = new CategoryService().Category();
 		
-		System.out.println(productlist);
+		//System.out.println(productlist);
 		
 		request.setAttribute("category", category);
 		request.setAttribute("categorylist", categorylist);

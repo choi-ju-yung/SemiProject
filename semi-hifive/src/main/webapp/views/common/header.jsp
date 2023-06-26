@@ -77,20 +77,40 @@ if (cookies != null) {
                   </a>
                </div>
                <div class="searchBar">
-                  <div class="searchDetail">
-                     <input type="search" onsearch="" class="search"
-                        placeholder="상품검색" onfocus="this.placeholder = ''"
-                        onblur="this.placeholder = '상품검색'"
-                        onkeypress="if( event.keyCode == 13 ){searchData();}" />
+						<div class="searchDetail">
+							<form id="searchForm" class="form">
+								<input required id="searchInput" maxlength="10" type="text"
+									placeholder="상품명, #키워드 검색" onfocus="this.placeholder = ''"
+								onblur="this.placeholder = '상품명, #키워드 검색'">
+								<button type="reset" id="resetBtn">
+							<ion-icon name="close"></ion-icon>
+							</button>
+							</form>
+							
+							<button type="submit" form="searchForm" id="submitBtn">
+								<img
+									src="<%=request.getContextPath()%>/images/common/magnifier.png"
+									alt="" />
+							</button>
+						</div>
 
-                     <button class="search" onclick="searchData()">
-                        <!-- 돋보기 이미지 -->
-                        <img
-                           src="<%=request.getContextPath()%>/images/common/magnifier.png"
-                           alt="" />
-                     </button>
-                  </div>
-               </div>
+						<div class="searchpage">
+
+							<div class="searchbody">
+								<hr>
+								<div class="recentSearch">
+									<div class="allDelete off">
+										<span id="recentHead">최근 검색어</span> <span id="allDeleteBtn">모두
+											지우기</span>
+									</div>
+									<p class="recentText"></p>
+									<ul id="recentList">
+
+									</ul>
+								</div>
+							</div>					
+						</div>
+					</div>
                <div class="memberIcon">
                   <a href="<%=request.getContextPath()%>/productRegist.do"> <ion-icon
                         name="storefront-outline" class="storeIcon"></ion-icon> <span>
@@ -127,7 +147,6 @@ if (cookies != null) {
                    </ul>
                </div> 
                
-            
                
                <p>카테고리</p>
                <div>

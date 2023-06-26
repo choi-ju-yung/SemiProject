@@ -776,8 +776,8 @@
     			            }
     			        });
 			        }); --%>
-			        function Max_btn(conditions) {
-			            $("#desc").click(function(){
+			       
+			            $("#desc").click(function(conditions){
 			                $.ajax({
 			                    url: "<%=request.getContextPath()%>/maxprice",
 			                    dataType: 'html',
@@ -792,10 +792,8 @@
 			                    }
 			                });
 			            });
-			        }
-
-			        function Min_btn(conditions) {
-			            $("#asc").on("click", function() {
+			     
+			            $("#asc").on("click", function(conditions) {
 			                $.ajax({
 			                    url: "<%=request.getContextPath()%>/minprice",
 			                    dataType: 'html',
@@ -810,8 +808,6 @@
 			                    }
 			                });
 			            });
-			        }
-
 	           	// 키값으로 여러조건 가져오기 ajax
 	           	function getselectproduct(conditions){
 	           		 console.log(conditions);
