@@ -284,10 +284,6 @@ function makeCategoryHeader(name, index) {
       const href = '<%= request.getContextPath() %>/headersearchcategory.do?subcategoryname=' + encodedSubcategoryName;
       const $a = $("<a>").attr("href", href).text(subcategoryName); --%>
 </script>
-
-	<script src="<%=request.getContextPath()%>/js/common/header.js"></script>
-	<script src="<%=request.getContextPath()%>/js/searchpage/searchPage.js"></script>
-
    <script src="<%=request.getContextPath()%>/js/common/header.js"></script>
    <script src="<%=request.getContextPath()%>/js/searchpage/searchPage.js"></script>
 

@@ -1,6 +1,7 @@
 <%@page import="com.semi.productlist.model.vo.ProductCategoryTimeList"%>
 <%@page import="com.semi.category.model.vo.Category"%>
 <%@page import="com.semi.category.model.vo.CategorySubCategory"%>
+<%@ page import="com.semi.member.model.vo.Member"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -19,6 +20,22 @@
 <%
 	CategorySubCategory categoryandsubcategoryname = (CategorySubCategory)request.getAttribute("categoryandsubcategoryname");
 %>
+<%
+Member loginMember = (Member) session.getAttribute("loginMember");//여기 로그인멤버 
+Cookie[] cookies = request.getCookies(); // 존재하는 쿠키들 다 갖고옴 
+String saveId = null;
+if (cookies != null) {
+   for (Cookie c : cookies) {
+      if (c.getName().equals("saveId")) {
+   saveId = c.getValue();
+   break;
+      }
+   }
+}
+%>
+<script>
+   sessionStorage.setItem("loginId",'<%=loginMember!=null?loginMember.getUserId():""%>');
+</script>
      <link rel="stylesheet" href="<%=request.getContextPath()%>/css/productsearchchartpage.css" />
     <link rel="stylesheet" href="<%=request.getContextPath()%>/css/page.css" />
     <link

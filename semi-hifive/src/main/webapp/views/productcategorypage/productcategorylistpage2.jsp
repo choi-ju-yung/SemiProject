@@ -1,6 +1,7 @@
 <%@page import="com.semi.productlist.model.vo.ProductCategoryTimeList"%>
 <%@page import="com.semi.category.model.vo.Category"%>
 <%@page import="com.semi.category.model.vo.CategorySubCategory"%>
+<%@ page import="com.semi.member.model.vo.Member"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -13,6 +14,22 @@
 <%
 	List<Category> selectcategory = (List)request.getAttribute("category");
 %>
+<%
+Member loginMember = (Member) session.getAttribute("loginMember");//여기 로그인멤버 
+Cookie[] cookies = request.getCookies(); // 존재하는 쿠키들 다 갖고옴 
+String saveId = null;
+if (cookies != null) {
+   for (Cookie c : cookies) {
+      if (c.getName().equals("saveId")) {
+   saveId = c.getValue();
+   break;
+      }
+   }
+}
+%>
+<script>
+   sessionStorage.setItem("loginId",'<%=loginMember!=null?loginMember.getUserId():""%>');
+</script>
     <link rel="stylesheet" href="<%=request.getContextPath()%>/css/productsearchchartpage.css" />
     <link rel="stylesheet" href="<%=request.getContextPath()%>/css/page.css" />
     <link
@@ -434,10 +451,11 @@
           </div>
           <div id="contentdata">
 	          <div id="productImgContainer">
+	          
 	      		<%for(ProductCategoryTimeList p : productlist){%>
 	            <div id="pimgWraper" onclick="location.assign('<%=request.getContextPath()%>/productpage?no=<%=p.getProductCategoryList().getProductId()%>')">
 	              <div class="con-like">
-	                <input title="like" type="checkbox" class="like" />
+	                <input title="like" type="checkbox" class="like" onclick="Like_btn('<%=p.getProductCategoryList().getProductId()%>', sessionStorage.getItem('loginId'));"/>
 	                <div class="checkmark">
 	                  <svg
 	                    viewBox="0 0 24 24"
@@ -478,7 +496,7 @@
 	                  <span>하마페이</span>
 	                </div>
 	                <img
-	                  src="<%=p.getProductfile().getImageName()%>"
+	                  src="<%=request.getContextPath() %>/upload/productRegist/<%=p.getProductfile().getImageName()%>"
 	                  alt=""
 	                />
 	               <p id="productName"><%=p.getProductCategoryList().getProductTitle()%></p>
@@ -529,6 +547,92 @@
             }
         });
     }
+    //좋아요 ajax
+    function Like_btn(productId, loginId){
+    	event.stopPropagation();
+    	$.ajax({
+    		url: "<%=request.getContextPath()%>/like",
+    		dataType: "json",
+    		data: {
+    			"loginId": loginId,
+    			"productId": productId,
+    		},
+    		success: function(data) {
+    			console.log(loginId)
+    			console.log(productId)
+    			console.log(data)
+    			if (data.length == 0) {
+    				$.ajax({
+    		    		url: "<%=request.getContextPath()%>/updatelike",
+    		    		dataType: "json",
+    		    		data: {
+    		    			"loginId": loginId,
+    		    			"productId": productId,
+    		    		},
+    		    		success: function(data) {
+    		    			if (data > 0) {
+    		    				$('.like').prop('checked');
+    		    			}
+    		    		}
+    		    	});
+
+    			} else {
+    				$.ajax({
+    		    		url: "<%=request.getContextPath()%>/deletelike",
+    		    		dataType: "json",
+    		    		data: {
+    		    			"loginId": loginId,
+    		    			"productId": productId,
+    		    		},
+    		    		success: function(data) {
+
+    		    			if (data > 0) {
+    		    				if (!$('.like').prop('checked'));
+    		    			}
+    		    		}
+    		    	});
+    			}
+    		},
+    		error: function() {
+
+    		} 
+    	});
+    }
+    //좋아요 등록
+    <%-- function updateLike() {
+    	$.ajax({
+    		url: "<%=request.getContextPath()%>/updatelike",
+    		dataType: "json",
+    		data: {
+    			"loginId": loginId,
+    			"productId": productId,
+    		},
+    		success: function(data) {
+    			if (data > 0) {
+    				$('.like').prop('checked');
+    			}
+    		}
+    	});
+    } --%>
+    //좋아요 삭제
+    <%-- function deleteLike() {
+    	$.ajax({
+    		url: "<%=request.getContextPath()%>/deletelike",
+    		dataType: "json",
+    		data: {
+    			"loginId": loginId,
+    			"productId": productId,
+    		},
+    		success: function(data) {
+
+    			if (data > 0) {
+    				if (!$('.like').prop('checked'));
+    			}
+    		}
+    	})
+    } --%>
+  
+    
     <%-- //대표카테고리 클릭시 출력 ajax
             function searchProduct(Cid){
            		$.ajax({
