@@ -37,8 +37,9 @@
             <div class="product">
                 <a href="<%=request.getContextPath() %>/productpage?no=<%=p.getProduct().getProductId()%>"><img src="<%=request.getContextPath() %>/upload/productRegist/<%=p.getProductfile().getImageName() %>" alt=""></a>
                 <div class="proContent">
-                    <h5 class="grayFont"><a href="" class="aTag grayFont categoryA"><%=p.getCategory().getCategoryName() %></a> &rsaquo; <a href=""
-                            class="aTag grayFont"><%=p.getProduct().getSubCategoryName() %></a></h5>
+                    <h5 class="grayFont">
+                    <a href="" class="aTag grayFont categoryA"><%=p.getCategory().getCategoryName() %></a> &rsaquo;
+                    <a href="" class="aTag grayFont"><%=p.getProduct().getSubCategoryName() %></a></h5>
                     <h4 class="contentMargin"><a href="<%=request.getContextPath() %>/productpage?no=<%=p.getProduct().getProductId()%>" class="aTag productTitle"><%=p.getProduct().getTitle() %></a></h4>
                     <h3><%=new DecimalFormat("###,###").format(p.getProduct().getPrice()) %>원</h3>
                 </div>
