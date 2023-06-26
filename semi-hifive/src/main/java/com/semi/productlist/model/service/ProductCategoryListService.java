@@ -74,4 +74,45 @@ public class ProductCategoryListService {
 		close(conn);
 		return result;
 	}
+	//where 절 or 로 묶인메소드
+		public List<ProductCategoryTimeList> MaxpriceList(String conditions, int cPage, int numPerpage) {
+			Connection conn = getConnection();
+			List<ProductCategoryTimeList> selectgetproduct = dao.MaxpriceList(conn, cPage, numPerpage, conditions);
+			close(conn);
+			return selectgetproduct;
+		}
+		public int MaxpirceListCount(String conditions) {
+			Connection conn = getConnection();
+			int result = dao.MaxpriceListCount(conn,conditions);
+			close(conn);
+			return result;
+		}
+		//where 절 or 로 묶인메소드
+		public List<ProductCategoryTimeList> MinxpriceList(String conditions, int cPage, int numPerpage) {
+			Connection conn = getConnection();
+			List<ProductCategoryTimeList> selectgetproduct = dao.MinpriceList(conn, cPage, numPerpage, conditions);
+			close(conn);
+			return selectgetproduct;
+		}
+		public int MinpriceListCount(String conditions) {
+			Connection conn = getConnection();
+			int result = dao.MinpriceListCount(conn,conditions);
+			close(conn);
+			return result;
+		}
+	
+	
+	public List<ProductCategoryTimeList> Test(String test, int cPage, int numPerpage) {
+		Connection conn = getConnection();
+		List<ProductCategoryTimeList> selectgetproduct = dao.GetProductCondition(conn, cPage, numPerpage, test);
+		close(conn);
+		return selectgetproduct;
+	}
+	public int TestCount(String test) {
+		Connection conn = getConnection();
+		int result = dao.GetProductConditionCount(conn,test);
+		close(conn);
+		return result;
+	}
+	
 }

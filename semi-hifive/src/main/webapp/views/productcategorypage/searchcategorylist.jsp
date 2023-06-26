@@ -16,7 +16,8 @@
 <%
 	List<ProductCategoryTimeList> cpd = (List)request.getAttribute("categoryproduct");
 %>
-		<link rel="stylesheet" href="<%=request.getContextPath()%>/css/productsearchchartpage.css" />
+
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/css/productsearchchartpage.css" />
     <link rel="stylesheet" href="<%=request.getContextPath()%>/css/page.css" />
     <link rel="stylesheet" href="<%=request.getContextPath()%>/css/main.css" />
     <link
@@ -39,8 +40,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-<%@ include file="/views/common/header.jsp" %>
-<section>
+
       <div id="wraperContainer">
         <div id="leftCategory">
         <div id="filter">
@@ -65,10 +65,10 @@
                
               <div class="collapse" id="pddCategory">
               
-                <div id="pddContainer">
+                <div id="pddContainer" class="chbtn">
                	
                   <ul>
-                    <div class="pdcCategory">
+                  <div class="pdcCategory">
                     <%for(Category c : selectcategory) {
                     	if(c.getCategoryId().equals("A")){%>
                       <span><%=c.getCategoryName()%></span>
@@ -431,7 +431,7 @@
         <div id="productContainer">
           <div id="selectCategory">
             <div id="categoryName">
-              <h4><%=cn.getCategoryName()%>  <span><%=request.getAttribute("totalData")%></span></h4>
+              <h4> <span><%=request.getAttribute("totalData")%></span></h4>
             </div>
             <div id="categoryFunction">
               <span>최신순</span>
@@ -440,7 +440,7 @@
               <span>최저가순</span>
             </div>
           </div>
-          <div id="contentdata">
+           <div id="contentdata">
 	          <div id="productImgContainer">
 	      		<%for(ProductCategoryTimeList p : cpd){%>
 	            <div id="pimgWraper" onclick="location.href='<%=request.getContextPath()%>/productpage?no=<%=p.getProductCategoryList().getProductId()%>';">
@@ -537,6 +537,120 @@
             }
         });
     }
+    $(() => {
+    	  HeaderCategoryMenu();
+    	});
+
+    	function HeaderCategoryMenu() {
+    	  $.ajax({
+    	    url: "<%=request.getContextPath()%>/headercategoryajax",
+    	    dataType: 'json', // "데이터 유형" 대신 "dataType" 속성 사용
+    	    success: function(data) { // "성공" 대신 "success" 속성 사용
+    	      data.main.forEach(function(category, index) {
+    	        // 서브 카테고리를 가져오기 위해 필터링
+    	        const subCategory = data.sub.filter(function(sub) {
+    	          return sub.category.categoryName === category.categoryName;
+    	        });
+    	        makeCategoryHeader(category.categoryName, subCategory, index);
+    	      });
+    	    }
+    	  });
+    	}
+    	function makeCategoryHeader(categoryName, subCategory, index) {
+    		  var categoryHtml = `
+    		    <div class="pdcCategory">
+    		      <span>${categoryName}</span>
+    		      <i class="fa fa-plus-square" data-toggle="collapse" href="#pddCategory${index + 1}" aria-expanded="false" aria-controls="pddCategory${index + 1}"></i>
+    		      <div class="collapse" id="pddCategory${index + 1}">
+    		        <ul>
+    		  `;
+
+    		  subCategory.forEach(function (sub) {
+    		    categoryHtml += `
+    		          <li><a href="javascript:void(0);">${sub.subcategoryName}</a></li>
+    		        `;
+    		  });
+
+    		  categoryHtml += `
+    		        </ul>
+    		      </div>
+    		    </div>
+    		  `;
+
+    		  console.log(categoryHtml);
+    		  $(".chbtn ul").append(categoryHtml);
+    		}
+
+    	/* function makeCategoryHeader(categoryName, subCategory, index) {
+    	  var categoryHtml = `
+    	    <div class="pdcCategory">
+    	      <span>${categoryName}</span>
+    	      <i class="fa fa-plus-square" data-toggle="collapse" href="#pddCategory${index + 1}" aria-expanded="false" aria-controls="pddCategory${index + 1}"></i>
+    	      <div class="collapse" id="pddCategory${index + 1}">
+    	        <ul>
+    	        ;
+    	        subCategory.forEach(function(sub) {
+    	    	    `
+    	    	      <li><a href="javascript:void(0);">${sub.subCategory.subcategoryName}</a></li>
+    	    	    `;
+    	        </ul>
+    	      </div>
+    	    </div>
+    	  `;
+    	  console.log(categoryHtml);
+    	  $(".chbtn ul").append(categoryHtml);
+    	} */
+
+    	/* function generateSubCategoryHtml(subCategory) {
+    	  var subCategoryHtml = '';
+    	  subCategory.forEach(function(sub) {
+    	    subCategoryHtml += `
+    	      <li><a href="javascript:void(0);">${sub.subCategory.subcategoryName}</a></li>
+    	    `;
+    	  });
+    	  return subCategoryHtml;
+    	} */
+
+<%-- $(()=>{HeaderCategoryMenu()});    
+    function HeaderCategoryMenu() {
+        $.ajax({
+            url: "<%=request.getContextPath()%>/headercategoryajax",
+            dataType: 'json',
+            success: function(data) {
+                data.main.forEach(function(category,index) {
+                	const subCategory=data.sub.filter(cate=>cate.category.categoryName==category.categoryName);
+                    makeCategoryHeader(category.categoryName, subCategory, index);
+                    /* const subCategory=data.sub.filter(cate=>cate.category.categoryName==category.categoryName); */
+                    //console.log(subCategory);
+                     makeCatetorySub(subCategory, index);
+                });
+            }
+        });
+    }
+    function makeCategoryHeader(categoryName, subCategory, index) {
+    	  var categoryHtml = `
+    	    <div class="pdcCategory">
+    	      <span>${categoryName}</span>
+    	      <i class="fa fa-plus-square" data-toggle="collapse" href="#pddCategory${index + 1}" aria-expanded="false" aria-controls="pddCategory${index + 1}"></i>
+    	      <div class="collapse" id="pddCategory${index + 1}">
+    	        <ul>
+    	        ${generateSubCategoryHtml(subCategory)}
+    	        </ul>
+    	      </div>
+    	    </div>
+    	  `;
+    	  console.log(categoryHtml);
+    	  $(".chbtn ul").append(categoryHtml);
+    	}
+    function generateSubCategoryHtml(subCategory) {
+        var subCategoryHtml = '';
+        subCategory.forEach(function(sub) {
+            subCategoryHtml += `
+                <li><a href="javascript:void(0);">${sub.subCategory.subcategoryName}</a></li>
+            `;
+        });
+        return subCategoryHtml;
+    }
    
             	// 서브카테고리 클릭시 출력 ajax
 			function subsearchProduct(sub){
@@ -548,7 +662,7 @@
           				$("#productContainer").html(data);
           			}
           		});
-          	}
+          	} --%>
            
           	// 왼쪽 카테고리 밑에서 중복 조건 추가
            $(document).ready(function() {

@@ -6,7 +6,7 @@
 	import="com.semi.productpage.model.vo.Product,
 java.util.List,com.semi.productpage.model.vo.ProductComment"%>
 <%
-Product p = (Product) request.getAttribute("product");
+Product p = (Product)request.getAttribute("product");
 List<ProductComment> comments = (List) request.getAttribute("comments");
 %>
 <link

@@ -156,7 +156,7 @@ function ProductList_btn() {
 		success: function(data){
 			$("section").html(data);
 		}
-	})
+	});
 }
 function changePage(pageNo) {
     $.ajax({
@@ -203,7 +203,7 @@ function HeaderCategoryMenu() {
         url: "<%=request.getContextPath()%>/headercategories.do",
         dataType: 'json',
         success: function(data) {
-        	$("#menuList>ul").html("<li><a href='<%=request.getContextPath()%>/categoryproductlist.do' id='category0'>전체</a></li>");
+        	$("#menuList>ul").html("<li><a href='javascript:void(0);' onclick='ProductList_btn();' id='category0'>전체</a></li>");
             data.main.forEach(function(category,index) {
                 makeCategoryHeader(category.categoryName, index);
                 const subCategory=data.sub.filter(cate=>cate.category.categoryName==category.categoryName);
@@ -213,29 +213,57 @@ function HeaderCategoryMenu() {
         }
     });
 }
+/* function makeCategoryHeader(name, index) {
+    const $li = $("<li>");
+    const $a = $("<a>").attr("id", "category" + (index + 1)).data('categoryname', "CATEGORY_NAME = '" + name + "'").text(name);
+
+    $a.click(function() {
+        const conditions = {};
+        conditions['categoryname'] = $(this).data('categoryname');
+        console.log(conditions);
+        getselectproduct(conditions);
+    });
+
+    $li.append($a);
+    $("#menuList>ul").append($li);
+} */
+
+<%-- function getselectproduct(conditions) {
+    console.log(conditions);
+    $.ajax({
+        url: "<%=request.getContextPath()%>/test",
+        dataType: 'html',
+        data: conditions,
+        success: function(data) {
+            $("section").html(data);
+        }
+    });
+} --%>
 function makeCategoryHeader(name, index) {
 	
     const $li = $("<li>");
-    const $a = $("<a href='javascript:void(0);' onclick='ProductList_btn();' >").attr("id", "category" + (index + 1)).text(name).attr("onclick", "searchCategory('" + name + "');");
+    const $a = $("<a>").attr("id", "category" + (index + 1)).text(name).attr("onclick", "searchCategory('" + name + "');");
     $li.append($a);
     $("#menuList>ul").append($li);
 }
 
-	 function makeCatetorySub(subcateList, index) {
+	  function makeCatetorySub(subcateList, index) {
 		 const $div=$("<div>").attr({"id":"sideMenu-category"+(index+1),"class":"sideMenu"});
 		 const $ul=$("<ul>");
 		 subcateList.forEach(sub=>{
-			 	<%-- const subcategoryName = sub.subCategory.subcategoryName;
-		        const encodedSubcategoryName = encodeURIComponent(subcategoryName);
-		        const href = '<%= request.getContextPath() %>/headersearchcategory.do?subcategoryname=' + encodedSubcategoryName;
-		        const $a = $("<a>").attr("href", href).text(subcategoryName); --%>
 		        const $a = $("<a href='javascript:void(0);'>").text(sub.subCategory.subcategoryName).attr("onclick", "searchsubcategory('" + sub.subCategory.subcategoryName + "');");
 		        const $li = $("<li>").append($a);
 		        $ul.append($li);
 		 });
 		 $div.html($ul);
 		 $("div#menuList").after($div);
-}
+} 
+
+	  
+	  <%-- const subcategoryName = sub.subCategory.subcategoryName;
+      const encodedSubcategoryName = encodeURIComponent(subcategoryName);
+      const href = '<%= request.getContextPath() %>/headersearchcategory.do?subcategoryname=' + encodedSubcategoryName;
+      const $a = $("<a>").attr("href", href).text(subcategoryName); --%>
 </script>
    <script src="<%=request.getContextPath()%>/js/common/header.js"></script>
 </body>

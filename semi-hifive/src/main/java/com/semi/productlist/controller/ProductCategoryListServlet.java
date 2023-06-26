@@ -83,8 +83,7 @@ public class ProductCategoryListServlet extends HttpServlet {
 		//카테고리만 가져오는 List객체
 		List<Category> category = new CategoryService().Category();
 		
-		//카테고리와 서브카테고리 상품 테이블 모두 join해서 가져오는 상품List 갯수 set에 저장
-		request.setAttribute("totalData", totalData);
+		System.out.println(productlist);
 		
 		request.setAttribute("category", category);
 		request.setAttribute("categorylist", categorylist);

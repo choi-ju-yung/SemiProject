@@ -101,8 +101,6 @@ public class GetSelectProductServlet extends HttpServlet {
 			request.setAttribute("pageBar", pageBar);
 			
 			
-
-			
 			List<ProductCategoryTimeList> getselectproduct = new ProductCategoryListService().GetProductCondition(condition, cPage, numPerpage);
 			
 			request.setAttribute("getselectproduct", getselectproduct);
