@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.semi.productpage.model.vo.Product;
+import com.semi.product.model.vo.Product;
 import com.semi.sc.service.ReportService;
 
 /**

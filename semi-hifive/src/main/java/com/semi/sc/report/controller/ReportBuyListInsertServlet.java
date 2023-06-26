@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.semi.member.model.vo.Member;
-import com.semi.productpage.model.vo.Product;
+import com.semi.product.model.vo.Product;
 import com.semi.sc.service.ReportService;
 
 /**

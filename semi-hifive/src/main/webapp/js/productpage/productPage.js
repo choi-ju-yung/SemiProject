@@ -19,6 +19,7 @@
 	}
 }*/
 
+
 $(document).ready(function() {
 	$(".textContainer").find("textarea").keyup();
 	const price = $("#productPrice")
@@ -26,19 +27,32 @@ $(document).ready(function() {
 		.toString()
 		.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 	$("#productPrice").html(price);
+
+	if ($("#productStatus p").text() == "예약중") {
+		$("#productStatus").css({ color: "orange" })
+	} else if ($("#productStatus p").text() == "판매완료") {
+		$("#productStatus").css({ color: "#afafaf" })
+	}
+	console.log(($("#userManner b").text()).substr(0, 4))
+	if (($("#userManner b").text()).substr(0, 4) >= 50) {
+		$("#userManner ion-icon").css("color", "orange")
+	}
+	if (($("#userManner b").text()).substr(0, 4) >= 75) {
+		$("#userManner ion-icon").css("color", "red")
+	}
+	
+	if(loginId.length==0){
+		$("#heartBtn >button").prop("disabled",true)
+	}else{
+			$("#heartBtn >button").prop("disabled",false)
+	}
+		
+		
 });
-//*댓글창*//
-/*$(document).on("keyup", function(e) {
-	$(".textContainer").on("keyup", "textarea", function(e) {
-		$(this).css("height", "auto");
-		$(this).height(this.scrollHeight);
-	});
-
-	$("#cmtText").keyup(contentInput).keydown(contentInput);
-})*/
 
 
-//const cmtForm2 = $(".cmtForm").clone();
+
+
 /*답글기능*/
 $(document).on("click", ".cancelBtn", e => {
 	$(e.target).parents(".cmtForm").remove();
@@ -50,7 +64,7 @@ $(document).on("click", ".writeCmt", e => {
 	cmtForm.find(".updateBtn").attr("class", "cmtBtn");
 	cmtForm.find(".cmtBtn").html("등록");
 	const commentRef = $(e.target).val();
-	console.log(commmentRef);
+	console.log(commentRef);
 	cmtForm.find("#cmtText").val("");
 	cmtForm.find("input[name=level]").val("2");
 	cmtForm.find("input[name=commentRef]").val(commentRef);
@@ -143,7 +157,6 @@ $(document).on("click", ".cmtBtn", e => {
 		success: function(result) {
 			if (result > 0) {
 				console.log($(e.target).parents(".cmtForm").find("input[name=level]").val());
-
 				const cn = $(e.target).parents(".cmtForm").prev("div").find("input[name=commentNo]").val()
 				if ($(e.target).parents(".textContainer").find("input[name=level]").val() == 1) {
 					selectAjaxProductComment();
@@ -152,8 +165,8 @@ $(document).on("click", ".cmtBtn", e => {
 					selectReAjaxProductComment(cn);
 				}
 				console.log(cn)
-				
-				$(".commentCount").html(cc=cc+1)
+
+				$(".commentCount").html(cc = cc + 1)
 			}
 		},
 		error: function() {
@@ -178,9 +191,10 @@ function selectAjaxProductComment() {
 		dataType: "json",
 		data: { "productId": $("input[name=productId]").val() },
 		success: function(ajaxComment) {
-			
+
 			var html = "";
-			console.log(loginId)
+			console.log($("input[name=productId]").val())
+			console.log(ajaxComment.content)
 			html +=
 				"<div class='cmtContainer'> " +
 				"<div class='cmtProfile'>" +
@@ -198,7 +212,7 @@ function selectAjaxProductComment() {
 				"</div>" +
 				"<p class='cmt' name='content''>" + ajaxComment.content + "</p>" +
 				"<span class='time' name='enrollDate''>" + ajaxComment.enrollDate + "</span>" +
-				"<button class='writeCmt' value='" + ajaxComment.commentNo + "'>" + "답글쓰기" + "</button>"+
+				"<button class='writeCmt' value='" + ajaxComment.commentNo + "'>" + "답글쓰기" + "</button>" +
 				"<button class='changeCmt'>" + "수정하기" + "</button>" +
 				"<button class='deleteCmt'>" + "삭제하기" + "</button>" +
 				"<input type='hidden' name='commentNo' value='" + ajaxComment.commentNo + "'>" +
@@ -211,8 +225,8 @@ function selectAjaxProductComment() {
 			} else {
 				$("#comment >hr:first").after(html);
 			}
-		},complete:function(){
-			
+		}, complete: function() {
+
 		}
 	})
 }
@@ -224,8 +238,6 @@ function selectReAjaxProductComment(cn) {
 		dataType: "json",
 		data: { "productId": $("input[name=productId]").val() },
 		success: function(ajaxReComment) {
-			loginId = sessionStorage.getItem("loginId");
-			userId = sessionStorage.getItem("userId");
 			var html = "";
 			html +=
 				"<div id='arrow'></div>" +
@@ -254,8 +266,8 @@ function selectReAjaxProductComment(cn) {
 
 
 			console.log(cn);
-			const replycoment=($($('input[value=' + cn + '][name=commentNo]')).parent("div").nextUntil("div.cmtContainer"));
-			if(replycoment.length>0)
+			const replycoment = ($($('input[value=' + cn + '][name=commentNo]')).parent("div").nextUntil("div.cmtContainer"));
+			if (replycoment.length > 0)
 				$($('input[value=' + cn + '][name=commentNo]')).parent("div").nextUntil("div.cmtContainer").last().after(html);
 			else
 				$($('input[value=' + cn + '][name=commentNo]')).parent("div").after(html);
@@ -277,6 +289,7 @@ $(document).on("click", ".updateBtn", e => {
 			const cn = $(e.target).parents(".cmtForm").prev("div").find("input[name=commentNo]").val()
 			if (result > 0) {
 				updatetAjaxProductComment(cn);
+				console.log(cn)
 			}
 		},
 		error: function() {
@@ -307,6 +320,88 @@ function updatetAjaxProductComment(cn) {
 					$("input[name=commentNo][value=" + cn + "]").parent(".reComment").find(".cmt").html(updateAjaxComment.content);
 				}
 			}
+		}
+	})
+}
+
+$(document).on("click", "#heartBtn button", e => {
+	$.ajax({
+		type: "POST",
+		url: getContextPath() + "/ajaxHeart",
+		dataType: "json",
+		data: {
+			"loginId": loginId,
+			"productId": $("input[name=productId]").val(),
+		},
+		success: function(result) {
+			console.log(loginId)
+			console.log($("input[name=productId]").val())
+			console.log(result)
+			if (result.length==0) {
+				updateAjaxHeart();
+
+			} else {
+				deleteAjaxHeart();
+			}
+		},
+		error: function() {
+
+		}, complete: function() {
+
+		}
+	})
+})
+var hc = Number($("ion-icon[name=heart] b").text());
+
+function updateAjaxHeart() {
+	$.ajax({
+		type: "POST",
+		url: getContextPath() + "/updateAjaxHeart",
+		dataType: "json",
+		data: {
+			"loginId": loginId,
+			"productId": $("input[name=productId]").val(),
+		},
+		success: function(result) {
+			console.log(hc)
+			console.log($("#heartCount").html())
+			if (result > 0) {
+				$("#heartBtn button").css("background-color", "rgba(255,0,0,0.2)")
+				$("#heartCount").html(hc + 1)
+				$('#heartBtn button').mouseover(function() {
+					$(this).css("background-color", "#afafaf");
+				})
+				$('#heartBtn button').mouseout(function() {
+					$(this).css("background-color", "rgba(255,0,0,0.2)");
+				})
+			}
+
+		}
+	})
+}
+
+function deleteAjaxHeart() {
+	$.ajax({
+		type: "POST",
+		url: getContextPath() + "/deleteAjaxHeart",
+		dataType: "json",
+		data: {
+			"loginId": loginId,
+			"productId": $("input[name=productId]").val(),
+		},
+		success: function(result) {
+
+			if (result > 0) {
+				$("#heartBtn button").css("background-color", "#afafaf")
+				$("#heartCount").html(hc)
+				$('#heartBtn button').mouseover(function() {
+					$(this).css("background-color", "rgba(255,0,0,0.2)");
+				})
+				$('#heartBtn button').mouseout(function() {
+					$(this).css("background-color", "#afafaf");
+				})
+			}
+
 		}
 	})
 }

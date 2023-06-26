@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-import com.semi.productpage.model.vo.Product;
+import com.semi.product.model.vo.Product;
 import com.semi.sc.model.dto.BoardComment;
 import com.semi.sc.model.dto.Report;
 import com.semi.sc.model.dto.ReportList;

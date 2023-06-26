@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.semi.productpage.model.vo.ProductComment;
+import com.semi.productpage.model.vo.ProductCommentUser;
 import com.semi.productpage.service.ProductPageService;
 
 /**
