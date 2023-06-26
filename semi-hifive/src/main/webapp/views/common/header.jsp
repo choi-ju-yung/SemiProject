@@ -63,6 +63,9 @@ if (cookies != null) {
 				} else {
 				%>
 				<div class="loginSerivce">
+				<%if(loginMember.getAuth().equals("M")){%>
+					<a href="<%=request.getContextPath()%>/adminMode.do">관리자모드</a>
+					<%} %>
 					<a href="#"
 						onclick="location.replace('<%=request.getContextPath()%>/logout.do')"
 						id="logout">로그아웃</a> <a

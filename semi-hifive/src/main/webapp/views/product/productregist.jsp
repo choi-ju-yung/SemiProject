@@ -67,7 +67,7 @@ List<Category> categorys = (List) request.getAttribute("categorys");
 			<div class="productTitle">
 				<h4 class="h4Size">제목 *</h4>
 					<input type="text" placeholder="상품제목을 입력하세요" class="inputTitle" name="title">
-				<p class="countTitle">0/40</p>
+				<p class="countTitle">0/20</p>	
 			</div>
 			<span id="spanTitle" ></span>
 			<hr>
