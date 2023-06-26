@@ -21,16 +21,16 @@
       <table>
       <%if(inquiryList!=null){
     	 for(Inquiry q:inquiryList){ %>
-          <tr onclick="location.href='<%=request.getContextPath()%>/'">
+          <tr 
+          onclick="location.href='<%=request.getContextPath()%>/service/inquiryContent.do?no=<%=q.getInquiryNo() %>&s=<%=q.getInquirySecret()%>'">
             <td><%=q.getInquiryNo() %></td>
-            <td class="noticeTitle">
-            	<a href=""><%=q.getInquiryTitle() %></a>
+            <td class="noticeTitle"><%=q.getInquiryTitle() %>
             	<%if(q.getInquirySecret()=='Y'){ %>
             		<ion-icon name="lock-closed-outline"></ion-icon>
             	<%}%>
             </td>
-            	<td><%=q.getInquiryWriter() %></td>
-            	<td><%=q.getInquiryDate() %></td>
+            <td><%=q.getInquiryWriter() %></td>
+            <td><%=q.getInquiryDate() %></td>
           </tr>
           <tr class="tableLine"><td colspan="3"></td></tr>
         <%}
@@ -46,6 +46,5 @@
 </section>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/page.css">
 <script>
-
 </script>
 <%@ include file="/views/common/footer.jsp" %>

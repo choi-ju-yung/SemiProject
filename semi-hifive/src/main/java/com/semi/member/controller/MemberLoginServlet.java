@@ -1,6 +1,7 @@
 package com.semi.member.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,6 +13,8 @@ import javax.servlet.http.HttpSession;
 
 import com.semi.member.model.vo.Member;
 import com.semi.member.service.MemberService;
+import com.semi.search.controller.SearchController;
+import com.semi.search.model.vo.Search;
 
 
 @WebServlet("/login.do")
@@ -49,17 +52,23 @@ public class MemberLoginServlet extends HttpServlet {
 				.selectByUserIdAndPw(userId, password);
 		
 		//System.out.println(loginMember);
-		
+
 
 		// loginMember null을 기준으로 로그인처리 여부를 결정할 수 있음
 		if(loginMember!=null) {
 			//로그인성공 -> 인증받음  (세션을 받아야함)
-			HttpSession session=request.getSession();
-			session.setAttribute("loginMember", loginMember);
-			// 세션에 저장하면 sendRedirect해도 데이터가 날라가지 않음
-			
-			response.sendRedirect(request.getContextPath());
-			
+			if(loginMember.getAuth().equals("M")) { // 로그인한 아이디가 관리자이면
+				HttpSession session=request.getSession();
+				session.setAttribute("loginMember", loginMember);
+				request.getRequestDispatcher("views/admin/manageMemberHome.jsp").forward(request, response);
+				
+			}else { // 로그인한 아이디가 일반사용자일경우
+				HttpSession session=request.getSession();
+				session.setAttribute("loginMember", loginMember);
+
+				// 세션에 저장하면 sendRedirect해도 데이터가 날라가지 않음
+				response.sendRedirect(request.getContextPath());
+			}
 		}else {
 			// 로그인실패 -> 인증못받음
 			// 실패 메세지 출력

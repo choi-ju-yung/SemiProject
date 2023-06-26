@@ -4,7 +4,6 @@
 .PriceNStatus {
 	display: flex;
 	align-items: center;
-	/* justify-content: space-between; */
 }
 
 .statusBtn {
@@ -136,12 +135,12 @@ section {
 .productContainer {
 	margin-bottom: 40px;
 	display: flex;
-	justify-content: space-between;
 	flex-wrap:wrap;
 }
 
 .productAll {
-	margin-bottom: 18px;
+	margin-bottom: 60px;
+	margin-right: 50px;
 }
 
 .product {
@@ -217,7 +216,7 @@ section {
 .container {
 	/* display: flex; */
 	position: relative;
-	bottom: 289px;
+	bottom: 295px;
 	left: 252px;
 	cursor: pointer;
 	font-size: 20px;

@@ -29,42 +29,13 @@ public class ProductRegistServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session=request.getSession();
 		Member loginMember = (Member) session.getAttribute("loginMember");
-		if(loginMember == null) {
-			request.setAttribute("msg", "로그인 한 후 이용해주세요");
-			request.setAttribute("loc", "/views/login/loginview.jsp");
-			request.getRequestDispatcher("/views/common/msg.jsp")
-			.forward(request, response);
-		}else {
-			/*
-			 * request.getRequestDispatcher("/views/product/productregist.jsp")
-			 * .forward(request, response);
-			 */
-			
-			
-
 
 			List<Category> categorys = new ProductRegistService().selectAll();
 			System.out.println(categorys);
 			request.setAttribute("categorys", categorys);
 			
-			
-			/*
-			 * if(loginMember!=null) {
-			 * 
-			 * HttpSession session=request.getSession(); session.setAttribute("loginMember",
-			 * loginMember);
-			 * 
-			 * response.sendRedirect(request.getContextPath());
-			 * 
-			 * }else {
-			 * 
-			 * request.setAttribute("msg", "아이디,패스워드가 일치하지 않습니다");
-			 * request.setAttribute("loc", "/views/login/loginview.jsp");
-			 * request.getRequestDispatcher("/views/common/msg.jsp") .forward(request,
-			 * response); }
-			 */
 			request.getRequestDispatcher("/views/product/productregist.jsp").forward(request, response);
-		}
+		
 	}
 
 

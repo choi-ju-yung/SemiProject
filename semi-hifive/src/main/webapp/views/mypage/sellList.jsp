@@ -9,6 +9,7 @@
 	int countStatusSell = (int)request.getAttribute("countStatusSell");
 	int countStatusRes = (int)request.getAttribute("countStatusRes");
 	int countStatusSol = (int)request.getAttribute("countStatusSol");
+	String status = (String)request.getAttribute("nowButton");
 %>
 <link rel="stylesheet" href="<%=request.getContextPath() %>/css/mypage/sellList.css" />
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/page.css" />
@@ -22,10 +23,10 @@
 
         <!-- 판매상태 아이콘 div -->
         <div class="buttonAll">
-            <button id="allBtn" class="nowButton">전체 <%=countAll%></button>
-            <button id="sellBtn">판매중 <%=countStatusSell%></button>
-            <button id="resBtn">예약중 <%=countStatusRes%></button>
-            <button id="solBtn">판매완료 <%=countStatusSol%></button>
+            <button id="allBtn" class="<%=status.equals("all")?"nowButton":""%>">전체 <%=countAll%></button>
+            <button id="sellBtn" class="<%=status.equals("sell")?"nowButton":""%>">판매중 <%=countStatusSell%></button>
+            <button id="resBtn" class="<%=status.equals("res")?"nowButton":""%>">예약중 <%=countStatusRes%></button>
+            <button id="solBtn" class="<%=status.equals("sol")?"nowButton":""%>">판매완료 <%=countStatusSol%></button>
         </div>
 
         <!-- 판매내역 목록 div -->
@@ -34,7 +35,7 @@
                         	for(ProductList p : product){
         %>
             <div class="product">
-                <a href=""><img src="<%=request.getContextPath() %>/img/구매목록img/예시 이미지.jpg" alt=""></a>
+                <a href=""><img src="<%=request.getContextPath() %>/upload/productRegist/<%=p.getProductfile().getImageName() %>" alt=""></a>
                 <div class="proContent">
                     <h5 class="grayFont"><a href="" class="aTag grayFont categoryA"><%=p.getCategory().getCategoryName() %></a> &rsaquo; <a href=""
                             class="aTag grayFont"><%=p.getProduct().getSubCategory() %></a></h5>
@@ -48,7 +49,7 @@
                 <div class="buttonNcategory">
                     <div class="updateDelete">
                         <button>수정</button>
-                        <button class="delMem openBtn" id="popup_open_btn">삭제</button>
+                        <button class="delMem openBtn" id="<%=p.getProduct().getProductId() %>">삭제</button>
                     </div>
                     <div class="selectNow">
                         <select class="<%=p.getProduct().getSellStatus().equals("판매중")?"selectIng":p.getProduct().getSellStatus().equals("예약중")?"selectRes":"selectSol"%> selectStatus">

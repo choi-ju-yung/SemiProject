@@ -44,11 +44,8 @@ public class ProductPageServlet extends HttpServlet {
 		request.setAttribute("product", p);
 		request.setAttribute("comments", comments);
 		// 출력할 화면 선택
-		request.getRequestDispatcher("/views/productpage/ProductPage.jsp").forward(request, response);
-
-	
+		request.getRequestDispatcher("/views/productpage/ProductPage.jsp").forward(request, response);	
 	}
-
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)

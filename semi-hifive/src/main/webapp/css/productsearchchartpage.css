@@ -1,5 +1,16 @@
 * {
+  margin: 0px;
+  padding: 0px;
+  list-style: none;
   font-family: "NEXON Lv2 Gothic" !important;
+}
+header {
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+  position: fixed;
+  z-index: 100;
+  background-color: white;
 }
 
 body {
@@ -35,7 +46,7 @@ pre {
   font-size: inherit;
 }
 p {
-  margin: 0px;
+  margin: 0 0 10px;
 }
 
 img,
@@ -45,6 +56,11 @@ svg {
 
 label {
   margin: 0px;
+}
+
+.categoryNrank p {
+    position: absolute;
+    top: 7px;
 }
 #wraperContainer {
   display: flex;
@@ -184,81 +200,13 @@ width: 15px;
 }
 #productImgContainer {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
   flex-wrap: wrap;
 }
 #pimgWraper {
   height: 370px;
   /* margin-top: 10px; */
 }
-/* 차트부분 css */
-.pimgWraperpricechart{
-  height: 620px;
-}
-.marketpricearea{
-    /*height: 100px;*/
-    margin: auto;
-    display: flex;
-    flex-flow: column;
-    align-items: center;   
-}
-.marketpricearea h3{
-  font-weight: 70px;
-  margin-bottom: 0.375rem;
-  margin-top: 7px;
-}
-.marketpricechartarea{
-  height: 448px;
-  padding-bottom: 72px;
-  width: 1032px;
-}
-.marketpricechart{
-  margin: auto;
-  border: 1px solid rgb(224, 224, 224);
-  border-radius: 10px;  
-  /* width: clamp(400px, 100%, 600px); */
-  /*height: 376px;*/
-  position: relative;
-  flex-direction: column;
-  padding: 1.3rem 2.5rem 1rem;
-}
-.chartjs{
-  margin: auto;
-  padding-bottom: 20px;
-}
-.charttitle{
-  display: flex;
-  flex-direction: column;
-}
-.charttitle h2{
-  color: rgb(102, 102, 102);
-  font-size: 14px;
-  line-height: 20px;
-  margin-bottom: 8px;
-}
-.charttitle p{
-  font-size: 27px;
-  color: #20C997;
-}
-.pricechart{
-  
-}
-.charttext{
-  display: inline-grid;
-  margin: 30px;
-  position: absolute;
-}
-.charttext>.pricecontent{
-  color: rgb(102, 102, 102);
-  font-size: 14px;
-  margin-bottom: 20px;
-  position: relative;
-  
-}
-.charttext>.pricecontent span{
-  margin: 10px;
-}
-/* 상품리스트css */
 #productImgContainer img {
   width: 240px;
   height: 240px;
@@ -615,7 +563,7 @@ width: 15px;
   margin-top: 10px;
 }
 #productImgContainer {
-  margin-top: 90px;
+  margin-top: 30px;
 }
 
 .prcSearch {
@@ -721,5 +669,7 @@ option {
   font-family: FontAwesome !important;
 }
 
-.pdcCategory i {
+#pimgWraperpricechart{
+	margin-top: 110px;
+	
 }

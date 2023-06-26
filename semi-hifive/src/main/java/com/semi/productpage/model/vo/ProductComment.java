@@ -12,14 +12,15 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ProductComment {
 	
-	private String userId;
-	private int productId;
-	private String nickName;
 	private int commentNo;
-	private int commentLevel;
-	private String content;
+	private int productId;
+	private String userId;
+	private String nickName;
 	private int commentRef;
+	private String content;
+	private int commentLevel;
 	private Date enrollDate;
+	private int commentCount;
 
 }
 

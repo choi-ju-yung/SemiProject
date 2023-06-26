@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ProductFile {
 
-	private String productId;
+	private int productId;
 	private String imageName;
 	private char mainImageYn;
 	private int fileNo;

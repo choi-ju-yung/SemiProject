@@ -29,10 +29,14 @@ public class BoardService {
 		return boardList;
 	}
 
-	public int insertBoard(Board b) {
+	public int insertBoard(Board b, List<String> filesNames) {
 		Connection conn=getConnection();
 		int result=dao.insertBoard(conn, b);
-		if(result>0) commit(conn);
+		int fileresult=0;
+		for(String file:filesNames) {
+			fileresult+=dao.insertBoardFile(conn, file);
+		}
+		if(result>0&&fileresult==filesNames.size()) commit(conn);
 		else rollback(conn);
 		close(conn);
 		return result;
@@ -76,14 +80,6 @@ public class BoardService {
 	public int insertBoardComment(BoardComment bc) {
 		Connection conn=getConnection();
 		int result=dao.insertBoardComment(conn, bc);
-		if(result>0) commit(conn);
-		else rollback(conn);
-		return result;
-	}
-
-	public int insertBoardFile(BoardFile bf) {
-		Connection conn=getConnection();
-		int result=dao.insertBoardFile(conn, bf);
 		if(result>0) commit(conn);
 		else rollback(conn);
 		return result;

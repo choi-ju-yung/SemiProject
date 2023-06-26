@@ -19,7 +19,7 @@ List<Category> categorys = (List) request.getAttribute("categorys");
 	if (loginMember != null) { // 로그인된상태에서 직접 login.view 화면으로 갔을때 로그인페이지가 아닌 메인화면으로 이동되는 예외처리
 	%>
 
-	<form action="<%=request.getContextPath()%>/productRegistEnd.do" class="container" method="post">
+	<!-- <form class="container" method="post" enctype="multipart/form-data"> -->
 
 		<div class="information">
 			<div>
@@ -41,7 +41,7 @@ List<Category> categorys = (List) request.getAttribute("categorys");
 			<img
 				src="<%=request.getContextPath()%>/images/productregist/imgregist.png" 
 				class="upload" width="250px" height="250px"> <input
-				type="file" class="real-upload" accept="image/*" required multiple
+				type="file" id="inputFile" class="real-upload" accept="image/*" required multiple
 				style="display: none;">
 
 
@@ -69,12 +69,13 @@ List<Category> categorys = (List) request.getAttribute("categorys");
 					<input type="text" placeholder="상품제목을 입력하세요" class="inputTitle" name="title">
 				<p class="countTitle">0/40</p>
 			</div>
+			<span id="spanTitle" ></span>
 			<hr>
 		</div>
 
 		<div class="cate">
 			<h4 class="h4Size">카테고리 *</h4>
-			<form name="frm1">
+<!-- 			<form name="frm1"> -->
 				<select class="mainCate" onchange="chageSubCate(this.value);">
 					<!-- this.value -> 선택된 option의 밸류값을 매개변수로 넣음 -->
 					<%
@@ -97,12 +98,13 @@ List<Category> categorys = (List) request.getAttribute("categorys");
 
 		<div class="productPlace">
 			<h4 class="h4Size">거래지역 *</h4>
-			<input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"> 
+			<input type="button" id="sample6Id" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"> 
 			<input type="text" id="sample6_address" placeholder="주소" name="place" readonly> 
 			<input type="hidden" id="sample6_postcode" placeholder="우편번호"> 
 			<input type="hidden" id="sample6_detailAddress" placeholder="상세주소">
 			<input type="hidden" id="sample6_extraAddress" placeholder="참고항목">
 		</div>
+		<span id="spanPlace" ></span>
 		<hr>
 
 		<div class="productStatus">
@@ -110,7 +112,7 @@ List<Category> categorys = (List) request.getAttribute("categorys");
 			<fieldset>
 				<label> <input type="radio" name="state" value="미개봉"
 					checked /> <span>미개봉</span>
-				</label> <label> <input type="radio" name="state" value="사용감있음" />
+				</label> <label> <input type="radio" name="state" value="사용감 있음" />
 					<span>사용감있음</span>
 				</label>
 			</fieldset>
@@ -121,15 +123,17 @@ List<Category> categorys = (List) request.getAttribute("categorys");
 			<h4 class="h4Size">가격 *</h4>
 			<!--             <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
                 placeholder="숫자만 입력해주세요."> -->
-			<input type="text" oninput="inputNumberFormat(this);" placeholder="숫자만 입력해주세요."  name="price">
+			<input type="text" id="priceId" oninput="inputNumberFormat(this);" placeholder="숫자만 입력해주세요." name="price">
 			<p>원</p>
 		</div>
+		<span id="spanPrice" ></span>
 		<hr>
 
 		<div class="explan">
 			<h4 class="h4Size">설명 *</h4>
-			<textarea name="explan" placeholder="여러 장의 상품 사진과 구입 연도, 브랜드, 사용감, 하자 유무 등 구매자에게 필요한 정보를 꼭 포함해 주세요. (10자 이상)"></textarea>
+			<textarea id="explanId" name="explan" placeholder="여러 장의 상품 사진과 구입 연도, 브랜드, 사용감, 하자 유무 등 구매자에게 필요한 정보를 꼭 포함해 주세요. (10자 이상)"></textarea>
 		</div>
+		<span id="spanExplan" ></span>
 		<h3 class="countExpaln">0/2000</h3>
 		<hr>
 
@@ -182,7 +186,7 @@ List<Category> categorys = (List) request.getAttribute("categorys");
 		<%
 		}
 		%>
-	</form>
+<!-- 	</form> -->
 </section>
 
 
