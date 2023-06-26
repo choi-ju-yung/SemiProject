@@ -1,19 +1,36 @@
 
 const context = "http://localhost:9090/semi-hifive";
 
+
+const checkProductRegist = {  // 상품등록할 때, 각 부분마다 정상적으로 처리됬는지 구분하는 객체 (다 true일경우에만 상품등록됨)
+	"productImg": false,  
+	"productTitle": false,
+	"productPlace": false,
+	"productPrice": false,
+	"productExplan": false,
+};
+
+
+
 // 사진 불러오기 작업 
 
 let prouductImgCnt = 0;
+const dataTransfer = new DataTransfer();
+
 
 function getImageFiles(e) {
+	
 	const uploadFiles = [];
+
 	const files = e.currentTarget.files;
 	const imagePreview = document.querySelector('.image-preview');
 
-	if (prouductImgCnt >= 10) {
-		alert('이미지는 최대 10개 까지 업로드가 가능합니다.');
-		return;
-	}
+/*	for(var i=0; i<files.length; i++){  // 한번 이미지 받아올때 dataTransfer에 다 저장함 (그이후 또 받아와도 누적시킴)
+		dataTransfer.items.add(files[i]);
+	}*/
+	
+	console.log(dataTransfer);
+
 
 	// 파일 타입 검사
 	[...files].forEach(file => {  // 이미지 파일외 다른 파일 업로드시 (문구 + 이미지 적용 x)
@@ -23,46 +40,35 @@ function getImageFiles(e) {
 		}
 
 		// 파일 갯수 검사
-		if ([...files].length < 11) { // 한번에 10개까지 이미지 등록가능
+		if (dataTransfer.items.length+[...files].length < 11) { // 한번에 10개까지 이미지 등록가능
+
+/*				if (dataTransfer.items.length > 10) {
+				alert('이미지는 최대 10개 까지 업로드가 가능합니다.');
+				return;
+			}*/
+
 
 			const reader = new FileReader();
 			reader.onload = (e) => {
 				const preview = createElement(e, file);
+				
 				imagePreview.appendChild(preview);
+				dataTransfer.items.add(file);
 			};
-
+			
+			
 			uploadFiles.push(file); // 이미지 파일이 7개 미만이면 배열에 파일추가
 			prouductImgCnt++;  // 이미지 추가시 개수 증가
 			$(".imgCount").text("(" + prouductImgCnt + "/10" + ")");
 			console.log(prouductImgCnt);
 			reader.readAsDataURL(file);  // 업로드 파일 읽어오기 (이문구 없으면 이미지 추가되지않음)
 		}
+		else{
 
-
-
-		/*		        // 파일 갯수 검사
-				if ((prouductImgCnt+[...files].length) < 11) { // 한번에 10개까지 이미지 등록가능
-		
-					const reader = new FileReader();
-					reader.onload = (e) => {
-						const preview = createElement(e, file);
-						imagePreview.appendChild(preview);  
-					};
-		
-				    
-					// uploadFiles.push(file); // 이미지 파일이 7개 미만이면 배열에 파일추가
-					prouductImgCnt++;  // 이미지 추가시 개수 증가
-					$(".imgCount").text("("+prouductImgCnt+"/10"+")");
-					console.log(prouductImgCnt);
-					reader.readAsDataURL(file);  // 업로드 파일 읽어오기 (이문구 없으면 이미지 추가되지않음)
-				}
-				else{
-					alert('이미지는 한번에 10개까지 등록 가능합니다.');
-					return
-				}*/
-
+		}
 
 	});
+	
 }
 
 
@@ -72,12 +78,26 @@ function createElement(e, file) {
 	const img = document.createElement('img');  // img 태그 만들기
 	img.setAttribute('src', e.target.result); // 만든 img 태그에 경로 속성 값 넣어줌
 	img.setAttribute('data-file', file.name); // 만들 ing 태그에 파일 이름 속성 값 넣어줌
-
-
+	checkProductRegist.productImg = true; 
+	
+	
 	img.addEventListener("click", e => {  // 해당 이미지 클릭시
 		prouductImgCnt--; // 이미지 삭제시 개수 감소
 		$(e.target).parent().remove(); // li안의 img까지 삭제
 		$(".imgCount").text("(" + prouductImgCnt + "/10" + ")");
+		
+		 for(var i=0; i<dataTransfer.files.length; i++){
+             if(dataTransfer.files[i].name==e.target.dataset.file){
+                    dataTransfer.items.remove(i)
+                    break;
+             }
+          }
+		
+		
+		if(dataTransfer.files.length == 0){  
+			checkProductRegist.productImg = false; 
+		}
+		
 	});
 
 	li.appendChild(img); // 이미지가 있는 li 태그 완성하여 li 리턴
@@ -108,45 +128,78 @@ function uncomma(str) {
 function inputNumberFormat(obj) {
 	obj.value = comma(uncomma(obj.value));
 }
+
+
+const priceValue = document.getElementById("priceId")
+const spanPrice = $("#spanPrice");
+priceValue.addEventListener("keyup", function() {
+
+	if (priceValue.value.length == 0) {
+		spanPrice.text("");
+		checkProductRegist.productPrice=false;
+	}else{
+		replacePrice = priceValue.value.replace(",","");
+		if(replacePrice <= 0){
+			spanPrice.text("0원보다 크게 입력하세요").css("color","red");
+			checkProductRegist.productPrice=false;
+		}else{
+			spanPrice.text("○").css("color","green");
+			checkProductRegist.productPrice=true;
+		}
+	}
+});
+
+
 //=====================================================
 
-
+const spanTitle = $("#spanTitle");
 // ==== 제목 글자수 세주는 작업=====
 $(".inputTitle").keyup(e => { // 해당 텍스트부분을 입력할 때
 	$(".countTitle").text($(e.target).val().length + "/40");
 	const length = $(e.target).val().length;
-
-	if (length > 40) {
+	
+	if (length>40) {
 		alert("40글자 이하로 작성하세요");
 		$(e.target).val($(e.target).val().substring(0, 40));
+		checkProductRegist.productTitle=false;
 	}
+	
+	if(length<=0){
+		spanTitle.text("");
+		checkProductRegist.productTitle=false;
+	}else if(length<10){
+		spanTitle.text("최소 10글자 이상 작성하세요").css("color","red");
+		checkProductRegist.productTitle=false;
+	}else{
+		spanTitle.text("");
+		checkProductRegist.productTitle=true;
+	}
+	
 	$(".countTitle").text($(e.target).val().length + "/40");
 })
-
-
 
 
 // -------------------------------------------------------------------------------------------------------------------
 // 카테고리 선택하는 작업
 
-$(()=>{
-	$(".mainCate").trigger("change",$(".mainCate:selected").val());  // 페이지로딩되었을때, 자동으로 change 함수 실행
-	 														//	대상값은 현재 그 select에 선택된 값
+$(() => {
+	$(".mainCate").trigger("change", $(".mainCate:selected").val());  // 페이지로딩되었을때, 자동으로 change 함수 실행
+	//	대상값은 현재 그 select에 선택된 값
 })
 
 function chageSubCate(value) {
 	console.log(value);
 	$.ajax({
 		url: "findSubCate",
-		data: {"cateId": value},
+		data: { "cateId": value },
 		success: function(result) {
-		
+
 			const subCate = result.split(","); // 문자열로 넘어온 값들을 ,를 구분자로 배열을 만듬
-			
+
 			$(".middleCate option").remove();   // 메인카테고리 선택할때마다 옵션들 다 삭제
-			for(let i=0; i<subCate.length; i++){
-					var option = $("<option value=" + subCate[i] + ">"+subCate[i]+"</option>");
-					$(".middleCate").append(option);
+			for (let i = 0; i < subCate.length; i++) {
+				var option = $("<option value=" + subCate[i] + ">" + subCate[i] + "</option>");
+				$(".middleCate").append(option);
 			}
 		},
 		error: function() {
@@ -154,10 +207,6 @@ function chageSubCate(value) {
 		}
 	})
 }
-
-
-
-
 
 /*$(function() {
 	var arr = ["서울", "경기도", "인천"];
@@ -219,10 +268,32 @@ function sample6_execDaumPostcode() {
 			document.getElementById('sample6_postcode').value = data.zonecode;
 			document.getElementById("sample6_address").value = addr;
 			// 커서를 상세주소 필드로 이동한다.
-			document.getElementById("sample6_detailAddress").focus();
+			document.getElementById("sample6_address").focus();
 		}
 	}).open();
 }
+
+
+const placeValue = document.getElementById("sample6_address");
+const spanPlace = $("#spanPlace");
+/*		spanPlace.text("지역을 반드시 선택해주세요").css("color","red");
+		checkProductRegist.productPlace=false;
+/*const placeLen = document.getElementById("sample6_address");*/
+/*   $(function() {
+		if(placeValue.value.length == 0){
+			spanPlace.text("지역을 반드시 선택해주세요").css("color","red");
+			checkProductRegist.productPlace=false;
+		}else{
+			spanPlace.text("○").css("color","green");
+			checkProductRegist.productPlace=true;
+		}
+   });*/
+
+placeValue.addEventListener("input", function() {
+		spanPlace.text("○").css("color","green");
+		checkProductRegist.productPlace=true;
+});
+
 
 
 
@@ -230,15 +301,27 @@ function sample6_execDaumPostcode() {
 
 
 
+const spanExplan = $("#spanExplan");
 // ==== 설명 글자수 세주는 작업=====
 $(".explan").keyup(e => { // 해당 텍스트부분을 입력할 때
 	$(".countExpaln").text($(e.target).val().length + "/40");
 	const length = $(e.target).val().length;
 
-	if (length > 2000) {
+	if (length>2000) {
 		alert("2000글자 이하로 작성하세요");
 		$(e.target).val($(e.target).val().substring(0, 2000));
+		checkProductRegist.productExplan=false;
+	}else if(length>10){
+		spanExplan.text("○").css("color","green");
+		checkProductRegist.productExplan=true;
+	}else if(length>0){
+		spanExplan.text("최소 10글자 이상 작성하세요").css("color","red");
+		checkProductRegist.productExplan=false;
+	}else{
+		spanExplan.text("").css("color","red");
+		checkProductRegist.productExplan=false;
 	}
+	
 	$(".countExpaln").text($(e.target).val().length + "/2000");
 })
 
@@ -412,14 +495,14 @@ $autoComplete.addEventListener("click", e => {  // 관련검색어 클릭했을�
 		$li.appendChild($button1);
 		$li.appendChild($button2);
 
-		
+
 		var input1 = document.createElement('input');
 		input1.setAttribute("type", "hidden");
 		input1.setAttribute("name", "data1");
 		input1.setAttribute("value", key);
 
 		$li.appendChild(input1);
-		
+
 
 		$img.addEventListener("click", e => {  // 해당 이미지 클릭시
 			$(e.target).parent().parent().remove(); // li밑 label+button 밑 img까지 삭제
@@ -452,10 +535,63 @@ $(document).ready(function() {
 /*=============================*/
 
 
-/* 폼 전송 작업*/
 
-function productRegist(){
-	$(".container").submit();
+
+function productRegist() {  // 상품등록 버튼 클릭됬을 때,
+	
+
+	if(checkProductRegist.productTitle && checkProductRegist.productPrice && checkProductRegist.productExplan
+		&& checkProductRegist.productImg){
+	}else{
+			console.log("다 입력해라")
+			return;
+	}
+
+
+	
+	const form = new FormData();  // form 객체에 입력한 값들을 먼저 다 추가함
+	form.append("title", $(".inputTitle").val());
+	form.append("subCate", $(".middleCate").val());
+	form.append("place", $("#sample6_address").val());
+	form.append("state", $("input[name=state]:checked").val());
+	form.append("price", $("#priceId").val())
+	form.append("explan", $("#explanId").val())
+	let tag="";
+	$("input[name=data1]").each((i,element)=>{ // jquery로 해당 선택자로 값을 가져옴 .each(i,elemnet) -> 해당 데이터들의 인덱스번호와, 해당 값을 가져옴  
+		if(i!=0) tag+=",";
+		tag+=element.value;	
+	})
+	form.append("tag",tag); 
+	
+	const files= dataTransfer.files;
+	/*const files=$("input[type=file]")[0].files;*/ // 
+
+	$.each(files,(index,file)=>{
+		form.append("upfile"+index,file);
+		console.log(files[index]);
+	});
+
+
+	$.ajax({
+		url: "productRegistEnd.do", // 해당 서블릿으로 ajax로 요청
+		data: form,   // 저정한 form 객체를 데이터로 보냄
+		processData:false, // 멀티파트폼으로 보내기위해서 설정
+		contentType:false, // 멀티파트폼으로 보내기위해서 설정
+		type:"post",
+		success: function(result) {
+			if(result==1) { // db는 결과값이 정수로 나옴 // 입력성공
+					alert("등록 성공");
+					location.replace("http://localhost:9090/semi-hifive/");
+			}else{ 
+					alert("등록 실패");
+					location.replace("http://localhost:9090/semi-hifive/"+"productRegist.do");
+			}
+		},
+		error: function() {
+			alert("오류발생");
+			location.replace("http://localhost:9090/semi-hifive/"+"productRegist.do");
+		}
+	})
 }
 
 

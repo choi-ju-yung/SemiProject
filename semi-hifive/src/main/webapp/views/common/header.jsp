@@ -6,7 +6,6 @@
 <%@ page import="com.semi.search.model.vo.Search"%>
 <%
 Member loginMember = (Member) session.getAttribute("loginMember");//여기 로그인멤버 
-List<Search> search = (List) session.getAttribute("search");
 Cookie[] cookies = request.getCookies(); // 존재하는 쿠키들 다 갖고옴 
 String saveId = null;
 if (cookies != null) {
@@ -18,30 +17,33 @@ if (cookies != null) {
 	}
 }
 %>
+<!DOCTYPE html>
+<html>
+<head>
 <script>
 	//로그인한 아이디 sessionStorage에 저장하자..ㅋㅋㅋ
 	sessionStorage.setItem("loginId",'<%=loginMember != null ? loginMember.getUserId() : ""%>');
 </script>
-<!DOCTYPE html>
-<html>
-<head>
 <meta charset="UTF-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<!-- css 파일 -->
-<link rel="stylesheet"
-	href="<%=request.getContextPath()%>/css/default.css" />
-<link rel="stylesheet"
-	href="<%=request.getContextPath()%>/css/searchPage.css" />
-<link rel="icon"
-	href="<%=request.getContextPath()%>/images/common/fivicon.png"
-	type="image/x-icon" />
 <!-- js 파일 -->
 <script type="module"
 	src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule
 	src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 <script src="<%=request.getContextPath()%>/js/jquery-3.7.0.min.js"></script>
+<!-- 자동완성  -->
+<link rel="stylesheet"
+	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<!-- css 파일 -->
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/css/default.css" />
+<link rel="icon"
+	href="<%=request.getContextPath()%>/images/common/fivicon.png"
+	type="image/x-icon" />
 <!--  -->
 <title>중고 거래 HiFive</title>
 </head>
@@ -80,71 +82,43 @@ if (cookies != null) {
 							alt="" />
 						</a>
 					</div>
+
 					<div class="searchBar">
-				
-							<div class="searchDetail">
-								<input type="search" onsearch="" class="search"
-									placeholder="브랜드, 상품명, 상품번호 등" onfocus="this.placeholder = ''"
-									onblur="this.placeholder = '브랜드, 상품명, 상품번호 등'" />
+						<div class="searchDetail">
+							<form id="searchForm" class="form">
+								<input required id="searchInput" maxlength="10" type="text"
+									placeholder="상품명, #키워드 검색" onfocus="this.placeholder = ''"
+								onblur="this.placeholder = '상품명, #키워드 검색'">
+								<button type="reset" id="resetBtn">
+							<ion-icon name="close"></ion-icon>
+							</button>
+							</form>
+							
+							<button type="submit" form="searchForm" id="submitBtn">
+								<img
+									src="<%=request.getContextPath()%>/images/common/magnifier.png"
+									alt="" />
+							</button>
+						</div>
 
-								<button class="search">
-									<img
-										src="<%=request.getContextPath()%>/images/common/magnifier.png"
-										alt="" />
-								</button>
-							</div>
-						
 						<div class="searchpage">
+
 							<div class="searchbody">
-							<hr>
-								<div class="recentsearch">
-									<div class="recentsearchchild">
-										<div class="recentsearchtext">
-											<span>최근검색어</span>
-										</div>
-										<div class="recentsearchmeun">
-											<%
-											if (search != null && !search.isEmpty()) {
-												if (loginMember != null && loginMember.getUserId().equals(search.get(0).getUserId())) {
-													for (Search s : search) {
-											%>
-											<div class="recentsearchtag">
-												<div class="recentsearchtagtext">
-													<%=s.getSearchKeyword()%>
-												</div>
-												<div class="recentsearchbtn">
-													<button>
-														<svg xmlns="http://www.w3.org/2000/svg" class="ionicon"
-															viewBox="0 0 512 512">
-                                   								 <path
-																d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192 192-86 192-192z"
-																fill="none" stroke="currentColor" stroke-miterlimit="10"
-																stroke-width="32" />
-                                    							<path fill="none"
-																stroke="currentColor" stroke-linecap="round"
-																stroke-linejoin="round" stroke-width="32"
-																d="M320 320L192 192M192 320l128-128" />
-                               								  </svg>
-													</button>
-												</div>
-											</div>
-
-											<%
-											}
-											}
-											} else {
-											%>
-											<p>최근 검색어 내역이 없습니다.</p>
-											<%
-											}
-											%>
-
-										</div>
+								<hr>
+								<div class="recentSearch">
+									<div class="allDelete off">
+										<span id="recentHead">최근 검색어</span> <span id="allDeleteBtn">모두
+											지우기</span>
 									</div>
+									<p class="recentText"></p>
+									<ul id="recentList">
+
+									</ul>
 								</div>
-							</div>
+							</div>					
 						</div>
 					</div>
+
 					<div class="memberIcon">
 						<a href="<%=request.getContextPath()%>/productRegist.do"> <ion-icon
 								name="storefront-outline" class="storeIcon"></ion-icon> <span>
@@ -171,6 +145,8 @@ if (cookies != null) {
 						}
 						%>
 					</div>
+
+
 				</div>
 				<div class="categoryNrank">
 					<input type="checkbox" id="menuIcon" /> <label for="menuIcon"
@@ -316,7 +292,7 @@ function Test_btn() {
 			});
 		}
 	</script>
+
 	<script src="<%=request.getContextPath()%>/js/common/header.js"></script>
-	<script src="<%=request.getContextPath()%>/js/searchpage/searchPage.js"></script>
 </body>
 </html>

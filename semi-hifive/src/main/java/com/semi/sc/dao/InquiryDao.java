@@ -12,7 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import com.semi.sc.model.dto.BoardComment;
 import com.semi.sc.model.dto.Inquiry;
+import com.semi.sc.model.dto.ServiceFile;
 
 public class InquiryDao {
 	private final Properties sql=new Properties();
@@ -28,12 +30,32 @@ public class InquiryDao {
 	//Inquiry 객체 반환 메소드
 	public Inquiry getInquiry(ResultSet rs) throws SQLException {
 		return Inquiry.builder()
-				.inquiryNo(rs.getInt("inquiry_no"))
-				.inquiryWriter(rs.getString("inquiry_writer"))
-				.inquiryTitle(rs.getString("inquiry_title"))
 				.inquiryContent(rs.getString("inquiry_content"))
+				.inquiryNo(rs.getInt("inquiry_no"))
+				.inquiryWriter(rs.getString("nickname"))
+				.inquiryTitle(rs.getString("inquiry_title"))
 				.inquiryDate(rs.getDate("inquiry_date"))
 				.inquirySecret(rs.getString("inquiry_secret").charAt(0))
+				.build();
+	}
+	
+	//file 반환 메소드
+	public static ServiceFile getFile(ResultSet rs) throws SQLException {
+		return ServiceFile.builder()
+				.contentNo(rs.getInt("inquiry_no"))
+				.filename(rs.getString("inquiry_renamed_filename"))
+				.fileNo(rs.getInt("file_no")).build();
+	}
+	
+	//comment 반환 메소드
+	public static BoardComment getComment(ResultSet rs) throws SQLException {
+		return BoardComment.builder()
+				.commentNo(rs.getInt("inquiry_comment_no"))
+				.commentWriter(rs.getString("nickname"))
+				.boardNo(rs.getInt("inquiry_no"))
+				.commentNoFK(rs.getInt("inquiry_comment_fk"))
+				.commentDate(rs.getDate("inquiry_comment_date"))
+				.commentContent(rs.getString("inquiry_comment_content"))
 				.build();
 	}
 	
@@ -78,4 +100,124 @@ public class InquiryDao {
 		}
 		return inquiryList;
 	}
+
+	//문의글 내용
+	public Inquiry selectInquiryContent(Connection conn, int inquiryNo) {
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		Inquiry q=null;
+		try {
+			pstmt=conn.prepareStatement(sql.getProperty("selectInquiryContent"));
+			pstmt.setInt(1, inquiryNo);
+			rs=pstmt.executeQuery();
+			if(rs.next()) {
+				q=getInquiry(rs);
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rs);
+			close(pstmt);
+		}
+		return q;
+	}
+
+	//파일 저장
+	public int insertInquiryFile(Connection conn, String file) {
+		PreparedStatement pstmt=null;
+		int result=0;
+		try {
+			pstmt=conn.prepareStatement(sql.getProperty("insertFile"));
+			pstmt.setString(1, file);
+			result=pstmt.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+	//문의글 저장
+	public int insertInquiry(Connection conn, Inquiry q) {
+		PreparedStatement pstmt=null;
+		int result=0;
+		try {
+			pstmt=conn.prepareStatement(sql.getProperty("insertInquiry"));
+			pstmt.setString(1, q.getInquiryWriter());
+			pstmt.setString(2, q.getInquiryTitle());
+			pstmt.setString(3, q.getInquiryContent());
+			pstmt.setString(4, String.valueOf(q.getInquirySecret()));
+			result=pstmt.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+	//file 조회
+	public List<ServiceFile> selectInquiryFile(Connection conn, int inquiryNo) {
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		List<ServiceFile> files=new ArrayList();
+		try {
+			pstmt=conn.prepareStatement(sql.getProperty("selectFile"));
+			pstmt.setInt(1, inquiryNo);
+			rs=pstmt.executeQuery();
+			while(rs.next()) {
+				files.add(getFile(rs));
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rs);
+			close(pstmt);
+		}
+		return files;
+	}
+
+	//댓글 조회
+	public List<BoardComment> selectInquiryComment(Connection conn, int inquiryNo) {
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		List<BoardComment> comments=new ArrayList();
+		try {
+			pstmt=conn.prepareStatement(sql.getProperty("selectComment"));
+			pstmt.setInt(1, inquiryNo);
+			rs=pstmt.executeQuery();
+			while(rs.next()) {
+				comments.add(getComment(rs));
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rs);
+			close(pstmt);
+		}
+		return comments;
+	}
+
+	public int insertComment(Connection conn, BoardComment bc) {
+		PreparedStatement pstmt=null;
+		int result=0;
+		String query=sql.getProperty("insertComment");
+		try {
+			query=query.replaceAll("#FK", bc.getCommentNoFK()==0?"null":String.valueOf(bc.getCommentNoFK()));
+			pstmt=conn.prepareStatement(query);
+			pstmt.setString(1, bc.getCommentWriter());
+			pstmt.setInt(2, bc.getBoardNo());
+			pstmt.setString(3, bc.getCommentContent());
+			result=pstmt.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return result;
+	}
+	
+	
+	
 }

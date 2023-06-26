@@ -90,7 +90,7 @@
 				</div>
 				<%} //for문
 				}%>
-			</div>
+			</div><!-- comment -->
 			<%} %>
 		</div>
 	</div>

@@ -74,7 +74,6 @@ public class SellListServlet extends HttpServlet {
 					+ "&userId=" + userId + "'>&gt;&gt;</a></li>";
 		}
 		request.setAttribute("pageBar", pageBar);
-
 		
 		// 판매목록 가져오기
 		List<ProductList> p = new MypageProductService().selectSellListByUserId(cPage, numPerpage, userId);
@@ -95,6 +94,9 @@ public class SellListServlet extends HttpServlet {
 		request.setAttribute("countStatusRes", countStatusRes);
 		request.setAttribute("countStatusSol", countStatusSol);
 
+		// 버튼 클래스
+		request.setAttribute("nowButton", "all");
+			
 		request.getRequestDispatcher("/views/mypage/sellList.jsp").forward(request, response);
 	}
 
