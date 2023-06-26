@@ -1,4 +1,4 @@
-package com.semi.search.service;
+package com.semi.productpage.controller;
 
 import java.io.IOException;
 import java.util.List;
@@ -9,20 +9,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.semi.search.controller.SearchController;
-import com.semi.search.model.vo.Search;
+import com.google.gson.Gson;
+import com.semi.mypage.model.vo.WishList;
+import com.semi.productpage.service.ProductPageService;
 
 /**
- * Servlet implementation class DeleteSearchServlet
+ * Servlet implementation class AjaxHeart
  */
-@WebServlet("/deletesearch")
-public class DeleteSearchServlet extends HttpServlet {
+@WebServlet("/ajaxHeart")
+public class AjaxHeart extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public DeleteSearchServlet() {
+    public AjaxHeart() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,16 +32,13 @@ public class DeleteSearchServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String data=request.getParameter("text");
-		String id=request.getParameter("userId");
+		String loginId=request.getParameter("loginId");
+		int no = Integer.parseInt(request.getParameter("productId"));
 		
-		int result=new SearchController().deleteSearch(data,id);
+		List<WishList> w=new ProductPageService().ajaxHeart(loginId,no);
 		
-		 //HttpSession session=request.getSession(); 
-		 //session.setAttribute("search",search);
-		 
-		
-		response.getWriter().print(result);
+		response.setContentType("application/json;charset=utf-8");
+		new Gson().toJson(w,response.getWriter());
 	}
 
 	/**

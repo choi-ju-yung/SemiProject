@@ -8,43 +8,70 @@ import static com.semi.common.JDBCTemplate.rollback;
 import java.sql.Connection;
 import java.util.List;
 
+import com.semi.mypage.model.vo.WishList;
+import com.semi.product.model.vo.ProductFile;
 import com.semi.productpage.dao.ProductDao;
-import com.semi.productpage.model.vo.Product;
-import com.semi.productpage.model.vo.ProductComment;
+import com.semi.productpage.model.vo.AjaxProductComment;
+import com.semi.productpage.model.vo.ProductCategory;
+import com.semi.productpage.model.vo.ProductCommentUser;
+import com.semi.productpage.model.vo.ProductUser;
+import com.semi.productpage.model.vo.WishListCount;
 
 public class ProductPageService {
 	
 	ProductDao dao=new ProductDao();
-	
-	public Product selectProduct(int id) {
+		
+	public ProductCategory selectProduct(int id,boolean isRead) {
 		Connection conn=getConnection();
-		Product result=dao.selectProduct(conn,id);
+		ProductCategory selectProduct=dao.selectProduct(conn,id);
+		if(selectProduct!=null&&!isRead) {
+			int result=dao.updateViewCount(conn,id);
+			if(result>0) {
+				commit(conn);
+				selectProduct.getProduct().setViewCount(selectProduct.getProduct().getViewCount()+1);
+			}
+			else rollback(conn);
+		}
 		close(conn);
-		return result;		
+		return selectProduct;		
 	}
 	
-	public List<ProductComment> selectAllProductComment(int id){
+	public List<ProductFile> selectProductFile(int id){
 		Connection conn=getConnection();
-		List<ProductComment> list=dao.selectAllProductComment(conn,id);
+		List<ProductFile> list=dao.selectProductFile(conn,id);
 		close(conn);
 		return list;
 	}
 	
-	public ProductComment selectAjaxProductComment(int id){
+	public List<ProductUser> selectProductUser(int id){
 		Connection conn=getConnection();
-		ProductComment p=dao.selectAjaxProductComment(conn,id);
+		List<ProductUser> list=dao.selectProductUser(conn,id);
+		close(conn);
+		return list;
+	}
+	
+	public List<ProductCommentUser> selectAllProductComment(int id){
+		Connection conn=getConnection();
+		List<ProductCommentUser> list=dao.selectAllProductComment(conn,id);
+		close(conn);
+		return list;
+	}
+	
+	public AjaxProductComment selectAjaxProductComment(int id){
+		Connection conn=getConnection();
+		AjaxProductComment p=dao.selectAjaxProductComment(conn,id);
 		close(conn);
 		return p;
 	}
 	
-	public ProductComment selectReAjaxProductComment(int id){
+	public AjaxProductComment selectReAjaxProductComment(int id){
 		Connection conn=getConnection();
-		ProductComment p=dao.selectReAjaxProductComment(conn,id);
+		AjaxProductComment p=dao.selectReAjaxProductComment(conn,id);
 		close(conn);
 		return p;
 	}
 	
-	public int insertAjaxProductComment(ProductComment pc) {
+	public int insertAjaxProductComment(ProductCommentUser pc) {
 		Connection conn=getConnection();
 		int result=dao.insertAjaxProductComment(conn,pc);
 		if(result>0) commit(conn);
@@ -53,7 +80,7 @@ public class ProductPageService {
 		return result;
 	}
 	
-	public int updateAjaxProductComment(ProductComment pc, int cn) {
+	public int updateAjaxProductComment(ProductCommentUser pc, int cn) {
 		Connection conn=getConnection();
 		int result=dao.updateAjaxProductComment(conn,pc,cn);
 		if(result>0) commit(conn);
@@ -62,9 +89,9 @@ public class ProductPageService {
 		return result;
 	}
 	
-	public ProductComment updateSelectAjaxProductComment(int cn){
+	public AjaxProductComment updateSelectAjaxProductComment(int cn){
 		Connection conn=getConnection();
-		ProductComment p=dao.updateSelectAjaxProductComment(conn,cn);
+		AjaxProductComment p=dao.updateSelectAjaxProductComment(conn,cn);
 		close(conn);
 		return p;
 	}
@@ -72,6 +99,38 @@ public class ProductPageService {
 	public int deleteProductComment(int cn) {
 		Connection conn=getConnection();
 		int result=dao.deleteProductComment(conn,cn);
+		if(result>0) commit(conn);
+		else rollback(conn);
+		close(conn);
+		return result;
+	}
+	
+	public List<WishListCount> wishListCount(int id){
+		Connection conn=getConnection();
+		List<WishListCount> w=dao.wishListCount(conn,id);
+		close(conn);
+		return w;
+	}
+	
+	public List<WishList> ajaxHeart(String loginId, int id){
+		Connection conn=getConnection();
+		List<WishList> w=dao.ajaxHeart(conn,loginId,id);
+		close(conn);
+		return w;
+	}
+	
+	public int updateAjaxHeart(String loginId, int id) {
+		Connection conn=getConnection();
+		int result=dao.updateAjaxHeart(conn,loginId,id);
+		if(result>0) commit(conn);
+		else rollback(conn);
+		close(conn);
+		return result;
+	}
+	
+	public int deleteAjaxHeart(String loginId, int id) {
+		Connection conn=getConnection();
+		int result=dao.deleteAjaxHeart(conn,loginId,id);
 		if(result>0) commit(conn);
 		else rollback(conn);
 		close(conn);

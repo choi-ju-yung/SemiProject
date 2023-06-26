@@ -1,5 +1,7 @@
 package com.semi.productlistlist.model.dao;
 
+import static com.semi.common.JDBCTemplate.close;
+
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
@@ -7,12 +9,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
-import static com.semi.common.JDBCTemplate.*;
-
-
-import javax.naming.spi.DirStateFactory.Result;
+import java.util.Set;
 
 import com.semi.category.model.vo.Category;
 import com.semi.category.model.vo.SubCategory;
@@ -34,6 +34,8 @@ public class ProductCategoryListDao {
 	public static ProductCategoryTimeList getProduct(ResultSet rs) throws SQLException {
 		return ProductCategoryTimeList.builder()
 		.elapsedTime(rs.getLong("ELAPSED_TIME"))
+//		.productAndSubCategoryname(rs.getString("PRODUCT_SUBCATEGORY_NAME"))
+//		.categorySubCategoryname(rs.getString("CATEGORY_SUBCATEGORY_NAME"))
 		.productCategoryList(ProductCategoryList.builder()
 				.productId(rs.getInt("PRODUCT_ID"))
 				.userId(rs.getString("USER_ID"))
@@ -46,7 +48,7 @@ public class ProductCategoryListDao {
 				.explanation(rs.getString("EXPLANATION"))
 				.keyword(rs.getString("KEYWORD")!= null ? rs.getString("KEYWORD").split(",") : null)
 				.subcategoryName(rs.getString("SUBCATEGORY_NAME"))
-				.goonguareaId(rs.getInt("GOONGUAREA_ID")).build())
+				.areaName(rs.getString("AREA_NAME")).build())
 		.category(Category.builder()
 					.categoryId(rs.getString("CATEGORY_ID"))
 					.categoryName(rs.getString("CATEGORY_NAME")).build())
@@ -200,5 +202,199 @@ public class ProductCategoryListDao {
 				close(pstmt);
 			}return result;
 		}
-	
+		public List<ProductCategoryTimeList> GetProductCondition(Connection conn, int cPage, int numPerpage, String conditions) {
+			PreparedStatement pstmt = null;
+		    ResultSet rs = null;
+		    List<ProductCategoryTimeList> selectgetproduct = new ArrayList<>();
+		    
+		    String query=sql.getProperty("GetProductCondition").replace("#CONDITIONS#", conditions);
+		    try {
+				pstmt = conn.prepareStatement(query);
+				
+				pstmt.setInt(1, (cPage-1) * numPerpage + 1);
+				pstmt.setInt(2, cPage * numPerpage);
+				
+				rs = pstmt.executeQuery();
+				
+				while(rs.next()) {
+					selectgetproduct.add(getProduct(rs));
+				}
+						
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}finally {
+				close(rs);
+				close(pstmt);
+			}return selectgetproduct;
+		}
+		public int GetProductConditionCount(Connection conn, String conditions) {
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			int result = 0;
+			try {
+				pstmt = conn.prepareStatement(sql.getProperty("GetProductConditionCount").replace("#CONDITIONS#", conditions));
+				rs = pstmt.executeQuery();
+				if(rs.next()){
+					result = rs.getInt(1);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}finally {
+				close(rs);
+				close(pstmt);
+			}return result;
+		}
+		public List<ProductCategoryTimeList> MaxpriceList(Connection conn, int cPage, int numPerpage, String conditions) {
+			PreparedStatement pstmt = null;
+		    ResultSet rs = null;
+		    List<ProductCategoryTimeList> selectgetproduct = new ArrayList<>();
+		    
+		    String query=sql.getProperty("MaxpriceList").replace("#Max#", conditions);
+		    try {
+				pstmt = conn.prepareStatement(query);
+				
+				pstmt.setInt(1, (cPage-1) * numPerpage + 1);
+				pstmt.setInt(2, cPage * numPerpage);
+				
+				rs = pstmt.executeQuery();
+				
+				while(rs.next()) {
+					selectgetproduct.add(getProduct(rs));
+				}
+						
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}finally {
+				close(rs);
+				close(pstmt);
+			}return selectgetproduct;
+		}
+		public int MaxpriceListCount(Connection conn, String conditions ) {
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			int result = 0;
+			try {
+				pstmt = conn.prepareStatement(sql.getProperty("MaxpriceListCount").replace("#Max#", conditions));
+				rs = pstmt.executeQuery();
+				if(rs.next()){
+					result = rs.getInt(1);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}finally {
+				close(rs);
+				close(pstmt);
+			}return result;
+		}
+		public List<ProductCategoryTimeList> MinpriceList(Connection conn, int cPage, int numPerpage, String conditions) {
+			PreparedStatement pstmt = null;
+		    ResultSet rs = null;
+		    List<ProductCategoryTimeList> selectgetproduct = new ArrayList<>();
+		    
+		    String query=sql.getProperty("MinpriceList").replace("#Min#", conditions);
+		    try {
+				pstmt = conn.prepareStatement(query);
+				
+				pstmt.setInt(1, (cPage-1) * numPerpage + 1);
+				pstmt.setInt(2, cPage * numPerpage);
+				
+				rs = pstmt.executeQuery();
+				
+				while(rs.next()) {
+					selectgetproduct.add(getProduct(rs));
+				}
+						
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}finally {
+				close(rs);
+				close(pstmt);
+			}return selectgetproduct;
+		}
+		public int MinpriceListCount(Connection conn, String conditions ) {
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			int result = 0;
+			try {
+				pstmt = conn.prepareStatement(sql.getProperty("MinpriceListCount").replace("#Min#", conditions));
+				rs = pstmt.executeQuery();
+				if(rs.next()){
+					result = rs.getInt(1);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}finally {
+				close(rs);
+				close(pstmt);
+			}return result;
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		public List<ProductCategoryTimeList> Test(Connection conn, int cPage, int numPerpage, String test) {
+			PreparedStatement pstmt = null;
+		    ResultSet rs = null;
+		    List<ProductCategoryTimeList> selectgetproduct = new ArrayList<>();
+		    
+		    String query=sql.getProperty("Test").replace("#TEST#", test);
+		    try {
+				pstmt = conn.prepareStatement(query);
+				
+				pstmt.setInt(1, (cPage-1) * numPerpage + 1);
+				pstmt.setInt(2, cPage * numPerpage);
+				
+				rs = pstmt.executeQuery();
+				
+				while(rs.next()) {
+					selectgetproduct.add(getProduct(rs));
+				}
+						
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}finally {
+				close(rs);
+				close(pstmt);
+			}return selectgetproduct;
+		}
+		public int TestCount(Connection conn, String test) {
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			int result = 0;
+			try {
+				pstmt = conn.prepareStatement(sql.getProperty("TestCount").replace("#TEST#", test));
+				rs = pstmt.executeQuery();
+				if(rs.next()){
+					result = rs.getInt(1);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}finally {
+				close(rs);
+				close(pstmt);
+			}return result;
+		}
+		
 }

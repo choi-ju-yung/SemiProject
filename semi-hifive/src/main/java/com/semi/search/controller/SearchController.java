@@ -10,41 +10,38 @@ import java.util.List;
 
 import com.semi.product.model.vo.Product;
 import com.semi.search.dao.SearchDao;
-import com.semi.search.model.vo.Search;
+import com.semi.search.model.vo.SearchCount;
 public class SearchController {
 	
 	SearchDao dao=new SearchDao();
 	
-	public List<Search> recentSearch(String id){
+	public int insertSearch(String content){
 		Connection conn=getConnection();
-		List<Search> list=dao.recentSearch(conn,id);
-		close(conn);
-		return list;
-	}
-	
-	public int insertSearch(String data,String id){
-		Connection conn=getConnection();
-		int result=dao.insertSearch(conn,data,id);
+		int result=dao.insertSearch(conn,content);
 		if(result>0) commit(conn);
 		else rollback(conn);
 		close(conn);
 		return result;
 	}
-	
-	public int deleteSearch(String data,String id){
+
+	public List<Product> searchTitle(String content){
 		Connection conn=getConnection();
-		int result=dao.deleteSearch(conn,data,id);
-		if(result>0) commit(conn);
-		else rollback(conn);
+		List<Product> searchList=dao.searchTitle(conn,content);
 		close(conn);
-		return result;
+		return searchList;
 	}
 	
-	public List<Product> searchFunction(String data){
+	public List<Product> searchKeyWord(String content){
 		Connection conn=getConnection();
-		List<Product> p=dao.searchFunction(conn,data);
+		List<Product> searchList=dao.searchKeyWord(conn,content);
 		close(conn);
-		return p;
+		return searchList;
 	}
 	
+	public SearchCount searchCount(String content){
+		Connection conn=getConnection();
+		SearchCount searchCount=dao.searchCount(conn,content);
+		close(conn);
+		return searchCount;
+	}
 }

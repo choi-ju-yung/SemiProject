@@ -77,7 +77,7 @@ public class SearchCategoryServlet extends HttpServlet {
 			
 			//totalData가 카테고리 이름만 찾아서 상품List 갯수 set에 저장
 			request.setAttribute("totalData", totalData);
-			request.setAttribute("ccategoryname", categoryName);
+			request.setAttribute("categoryName", categoryName);
 		    request.setAttribute("categoryproduct", searchcategory);
 			request.getRequestDispatcher("/views/productcategorypage/searchcategorylist.jsp").forward(request, response);
 		 

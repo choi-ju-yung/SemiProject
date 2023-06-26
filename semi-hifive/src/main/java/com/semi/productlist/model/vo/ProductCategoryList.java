@@ -23,6 +23,6 @@ public class ProductCategoryList {
 	private String explanation;
 	private String[] keyword;
 	private String subcategoryName;
-	private int goonguareaId;
+	private String areaName;
 	
 }

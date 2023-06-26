@@ -8,7 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
-import com.semi.productpage.model.vo.ProductComment;
+import com.semi.product.model.vo.ProductComment;
+import com.semi.productpage.model.vo.ProductCommentUser;
 import com.semi.productpage.service.ProductPageService;
 
 /**
@@ -31,9 +32,11 @@ public class ProductUpdateAjaxCommentServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int cn=Integer.parseInt(request.getParameter("commentNo"));
-		ProductComment pc=ProductComment.builder()
+		ProductCommentUser pc=ProductCommentUser.builder()
+				.productComment(ProductComment.builder()
 				.productId(Integer.parseInt(request.getParameter("productId")))
 				.content(request.getParameter("content"))
+				.build())
 				.build();
 
 		int result=new ProductPageService().updateAjaxProductComment(pc,cn);
