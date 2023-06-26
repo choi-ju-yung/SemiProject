@@ -3,8 +3,9 @@ package com.semi.mypage.model.vo;
 import com.semi.category.model.vo.Category;
 import com.semi.category.model.vo.SubCategory;
 import com.semi.member.model.vo.Member;
+
+import com.semi.product.model.vo.Product;
 import com.semi.product.model.vo.ProductFile;
-import com.semi.productpage.model.vo.Product;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,4 +23,5 @@ public class ProductList {
 	private Trade trade;
 	private ProductFile productfile;
 	private Review review;
+	private int wishCount;
 }

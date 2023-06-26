@@ -40,4 +40,10 @@ public class CategoryService {
 		close(conn);
 		return sc;
 	}
+	public CategorySubCategory SelectSubCategoryName(String subcategoryname) {
+		Connection conn = getConnection();
+		CategorySubCategory sc = dao.SelectSubCategoryName(conn, subcategoryname);
+		close(conn);
+		return sc;
+	}
 }

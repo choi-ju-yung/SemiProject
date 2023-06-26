@@ -15,7 +15,7 @@ import com.semi.search.model.vo.Search;
 /**
  * Servlet implementation class SearchServlet
  */
-@WebServlet("/insertsearch")
+@WebServlet("/search")
 public class InsertSearchServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -31,13 +31,10 @@ public class InsertSearchServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String data=request.getParameter("productname");
-		String id=request.getParameter("userId");
-		
-		int result=new SearchController().insertSearch(data,id);
-		request.setAttribute("result", result);
-		request.setAttribute("productname",data);
-		request.getRequestDispatcher("/search?productname="+data+"&&id="+id).forward(request, response);	
+		String content=request.getParameter("content");
+		int result=new SearchController().insertSearch(content);		
+		if(result>0)
+		request.getRequestDispatcher("/searchProduct?content="+content).forward(request, response);	
 	}
 
 	/**

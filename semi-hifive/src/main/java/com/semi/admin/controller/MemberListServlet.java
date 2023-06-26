@@ -24,7 +24,7 @@ public class MemberListServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//DB의 member테이블에 저장된 전체 회원을 가져와 화면에 출력해주는 기능
-		
+		System.out.println("dd");
 		//페이징 처리하기
 		int cPage;
 		try {

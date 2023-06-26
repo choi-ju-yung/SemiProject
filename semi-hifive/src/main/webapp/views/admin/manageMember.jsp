@@ -41,7 +41,7 @@ Member loginMember = (Member) session.getAttribute("loginMember");//여기 로�
 				
 				<tr>
 					<td>
-						<input type="checkbox" name="option" /> 아메리카노
+						<input type="checkbox" name="option" />
 					</td>
 					<td><%=m.getEmail()%></td>
 					<td><%=m.getUserId()%></td>
@@ -50,9 +50,11 @@ Member loginMember = (Member) session.getAttribute("loginMember");//여기 로�
 					<td><%=m.getDeclareCount()%></td>
 					<td><%=m.getEnrollDate()%></td>
 					<td><%=m.getTemperature()%></td>
-					<td><button type="button" class="btn btn-primary btn-sm">수정</button>
+					<td><button type="button" class="btn btn-primary btn-sm"
+							onclick="location.replace('<%=request.getContextPath()%>/userUpdate.do?email=<%=m.getEmail()%>userId=<%=m.getUserId()%>')">수정</button>
 						<button type="button" class="btn btn-danger btn-sm"
 							onclick="location.replace('<%=request.getContextPath()%>/userRemove.do?email=<%=m.getEmail()%>');">삭제</button></td>
+							
 				</tr>
 				<%
 					}
