@@ -20,13 +20,12 @@ if (cookies != null) {
 <html>
 <head>
 <script>
-	//로그인한 아이디 sessionStorage에 저장하자..ㅋㅋㅋ
-	sessionStorage.setItem("loginId",'<%=loginMember!=null?loginMember.getUserId():""%>');
+   //로그인한 아이디 sessionStorage에 저장하자..ㅋㅋㅋ
+   sessionStorage.setItem("loginId",'<%=loginMember!=null?loginMember.getUserId():""%>');
 </script>
 <meta charset="UTF-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
 <!-- css 파일 -->
 <link rel="stylesheet"
    href="<%=request.getContextPath()%>/css/default.css" />
@@ -39,17 +38,6 @@ if (cookies != null) {
 <script nomodule
    src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 <script src="<%=request.getContextPath()%>/js/jquery-3.7.0.min.js"></script>
-<!-- 자동완성  -->
-<link rel="stylesheet"
-	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<!-- css 파일 -->
-<link rel="stylesheet"
-	href="<%=request.getContextPath()%>/css/default.css" />
-<link rel="icon"
-	href="<%=request.getContextPath()%>/images/common/fivicon.png"
-	type="image/x-icon" />
 <!--  -->
 <title>중고 거래 HiFive</title>
 </head>
@@ -80,15 +68,7 @@ if (cookies != null) {
             <%
             }
             %>
-				<div class="headerMain">
-					<div class="logo">
-						<a href=""> <img
-							src="<%=request.getContextPath()%>/images/common/hifiveLogo.png"
-							alt="" />
-						</a>
-					</div>
 
-					<div class="searchBar">
             <div class="headerMain">
                <div class="logo">
                   <a href=""> <img
@@ -97,73 +77,40 @@ if (cookies != null) {
                   </a>
                </div>
                <div class="searchBar">
-						<div class="searchDetail">
-							<form id="searchForm" class="form">
-								<input required id="searchInput" maxlength="10" type="text"
-									placeholder="상품명, #키워드 검색" onfocus="this.placeholder = ''"
-								onblur="this.placeholder = '상품명, #키워드 검색'">
-								<button type="reset" id="resetBtn">
-							<ion-icon name="close"></ion-icon>
-							</button>
-							</form>
-							
-							<button type="submit" form="searchForm" id="submitBtn">
-								<img
-									src="<%=request.getContextPath()%>/images/common/magnifier.png"
-									alt="" />
-							</button>
-						</div>
+                  <div class="searchDetail">
+                     <form id="searchForm" class="form">
+                        <input required id="searchInput" maxlength="10" type="text"
+                           placeholder="상품명, #키워드 검색" onfocus="this.placeholder = ''"
+                        onblur="this.placeholder = '상품명, #키워드 검색'">
+                        <button type="reset" id="resetBtn">
+                     <ion-icon name="close"></ion-icon>
+                     </button>
+                     </form>
+                     
+                     <button type="submit" form="searchForm" id="submitBtn">
+                        <img
+                           src="<%=request.getContextPath()%>/images/common/magnifier.png"
+                           alt="" />
+                     </button>
+                  </div>
 
-						<div class="searchpage">
+                  <div class="searchpage">
 
-							<div class="searchbody">
-								<hr>
-								<div class="recentSearch">
-									<div class="allDelete off">
-										<span id="recentHead">최근 검색어</span> <span id="allDeleteBtn">모두
-											지우기</span>
-									</div>
-									<p class="recentText"></p>
-									<ul id="recentList">
+                     <div class="searchbody">
+                        <hr>
+                        <div class="recentSearch">
+                           <div class="allDelete off">
+                              <span id="recentHead">최근 검색어</span> <span id="allDeleteBtn">모두
+                                 지우기</span>
+                           </div>
+                           <p class="recentText"></p>
+                           <ul id="recentList">
 
-									</ul>
-								</div>
-							</div>					
-						</div>
-					</div>
-					<div class="memberIcon">
-						<a href="<%=request.getContextPath()%>/productRegist.do"> <ion-icon
-								name="storefront-outline" class="storeIcon"></ion-icon> <span>
-								판매하기</span>
-						</a>
-						<%
-						if (loginMember != null) {
-						%>
-						<a
-							href="<%=request.getContextPath()%>/myPage/myPageMain.do?userId=<%=loginMember.getUserId()%>">
-							<ion-icon name="person-outline" class="myIcon"></ion-icon> 내정보
-						</a> <a href=""> <ion-icon name="heart-outline" class="heartIcon"></ion-icon>
-							찜한상품
-						</a>
-						<%
-						} else {
-						%>
-						<a href="<%=request.getContextPath()%>/productRegist.do"> <ion-icon
-								name="person-outline" class="myIcon"></ion-icon> 내정보
-						</a> <a href="<%=request.getContextPath()%>/productRegist.do"> <ion-icon
-								name="heart-outline" class="heartIcon"></ion-icon> 찜한상품
-						</a>
-						<%
-						}
-						%>
-					</div>
-
-
-				</div>
-				<div class="categoryNrank">
-					<input type="checkbox" id="menuIcon" /> <label for="menuIcon"
-						class="headercategorybtn"> <span></span> <span></span> <span></span>
-					</label>
+                           </ul>
+                        </div>
+                     </div>               
+                  </div>
+               </div>
                <div class="memberIcon">
                   <a href="<%=request.getContextPath()%>/productRegist.do"> <ion-icon
                         name="storefront-outline" class="storeIcon"></ion-icon> <span>
@@ -218,17 +165,17 @@ if (cookies != null) {
          </div>
       </div>
    </header>
-   <script>      
+   <script>
+   
+   
 function ProductList_btn() {
-	$.ajax({
-		url: "<%=request.getContextPath()%>/categoryproductlist.do",
-		dateType: 'html',
-		success: function(data){
-			$("section").html(data);
-		}
-	
-
-	})
+   $.ajax({
+      url: "<%=request.getContextPath()%>/categoryproductlist.do",
+      dateType: 'html',
+      success: function(data){
+         $("section").html(data);
+      }
+   })
 }
 function changePage(pageNo) {
     $.ajax({
@@ -246,25 +193,25 @@ function changePage(pageNo) {
 }
 //헤더에서 카테고리 클릭시 클릭한 카테고리 상품리스트 출력 ajax
 function searchCategory(name) {
-	$.ajax({
-		url: "<%=request.getContextPath()%>/headersearchcategory.do",
+   $.ajax({
+      url: "<%=request.getContextPath()%>/headersearchcategory.do",
          dateType: 'html',
          data:{'name': name},
          success: function(data){
-         	$("section").html(data); 
+            $("section").html(data); 
           }
-	});
+   });
 }
  //헤더에서 서브카테고리 클릭시 클릭한 서브카테고리 상품리스트 출력 ajax
 function searchsubcategory(subname) {
-	$.ajax({
-		url: "<%=request.getContextPath()%>/searchheadersubcategory.do",
+   $.ajax({
+      url: "<%=request.getContextPath()%>/searchheadersubcategory.do",
          dateType: 'html',
          data:{'subname': subname},
          success: function(data){
-         	$("section").html(data); 
+            $("section").html(data); 
           }
-	});
+   });
 } 
 
 // 페이지 로딩되었을때 로딩후 마지막에 실행되는 함수
@@ -275,7 +222,7 @@ function HeaderCategoryMenu() {
         url: "<%=request.getContextPath()%>/headercategories.do",
         dataType: 'json',
         success: function(data) {
-        	$("#menuList>ul").html("<li><a href='javascript:void(0);' onclick='ProductList_btn();' id='category0'>전체</a></li>");
+           $("#menuList>ul").html("<li><a href='javascript:void(0);' onclick='ProductList_btn();' id='category0'>전체</a></li>");
             data.main.forEach(function(category,index) {
                 makeCategoryHeader(category.categoryName, index);
                 const subCategory=data.sub.filter(cate=>cate.category.categoryName==category.categoryName);
@@ -312,32 +259,33 @@ function HeaderCategoryMenu() {
     });
 } --%>
 function makeCategoryHeader(name, index) {
-	
+   
     const $li = $("<li>");
     const $a = $("<a>").attr("id", "category" + (index + 1)).text(name).attr("onclick", "searchCategory('" + name + "');");
     $li.append($a);
     $("#menuList>ul").append($li);
 }
 
-	  function makeCatetorySub(subcateList, index) {
-		 const $div=$("<div>").attr({"id":"sideMenu-category"+(index+1),"class":"sideMenu"});
-		 const $ul=$("<ul>");
-		 subcateList.forEach(sub=>{
-		        const $a = $("<a href='javascript:void(0);'>").text(sub.subCategory.subcategoryName).attr("onclick", "searchsubcategory('" + sub.subCategory.subcategoryName + "');");
-		        const $li = $("<li>").append($a);
-		        $ul.append($li);
-		 });
-		 $div.html($ul);
-		 $("div#menuList").after($div);
+     function makeCatetorySub(subcateList, index) {
+       const $div=$("<div>").attr({"id":"sideMenu-category"+(index+1),"class":"sideMenu"});
+       const $ul=$("<ul>");
+       subcateList.forEach(sub=>{
+              const $a = $("<a href='javascript:void(0);'>").text(sub.subCategory.subcategoryName).attr("onclick", "searchsubcategory('" + sub.subCategory.subcategoryName + "');");
+              const $li = $("<li>").append($a);
+              $ul.append($li);
+       });
+       $div.html($ul);
+       $("div#menuList").after($div);
 } 
 
-	  
-	  <%-- const subcategoryName = sub.subCategory.subcategoryName;
+     
+     <%-- const subcategoryName = sub.subCategory.subcategoryName;
       const encodedSubcategoryName = encodeURIComponent(subcategoryName);
       const href = '<%= request.getContextPath() %>/headersearchcategory.do?subcategoryname=' + encodedSubcategoryName;
       const $a = $("<a>").attr("href", href).text(subcategoryName); --%>
 </script>
-	<script src="<%=request.getContextPath()%>/js/common/header.js"></script>
-	<script src="<%=request.getContextPath()%>/js/searchpage/searchPage.js"></script>
+   <script src="<%=request.getContextPath()%>/js/common/header.js"></script>
+   <script src="<%=request.getContextPath()%>/js/searchpage/searchPage.js"></script>
+
 </body>
 </html>
