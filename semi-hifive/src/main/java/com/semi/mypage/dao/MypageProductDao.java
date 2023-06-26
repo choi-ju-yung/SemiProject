@@ -529,10 +529,15 @@ public class MypageProductDao {
 						.sellStatus(rs.getString("sell_Status")).price(rs.getInt("price"))
 						.registTime(rs.getDate("regist_Time")).viewCount(rs.getInt("view_Count"))
 						.subCategory(rs.getString("subcategory_Name")).build())
-				.member(Member.builder().userId(rs.getString("user_Id")).build())
-				.subCategory(SubCategory.builder().subcategoryName(rs.getString("subcategory_Name")).build())
-				.category(Category.builder().categoryName(rs.getString("category_Name")).build())
-				.productfile(ProductFile.builder().imageName(rs.getString("product_image_name")).build()).build();
+				.member(Member.builder()
+						.userId(rs.getString("user_Id")).build())
+				.subCategory(SubCategory.builder()
+						.subcategoryName(rs.getString("subcategory_Name")).build())
+				.category(Category.builder()
+						.categoryName(rs.getString("category_Name")).build())
+				.productfile(ProductFile.builder()
+						.imageName(rs.getString("product_image_name")).build())
+				.build();
 	}
 
 	private ProductList getProductBuyList(ResultSet rs) throws SQLException {

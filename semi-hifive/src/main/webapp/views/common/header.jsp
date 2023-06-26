@@ -156,7 +156,7 @@ if (cookies != null) {
 						<a
 							href="<%=request.getContextPath()%>/myPage/myPageMain.do?userId=<%=loginMember.getUserId()%>">
 							<ion-icon name="person-outline" class="myIcon"></ion-icon> 내정보
-						</a> <a href=""> <ion-icon name="heart-outline" class="heartIcon"></ion-icon>
+						</a> <a href="<%=request.getContextPath()%>/myPage/wishList.do?userId=<%=loginMember.getUserId()%>"> <ion-icon name="heart-outline" class="heartIcon"></ion-icon>
 							찜한상품
 						</a>
 						<%
