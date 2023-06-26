@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.semi.mypage.model.vo.MemberComment;
-import com.semi.mypage.service.MypageMemberService;
+import com.semi.mypage.model.vo.ReviewTrade;
 import com.semi.mypage.service.MypageProductService;
 
 /**
@@ -39,8 +39,22 @@ public class SellListBuyerChoiceServlet extends HttpServlet {
 		List<MemberComment> mc = new MypageProductService().commentList(productId, userId);
 		request.setAttribute("comments", mc);
 		request.setAttribute("productId", productId);
+		
+		ReviewTrade rt = new MypageProductService().selectReviewByProductId(productId);
+		System.out.println(rt);
+		
+		if(rt == null) {
+			request.getRequestDispatcher("/views/mypage/sellListBuyerChoice.jsp").forward(request, response);
+		} else {
+			String msg = "이미 등록된 후기가 있습니다.";
+			String loc = request.getContextPath() + "/myPage/sellList.do?userId=" + userId;
+			String script = "close()";
+			request.setAttribute("msg", msg);
+			request.setAttribute("loc", loc);
+			request.setAttribute("script", script);
+			request.getRequestDispatcher("/views/common/msg.jsp").forward(request, response);
+		}
 
-		request.getRequestDispatcher("/views/mypage/sellListBuyerChoice.jsp").forward(request, response);
 	}
 
 	/**

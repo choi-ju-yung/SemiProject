@@ -84,13 +84,55 @@ public class MypageMemberDao {
 			}return result;
 		}
 		
-		public Member selectByNickname(Connection conn, String nickname) {
+		public Member selectByNickname(Connection conn, String nickname, String userId) {
 			PreparedStatement pstmt=null;
 			ResultSet rs=null;
 			Member m=null;
 			try {
 				pstmt=conn.prepareStatement(sql.getProperty("selectByNickname"));
 				pstmt.setString(1, nickname);
+				pstmt.setString(2, userId);
+				rs=pstmt.executeQuery();
+				if(rs.next()) {
+					m=getMember(rs);
+				}
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}finally {
+				close(rs);
+				close(pstmt);
+			}
+			return m;
+		}
+		
+		public Member selectByNicknameAll(Connection conn, String nickname) {
+			PreparedStatement pstmt=null;
+			ResultSet rs=null;
+			Member m=null;
+			try {
+				pstmt=conn.prepareStatement(sql.getProperty("selectByNicknameAll"));
+				pstmt.setString(1, nickname);
+				rs=pstmt.executeQuery();
+				if(rs.next()) {
+					m=getMember(rs);
+				}
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}finally {
+				close(rs);
+				close(pstmt);
+			}
+			return m;
+		}
+
+		// 현재 내 닉네임 조회
+		public Member selectNicknameByUserId(Connection conn, String userId) {
+			PreparedStatement pstmt=null;
+			ResultSet rs=null;
+			Member m=null;
+			try {
+				pstmt=conn.prepareStatement(sql.getProperty("selectNicknameByUserId"));
+				pstmt.setString(1, userId);
 				rs=pstmt.executeQuery();
 				if(rs.next()) {
 					m=getMember(rs);

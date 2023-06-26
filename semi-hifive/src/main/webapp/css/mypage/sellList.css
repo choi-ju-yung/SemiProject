@@ -283,6 +283,8 @@
 
         .viewIcon {
             padding-left: 10px;
+            padding-right: 1px;
+            padding-bottom: 1px;
         }
 
         .interestIcon {

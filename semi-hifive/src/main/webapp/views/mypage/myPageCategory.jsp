@@ -41,10 +41,9 @@
 		<div class="myInfo">
 			<h3 class="mypageMargin">고객센터</h3>
 			<ul>
-				<li class="mypageMargin"><a href="" class="mypageAll">1:1
-						문의내역</a></li>
-				<li class="mypageMargin"><a href="" class="mypageAll">공지사항</a></li>
-				<li class="mypageMargin"><a href="" class="mypageAll">자주묻는질문</a></li>
+				<li class="mypageMargin"><a href="<%=request.getContextPath()%>/service/inquiryList.do" class="mypageAll">1:1 문의하기</a></li>
+				<li class="mypageMargin"><a href="<%=request.getContextPath()%>/service/boardList.do?notice=Y" class="mypageAll">공지사항</a></li>
+				<li class="mypageMargin"><a href="<%=request.getContextPath()%>/service/boardList.do?notice=N" class="mypageAll">자주하는 질문</a></li>
 			</ul>
 		</div>
 		

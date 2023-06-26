@@ -50,7 +50,12 @@ public class MypageProductDao {
 			pstmt.setInt(3, cPage * numPerpage);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
-				list.add(getProductSellList(rs));
+//				list.add(getProductSellList(rs));
+//			    int wishCount = rs.getInt("WISHCOUNT");
+				ProductList product = getProductSellList(rs);
+	            int wishCount = rs.getInt("WISHCOUNT");
+	            product.setWishCount(wishCount);
+	            list.add(product);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -496,6 +501,25 @@ public class MypageProductDao {
 			close(pstmt);
 		}
 		return result;
+	}
+	
+	// 상품별 리뷰 조회
+	public ReviewTrade selectReviewByProductId(Connection conn, String productId) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		ReviewTrade rt = null;
+		try {
+			pstmt = conn.prepareStatement(sql.getProperty("selectReviewByProductId"));
+			pstmt.setString(1, productId);
+			rs = pstmt.executeQuery();
+			if (rs.next()) rt = getReviewTrade(rs); 
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rs);
+			close(pstmt);
+		}
+		return rt;
 	}
 
 	private ProductList getProductSellList(ResultSet rs) throws SQLException {

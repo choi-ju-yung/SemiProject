@@ -22,4 +22,5 @@ public class ProductList {
 	private Trade trade;
 	private ProductFile productfile;
 	private Review review;
+	private int wishCount;
 }
