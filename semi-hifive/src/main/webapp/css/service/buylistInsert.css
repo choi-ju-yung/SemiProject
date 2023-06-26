@@ -239,3 +239,16 @@ div.reportList td{
 .reportList td:first-child{
 	width:50px;
 }
+
+/* 판매글 구역 */
+div.productContainer>.reportList{
+	margin:10px;
+    height: 100px;
+    overflow: auto;
+    border: 1px solid #313030;;
+    border-radius: 10px;
+    padding-left: 10px;
+}
+div.productContainer>.reportList td:first-child{
+	width:100px;
+}

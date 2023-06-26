@@ -1,6 +1,7 @@
 package com.semi.sc.service;
 
 import java.sql.Connection;
+import java.util.Enumeration;
 import java.util.List;
 
 import com.semi.productpage.model.vo.Product;
@@ -91,6 +92,18 @@ public class ReportService {
 		Product p=dao.selectProductInfo(conn, productId);
 		close(conn);
 		return p;
+	}
+	public int insertReportProduct(Report r, List<String> filesNames, int productId) {
+		Connection conn=getConnection();
+		int result=dao.insertReportBoard(conn, r);
+		int fileresult=0, buyresult=0;
+		for(String file:filesNames) {
+			fileresult+=dao.insertReportFile(conn, file);
+		}
+		int productresult=dao.insertReportList(conn, r, productId);
+		if(result>0&&fileresult==filesNames.size()&&productresult>0) commit(conn);
+		else rollback(conn);
+		return result;
 	}
 
 }

@@ -61,12 +61,23 @@ public class ReportDao {
 	}
 	
 	//거래 리스트 반환 메소드
-	public static Product getProduct(ResultSet rs) throws SQLException{
+	public static Product getTrade(ResultSet rs) throws SQLException{
 		return Product.builder()
 				.title(rs.getString("product_title"))
 				.registTime(rs.getDate("sell_date"))
 				.userId(rs.getString("buyer_id"))
 				.productId(rs.getInt("trade_id"))
+				.build();
+	}
+	
+	//신고 판매글 정보 반환 메소드
+	public static Product getProduct(ResultSet rs) throws SQLException{
+		return Product.builder()
+				.productId(rs.getInt("product_id"))
+				.title(rs.getString("product_title"))
+				.price(rs.getInt("price"))
+				.registTime(rs.getDate("regist_time"))
+				.userId(rs.getString("nickname"))
 				.build();
 	}
 	
@@ -137,7 +148,7 @@ public class ReportDao {
 			pstmt.setString(1, loginId);
 			rs=pstmt.executeQuery();
 			while(rs.next()) {
-				buyList.add(getProduct(rs));
+				buyList.add(getTrade(rs));
 			}
 		}catch(SQLException e) {
 			e.printStackTrace();
@@ -191,7 +202,6 @@ public class ReportDao {
 		try {
 			query=query.replaceAll("#PI", rl.getProductId()!=0?String.valueOf(rl.getProductId()):"NULL");
 			query=query.replaceAll("#TI", rl.getTradeId()!=0?String.valueOf(rl.getTradeId()):"NULL");
-			System.out.println(query);
 			pstmt=conn.prepareStatement(query);
 			pstmt.setString(1, rl.getUserId());
 			result=pstmt.executeUpdate();
@@ -337,6 +347,12 @@ public class ReportDao {
 			close(pstmt);
 		}
 		return p;
+	}
+
+	//판매글을 신고 내역에 저장
+	public int insertReportList(Connection conn, Report r, int productId) {
+		
+		return 0;
 	}
 	
 	

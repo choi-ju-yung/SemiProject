@@ -70,7 +70,7 @@
 		<div id="fileList"></div>
 		<div class="serviceInsertBtn">
 			<button class="serviceCancelBtn">취소</button>
-			<input type="button" onclick="uploadFile();" class="serviceSubmitBtn">완료</button>
+			<input type="button" onclick="uploadFile();" class="serviceSubmitBtn" value="완료">
 		</div>
 	</div>
 </section>

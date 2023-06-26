@@ -3,12 +3,12 @@
 <%@ page import="java.util.List, com.semi.productpage.model.vo.Product" %>
 <%@ include file="/views/common/header.jsp"%>
 <%
-	Product p=(Product)request.getAttribute("buyList");
+	Product p=(Product)request.getAttribute("product");
 %>
 <section>
 <%@ include file="/views/service/serviceCategory.jsp"%>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/service/buylistInsert.css">
-<form action="<%=request.getContextPath()%>/service/reportBuylistInsertEnd.do"
+<form action="<%=request.getContextPath()%>/service/reportProductInsertEnd.do"
 		onsubmit="return titleCheck();" method="post" enctype="multipart/form-data">
 	<div class="ServiceCenter">
 		<h2 class="reportHead">판매글 신고하기</h2>
@@ -16,7 +16,7 @@
 			<label for="">제목</label> <input type="text" id="reportTitle"
 				placeholder="제목을 입력하세요."> <span id="titleTextNum">0/40</span>
 		</div>
-		<div class="buyliseContainer">
+		<div class="productContainer">
 			<div>
 				<h4 style="padding-left: 10px;">신고할 판매글</h4>
 				<p>* 신고할 게시글이 맞는지 확인하세요.</p>
@@ -58,7 +58,7 @@
 		<div id="fileList"></div>
 		<div class="serviceInsertBtn">
 			<button class="serviceCancelBtn">취소</button>
-			<input type="button" onclick="uploadFile();" class="serviceSubmitBtn">완료</button>
+			<input type="button" onclick="uploadFile();" class="serviceSubmitBtn" value="완료">
 		</div>
 	</div>
 </section>
@@ -91,15 +91,11 @@ function uploadFile(){
     formData.append("writer","<%=loginMember.getUserId()%>");
     formData.append("title",$("#reportTitle").val());
     formData.append("content",$("#reportContent").val());
-    let checkData="";
-    $(".checkContainer").find('input:checked').each(function(index){
-    	checkData+=$(this).val()+",";
-    });
-    formData.append("check",checkData);
+    formData.append("productNo","<%=p.getProductId()%>");
     
     
     $.ajax({
-        url : "<%=request.getContextPath()%>/service/reportBuylistInsertEnd.do",
+        url : "<%=request.getContextPath()%>/service/reportProductInsertEnd.do",
         type : "post",
         data : formData,
         contentType : false,
@@ -110,7 +106,7 @@ function uploadFile(){
 				location.replace("<%=request.getContextPath()%>/service/reportList.do");
 			}else{
 				alert("신고할 글을 다시 작성하세요. 업로드에 실패했습니다.");
-				location.replace("<%=request.getContextPath()%>/service/reportList.do");
+				location.replace("<%=request.getContextPath()%>/");
 			}
 		},
 		error : function() {
