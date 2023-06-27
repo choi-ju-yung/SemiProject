@@ -32,7 +32,7 @@ public class UpdateLikeAjax extends HttpServlet {
 		String loginId=request.getParameter("loginId");
 		int productId = Integer.parseInt(request.getParameter("productId"));
 		int result =new ProductCategoryListService().updateLike(loginId, productId);
-		
+		System.out.println(result);
 		response.getWriter().print(result);
 	}
 

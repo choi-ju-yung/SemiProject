@@ -32,7 +32,7 @@ public class DeleteLikeAjax extends HttpServlet {
 		String loginId=request.getParameter("loginId");
 		int productId = Integer.parseInt(request.getParameter("productId"));
 		int result =new ProductCategoryListService().deleteLike(loginId, productId);
-		
+		System.out.println(result);
 		response.getWriter().print(result);
 	}
 

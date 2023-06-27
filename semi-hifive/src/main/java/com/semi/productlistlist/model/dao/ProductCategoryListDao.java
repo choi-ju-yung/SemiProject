@@ -410,6 +410,7 @@ public class ProductCategoryListDao {
 				pstmt.setString(1, loginId);
 				pstmt.setInt(2, productId);
 				result = pstmt.executeUpdate();
+				System.out.println(result);
 			} catch (SQLException e) {
 				e.printStackTrace();
 			} finally {
@@ -427,6 +428,7 @@ public class ProductCategoryListDao {
 				pstmt.setString(1, loginId);
 				pstmt.setInt(2, productId);
 				result = pstmt.executeUpdate();
+				System.out.println(result);
 			} catch (SQLException e) {
 				e.printStackTrace();
 			} finally {

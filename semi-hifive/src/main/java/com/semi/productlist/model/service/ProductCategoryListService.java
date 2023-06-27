@@ -120,10 +120,10 @@ public class ProductCategoryListService {
 		}
 		//좋아요 확인
 		public List<WishList> Like(String loginId, int productId){
-			Connection conn=getConnection();
-			List<WishList> w=dao.Like(conn,loginId, productId);
+			Connection conn = getConnection();
+			List<WishList> wishlist = dao.Like(conn,loginId, productId);
 			close(conn);
-			return w;
+			return wishlist;
 		}
 		//좋아요 등록
 		public int updateLike(String loginId, int productId) {
@@ -136,9 +136,9 @@ public class ProductCategoryListService {
 		}
 		//좋아요 삭제
 		public int deleteLike(String loginId, int productId) {
-			Connection conn=getConnection();
-			int result=dao.deleteLike(conn,loginId, productId);
-			if(result>0) commit(conn);
+			Connection conn = getConnection();
+			int result = dao.deleteLike(conn,loginId, productId);
+			if(result > 0) commit(conn);
 			else rollback(conn);
 			close(conn);
 			return result;

@@ -548,7 +548,58 @@ if (cookies != null) {
         });
     }
     //좋아요 ajax
-    function Like_btn(productId, loginId){
+<%--     $(".like").click(e => {
+    	event.stopPropagation();
+	let isChecked = $(e.target).prop('checked');
+	let productId = $(e.target).attr("id");
+	event.stopPropagation();
+	$.ajax({
+		url: "<%=request.getContextPath()%>/like",
+		dataType: "json",
+		data: {
+			"loginId": loginId,
+			"productId": productId,
+		},
+		success: function(data) {
+			console.log(loginId)
+			console.log(productId)
+			console.log(data)
+	/* 뭘해도 1이 되는데 현재 모든 하트를 첫번째 상품의 하트로 인식*/
+	if (!isChecked) {
+		// 하트가 꺼질 경우(=찜 취소) -> 새로고침 시 상품 사라짐
+		$.ajax({
+			url: "<%=request.getContextPath()%>/like", 
+			data: {"userId": userId,
+					"productId": productId},
+			success: (data)=> {
+				console.log("삭제 완료");
+			},
+			error: (data)=>{
+				alert("삭제 실패");
+				// 어떻게 안빠지지?
+			}
+		});
+	} else {
+		// 취소한거 다시 찜하기
+		$.ajax({
+			url: "<%=request.getContextPath()%>/updatelike", 
+			data: {"userId": userId,
+					"productId": productId},
+			success: (data)=> {
+				console.log("추가 완료");
+			},
+			error: (data)=>{
+				alert("삭제 실패");
+			}
+		});
+	}
+		},
+});
+    });
+     --%>
+    
+    
+     function Like_btn(productId, loginId){
     	event.stopPropagation();
     	$.ajax({
     		url: "<%=request.getContextPath()%>/like",
@@ -585,7 +636,8 @@ if (cookies != null) {
     		    			"productId": productId,
     		    		},
     		    		success: function(data) {
-
+							console.log(loginId);
+							console.log(productId);
     		    			if (data > 0) {
     		    				if (!$('.like').prop('checked'));
     		    			}
