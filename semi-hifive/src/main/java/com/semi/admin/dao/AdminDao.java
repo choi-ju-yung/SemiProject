@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-import com.semi.admin.dao.AdminDao;
 import com.semi.member.model.vo.Member;
 
 public class AdminDao {
@@ -127,5 +126,24 @@ public class AdminDao {
 		}
 		return result;
 	}
+	
+	
+	
+	public int deleteCheckMember(Connection conn,String dsql) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		try {
+			pstmt = conn.prepareStatement(sql.getProperty("deleteCheckMember").replace("#data", dsql));
+//			pstmt.setString(1, dsql);
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+	
 	
 }
