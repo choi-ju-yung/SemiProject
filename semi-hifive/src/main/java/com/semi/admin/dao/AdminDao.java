@@ -105,4 +105,27 @@ public class AdminDao {
 	}
 	
 	
+	
+	public int updateMember(Connection conn,String userName,String nickName,String declareCount, String enrollDate, String temp, String email) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		try {
+			pstmt = conn.prepareStatement(sql.getProperty("updateMember"));
+			pstmt.setString(1, nickName);
+			pstmt.setString(2, userName);
+			pstmt.setString(3, declareCount);
+			pstmt.setString(4, enrollDate);
+			pstmt.setString(5, temp);
+			pstmt.setString(6, email);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+	
 }

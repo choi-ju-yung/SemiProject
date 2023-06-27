@@ -12,7 +12,7 @@
 <body>  
     <aside class="sidebar">
       <div>
-        <h3 class="text-white text-center mt-4 mb-4">관리자페이지</h3>
+        <h3 class="text-white text-center mt-4 mb-4"><a href="<%=request.getContextPath()%>//adminMode.do">Home</a></h3>
       </div>
       <div class="menubal ">
         <div class="accordion" id="accordionPanelsStayOpenExample">

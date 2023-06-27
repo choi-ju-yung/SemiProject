@@ -1,4 +1,4 @@
-package com.semi.sc.service;
+package com.semi.sc.report.controller;
 
 import java.io.IOException;
 import java.util.List;
@@ -14,6 +14,7 @@ import com.semi.member.model.vo.Member;
 import com.semi.sc.model.dto.BoardComment;
 import com.semi.sc.model.dto.Report;
 import com.semi.sc.model.dto.ServiceFile;
+import com.semi.sc.service.ReportService;
 
 /**
  * Servlet implementation class ReportContentServlet
