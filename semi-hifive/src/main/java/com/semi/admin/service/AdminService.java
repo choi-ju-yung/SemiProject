@@ -51,6 +51,13 @@ public class AdminService {
 		return result;
 	}
 	
+	// 체크된 멤버들 삭제
+	public int deleteCheckMember(String sql) {
+		Connection conn=getConnection();
+		int result = dao.deleteCheckMember(conn,sql);
+		close(conn);
+		return result;
+	}
 	
 }
 

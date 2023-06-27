@@ -4,7 +4,7 @@
 
 
 <%
-	Member m = (Member)request.getAttribute("member");
+	Member m = (Member)request.getAttribute("Member");
 %>
 
 
@@ -15,7 +15,6 @@
 	float: right;
 	height: 100vh;
 }
-
 </style>
 
 <section class="updateUser">
@@ -31,7 +30,7 @@
 			   <input type="date" placeholder="날짜" id="updateEnrollDate" name="enrollDate" value=<%=m.getEnrollDate()%>>
 			   <input type="number"  placeholder="온도" id="updateTemp" name="temp" value=<%=m.getTemperature()%>>
 				
-	           <input type="submit" value="회원수정">
+	           <input type="submit" class="memberSubmit" value="회원수정">
            </form>
 </section>
 

@@ -23,13 +23,13 @@ public class UserUpdateServlet extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String email = request.getParameter("email");
+
 		String userId = request.getParameter("userId");
+		System.out.println();
+		Member m = new MemberService().selectByUser(userId);
+		request.setAttribute("Member", m);
 		
-		request.setAttribute("email", email);
-		request.setAttribute("userId", userId);
-		
-		request.getRequestDispatcher("views/admin/userUpdate.jsp");
+		request.getRequestDispatcher("views/admin/userUpdate.jsp").forward(request, response);
 		
 	}
 
