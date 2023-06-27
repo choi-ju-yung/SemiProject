@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.semi.member.model.vo.Member;
+import com.semi.product.model.vo.Product;
 import com.semi.sc.model.dto.BoardComment;
 import com.semi.sc.model.dto.Report;
 import com.semi.sc.model.dto.ServiceFile;
@@ -29,8 +30,8 @@ public class ReportContentServlet extends HttpServlet {
 
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = ((HttpServletRequest)request).getSession();
-		String loginId = ((Member)session.getAttribute("loginMember")).getNickName();
+		HttpSession session = request.getSession();
+		String loginId=((String)session.getAttribute("loginId"));
 		if(!request.getParameter("user").equals(loginId)) { //작성자랑 로그인 사용자가 다른 경우
 			request.setAttribute("msg", "잘못된 접근입니다.");
 			request.setAttribute("loc", "/");
@@ -50,6 +51,9 @@ public class ReportContentServlet extends HttpServlet {
 		List<BoardComment> comments=new ReportService().selectReportComment(reportNo);
 		request.setAttribute("comments", comments);
 		
+		//신고 내역
+		List<Product> reportProduct=new ReportService().selectReportProductList(loginId);
+		request.setAttribute("reportProduct", reportProduct);
 		request.getRequestDispatcher("/views/service/reportContent.jsp").forward(request, response);
 	}
 

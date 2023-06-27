@@ -26,7 +26,7 @@ public class ReportListServlet extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		String loginId=((Member)session.getAttribute("loginMember")).getUserId();
+		String loginId=((String)session.getAttribute("loginId"));
 		
 		// paging
 		int cPage, numPerpage;

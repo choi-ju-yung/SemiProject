@@ -88,7 +88,7 @@ public class ReportDao {
 				.reportNo(rs.getInt("report_no"))
 				.productId(rs.getInt("product_id"))
 				.tradeId(rs.getInt("trade_id"))
-				.userId(rs.getString("user_id"))
+				.userId(rs.getString("nickname"))
 				.build();
 	}
 	
@@ -119,7 +119,7 @@ public class ReportDao {
 		ResultSet rs=null;
 		List<Report> reportList=new ArrayList();
 		try {
-			pstmt=conn.prepareStatement(sql.getProperty("selectReportList"));
+			pstmt=conn.prepareStatement(sql.getProperty("selectReports"));
 			pstmt.setString(1, loginId);
 			pstmt.setInt(2, (cPage-1)*numPerpage+1);
 			pstmt.setInt(3, cPage*numPerpage);
@@ -366,6 +366,27 @@ public class ReportDao {
 			close(pstmt);
 		}
 		return result;
+	}
+
+	//신고한 정보 불러오는 메소드
+	public List<Product> selectReportProductList(Connection conn, String loginId) {
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		List<Product> reportProduct=new ArrayList();
+		try {
+			pstmt=conn.prepareStatement(sql.getProperty("selectReportList"));
+			pstmt.setString(1, loginId);
+			rs=pstmt.executeQuery();
+			while(rs.next()) {
+				reportProduct.add(getProduct(rs));
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rs);
+			close(pstmt);
+		}
+		return reportProduct;
 	}
 	
 	

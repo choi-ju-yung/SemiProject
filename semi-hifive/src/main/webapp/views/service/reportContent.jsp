@@ -1,12 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="com.semi.sc.model.dto.*" %>
+<%@ page import="com.semi.sc.model.dto.*, com.semi.product.model.vo.Product" %>
 <%@ include file="/views/common/header.jsp" %>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/service/boardContent.css">
 <%
 	Report r=(Report)request.getAttribute("report");
 	List<BoardComment> comments=(List)request.getAttribute("comments");
 	List<ServiceFile> files=(List<ServiceFile>)request.getAttribute("files");
+	List<Product> reportProducts=(List<Product>)request.getAttribute("reportProduct");
 %>
 <section>
 <%@ include file="/views/service/serviceCategory.jsp" %>
@@ -22,6 +23,35 @@
                         <p>작성자 : <%=r.getReportWriter() %></p>
                         <p><%=r.getReportDate() %></p>
                     </div>
+                    <div class="productContainer">
+			<div>
+				<h4 style="padding-left: 10px;">신고한 판매글</h4>
+			</div>
+			<div class="reportList">
+				<table>
+					<tr>
+						<th>거래자</th>
+						<th>거래 게시물</th>
+						<th>거래 금액</th>
+						<th>거래 날짜</th>
+					</tr>
+				<%if(reportProducts!=null){
+					for(Product p:reportProducts){%>
+					<tr>
+						<td><%=p.getUserId() %></td>
+						<td class="productTitle"><%=p.getTitle() %></td>
+						<td><%=p.getPrice() %>원</td>
+						<td><%=p.getRegistTime() %></td>
+					</tr>
+					<%}
+					}else{%>
+					<tr>
+					<td colspan="4"><h4>신고한 거래 내역이 없습니다.</h4></td>
+					</tr>
+					<%}%>
+				</table>
+			</div><!-- reportList -->
+		</div><!-- buyliseContainer -->
                     <p><%=r.getReportContent() %></p>
                     <%if(files!=null){
 						for(ServiceFile sf:files){%>
