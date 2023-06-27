@@ -46,6 +46,7 @@ public class InquiryService {
 		}
 		if(result>0&&fileresult==filesNames.size()) commit(conn);
 		else rollback(conn);
+		close(conn);
 		return result;
 	}
 
@@ -68,6 +69,25 @@ public class InquiryService {
 		int result=dao.insertComment(conn, bc);
 		if(result>0) commit(conn);
 		else rollback(conn);
+		close(conn);
+		return result;
+	}
+
+	public int deleteComment(int commentNo) {
+		Connection conn=getConnection();
+		int result=dao.deleteComment(conn, commentNo);
+		if(result>0) commit(conn);
+		else rollback(conn);
+		close(conn);
+		return result;
+	}
+
+	public int updateComment(int commentNo, String data) {
+		Connection conn=getConnection();
+		int result=dao.updateComment(conn, commentNo, data);
+		if(result>0) commit(conn);
+		else rollback(conn);
+		close(conn);
 		return result;
 	}
 

@@ -3,7 +3,7 @@ $(document).on("click",".recommentBtn",function(e){
 	$(".recomment").find(".commentWrite").remove();
 	const write=$(".commentWrite").first().clone();
 	const div=$(e.target).parent().nextAll(".recomment").first();
-	div.prepend(write);
+	div.prepend(write.attr("placeholder","댓글을 작성하세요."));
 	div.find("input[type=hidden]").val($(e.target).next(".commentPK").val()); //대댓글 번호값 부여
 });
 

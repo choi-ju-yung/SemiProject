@@ -83,12 +83,15 @@ public class ProductCategoryListServlet extends HttpServlet {
 		//카테고리만 가져오는 List객체
 		List<Category> category = new CategoryService().Category();
 		
-		//System.out.println(productlist);
+		
+		
+//		System.out.println(categorylist);
+//		System.out.println(category);
 		
 		request.setAttribute("category", category);
 		request.setAttribute("categorylist", categorylist);
 		request.setAttribute("productlist", productlist);
-		request.getRequestDispatcher("/views/productcategorypage/productcategorylistpage.jsp").forward(request, response);
+		request.getRequestDispatcher("/views/productcategorypage/productcategorylistpage2.jsp").forward(request, response);
 	
 	}
 

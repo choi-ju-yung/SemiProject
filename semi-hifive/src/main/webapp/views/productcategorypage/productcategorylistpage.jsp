@@ -1,6 +1,7 @@
 <%@page import="com.semi.productlist.model.vo.ProductCategoryTimeList"%>
 <%@page import="com.semi.category.model.vo.Category"%>
 <%@page import="com.semi.category.model.vo.CategorySubCategory"%>
+<%@ page import="com.semi.member.model.vo.Member"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -420,19 +421,20 @@
             </div>
           </div>
         </div>
+      
         <div id="productContainer">
           <div id="selectCategory">
             <div id="categoryName">
               <h4>전체   <span><%=request.getAttribute("totalData")%></span></h4>
             </div>
             <div id="categoryFunction">
-              <span id ="recently">최신순</span>
-              <span id ="popular">인기도순</span>
-              <span id ="desc">최고가순</span>
-              <span id ="asc">최저가순</span>
+              <span id ="recently" onclick="handleRecentlyClick();">최신순</span>
+              <span id ="popular" onclick="handleRecentlyClick();">인기도순</span>
+              <span id ="desc" onclick="handleDescClick();">최고가순</span>
+              <span id ="asc" onclick="handleAscClick();">최저가순</span>
             </div>
           </div>
-          <div id="contentdata">
+          
 	          <div id="productImgContainer">
 	      		<%for(ProductCategoryTimeList p : productlist){%>
 	            <div id="pimgWraper" onclick="location.assign('<%=request.getContextPath()%>/productpage?no=<%=p.getProductCategoryList().getProductId()%>')">
@@ -478,9 +480,9 @@
 	                  <span>하마페이</span>
 	                </div>
 	                <img
-	                  src="https://upload.wikimedia.org/wikipedia/ko/8/87/Kakaofriends.png"
+	                  src=""
 	                  alt=""
-	                />
+	                /><%=p.getProductfile().getImageName()%>
 	               <p id="productName"><%=p.getProductCategoryList().getProductTitle()%></p>
                 <p id="productPrice"><%=p.getProductCategoryList().getPrice()%>
                 <span><%if(p.getElapsedTime() < 60){%>
@@ -511,7 +513,6 @@
 		   	 </div>	
           </div>
         </div>
-      </div>
 
     <script>
     //ajax로 페이징 처리한 페이지 바 선택시 출력해주는 함수
@@ -553,9 +554,9 @@
           	} --%>
            
           	// 왼쪽 카테고리 밑에서 중복 조건 추가
-           $(document).ready(function() {
-        	  
-   				let conditions = {};
+   			
+            $(document).ready(function() { 
+            	let conditions = {};
    				let categoryName="";
    				let subcategoryname="";
    				 //상품 카테고리 태그 클릭시 출력하는 함수
@@ -567,8 +568,7 @@
     				console.log(conditions);
     				getselectproduct(conditions);
      				removeKeyFromProduct(conditions);
-     				Max_btn(conditions);
-	        		Min_btn(conditions);
+     				
     			});
    				// 서브카테고리
    				 $(".collapse ul li").click(function(){
@@ -581,8 +581,7 @@
    					console.log(conditions);
    					getselectproduct(subcategoryname);
    					removeKeyFromProduct(conditions);
-   					Max_btn(conditions);
-	        		Min_btn(conditions);
+   				
     				 });
    				// 상품상태 태그 클릭시 출력하는 함수
    				$("#prdCategory label").click(function() {
@@ -598,8 +597,6 @@
     				console.log(conditions);
     				getselectproduct(conditions);
      				removeKeyFromProduct(conditions);
-     				Max_btn(conditions);
-	        		Min_btn(conditions);
    			});
         	   // 조건된 가격을 클릭할때 출력하는 함수
         	   $(".radio-buttons .radio-button").click(function(e) {
@@ -611,19 +608,18 @@
         	   		} else if (selectedOption === "option1") {
       					conditions['price']="PRICE <= 100000 ";
     				} else if (selectedOption === "option2") {
-    					conditions['price']="PRICE BETWEEN 100000 AND ?";
+    					conditions['price']="PRICE BETWEEN 100000 AND 300000";
     				} else if (selectedOption === "option3") {
-    					conditions['price']="PRICE BETWEEN 300000 AND ?";
+    					conditions['price']="PRICE BETWEEN 300000 AND 500000";
     				} else if (selectedOption === "option4") {
-    					conditions['price']="PRICE BETWEEN 500000 AND ?";
+    					conditions['price']="PRICE BETWEEN 500000 AND 1000000";
     				} else if (selectedOption === "option5") {
     					conditions['price']="PRICE >= 1000000";
     				}
     				console.log(conditions);
     				getselectproduct(conditions);
      				removeKeyFromProduct(conditions);
-     				Max_btn(conditions);
-	        		Min_btn(conditions);
+     				
    				});	
         	   
         	   // input태그에 검색한 가격
@@ -638,8 +634,7 @@
         		    console.log(conditions);
         		    getselectproduct(conditions);
          		    removeKeyFromProduct(conditions);
-         		   	Max_btn(conditions);
-	        		Min_btn(conditions);
+         		   
  	           	});
 	        	// 지역검색클릭
 	           	$("#gugun1").change(function() {
@@ -651,9 +646,72 @@
 	           	 	console.log(conditions);
 	           	    getselectproduct(conditions);
  	           	 	removeKeyFromProduct(conditions);
- 	           		Max_btn(conditions);
-        			Min_btn(conditions);
+ 	           		
  	           	  });
+	           	function handleRecentlyClick() {
+					if(conditions['categoryname'] == null && conditions['subcategoryname'] == null && conditions['status'] == null && conditions['price'] == null && conditions['area'] == null){
+		                console.log(conditions);
+						$.ajax({
+		                    url: "<%=request.getContextPath()%>/resentlyproductlist",
+		                    dataType: 'html',
+		                    success: function(data) {
+		                        $("#productContainer").html(data);
+		                    }
+		                });
+		            	}else if(conditions['categoryname'] !== null || conditions['subcategoryname'] !== null || conditions['status'] !== null || conditions['price'] !== null || conditions['area'] !== null){
+		            		console.log(conditions);
+		            		$.ajax({
+			                    url: "<%=request.getContextPath()%>/getproduct.do",
+			                    dataType: 'html',
+			                    data: conditions,
+			                    success: function(data) {
+			                        $("#productContainer").html(data);
+			                    }
+			                });
+		            	}
+				}
+				function handleDescClick() {
+	         	if(conditions['categoryname'] == null && conditions['subcategoryname'] == null && conditions['status'] == null && conditions['price'] == null && conditions['area'] == null){
+	         		console.log(conditions);
+	         	$.ajax({
+	                 url: "<%=request.getContextPath()%>/entiremaxprice",
+	                 dataType: 'html',
+	                 success: function(data) {
+	                     $("#productContainer").html(data);
+	                 }
+	             });
+	         	}else if(conditions['categoryname'] !== null || conditions['subcategoryname'] !== null || conditions['status'] !== null || conditions['price'] !== null || conditions['area'] !== null){
+	         		console.log(conditions);
+	         		$.ajax({
+		                    url: "<%=request.getContextPath()%>/maxprice",
+		                    dataType: 'html',
+		                    data: conditions,
+		                    success: function(data) {
+		                        $("#productContainer").html(data);
+		                    }
+		                });
+	         	}
+	         }
+	         function handleAscClick() {
+	         	if(conditions['categoryname'] == null && conditions['subcategoryname'] == null && conditions['status'] == null && conditions['price'] == null && conditions['area'] == null){
+		                $.ajax({
+		                    url: "<%=request.getContextPath()%>/entireminprice",
+		                    dataType: 'html',
+		                    success: function(data) {
+		                        $("#productContainer").html(data);
+		                    }
+		                });
+		            	}else if(conditions['categoryname'] !== null || conditions['subcategoryname'] !== null || conditions['status'] !== null || conditions['price'] !== null || conditions['area'] !== null){
+		            		$.ajax({
+			                    url: "<%=request.getContextPath()%>/minprice",
+			                    dataType: 'html',
+			                    data: conditions,
+			                    success: function(data) {
+			                        $("#productContainer").html(data);
+			                    }
+			                });
+		            	}
+	         }		
 	         	
 /* 	       $(document).ready(function() {
 	        // 필터에 넣기
@@ -741,73 +799,37 @@
 	        		price = $(this).closest(".plusFiterbox").attr("price"); // 삭제할 키 값을 가져옴
 	        		area = $(this).closest(".plusFiterbox").attr("area"); // 삭제할 키 값을 가져옴
 	    	 		
-	        		if(categoryname != null){
+	        		if(categoryname !== null){
 	        			delete conditions['categoryname'];
 	        			delete conditions['subcategoryname'];
-	        		}else if(subcategoryname != null){
+	        		}else if(subcategoryname !== null){
 	        			delete conditions['subcategoryname'];
-	        		}else if(status != null){
+	        		}else if(status !== null){
 	        			delete conditions['status'];
-	        		}else if(price != null){
+	        		}else if(price !== null){
 	        			delete conditions['price'];
-	        		}else if(area != null){
+	        		}else if(area !== null){
 	        			delete conditions['area'];
 	        		}
 	        		console.log(conditions);
 	        		getselectproduct(conditions);
-	        		Max_btn(conditions);
-	        		Min_btn(conditions);
-	        		/* }); */
 	        		
+	        		/* }); */
 	              }
+							/* $("#recently").click(function(){
+				    			handleRecentlyClick();
+							});
+
+							$("#desc").click(function(){
+				    			handleDescClick();
+							});
+
+							$("#asc").on("click", function() {
+				   				 handleAscClick();
+							}); */
 					
-	             <%-- $("#desc").click(function(){
-			        	$.ajax({
-    			            url: "<%=request.getContextPath()%>/maxprice",
-    			            dataType: 'html',
-    			            /* data: conditions, */
-    			            success: function(data) {
-    			                $("#productContainer").html(data);
-    			                 if (conditions['subcategoryname'] == null) {
-    			                    $("#categoryName span").text(categoryName);
-    			                } else {
-    			                    $("#categoryName span").text(categoryName + " > " + subcategoryname);
-    			                }
-    			            }
-    			        });
-			        }); --%>
-			       
-			            $("#desc").click(function(conditions){
-			                $.ajax({
-			                    url: "<%=request.getContextPath()%>/maxprice",
-			                    dataType: 'html',
-			                    data: conditions,
-			                    success: function(data) {
-			                        $("#productContainer").html(data);
-			                        if (conditions['subcategoryname'] == null) {
-			                            $("#categoryName span").text(categoryName);
-			                        } else {
-			                            $("#categoryName span").text(categoryName + " > " + subcategoryname);
-			                        }
-			                    }
-			                });
-			            });
-			     
-			            $("#asc").on("click", function(conditions) {
-			                $.ajax({
-			                    url: "<%=request.getContextPath()%>/minprice",
-			                    dataType: 'html',
-			                    data: conditions,
-			                    success: function(data) {
-			                        $("#productContainer").html(data);
-			                        if (conditions['subcategoryname'] == null) {
-			                            $("#categoryName span").text(categoryName);
-			                        } else {
-			                            $("#categoryName span").text(categoryName + " > " + subcategoryname);
-			                        }
-			                    }
-			                });
-			            });
+						
+			            
 	           	// 키값으로 여러조건 가져오기 ajax
 	           	function getselectproduct(conditions){
 	           		 console.log(conditions);
@@ -820,12 +842,11 @@
 	          					$.ajax({
 	          						url: "<%=request.getContextPath()%>/categoryproductlist.do",
 	          						dateType: 'html',
-	          						data:conditions,
 	          						success: function(data){
 	          							$("section").html(data);
 	          						}
 	          					});
-	          				} else if(conditions['categoryname'] != null || conditions['subcategoryname'] !== null || conditions['status'] !== null || conditions['price'] !== null || conditions['area'] !== null){
+	          				} else if(conditions['categoryname'] !== null || conditions['subcategoryname'] !== null || conditions['status'] !== null || conditions['price'] !== null || conditions['area'] !== null){
 	          			        $.ajax({
 	          			            url: "<%=request.getContextPath()%>/getproduct.do",
 	          			            dataType: 'html',
@@ -850,16 +871,14 @@
 				    existingFilter = null; // 기존 필터 객체 초기화	
 	    	 	
 	    	 	}); */
-	        	   
-	           });
+	        	// 전체 ready   
+	            });
 	    	
            	//필터에 넣어주기
            	     var currentFilters = 0; // 현재 필터 개수
     			var existingFilter = null; // 기존 필터 객체   
             	 function pdcCategoryClickHandler() {
-           		 var currentFilters = 0; // 현재 필터 개수
-     			 var existingFilter = null; // 기존 필터 객체  
-    			if (currentFilters === 0) {
+    				if (currentFilters === 0) {
     	            var categoryName = $(this).text(); // 클릭한 카테고리명 가져오기
 
     	            // 새로운 필터 태그 생성
@@ -918,7 +937,13 @@
 		    };
            };
            $('.statusbtn span').on('click', statusBtnClickHandler);   
-           	
+           
+           function removeKeyFromProduct(conditions) {
+   			$(this).closest(".plusFiterbox").remove();
+               currentFilters--;// 현재 필터 개수 감소
+               existingFilter = null; // 기존 필터 객체 초기화
+     }
+           $(".plusFiterboxbtn button").on("click", removeKeyFromProduct);
          
            //
            
@@ -1183,7 +1208,69 @@
 				      existingFilter.find('.plusFiterboxText').text(statusTag); // 필터의 텍스트 값 업데이트
 			    }
    		 }); */ 
-				
+   		<%-- function handleRecentlyClick() {
+				if(conditions['categoryname'] == null && conditions['subcategoryname'] == null && conditions['status'] == null && conditions['price'] == null && conditions['area'] == null){
+	                console.log(conditions);
+					$.ajax({
+	                    url: "<%=request.getContextPath()%>/resentlyproductlist",
+	                    dataType: 'html',
+	                    success: function(data) {
+	                        $("#productContainer").html(data);
+	                    }
+	                });
+	            	}else if(conditions['categoryname'] !== null || conditions['subcategoryname'] !== null || conditions['status'] !== null || conditions['price'] !== null || conditions['area'] !== null){
+	            		console.log(conditions);
+	            		$.ajax({
+		                    url: "<%=request.getContextPath()%>/getproduct.do",
+		                    dataType: 'html',
+		                    data: conditions,
+		                    success: function(data) {
+		                        $("#productContainer").html(data);
+		                    }
+		                });
+	            	}
+			}
+			function handleDescClick() {
+         	if(conditions['categoryname'] == null && conditions['subcategoryname'] == null && conditions['status'] == null && conditions['price'] == null && conditions['area'] == null){
+         		console.log(conditions);
+         	$.ajax({
+                 url: "<%=request.getContextPath()%>/entiremaxprice",
+                 dataType: 'html',
+                 success: function(data) {
+                     $("#productContainer").html(data);
+                 }
+             });
+         	}else if(conditions['categoryname'] !== null || conditions['subcategoryname'] !== null || conditions['status'] !== null || conditions['price'] !== null || conditions['area'] !== null){
+         		console.log(conditions);
+         		$.ajax({
+	                    url: "<%=request.getContextPath()%>/maxprice",
+	                    dataType: 'html',
+	                    data: conditions,
+	                    success: function(data) {
+	                        $("#productContainer").html(data);
+	                    }
+	                });
+         	}
+         }
+         function handleAscClick() {
+         	if(conditions['categoryname'] == null && conditions['subcategoryname'] == null && conditions['status'] == null && conditions['price'] == null && conditions['area'] == null){
+	                $.ajax({
+	                    url: "<%=request.getContextPath()%>/entireminprice",
+	                    dataType: 'html',
+	                    success: function(data) {
+	                        $("#productContainer").html(data);
+	                    }
+	                });
+	            	}else if(conditions['categoryname'] !== null || conditions['subcategoryname'] !== null || conditions['status'] !== null || conditions['price'] !== null || conditions['area'] !== null){
+	            		$.ajax({
+		                    url: "<%=request.getContextPath()%>/minprice",
+		                    dataType: 'html',
+		                    data: conditions,
+		                    success: function(data) {
+		                        $("#productContainer").html(data);
+		                    }
+		                });
+	            	}
+         }		 --%>
     	</script>
     <script src="<%=request.getContextPath()%>/js/productsearchchartpage/test.js"></script>
- <%@ include file="/views/common/footer.jsp" %>

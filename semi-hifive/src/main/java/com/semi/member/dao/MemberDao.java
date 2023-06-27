@@ -51,6 +51,28 @@ public class MemberDao {
 	}
 	
 	
+	public Member selectByUser(Connection conn,String userId) {
+		PreparedStatement pstmt = null;
+		ResultSet rs =null;
+		Member m=null;
+		try {
+			pstmt=conn.prepareStatement(
+					sql.getProperty("selectByUser"));
+			pstmt.setString(1, userId);
+			rs=pstmt.executeQuery(); 
+			
+			if(rs.next()) {
+				m=getMember(rs);
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rs);
+			close(pstmt);
+		}return m;
+	}
+	
+	
 	// 회원정보를 추가하는 dao
 	public int insertMember(Connection conn, Member m) {
 		PreparedStatement pstmt = null;

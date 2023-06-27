@@ -1,130 +1,123 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <%@ page import="java.util.List,com.semi.member.model.vo.Member"%>
 <%
-	List<Member> members = (List) request.getAttribute("members");
-%>    
-<style>
-body {
-  padding:1.5em;
-  background: #f5f5f5
-}
+List<Member> members = (List) request.getAttribute("members");
 
-table {
-  border: 1px #a39485 solid;
-  font-size: .9em;
-  box-shadow: 0 2px 5px rgba(0,0,0,.25);
-  width: 100%;
-  border-collapse: collapse;
-  border-radius: 5px;
-  overflow: hidden;
-}
+%>
 
-th {
-  text-align: left;
-}
-  
-thead {
-  font-weight: bold;
-  color: #fff;
-  background: #73685d;
-}
-  
- td, th {
-  padding: 1em .5em;
-  vertical-align: middle;
-}
-  
- td {
-  border-bottom: 1px solid rgba(0,0,0,.1);
-  background: #fff;
-}
+ <link rel="stylesheet" href="<%=request.getContextPath()%>/css/admin/manageMember.css" />
+<%@ include file="/views/admin/manageMemberHome.jsp"%>
 
-a {
-  color: #73685d;
-}
-  
- @media all and (max-width: 768px) {
-    
-  table, thead, tbody, th, td, tr {
-    display: block;
-  }
-  
-  th {
-    text-align: right;
-  }
-  
-  table {
-    position: relative; 
-    padding-bottom: 0;
-    border: none;
-    box-shadow: 0 0 10px rgba(0,0,0,.2);
-  }
-  
-  thead {
-    float: left;
-    white-space: nowrap;
-  }
-  
-  tbody {
-    overflow-x: auto;
-    overflow-y: hidden;
-    position: relative;
-    white-space: nowrap;
-  }
-  
-  tr {
-    display: inline-block;
-    vertical-align: top;
-  }
-  
-  th {
-    border-bottom: 1px solid #a39485;
-  }
-  
-  td {
-    border-bottom: 1px solid #e5e5e5;
-  }
-</style>
 
-    <table id="tbl-member">
-		<thead>
-			<tr>
-				<th>이메일</th>
-				<th>아이디</th>
-				<th>이름</th>
-				<th>별명</th>
-				<th>신고누적수</th>
-				<th>가입일</th>
-				<th>온도</th>
-			</tr>
-		</thead>
-		<tbody>
-			<%
-			if (members.isEmpty()) {
-			%>
-			<tr>
-				<td colspan="7">조회된 회원이 없습니다.</td>
+
+<section class="info">
+	
+	<div class="userTable">
+		<table class="table text-center">
+			<thead>
+				<tr>
+					<th colspan="1">
+					<th>이메일</th>
+					<th>아이디</th>
+					<th>이름</th>
+					<th>별명</th>
+					<th>신고누적수</th>
+					<th>가입일</th>
+					<th>온도</th>
+					<th>수정/삭제</th>
+				</tr>
+			</thead>
+			<tbody>
 				<%
-				} else {
-				for (Member m : members) {
+				if (members.isEmpty()) {
 				%>
-			
-			<tr>
-				<td><%=m.getEmail()%></td>
-				<td><%=m.getUserId()%></td>
-				<td><%=m.getUserName()%></td>
-				<td><%=m.getNickName()%></td>
-				<td><%=m.getDeclareCount()%></td>
-				<td><%=m.getEnrollDate()%></td>
-				<td><%=m.getTemperature()%></td>
-			</tr>
-			<%
-			}
-			}
-			%>
-		</tbody>
-	</table>
-	<div id="pageBar">
-		<%=request.getAttribute("pageBar")%>
+				<tr>
+					<td colspan="7">조회된 회원이 없습니다.</td>
+					<%
+					} else {
+					for (Member m : members) {
+					%>
+				
+				<tr>
+					<td>
+						<input type="checkbox" name="option" />
+					</td>
+					<td><%=m.getEmail()%></td>
+					<td><%=m.getUserId()%></td>
+					<td><%=m.getUserName()%></td>
+					<td><%=m.getNickName()%></td>
+					<td><%=m.getDeclareCount()%></td>
+					<td><%=m.getEnrollDate()%></td>
+					<td><%=m.getTemperature()%></td>
+					<td><button id="<%=m.getUserId() %>" type="button" class="updateBtn btn btn-primary btn-sm">수정</button>
+						<button type="button" class="btn btn-danger btn-sm"
+							onclick="location.replace('<%=request.getContextPath()%>/userRemove.do?email=<%=m.getEmail()%>');">삭제</button></td>	
+				</tr>
+				<%
+					}
+				}
+				%>
+			</tbody>
+		</table>
+		<div id="pageBar" class="text-center">
+			<%=request.getAttribute("pageBar")%>
+		</div>
+		<button id="userRemoveAll" type="button" class="btn btn-danger">모든회원삭제</button>
+		
 	</div>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+	<script>
+	
+	$().ready(function () {
+        $("#userRemoveAll").click(function () {
+            Swal.fire({
+                title: '정말로 모든회원을 삭제하시겠습니까?',
+                text: "회원을 다시 되돌릴 수 없습니다. 신중히 선택하세요.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: '승인',
+                cancelButtonText: '취소'
+            }).then((result) => {
+               if (result.isConfirmed) {
+                    location.replace("/semi-hifive/allUserRemove.do");
+               }
+				
+            })
+        });
+    });
+	
+	$(".updateBtn").click(e=>{
+		const userId = $(e.target)[0].id;
+		var width = '600';
+		var height = '700';
+		let left = Math.ceil((window.screen.width - width) / 2);
+		let top = Math.ceil((window.screen.height - height) / 2);
+		/* 마이페이지 memberdao */
+		open("<%=request.getContextPath()%>/userUpdate.do?userId=" + userId, "_blank", 'width=' + width + ', height=' + height + ', left=' + left + ', top = ' + top);
+	}
+	)
+	
+	/* function updateUser(){	
+		console.log(e);
+		$.ajax({
+			url: "/userUpdate.do",
+			data: { "userId": 
+					""
+			},
+			success: function(result) {
+	
+			
+			},
+			error: function() {
+				console.log("카테고리 선택 오류발생");
+			}
+		})
+	} */
+	
+	
+	</script>
+
+</section>

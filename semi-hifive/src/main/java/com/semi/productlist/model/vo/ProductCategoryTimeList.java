@@ -2,6 +2,7 @@ package com.semi.productlist.model.vo;
 
 import com.semi.category.model.vo.Category;
 import com.semi.category.model.vo.SubCategory;
+import com.semi.product.model.vo.ProductFile;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,5 +20,6 @@ public class ProductCategoryTimeList {
 	private long elapsedTime;
 	private Category category;
 	private SubCategory subCategory;
+	private ProductFile productfile;
 
 }
