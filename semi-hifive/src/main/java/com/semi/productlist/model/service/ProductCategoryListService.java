@@ -1,10 +1,13 @@
 package com.semi.productlist.model.service;
 import static com.semi.common.JDBCTemplate.close;
+import static com.semi.common.JDBCTemplate.commit;
 import static com.semi.common.JDBCTemplate.getConnection;
+import static com.semi.common.JDBCTemplate.rollback;
 
 import java.sql.Connection;
 import java.util.List;
 
+import com.semi.mypage.model.vo.WishList;
 import com.semi.productlist.model.vo.ProductCategoryTimeList;
 import com.semi.productlistlist.model.dao.ProductCategoryListDao;
 
@@ -100,7 +103,47 @@ public class ProductCategoryListService {
 			close(conn);
 			return result;
 		}
-	
+		
+//		전체 상품리스트 가져오기 카테고리, 세부카테고리 모두 join해서 가져온것	
+		public List<ProductCategoryTimeList> EntireMaxPrice(int cPage, int numPerpage){
+			Connection conn = getConnection();
+			List<ProductCategoryTimeList> list = dao.EntireMaxPrice(conn, cPage, numPerpage);
+			close(conn);
+			return list;
+		}
+//		전체 상품리스트 가져오기 카테고리, 세부카테고리 모두 join해서 가져온것	
+		public List<ProductCategoryTimeList> EntireMinPrice(int cPage, int numPerpage){
+			Connection conn = getConnection();
+			List<ProductCategoryTimeList> list = dao.EntireMinPrice(conn, cPage, numPerpage);
+			close(conn);
+			return list;
+		}
+		//좋아요 확인
+		public List<WishList> Like(String loginId, int productId){
+			Connection conn = getConnection();
+			List<WishList> wishlist = dao.Like(conn,loginId, productId);
+			close(conn);
+			return wishlist;
+		}
+		//좋아요 등록
+		public int updateLike(String loginId, int productId) {
+			Connection conn=getConnection();
+			int result=dao.updateLike(conn,loginId, productId);
+			if(result>0) commit(conn);
+			else rollback(conn);
+			close(conn);
+			return result;
+		}
+		//좋아요 삭제
+		public int deleteLike(String loginId, int productId) {
+			Connection conn = getConnection();
+			int result = dao.deleteLike(conn,loginId, productId);
+			if(result > 0) commit(conn);
+			else rollback(conn);
+			close(conn);
+			return result;
+		}
+		
 	
 	public List<ProductCategoryTimeList> Test(String test, int cPage, int numPerpage) {
 		Connection conn = getConnection();

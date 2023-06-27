@@ -388,7 +388,6 @@ List<ProductCommentUser> comments = (List) request.getAttribute("comments");
 					alt="" />
 					<p>아이폰14pro 128기가</p></a>
 			</div>
-		
 		</div>
 	</div>
 	<%} else{%>

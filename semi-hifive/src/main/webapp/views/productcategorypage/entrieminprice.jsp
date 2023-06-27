@@ -1,13 +1,11 @@
-<%@page import="com.semi.category.model.vo.CategorySubCategory"%>
-<%@page import="com.semi.productlist.model.vo.ProductCategoryTimeList"%>
-<%@page import="com.semi.category.model.vo.Category"%>
-<%@ page import="com.semi.member.model.vo.Member"%>
-<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@page import="java.util.List"%>
+    <%@ page import="com.semi.member.model.vo.Member"%>
+ <%@page import="com.semi.productlist.model.vo.ProductCategoryTimeList"%>
 <%
-	List<ProductCategoryTimeList> gd = (List)request.getAttribute("getselectproduct"); 
-%> 
+	List<ProductCategoryTimeList> productlist = (List)request.getAttribute("productlist");
+%>
 <%
 Member loginMember = (Member) session.getAttribute("loginMember");//여기 로그인멤버 
 Cookie[] cookies = request.getCookies(); // 존재하는 쿠키들 다 갖고옴 
@@ -24,20 +22,19 @@ if (cookies != null) {
 <script>
    sessionStorage.setItem("loginId",'<%=loginMember!=null?loginMember.getUserId():""%>');
 </script>
-
- <div id="selectCategory">
+<div id="selectCategory">
             <div id="categoryName">
             	<h4><span>   <%=request.getAttribute("totalData")%></span></h4>
             </div>
             <div id="categoryFunction">
-             <span id ="recently" onclick="handleRecentlyClick();">최신순</span>
+              <span id ="recently" onclick="handleRecentlyClick();">최신순</span>
               <span id ="popular" onclick="handleRecentlyClick();">인기도순</span>
               <span id ="desc" onclick="handleDescClick();">최고가순</span>
               <span id ="asc" onclick="handleAscClick();">최저가순</span>
             </div>
           </div>
 		<div id="productImgContainer">
-		<%for(ProductCategoryTimeList p : gd){%>
+		<%for(ProductCategoryTimeList p : productlist){%>
             <div id="pimgWraper" onclick="location.href='<%=request.getContextPath()%>/productpage?no=<%=p.getProductCategoryList().getProductId()%>';">
               <div class="con-like">
                 <input title="like" type="checkbox" class="like" />

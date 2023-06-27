@@ -2,14 +2,16 @@ package com.semi.member.model.vo;
 
 import java.sql.Date;
 
+import com.semi.productpage.model.vo.ShopPage;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor 
-@NoArgsConstructor 	
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class Member {
 	   private String userId;
