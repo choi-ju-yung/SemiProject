@@ -6,7 +6,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-	List<ProductCategoryTimeList> subcategoryproduct = (List)request.getAttribute("subcategoryproduct");
+	List<ProductCategoryTimeList> arealist = (List)request.getAttribute("arealist");
 %>
 <%
 	List<CategorySubCategory> categorylist = (List)request.getAttribute("categorylist");
@@ -84,7 +84,7 @@
                         <%for(CategorySubCategory sc : categorylist){
                         	if(sc.getCategory().getCategoryId().equals("A")) {%>
                         <ul>
-                          <li><a href='<%=request.getContextPath()%>/searchheadersubcategory.do?subcategroyname=<%=sc.getSubCategory().getSubcategoryName()%>'><%=sc.getSubCategory().getSubcategoryName()%></a></li>
+                          <li><a href="<%=request.getContextPath()%>/searchheadersubcategory.do?subcategroyname=<%=sc.getSubCategory().getSubcategoryName()%>"><%=sc.getSubCategory().getSubcategoryName()%></a></li>
                         </ul>
                         <%} }%>
                       </div>
@@ -107,7 +107,7 @@
                         <%for(CategorySubCategory sc : categorylist){
                         	if(sc.getCategory().getCategoryId().equals("B")) {%>
                         <ul>
-                          <li><a href='<%=request.getContextPath()%>/searchheadersubcategory.do?subcategroyname=<%=sc.getSubCategory().getSubcategoryName()%>'><%=sc.getSubCategory().getSubcategoryName()%></a></li>
+                          <li><a href="<%=request.getContextPath()%>/searchheadersubcategory.do?subcategroyname=<%=sc.getSubCategory().getSubcategoryName()%>"><%=sc.getSubCategory().getSubcategoryName()%></a></li>
                         </ul>
                         <%} }%>
                       </div>
@@ -129,7 +129,7 @@
                         <%for(CategorySubCategory sc : categorylist){
                         	if(sc.getCategory().getCategoryId().equals("C")) {%>
                         <ul>
-                          <li><a href='<%=request.getContextPath()%>/searchheadersubcategory.do?subcategroyname=<%=sc.getSubCategory().getSubcategoryName()%>'><%=sc.getSubCategory().getSubcategoryName()%></a></li>
+                          <li><a href="<%=request.getContextPath()%>/searchheadersubcategory.do?subcategroyname=<%=sc.getSubCategory().getSubcategoryName()%>"><%=sc.getSubCategory().getSubcategoryName()%></a></li>
                         </ul>
                         <%} }%>
                       </div>
@@ -151,7 +151,7 @@
                         <%for(CategorySubCategory sc : categorylist){
                         	if(sc.getCategory().getCategoryId().equals("D")) {%>
                         <ul>
-                          <li><a href='<%=request.getContextPath()%>/searchheadersubcategory.do?subcategroyname=<%=sc.getSubCategory().getSubcategoryName()%>'><%=sc.getSubCategory().getSubcategoryName()%></a></li>
+                          <li><a href="<%=request.getContextPath()%>/searchheadersubcategory.do?subcategroyname=<%=sc.getSubCategory().getSubcategoryName()%>"><%=sc.getSubCategory().getSubcategoryName()%></a></li>
                         </ul>
                         <%} }%>
                       </div>
@@ -173,7 +173,7 @@
                        <%for(CategorySubCategory sc : categorylist){
                         	if(sc.getCategory().getCategoryId().equals("E")) {%>
                         <ul>
-                          <li><a href='<%=request.getContextPath()%>/searchheadersubcategory.do?subcategroyname=<%=sc.getSubCategory().getSubcategoryName()%>'><%=sc.getSubCategory().getSubcategoryName()%></a></li>
+                          <li><a href="<%=request.getContextPath()%>/searchheadersubcategory.do?subcategroyname=<%=sc.getSubCategory().getSubcategoryName()%>"><%=sc.getSubCategory().getSubcategoryName()%></a></li>
                         </ul>
                         <%} }%>
                       </div>
@@ -195,7 +195,7 @@
                         <%for(CategorySubCategory sc : categorylist){
                         	if(sc.getCategory().getCategoryId().equals("F")) {%>
                         <ul>
-                          <li><a href='<%=request.getContextPath()%>/searchheadersubcategory.do?subcategroyname=<%=sc.getSubCategory().getSubcategoryName()%>'><%=sc.getSubCategory().getSubcategoryName()%></a></li>
+                          <li><a href="<%=request.getContextPath()%>/searchheadersubcategory.do?subcategroyname=<%=sc.getSubCategory().getSubcategoryName()%>"><%=sc.getSubCategory().getSubcategoryName()%></a></li>
                         </ul>
                         <%} }%>
                       </div>
@@ -217,7 +217,7 @@
                         <%for(CategorySubCategory sc : categorylist){
                         	if(sc.getCategory().getCategoryId().equals("G")) {%>
                         <ul>
-                          <li><a href='<%=request.getContextPath()%>/searchheadersubcategory.do?subcategroyname=<%=sc.getSubCategory().getSubcategoryName()%>'><%=sc.getSubCategory().getSubcategoryName()%></a></li>
+                          <li><a href="<%=request.getContextPath()%>/searchheadersubcategory.do?subcategroyname=<%=sc.getSubCategory().getSubcategoryName()%>"><%=sc.getSubCategory().getSubcategoryName()%></a></li>
                         </ul>
                         <%} }%>
                       </div>
@@ -239,7 +239,7 @@
                         <%for(CategorySubCategory sc : categorylist){
                         	if(sc.getCategory().getCategoryId().equals("H")) {%>
                         <ul>
-                          <li><a href='<%=request.getContextPath()%>/searchheadersubcategory.do?subcategroyname=<%=sc.getSubCategory().getSubcategoryName()%>'><%=sc.getSubCategory().getSubcategoryName()%></a></li>
+                          <li><a href="<%=request.getContextPath()%>/searchheadersubcategory.do?subcategroyname=<%=sc.getSubCategory().getSubcategoryName()%>"><%=sc.getSubCategory().getSubcategoryName()%></a></li>
                         </ul>
                         <%} }%>
                       </div>
@@ -261,7 +261,7 @@
                         <%for(CategorySubCategory sc : categorylist){
                         	if(sc.getCategory().getCategoryId().equals("I")) {%>
                         <ul>
-                          <li><a href='<%=request.getContextPath()%>/searchheadersubcategory.do?subcategroyname=<%=sc.getSubCategory().getSubcategoryName()%>'><%=sc.getSubCategory().getSubcategoryName()%></a></li>
+                          <li><a href="<%=request.getContextPath()%>/searchheadersubcategory.do?subcategroyname=<%=sc.getSubCategory().getSubcategoryName()%>"><%=sc.getSubCategory().getSubcategoryName()%></a></li>
                         </ul>
                         <%} }%>
                       </div>
@@ -283,7 +283,7 @@
                         <%for(CategorySubCategory sc : categorylist){
                         	if(sc.getCategory().getCategoryId().equals("J")) {%>
                         <ul>
-                          <li><a href='<%=request.getContextPath()%>/searchheadersubcategory.do?subcategroyname=<%=sc.getSubCategory().getSubcategoryName()%>'><%=sc.getSubCategory().getSubcategoryName()%></a></li>
+                          <li><a href="<%=request.getContextPath()%>/searchheadersubcategory.do?subcategroyname=<%=sc.getSubCategory().getSubcategoryName()%>"><%=sc.getSubCategory().getSubcategoryName()%></a></li>
                         </ul>
                         <%} }%>
                       </div>
@@ -427,7 +427,7 @@
         <div id="productContainer">
           <div id="selectCategory">
             <div id="categoryName">
-              <h4><span>(<%=request.getAttribute("totalData")%>)</span></h4>
+              <h4>전체   <span><%=request.getAttribute("totalData")%></span></h4>
             </div>
             <div id="categoryFunction">
               <span id ="recently" onclick="handleRecentlyClick();">최신순</span>
@@ -438,7 +438,7 @@
           </div>
           
 	          <div id="productImgContainer">
-	          <%for(ProductCategoryTimeList p : subcategoryproduct ){%>
+	           <%for(ProductCategoryTimeList p : arealist ){%>
 	            <div id="pimgWraper" onclick="location.assign('<%=request.getContextPath()%>/productpage?no=<%=p.getProductCategoryList().getProductId()%>')">
 	              <div class="con-like">
 	                <input title="like" type="checkbox" class="like" />
@@ -541,19 +541,19 @@ $(".radio-buttons .radio-button").click(function(e) {
 			window.location.href = "<%=request.getContextPath()%>/categoryproductlist.do"
 		} else if (selectedOption === "option1") {
 			selectedOption = "<= 100000";
-			window.location.href = "<%=request.getContextPath()%>/pricesearch?price"+selectedOption;
+			window.location.href = "<%=request.getContextPath()%>/pricesearch?price="+selectedOption;
 		} else if (selectedOption === "option2") {
 			selectedOption = "BETWEEN 100000 AND 300000";
-			window.location.href = "<%=request.getContextPath()%>/pricesearch?price"+selectedOption;
+			window.location.href = "<%=request.getContextPath()%>/pricesearch?price="+selectedOption;
 		} else if (selectedOption === "option3") {
 			selectedOption = "BETWEEN 300000 AND 500000";
-			window.location.href = "<%=request.getContextPath()%>/pricesearch?price"+selectedOption;
+			window.location.href = "<%=request.getContextPath()%>/pricesearch?price="+selectedOption;
 		} else if (selectedOption === "option4") {
 			selectedOption = "BETWEEN 500000 AND 1000000";
-			window.location.href = "<%=request.getContextPath()%>/pricesearch?price"+selectedOption;
+			window.location.href = "<%=request.getContextPath()%>/pricesearch?price="+selectedOption;
 		} else if (selectedOption === "option5") {
-			selectedOption = ">= 1000000";
-			window.location.href = "<%=request.getContextPath()%>/pricesearch?price"+selectedOption;
+			selectedOption = "+>= 1000000";
+			window.location.href = "<%=request.getContextPath()%>/pricesearch?price="+selectedOption;
 		}
 	});	
 //input태그에 검색한 가격
@@ -569,6 +569,7 @@ $("#prcBtn").click(function() {
 	    var selectedLocation = $('#sido1').val() + $(this).val();
 	    window.location.href = "<%=request.getContextPath()%>/areasearch?area="+selectedLocation;
 	  });
+
 </script>
 <script src="<%=request.getContextPath()%>/js/productsearchchartpage/test.js"></script>
 <%@ include file="/views/common/footer.jsp" %>

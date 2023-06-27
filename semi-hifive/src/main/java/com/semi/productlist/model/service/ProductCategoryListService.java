@@ -144,6 +144,51 @@ public class ProductCategoryListService {
 			return result;
 		}
 		
+		//상품상태 리스트
+		public List<ProductCategoryTimeList> Status(int cPage, int numPerpage ,String status) {
+			Connection conn = getConnection();
+			List<ProductCategoryTimeList> p = dao.Status(conn, cPage, numPerpage, status);
+			close(conn);
+			return p;
+		}
+//		상품상태리스트
+		public int StatusCount(String status){
+			Connection conn = getConnection();
+			int result = dao.StatusCount(conn, status);
+			close(conn);
+			return result;
+		}
+		
+		//상품가격 리스트
+				public List<ProductCategoryTimeList> Price(int cPage, int numPerpage ,String price) {
+					Connection conn = getConnection();
+					List<ProductCategoryTimeList> p = dao.Price(conn, cPage, numPerpage, price);
+					close(conn);
+					return p;
+				}
+//				상품가격리스트
+				public int PriceCount(String price){
+					Connection conn = getConnection();
+					int result = dao.PriceCount(conn, price);
+					close(conn);
+					return result;
+				}
+		
+				//상품상태 리스트
+				public List<ProductCategoryTimeList> Area(int cPage, int numPerpage ,String areaname) {
+					Connection conn = getConnection();
+					List<ProductCategoryTimeList> p = dao.Area(conn, cPage, numPerpage, areaname);
+					close(conn);
+					return p;
+				}
+//				상품상태리스트
+				public int AreaCount(String areaname){
+					Connection conn = getConnection();
+					int result = dao.AreaCount(conn, areaname);
+					close(conn);
+					return result;
+				}
+		
 	
 	public List<ProductCategoryTimeList> Test(String test, int cPage, int numPerpage) {
 		Connection conn = getConnection();

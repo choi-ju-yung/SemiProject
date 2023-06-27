@@ -21,10 +21,11 @@ import com.semi.mypage.model.vo.WishList;
 import com.semi.product.model.vo.ProductFile;
 import com.semi.productlist.model.vo.ProductCategoryList;
 import com.semi.productlist.model.vo.ProductCategoryTimeList;
+import com.semi.productpage.model.vo.ProductCategory;
 public class ProductCategoryListDao {
 	private Properties sql = new Properties();
 	{
-		String path = ProductCategoryListDao.class.getResource("/sql/product/productchartpage.sql.properties").getPath();
+		String path = ProductCategoryListDao.class.getResource("/sql/product/productchartpage_sql.properties").getPath();
 		
 		try {
 			sql.load(new FileReader(path));
@@ -88,6 +89,27 @@ public class ProductCategoryListDao {
 		close(pstmt);
 	}return productlist;
 	}
+	public ProductCategoryTimeList selectProduct(Connection conn, int id) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		ProductCategoryTimeList p = null;
+		String sql = this.sql.getProperty("selectProduct");
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, id);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				p = getProduct(rs);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rs);
+			close(pstmt);
+		}
+		return p;
+	}
 	
 //	전체 상품리스트 가져오기 카테고리, 세부카테고리 모두 join해서 가져온것 페이징처리 	
 	public int CategoryProductListCount(Connection conn) {
@@ -133,13 +155,15 @@ public class ProductCategoryListDao {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		List<ProductCategoryTimeList> selectcategorylist = new ArrayList<>();
+		System.out.println(selectcategorylist);
 		try {
 			pstmt = conn.prepareStatement(sql.getProperty("SelectSubCategoryList"));
 			pstmt.setString(1, subcategoryname);
 			pstmt.setInt(2, (cPage-1) * numPerpage + 1);
 			pstmt.setInt(3, cPage * numPerpage);
 			rs = pstmt.executeQuery();
-			while(rs.next()) {
+			System.out.println("DAO" + selectcategorylist);
+			if(rs.next()) {
 				selectcategorylist.add(getProduct(rs));
 			}
 		} catch (SQLException e) {
@@ -149,6 +173,8 @@ public class ProductCategoryListDao {
 			close(pstmt);
 		}return selectcategorylist;
 	}
+	
+	
 	
 	public int SelectSubCategoryProductListCount(Connection conn, String subcategoryname) {
 		PreparedStatement pstmt = null;
@@ -440,24 +466,134 @@ public class ProductCategoryListDao {
 		
 		
 		
+		public List<ProductCategoryTimeList> Status(Connection conn, int cPage, int numPerpage ,String subcategoryname) {
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			List<ProductCategoryTimeList> selectcategorylist =new ArrayList();
+			System.out.println("DAO" + selectcategorylist);
+			try {
+				pstmt = conn.prepareStatement(sql.getProperty("Status"));
+				pstmt.setString(1, subcategoryname);
+				pstmt.setInt(2, (cPage-1) * numPerpage + 1);
+				pstmt.setInt(3, cPage * numPerpage);
+				rs = pstmt.executeQuery();
+				System.out.println("DAO" + selectcategorylist);
+				while(rs.next()) {
+					selectcategorylist.add( getProduct(rs));
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}finally {
+				close(rs);
+				close(pstmt);
+			}return selectcategorylist;
+		}
 		
 		
+		//상품상태 클릭시 전체상품상태리스트 출력 화면에 출력할 페이징
+				public int StatusCount(Connection conn, String status) {
+					PreparedStatement pstmt = null;
+					ResultSet rs = null;
+					int result = 0;
+					
+					try {
+						pstmt = conn.prepareStatement(sql.getProperty("StatusCount"));
+						pstmt.setString(1, status);
+						rs = pstmt.executeQuery();
+						if(rs.next()){
+							result = rs.getInt(1);
+						}
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}finally {
+						close(rs);
+						close(pstmt);
+					}return result;
+				}
+				public List<ProductCategoryTimeList> Price(Connection conn, int cPage, int numPerpage ,String price) {
+					PreparedStatement pstmt = null;
+					ResultSet rs = null;
+					List<ProductCategoryTimeList> selectcategorylist = new ArrayList<>();
+					try {
+						pstmt = conn.prepareStatement(sql.getProperty("Price").replace("#PRICE#", price));
+						pstmt.setInt(1, (cPage-1) * numPerpage + 1);
+						pstmt.setInt(2, cPage * numPerpage);
+						rs = pstmt.executeQuery();
+						if(rs.next()) {
+							selectcategorylist.add(getProduct(rs));
+						}
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}finally {
+						close(rs);
+						close(pstmt);
+					}return selectcategorylist;
+				}
+				
+				
+				//상품상태 클릭시 전체상품상태리스트 출력 화면에 출력할 페이징
+						public int PriceCount(Connection conn, String price) {
+							PreparedStatement pstmt = null;
+							ResultSet rs = null;
+							int result = 0;
+							System.out.println("DAO" + result);
+							System.out.println(price);
+							System.out.println(sql.getProperty("PriceCount"));
+							try {
+								pstmt = conn.prepareStatement(sql.getProperty("PriceCount").replace("#PRICE#", price));
+								rs = pstmt.executeQuery();
+								if(rs.next()){
+									result = rs.getInt(1);
+								}
+							} catch (SQLException e) {
+								e.printStackTrace();
+							}finally {
+								close(rs);
+								close(pstmt);
+							}return result;
+						}
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+				public List<ProductCategoryTimeList> Area(Connection conn, int cPage, int numPerpage ,String area) {
+					PreparedStatement pstmt = null;
+					ResultSet rs = null;
+					List<ProductCategoryTimeList> selectcategorylist = new ArrayList<>();
+					try {
+						pstmt = conn.prepareStatement(sql.getProperty("Area"));
+						pstmt.setString(1, "%"+area+"%");
+						pstmt.setInt(2, (cPage-1) * numPerpage + 1);
+						pstmt.setInt(3, cPage * numPerpage);
+						rs = pstmt.executeQuery();
+						if(rs.next()) {
+							selectcategorylist.add(getProduct(rs));
+						}
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}finally {
+						close(rs);
+						close(pstmt);
+					}return selectcategorylist;
+				}
+				
+				//상품상태 클릭시 전체상품상태리스트 출력 화면에 출력할 페이징
+						public int AreaCount(Connection conn, String area) {
+							PreparedStatement pstmt = null;
+							ResultSet rs = null;
+							int result = 0;
+							
+							try {
+								pstmt = conn.prepareStatement(sql.getProperty("AreaCount"));
+								pstmt.setString(1, "%"+area+"%");
+								rs = pstmt.executeQuery();
+								if(rs.next()){
+									result = rs.getInt(1);
+								}
+							} catch (SQLException e) {
+								e.printStackTrace();
+							}finally {
+								close(rs);
+								close(pstmt);
+							}return result;
+						}
 		
 		public List<ProductCategoryTimeList> Test(Connection conn, int cPage, int numPerpage, String test) {
 			PreparedStatement pstmt = null;

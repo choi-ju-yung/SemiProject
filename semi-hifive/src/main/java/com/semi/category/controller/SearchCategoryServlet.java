@@ -31,7 +31,7 @@ public class SearchCategoryServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-			String categoryname = request.getParameter("Cid");
+			String categoryname = request.getParameter("categoryname");
 			
 			int cPage, numPerpage;
 			try {
@@ -78,8 +78,8 @@ public class SearchCategoryServlet extends HttpServlet {
 			//totalData가 카테고리 이름만 찾아서 상품List 갯수 set에 저장
 			request.setAttribute("totalData", totalData);
 			request.setAttribute("categoryName", categoryName);
-		    request.setAttribute("categoryproduct", searchcategory);
-			request.getRequestDispatcher("/views/productcategorypage/searchcategorylist.jsp").forward(request, response);
+		    request.setAttribute("searchcategory", searchcategory);
+			request.getRequestDispatcher("/views/productcategorypage/headersearchcategory.jsp").forward(request, response);
 		 
 	}
 

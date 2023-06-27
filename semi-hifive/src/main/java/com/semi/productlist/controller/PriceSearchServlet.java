@@ -1,4 +1,4 @@
-package com.semi.category.controller;
+package com.semi.productlist.controller;
 
 import java.io.IOException;
 import java.util.List;
@@ -16,16 +16,16 @@ import com.semi.productlist.model.service.ProductCategoryListService;
 import com.semi.productlist.model.vo.ProductCategoryTimeList;
 
 /**
- * Servlet implementation class SearchHeaderSubCategoryServlet
+ * Servlet implementation class PriceSearchServlet
  */
-@WebServlet("/searchheadersubcategory.do")
-public class SearchHeaderSubCategoryServlet extends HttpServlet {
+@WebServlet("/pricesearch")
+public class PriceSearchServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public SearchHeaderSubCategoryServlet() {
+    public PriceSearchServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,8 +34,7 @@ public class SearchHeaderSubCategoryServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String subcategoryname = request.getParameter("subcategroyname");
-		// 페이징
+		String price = request.getParameter("price");
 		int cPage, numPerpage;
 		try {
 			cPage = Integer.parseInt(request.getParameter("cPage"));
@@ -48,7 +47,7 @@ public class SearchHeaderSubCategoryServlet extends HttpServlet {
 			numPerpage = 32;
 		}
 		String pageBar = "";
-		int totalData = new ProductCategoryListService().SelectSubCategoryProductListCount(subcategoryname);
+		int totalData = new ProductCategoryListService().PriceCount(price);
 		int totalPage = (int)Math.ceil((double)totalData/numPerpage);
 		int pageBarSize = 5;
 		int pageNo = ((cPage-1)/pageBarSize)*pageBarSize + 1;
@@ -72,27 +71,26 @@ public class SearchHeaderSubCategoryServlet extends HttpServlet {
 		} else {
 			pageBar += "<li><a href='javascript:void(0);'onclick='changePage("+ pageNo + ");'&numPerpage=" + numPerpage + "'>&gt;</a></li>";
 		}
+		request.setAttribute("totalData", totalData);
 		request.setAttribute("pageBar", pageBar);
 		
+
+//카테고리와 서브카테고리 상품 테이블 모두 join해서 가져오는 상품List 객체
+List<ProductCategoryTimeList> pricelist = new ProductCategoryListService().Price(cPage, numPerpage, price);
 //카테고리와 서브카테고리랑만 join해서 가져오는 List객체
 List<CategorySubCategory> categorylist = new CategoryService().SubCategoryList();
 //카테고리만 가져오는 List객체
 List<Category> category = new CategoryService().Category();
-//대표 카테고리이름과 서브카테고리 이름만 나올수 있는 객체
-CategorySubCategory categoryandsubcategoryname = new CategoryService().SubCategoryName(subcategoryname);
-//서브카테고리로 상품리스트 출력 
-List<ProductCategoryTimeList> subcategoryproduct = new ProductCategoryListService().SelectSubCategoryList(cPage, numPerpage, subcategoryname);
 
-
-//카테고리와 서브카테고리 상품 테이블 모두 join해서 가져오는 상품List 갯수 set에 저장
-request.setAttribute("totalData", totalData);
-
-request.setAttribute("subcategoryproduct", subcategoryproduct);
-request.setAttribute("categoryandsubcategoryname", categoryandsubcategoryname);
+//System.out.println(categorylist);
+//System.out.println(category);
+System.out.println(price);
 request.setAttribute("category", category);
 request.setAttribute("categorylist", categorylist);
-request.getRequestDispatcher("/views/productcategorypage/headersearchsubcategory.jsp").forward(request, response);
-
+request.setAttribute("pricelist", pricelist);
+request.getRequestDispatcher("/views/productcategorypage/price.jsp").forward(request, response);
+	
+	
 	}
 
 	/**
