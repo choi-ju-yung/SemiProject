@@ -24,6 +24,10 @@ header {
 	z-index: 100;
 	background-color: white;
 }
+#recently {
+	width: "68.4px"; 
+	height: "68.4px";
+}
 
 #headerContainer {
 	display: flex;

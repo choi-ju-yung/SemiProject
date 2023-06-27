@@ -34,7 +34,7 @@ public class SubCategoryListServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 		protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-			String subcategoryname = request.getParameter("sub");
+			String subcategoryname = request.getParameter("subcategoryname");
 			// 페이징
 			int cPage, numPerpage;
 			try {
@@ -84,7 +84,6 @@ public class SubCategoryListServlet extends HttpServlet {
 			// 대표 카테고리이름과 서브카테고리 이름만 나올수 있는 객체
 			CategorySubCategory categoryandsubcategoryname = new CategoryService().SubCategoryName(subcategoryname);
 
-			System.out.println(subcategoryproduct);
 			//totalData가 서브카테고리 이름만 찾아서 상품List 갯수 set에 저장
 			request.setAttribute("totalData", totalData);
 			request.setAttribute("categoryandsubcategoryname", categoryandsubcategoryname);
