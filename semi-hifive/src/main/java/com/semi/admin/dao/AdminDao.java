@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-import com.semi.admin.dao.AdminDao;
 import com.semi.member.model.vo.Member;
 
 public class AdminDao {
@@ -94,6 +93,48 @@ public class AdminDao {
 		int result = 0;
 		try {
 			pstmt = conn.prepareStatement(sql.getProperty("allUserRemove"));
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+	
+	
+	
+	public int updateMember(Connection conn,String userName,String nickName,String declareCount, String enrollDate, String temp, String email) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		try {
+			pstmt = conn.prepareStatement(sql.getProperty("updateMember"));
+			pstmt.setString(1, nickName);
+			pstmt.setString(2, userName);
+			pstmt.setString(3, declareCount);
+			pstmt.setString(4, enrollDate);
+			pstmt.setString(5, temp);
+			pstmt.setString(6, email);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+	
+	
+	
+	public int deleteCheckMember(Connection conn,String dsql) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		try {
+			pstmt = conn.prepareStatement(sql.getProperty("deleteCheckMember").replace("#data", dsql));
+//			pstmt.setString(1, dsql);
 			result = pstmt.executeUpdate();
 			
 		} catch (SQLException e) {

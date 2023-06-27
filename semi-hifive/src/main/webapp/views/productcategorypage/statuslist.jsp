@@ -6,7 +6,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-	ProductCategoryTimeList p = (ProductCategoryTimeList)request.getAttribute("statuslist");
+	List<ProductCategoryTimeList> statuslist = (List)request.getAttribute("statuslist");
 %>
 <%
 	List<CategorySubCategory> categorylist = (List)request.getAttribute("categorylist");
@@ -437,6 +437,7 @@
             </div>
           </div>
 	          <div id="productImgContainer">
+	          <%for(ProductCategoryTimeList p  : statuslist) {%>
 	            <div id="pimgWraper" onclick="location.assign('<%=request.getContextPath()%>/productpage?no=<%=p.getProductCategoryList().getProductId()%>')">
 	              <div class="con-like">
 	                <input title="like" type="checkbox" class="like" />
@@ -503,7 +504,7 @@
                   <%=p.getProductCategoryList().getAreaName()%>
 	                </p>
 	            </div>
-	          
+	          <%} %>
 	          </div>
 	          <div class="pageBar">
 		     	<ul class="page">
@@ -558,6 +559,8 @@ $(".radio-buttons .radio-button").click(function(e) {
 $("#prcBtn").click(function() {
 	    var minPrice = $(".prcinput[name='text'][placeholder='최소값']").val();
 	    var maxPrice = $(".prcinput[name='text'][placeholder='최대값']").val();
+	    maxPrice.replace(',', '');
+	    minPrice.replace(',', '');
 	    if (minPrice && maxPrice) {
 	    	window.location.href = "<%=request.getContextPath()%>/pricesearch?price="+"BETWEEN " + minPrice + " AND " + maxPrice;
 	    } 

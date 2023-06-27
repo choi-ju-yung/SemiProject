@@ -82,6 +82,7 @@ public class BoardService {
 		int result=dao.insertBoardComment(conn, bc);
 		if(result>0) commit(conn);
 		else rollback(conn);
+		close(conn);
 		return result;
 	}
 
@@ -90,6 +91,7 @@ public class BoardService {
 		int result=dao.updateComment(conn, commentNo, data);
 		if(result>0) commit(conn);
 		else rollback(conn);
+		close(conn);
 		return result;
 	}
 
@@ -98,6 +100,7 @@ public class BoardService {
 		int result=dao.deleteComment(conn, commentNo);
 		if(result>0) commit(conn);
 		else rollback(conn);
+		close(conn);
 		return result;
 	}
 	

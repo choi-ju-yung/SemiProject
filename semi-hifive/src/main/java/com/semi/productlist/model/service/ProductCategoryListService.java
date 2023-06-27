@@ -119,11 +119,11 @@ public class ProductCategoryListService {
 			return list;
 		}
 		//좋아요 확인
-		public List<WishList> Like(String loginId, int productId){
+		public WishList Like(String loginId, int productId){
 			Connection conn = getConnection();
-			List<WishList> wishlist = dao.Like(conn,loginId, productId);
+			WishList wish = dao.Like(conn,loginId, productId);
 			close(conn);
-			return wishlist;
+			return wish;
 		}
 		//좋아요 등록
 		public int updateLike(String loginId, int productId) {

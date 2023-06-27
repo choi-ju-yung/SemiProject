@@ -49,6 +49,7 @@ public class ReportService {
 		}
 		if(result>0&&fileresult==filesNames.size()&&buyresult==buyList.size()) commit(conn);
 		else rollback(conn);
+		close(conn);
 		return result;
 	}
 	
@@ -78,6 +79,7 @@ public class ReportService {
 		int result=dao.insertComment(conn, bc);
 		if(result>0) commit(conn);
 		else rollback(conn);
+		close(conn);
 		return result;
 	}
 	
@@ -86,6 +88,7 @@ public class ReportService {
 		int result=dao.deleteComment(conn, commentNo);
 		if(result>0) commit(conn);
 		else rollback(conn);
+		close(conn);
 		return result;
 	}
 	
@@ -114,6 +117,7 @@ public class ReportService {
 		int productresult=dao.insertReportList(conn, r, productId);
 		if(result>0&&fileresult==filesNames.size()&&productresult>0) commit(conn);
 		else rollback(conn);
+		close(conn);
 		return result;
 	}
 

@@ -42,6 +42,22 @@ public class AdminService {
 		close(conn);
 		return result;
 	}
+	//userName,nickName,declareCount,enrollDate,temp,email
+	
+	public int updateMember(String userName,String nickName,String declareCount, String enrollDate, String temp, String email) {
+		Connection conn=getConnection();
+		int result = dao.updateMember(conn,userName,nickName,declareCount,enrollDate,temp,email);
+		close(conn);
+		return result;
+	}
+	
+	// 체크된 멤버들 삭제
+	public int deleteCheckMember(String sql) {
+		Connection conn=getConnection();
+		int result = dao.deleteCheckMember(conn,sql);
+		close(conn);
+		return result;
+	}
 	
 }
 

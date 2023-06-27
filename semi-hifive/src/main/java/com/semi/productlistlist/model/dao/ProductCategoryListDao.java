@@ -370,55 +370,59 @@ public class ProductCategoryListDao {
 			ResultSet rs = null;
 			List<ProductCategoryTimeList> productlist = new ArrayList<>();
 		
-		try {
-			pstmt = conn.prepareStatement(sql.getProperty("EntireMaxPrice"));
-			pstmt.setInt(1, (cPage-1) * numPerpage + 1);
-			pstmt.setInt(2, cPage * numPerpage);
-			rs = pstmt.executeQuery();
-			while(rs.next()) {
-				productlist.add(getProduct(rs));
+			try {
+				pstmt = conn.prepareStatement(sql.getProperty("EntireMaxPrice"));
+				pstmt.setInt(1, (cPage-1) * numPerpage + 1);
+				pstmt.setInt(2, cPage * numPerpage);
+				rs = pstmt.executeQuery();
+				while(rs.next()) {
+					productlist.add(getProduct(rs));
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}finally {
+				close(rs);
+				close(pstmt);
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}finally {
-			close(rs);
-			close(pstmt);
-		}return productlist;
+			return productlist;
 		}
 		public List<ProductCategoryTimeList> EntireMinPrice(Connection conn, int cPage, int numPerpage) {
 			PreparedStatement pstmt = null;
 			ResultSet rs = null;
 			List<ProductCategoryTimeList> productlist = new ArrayList<>();
 		
-		try {
-			pstmt = conn.prepareStatement(sql.getProperty("EntireMinPrice"));
-			pstmt.setInt(1, (cPage-1) * numPerpage + 1);
-			pstmt.setInt(2, cPage * numPerpage);
-			rs = pstmt.executeQuery();
-			while(rs.next()) {
-				productlist.add(getProduct(rs));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}finally {
-			close(rs);
-			close(pstmt);
-		}return productlist;
+			try {
+				pstmt = conn.prepareStatement(sql.getProperty("EntireMinPrice"));
+				pstmt.setInt(1, (cPage-1) * numPerpage + 1);
+				pstmt.setInt(2, cPage * numPerpage);
+				rs = pstmt.executeQuery();
+				while(rs.next()) {
+					productlist.add(getProduct(rs));
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}finally {
+				close(rs);
+				close(pstmt);
+			}return productlist;
 		}
 		
 		//좋아요 찾는 메소드
-		public List<WishList> Like(Connection conn, String loginId,int productId) {
+		public WishList Like(Connection conn, String loginId,int productId) {
 			PreparedStatement pstmt = null;
 			ResultSet rs = null;
-			List<WishList>  w =  new ArrayList();
-
+			WishList  w =  null;
 			try {
 				pstmt = conn.prepareStatement(sql.getProperty("Like"));
 				pstmt.setString(1, loginId);
 				pstmt.setInt(2, productId);
+				System.out.println(loginId);
+				System.out.println(productId);
 				rs = pstmt.executeQuery();
-				while (rs.next())
-					w.add(getWishList(rs));
+				if(rs.next()) {
+					System.out.println(getWishList(rs));
+					w=getWishList(rs);					
+				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			} finally {

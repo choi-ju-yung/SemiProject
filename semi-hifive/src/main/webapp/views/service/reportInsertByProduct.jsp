@@ -91,7 +91,7 @@ function uploadFile(){
     formData.append("writer","<%=loginMember.getUserId()%>");
     formData.append("title",$("#reportTitle").val());
     formData.append("content",$("#reportContent").val());
-    formData.append("productNo","<%=p.getProductId()%>");
+    formData.append("productId","<%=p.getProductId()%>");
     
     
     $.ajax({

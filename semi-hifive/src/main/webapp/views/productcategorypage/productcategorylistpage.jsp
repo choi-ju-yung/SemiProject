@@ -386,7 +386,7 @@
                     class="prcinput"
                     placeholder="최소값"
                     maxlength="10"
-                    onkeyup="inputNumberFormat(this);"
+                    oninput="inputNumberFormat(this);"
                   />
                   <div class="highlight"></div>
                 </div>

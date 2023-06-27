@@ -36,7 +36,8 @@ public class LikeAjax extends HttpServlet {
 		String loginId=request.getParameter("loginId");
 		int productId = Integer.parseInt(request.getParameter("productId"));
 		
-		List<WishList> wishlist = new ProductCategoryListService().Like(loginId, productId);
+		WishList wishlist = new ProductCategoryListService().Like(loginId, productId);
+		System.out.println(wishlist);
 		response.setContentType("application/json;charset=utf-8");
 		new Gson().toJson(wishlist, response.getWriter());
 	}

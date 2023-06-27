@@ -35,6 +35,7 @@ public class PriceSearchServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String price = request.getParameter("price");
+		price=price.replace(",", "");
 		int cPage, numPerpage;
 		try {
 			cPage = Integer.parseInt(request.getParameter("cPage"));

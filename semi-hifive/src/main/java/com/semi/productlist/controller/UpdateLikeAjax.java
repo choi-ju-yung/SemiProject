@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
 import com.semi.productlist.model.service.ProductCategoryListService;
 import com.semi.productpage.service.ProductPageService;
 
@@ -33,7 +34,9 @@ public class UpdateLikeAjax extends HttpServlet {
 		int productId = Integer.parseInt(request.getParameter("productId"));
 		int result =new ProductCategoryListService().updateLike(loginId, productId);
 		System.out.println(result);
-		response.getWriter().print(result);
+		//response.getWriter().print(result);
+		response.setContentType("application/json;charset=utf-8");
+		new Gson().toJson(result, response.getWriter());
 	}
 
 	/**
