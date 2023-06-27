@@ -26,4 +26,22 @@ public class AdminService {
 		close(conn);
 		return result;
 	}
+	
+	public int userRemove(String email){
+		Connection conn=getConnection();
+		int result = dao.userRemove(conn,email);
+		close(conn);
+		return result;
+	}
+	
+
+	
+	public int allUserRemove() {
+		Connection conn=getConnection();
+		int result = dao.allUserRemove(conn);
+		close(conn);
+		return result;
+	}
+	
 }
+
