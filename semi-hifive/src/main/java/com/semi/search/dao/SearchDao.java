@@ -101,11 +101,28 @@ public class SearchDao {
 		}return searchCount;
 	}
 	
+	public List<Search> printSearch(Connection conn){
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		List<Search> ps=new ArrayList();
+		try {
+			pstmt=conn.prepareStatement(sql.getProperty("printSearch"));
+			rs=pstmt.executeQuery();
+			while(rs.next())
+				ps.add(getSearch(rs));
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rs);
+			close(pstmt);
+		}return ps;
+	}
+	
 	
 	private Search getSearch(ResultSet rs) throws SQLException{
 		return Search.builder()
 				.searchKeyword(rs.getString("search_keyword"))
-				.searchDate(rs.getDate("search_date"))	
+				//.searchDate(rs.getDate("search_date"))	
 				.build();
 	}
 	

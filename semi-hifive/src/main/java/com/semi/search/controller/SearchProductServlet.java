@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.semi.product.model.vo.Product;
 import com.semi.search.model.vo.SearchCount;
-import com.semi.search.service.SearchController;
+import com.semi.search.service.SearchService;
 
 /**
  * Servlet implementation class SearchFunctionServlet
@@ -37,12 +37,12 @@ public class SearchProductServlet extends HttpServlet {
 			throws ServletException, IOException {
 		String content = request.getParameter("content");
 		List<Product> searchList = new ArrayList();
-		SearchCount searchCount = new SearchController().searchCount(content);
+		SearchCount searchCount = new SearchService().searchCount(content);
 		
 		if (content.length()>2&&content.charAt(1)=='#') {			
-			searchList = new SearchController().searchKeyWord(content);
+			searchList = new SearchService().searchKeyWord(content);
 		} else {
-			searchList = new SearchController().searchTitle(content);
+			searchList = new SearchService().searchTitle(content);
 		}
 		request.setAttribute("content", content);
 		request.setAttribute("searchList", searchList);

@@ -40,13 +40,13 @@ $(document).on("click","#rsoon", e=>{
                   +"</svg>"
                 +"</div>"
               +"</div>"
-              +"<a href="+getContextPath()+"/productpage?no="+rsoon.productId+">"
-              +"<img src="+getContextPath()+"/upload/productRegist/"+rsoon.imageName+"alt=''/>"
-               + "<p id=productName'>"+rsoon.title+"</p>"
-               + "<p id='productPrice'>"+rsoon.price+"원"+ "<span>"+rsoon.registTime+"</span></p>"
+              +"<a href="+getContextPath()+"/productpage?no="+item.product.productId+">"
+              +"<img src="+getContextPath()+"/upload/productRegist/"+item.productFile.imageName+"alt=''/>"
+               + "<p id='productName'>"+item.product.title+"</p>"
+               + "<p id='productPrice'>"+item.product.price+"원"+ "<span>"+item.product.registTime+"</span></p>"
                 +"<p id='productPlace'>"
                  + "<ion-icon name='location-outline'></ion-icon>"
-                  +rsoon.areaName
+                  +item.product.areaName
                 +"</p>"
               +"</a>"
             +"</div>"
@@ -87,13 +87,13 @@ $(document).on("click","#psoon", e=>{
                   +"</svg>"
                 +"</div>"
               +"</div>"
-              +"<a href="+getContextPath()+"/productpage?no="+psoon.productId+">"
-              +"<img src="+getContextPath()+"/upload/productRegist/"+psoon.imageName+"alt=''/>"
-               + "<p id=productName'>"+psoon.title+"</p>"
-               + "<p id='productPrice'>"+psoon.price+"원"+ "<span>"+psoon.registTime+"</span></p>"
+               +"<a href="+getContextPath()+"/productpage?no="+item.product.productId+">"
+              +"<img src="+getContextPath()+"/upload/productRegist/"+item.productFile.imageName+"alt=''/>"
+               + "<p id='productName'>"+item.product.title+"</p>"
+               + "<p id='productPrice'>"+item.product.price+"원"+ "<span>"+item.product.registTime+"</span></p>"
                 +"<p id='productPlace'>"
                  + "<ion-icon name='location-outline'></ion-icon>"
-                  +psoon.areaName
+                  +item.product.areaName
                 +"</p>"
               +"</a>"
             +"</div>"
@@ -113,8 +113,8 @@ $(document).on("click","#hsoon", e=>{
 		data: { "userId": $("input[name=userId]").val() },
 		success:function(hsoon){
 			var html = "";
-			console.log(hsoon);
-			
+			console.log(hsoon.product);
+			console.log(hsoon.productfile);
 			$.each(hsoon,function(index,item){
 			html +=
 				"<div id='pimgWraper'>"
@@ -134,13 +134,13 @@ $(document).on("click","#hsoon", e=>{
                   +"</svg>"
                 +"</div>"
               +"</div>"
-              +"<a href="+getContextPath()+"/productpage?no="+hsoon.productId+">"
-              +"<img src="+getContextPath()+"/upload/productRegist/"+hsoon.imageName+"alt=''/>"
-               + "<p id=productName'>"+hsoon.title+"</p>"
-               + "<p id='productPrice'>"+hsoon.price+"원"+ "<span>"+hsoon.registTime+"</span></p>"
+              +"<a href="+getContextPath()+"/productpage?no="+item.product.productId+">"
+              +"<img src="+getContextPath()+"/upload/productRegist/"+item.productFile.imageName+"alt=''/>"
+               + "<p id='productName'>"+item.product.title+"</p>"
+               + "<p id='productPrice'>"+item.product.price+"원"+ "<span>"+item.product.registTime+"</span></p>"
                 +"<p id='productPlace'>"
                  + "<ion-icon name='location-outline'></ion-icon>"
-                  +hsoon.areaName
+                  +item.product.areaName
                 +"</p>"
               +"</a>"
             +"</div>"
@@ -181,13 +181,13 @@ $(document).on("click","#lsoon", e=>{
                   +"</svg>"
                 +"</div>"
               +"</div>"
-              +"<a href="+getContextPath()+"/productpage?no="+lsoon.productId+">"
-              +"<img src="+getContextPath()+"/upload/productRegist/"+lsoon.imageName+"alt=''/>"
-               + "<p id=productName'>"+lsoon.title+"</p>"
-               + "<p id='productPrice'>"+lsoon.price+"원"+ "<span>"+lsoon.registTime+"</span></p>"
+               +"<a href="+getContextPath()+"/productpage?no="+item.product.productId+">"
+              +"<img src="+getContextPath()+"/upload/productRegist/"+item.productFile.imageName+"alt=''/>"
+               + "<p id='productName'>"+item.product.title+"</p>"
+               + "<p id='productPrice'>"+item.product.price+"원"+ "<span>"+item.product.registTime+"</span></p>"
                 +"<p id='productPlace'>"
                  + "<ion-icon name='location-outline'></ion-icon>"
-                  +lsoon.areaName
+                  +item.product.areaName
                 +"</p>"
               +"</a>"
             +"</div>"

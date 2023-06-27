@@ -165,7 +165,12 @@ List<ShopReview> r=(List) request.getAttribute("review");
             <span class="time"><%=sr.getReview().getReviewDate() %></span>
             <hr color="#eeeeee" noshade />
           </div>
-          <%}} %>
+          <%}}else{ %>
+          <div id="noRecent">
+			<h2>아직 후기가 없어요...</h2>  
+			<img src="images/common/hifiveCharacter.png">        
+          </div>
+          <%} %>
         </div>
       </div>
     </section>

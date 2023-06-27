@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.semi.search.service.SearchController;
+import com.semi.search.service.SearchService;
 
 /**
  * Servlet implementation class SearchServlet
@@ -30,7 +30,7 @@ public class InsertSearchServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String content=request.getParameter("content");
-		int result=new SearchController().insertSearch(content);		
+		int result=new SearchService().insertSearch(content);		
 		if(result>0)
 		request.getRequestDispatcher("/searchProduct?content="+content).forward(request, response);	
 	}

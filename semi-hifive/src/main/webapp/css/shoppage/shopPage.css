@@ -370,3 +370,15 @@
   font-size: 13px;
   color: #afafaf;
 }
+#noRecent{
+	display: grid;
+	justify-content: center;
+}
+#noRecenst h2{
+	margin-left: 50px;
+}
+#noRecent img{
+	margin-top:50px;
+	width: 300px;
+	height: 300px;
+}
