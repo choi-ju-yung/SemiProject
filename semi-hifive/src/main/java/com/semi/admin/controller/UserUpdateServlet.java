@@ -1,11 +1,15 @@
 package com.semi.admin.controller;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.semi.member.model.vo.Member;
+import com.semi.member.service.MemberService;
 
 
 @WebServlet("/userUpdate.do")
@@ -18,13 +22,14 @@ public class UserUpdateServlet extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String email = request.getParameter("email");
+		System.out.println("서블릿");
 		String userId = request.getParameter("userId");
+
+		Member m = new MemberService().selectByUserId(userId); // 유저아이디로 회원 정보갖고오기
 		
-		request.setAttribute("email", email);
-		request.setAttribute("userId", userId);
+		request.setAttribute("member", m);
 		
-		request.getRequestDispatcher("views/admin/userUpdate.jsp");
+		request.getRequestDispatcher("views/admin/userUpdate.jsp").forward(request, response);
 		
 	}
 
