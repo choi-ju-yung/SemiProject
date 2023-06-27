@@ -53,13 +53,14 @@ public class MemberLoginServlet extends HttpServlet {
 		// loginMember null을 기준으로 로그인처리 여부를 결정할 수 있음
 		if(loginMember!=null) {
 
-			//로그인성공 -> 인증받음  (세션을 받아야함)
-			
+
+	
 				HttpSession session=request.getSession();
 				session.setAttribute("loginMember", loginMember);
 
 				// 세션에 저장하면 sendRedirect해도 데이터가 날라가지 않음
 				response.sendRedirect(request.getContextPath());
+
 
 
 

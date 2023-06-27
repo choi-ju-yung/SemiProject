@@ -50,7 +50,6 @@ public class InquiryInsertEndServlet extends HttpServlet {
 		char secret;
 		if(mr.getParameter("secret")!=null) secret=mr.getParameter("secret").charAt(0);
 		else secret='N';
-		System.out.println(mr.getParameter("writer"));
 		
 		Inquiry q=Inquiry.builder()
 				.inquiryTitle(mr.getParameter("title"))

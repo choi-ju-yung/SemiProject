@@ -22,11 +22,9 @@ import com.semi.mypage.model.vo.Review;
 import com.semi.mypage.model.vo.ReviewTrade;
 import com.semi.mypage.model.vo.Trade;
 import com.semi.mypage.model.vo.WishList;
-
 import com.semi.product.model.vo.Product;
 import com.semi.product.model.vo.ProductComment;
 import com.semi.product.model.vo.ProductFile;
-
 
 public class MypageProductDao {
 	private Properties sql = new Properties();
@@ -549,7 +547,6 @@ public class MypageProductDao {
 
 	private ProductList getProductBuyList(ResultSet rs) throws SQLException {
 		return ProductList.builder()
-
 				.product(Product.builder()
 						.productId(rs.getInt("product_Id"))
 						.userId(rs.getString("user_Id"))
@@ -573,12 +570,10 @@ public class MypageProductDao {
 						.imageName(rs.getString("product_image_name"))
 						.build())
 				.build();
-
 	}
 
 	private MemberWishList getMemberWishList(ResultSet rs) throws SQLException {
 		return MemberWishList.builder()
-
 				.product(Product.builder()
 						.productId(rs.getInt("product_Id"))
 						.userId(rs.getString("user_Id"))
