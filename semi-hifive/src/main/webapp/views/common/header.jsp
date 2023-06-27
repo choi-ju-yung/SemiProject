@@ -42,33 +42,37 @@ if (cookies != null) {
 <title>중고 거래 HiFive</title>
 </head>
 <body>
-   <header>
-      <div id="headerContainer">
-         <div id="fixedContainer">
-            <%
-            if (loginMember == null) {
-            %>
-            <div class="loginSerivce">
-               <a href="<%=request.getContextPath()%>/loginView.do" id="login">로그인</a>
-               <a href="<%=request.getContextPath()%>/enrollMember.do" id="enroll">회원가입</a>
-               <a
-                  href="<%=request.getContextPath()%>/service/boardList.do?notice=Y"
-                  id="service">고객센터</a>
-            </div>
-            <%
-            } else {
-            %>
-            <div class="loginSerivce">
-               <a href="#"
-                  onclick="location.replace('<%=request.getContextPath()%>/logout.do')"
-                  id="logout">로그아웃</a> <a
-                  href="<%=request.getContextPath()%>/service/boardList.do?notice=Y"
-                  id="service">고객센터</a>
-            </div>
-            <%
-            }
-            %>
 
+	<header>
+		<div id="headerContainer">
+			<div id="fixedContainer">
+				<%
+				if (loginMember == null) {
+				%>
+				<div class="loginSerivce">
+					<a href="<%=request.getContextPath()%>/loginView.do" id="login">로그인</a>
+					<a href="<%=request.getContextPath()%>/enrollMember.do" id="enroll">회원가입</a>
+					<a
+						href="<%=request.getContextPath()%>/service/boardList.do?notice=Y"
+						id="service">고객센터</a>
+				</div>
+				<%
+				} else {
+				%>
+				<div class="loginSerivce">
+				<%if(loginMember.getAuth().equals("M")){%>
+					<a href="<%=request.getContextPath()%>/adminMode.do">관리자모드</a>
+					<%} %>
+					<a href="#"
+						onclick="location.replace('<%=request.getContextPath()%>/logout.do')"
+						id="logout">로그아웃</a> <a
+						href="<%=request.getContextPath()%>/service/boardList.do?notice=Y"
+						id="service">고객센터</a>
+				</div>
+				<%
+				}
+				%>
+   
             <div class="headerMain">
                <div class="logo">
                   <a href=""> <img
@@ -122,7 +126,7 @@ if (cookies != null) {
                   <a
                      href="<%=request.getContextPath()%>/myPage/myPageMain.do?userId=<%=loginMember.getUserId()%>">
                      <ion-icon name="person-outline" class="myIcon"></ion-icon> 내정보
-                  </a> <a href=""> <ion-icon name="heart-outline" class="heartIcon"></ion-icon>
+                  </a> <a href="<%=request.getContextPath()%>/myPage/wishList.do?userId=<%=loginMember.getUserId()%>"> <ion-icon name="heart-outline" class="heartIcon"></ion-icon>
                      찜한상품
                   </a>
                   <%

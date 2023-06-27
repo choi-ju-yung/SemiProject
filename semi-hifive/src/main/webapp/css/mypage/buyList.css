@@ -101,6 +101,7 @@ section {
 .product img {
 	width: 160px;
 	height: 160px;
+	border: 1px solid #eee;
 }
 
 .proContent {

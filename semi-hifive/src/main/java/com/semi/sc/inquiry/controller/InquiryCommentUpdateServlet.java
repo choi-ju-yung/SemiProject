@@ -12,20 +12,21 @@ import com.google.gson.Gson;
 import com.semi.sc.service.InquiryService;
 
 /**
- * Servlet implementation class InquiryCommentDeleteServlet
+ * Servlet implementation class InquiryCommentUppdateServlet
  */
-@WebServlet("/service/inquiryCommentDelete.do")
-public class InquiryCommentDeleteServlet extends HttpServlet {
+@WebServlet("/service/inquiryCommentUpdate.do")
+public class InquiryCommentUpdateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     
-    public InquiryCommentDeleteServlet() {
+    public InquiryCommentUpdateServlet() {
     }
 
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int commentNo=Integer.parseInt(request.getParameter("commentNo"));
-		int result=new InquiryService().deleteComment(commentNo);
+		String data=request.getParameter("content");
+		int result=new InquiryService().updateComment(commentNo,data);
 		
 		response.setContentType("application/json;charset=utf-8");
 		new Gson().toJson(result==1?true:false,response.getWriter());

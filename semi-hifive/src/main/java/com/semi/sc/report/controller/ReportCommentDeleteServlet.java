@@ -1,4 +1,4 @@
-package com.semi.sc.inquiry.controller;
+package com.semi.sc.report.controller;
 
 import java.io.IOException;
 
@@ -9,29 +9,31 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
-import com.semi.sc.service.InquiryService;
+import com.semi.sc.service.ReportService;
 
 /**
- * Servlet implementation class InquiryCommentDeleteServlet
+ * Servlet implementation class ReportCommentDeleteServlet
  */
-@WebServlet("/service/inquiryCommentDelete.do")
-public class InquiryCommentDeleteServlet extends HttpServlet {
+@WebServlet("/service/reportCommentDelete.do")
+public class ReportCommentDeleteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     
-    public InquiryCommentDeleteServlet() {
+    public ReportCommentDeleteServlet() {
     }
 
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int commentNo=Integer.parseInt(request.getParameter("commentNo"));
-		int result=new InquiryService().deleteComment(commentNo);
+		int result=new ReportService().deleteComment(commentNo);
 		
 		response.setContentType("application/json;charset=utf-8");
 		new Gson().toJson(result==1?true:false,response.getWriter());
 	}
 
-	
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);

@@ -14,13 +14,15 @@ import com.semi.member.model.vo.Member;
 import com.semi.product.model.vo.Product;
 import com.semi.sc.service.ReportService;
 
-
-@WebServlet("/service/reportInsert.do")
-public class ReportInsertServlet extends HttpServlet {
+/**
+ * Servlet implementation class ReportInsertServlet
+ */
+@WebServlet("/service/reportBuylistInsert.do")
+public class ReportBuyListInsertServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     
-    public ReportInsertServlet() {
+    public ReportBuyListInsertServlet() {
     }
 
 	

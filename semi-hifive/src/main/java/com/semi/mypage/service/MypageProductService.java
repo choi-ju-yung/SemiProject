@@ -217,6 +217,7 @@ public class MypageProductService {
 		return mc;
 	}
 	
+	// 거래 추가
 	public int insertTrade(String productId, String buyerId) {
 		Connection conn = getConnection();
 		int result = dao.insertTrade(conn, productId, buyerId);
@@ -227,5 +228,12 @@ public class MypageProductService {
 		close(conn);
 		return result;
 	}
-
+	
+	// 상품별 리뷰 조회
+	public ReviewTrade selectReviewByProductId(String productId) {
+		Connection conn = getConnection();
+		ReviewTrade p = dao.selectReviewByProductId(conn, productId);
+		close(conn);
+		return p;
+	}
 }

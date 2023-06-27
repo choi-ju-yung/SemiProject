@@ -23,7 +23,7 @@
 		<div class="productAll">
 			<div class="product">
 				<div class="productImg">
-					<a href=""><img src="<%=request.getContextPath() %>/upload/productRegist/<%=mw.getProductfile().getImageName() %>" alt=""></a>
+					<a href="<%=request.getContextPath() %>/productpage?no=<%=mw.getProduct().getProductId()%>"><img src="<%=request.getContextPath() %>/upload/productRegist/<%=mw.getProductfile().getImageName() %>" alt=""></a>
 					<label class="container"> <input id="<%=mw.getProduct().getProductId() %>" class="wishCheck" checked="checked" type="checkbox">
 						<div class="checkmark">
 							<svg viewBox="0 0 256 256">
@@ -43,7 +43,7 @@
 						<p><%=new SimpleDateFormat("yyyy.MM.dd").format(mw.getProduct().getRegistTime())%></p>
 					</div>
 					<h4 class="contentMargin">
-						<a href="" class="aTag productTitle"><%=mw.getProduct().getTitle() %></a>
+						<a href="<%=request.getContextPath() %>/productpage?no=<%=mw.getProduct().getProductId()%>" class="aTag productTitle"><%=mw.getProduct().getTitle() %></a>
 					</h4>
 					<div class="PriceNStatus">
 						<h3><%=new DecimalFormat("###,###").format(mw.getProduct().getPrice()) %>원</h3>

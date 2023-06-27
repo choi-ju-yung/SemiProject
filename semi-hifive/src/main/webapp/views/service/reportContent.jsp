@@ -1,61 +1,169 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="com.semi.sc.model.dto.*" %>
 <%@ include file="/views/common/header.jsp" %>
-<link rel="stylesheet" href="<%=request.getContextPath()%>/css/service/reportContent.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/service/boardContent.css">
+<%
+	Report r=(Report)request.getAttribute("report");
+	List<BoardComment> comments=(List)request.getAttribute("comments");
+	List<ServiceFile> files=(List<ServiceFile>)request.getAttribute("files");
+%>
 <section>
 <%@ include file="/views/service/serviceCategory.jsp" %>
 	<div class="ServiceCenter">
+	<%if(r!=null){ %>
             <div class="reportContent">
                 <div class="contentTitle">
-                    <h2>신고합니다</h2>
-                    <button class="backBtn" onclick="location.href='ServiceCenterNoticeMain.html'">뒤로 가기</button>
+                    <h2><%=r.getReportTitle() %></h2>
+                    <button class="backBtn" onclick="history.back();">뒤로 가기</button>
                 </div>
                 <div class="content">
                     <div class="contentTop">
-                        <p>작성자 : user01</p>
-                        <p>2023/04/25</p>
+                        <p>작성자 : <%=r.getReportWriter() %></p>
+                        <p><%=r.getReportDate() %></p>
                     </div>
-                    <p>질문 내용...</p>
-                    <img src="https://mblogthumb-phinf.pstatic.net/MjAyMjA2MTBfMjM3/MDAxNjU0ODM2MTEzODc5.rStmvGhTIUIZ_eshzIy-2Dv3hbMDgU5xMEgBe_8hxkEg.JLYYhiefyMgFUHAM0J3x5qlmGhxjaRgEBCVDWboxHKsg.PNG.papapapower/Desktop_Screenshot_2022.06.10_-_13.36.22.51.png?type=w800" alt="">
+                    <p><%=r.getReportContent() %></p>
+                    <%if(files!=null){
+						for(ServiceFile sf:files){%>
+						<img src="<%=request.getContextPath() %>/upload/report/<%=sf.getFilename() %>" width="800">
+						<%}
+                    }%>
                 </div>
+                <%if(loginMember.getAuth().equals("M")){ %>
                 <div class="commentWrite">
                     <textarea name="comment" id="" cols="120" rows="5" placeholder="관리자만 달 수 있습니다."></textarea>
                     <button class="commentBtn">댓글 작성</button>
+                    <input type="hidden" value="0" class="commentFK">
                 </div>
+                <%} %>
+                
                 <div class="comment">
-                    <div class="commentTop">
-                        <h4>관리자</h4>
-                        <p>2023/04/05</p>
-                    </div>
-                    <div class="commentContent">
-                        <p>답변드립니다<br>
-                        질문에 대한 답변 내용을 간단히 작성해요</p>
-                        <button class="recommentBtn">댓글</button>
-                    </div>
-                    <div class="commentUpdate">
-                        <a href="">수정</a>
-                        <a href="">삭제</a>
-                    </div>
-                    <hr>
-                    <div class="recomment">
-                        <div class="commentTop">
-                            <h4>user01</h4>
-                            <p>2023/04/05</p>
-                        </div>
-                        <div class="commentContent">
-                            <p>사용자는 대댓글을 달 수 있습니다.</p>
-                        </div>
-                        <div class="commentUpdate">
-                            <a href="">수정</a>
-                            <a href="">삭제</a>
-                        </div>
-                    </div>
-                    <div class="commentWrite">
-                        <textarea name="comment" id="" cols="120" rows="5" placeholder="댓글을 작성하세요."></textarea>
-                        <button class="commentBtn">댓글 작성</button>
-                    </div>
-                </div>
+			<%if(comments!=null){
+				for(BoardComment bc:comments){
+					if(bc.getCommentNoFK()==0){%>
+					<div class="commentTop">
+						<h4><%=bc.getCommentWriter() %></h4>
+						<p><%=bc.getCommentDate() %></p>
+					</div>
+					<div class="commentContent">
+						<p>
+							<%=bc.getCommentContent() %>
+						</p>
+						<button class="recommentBtn">댓글</button>
+						<input type="hidden" value="<%=bc.getCommentNo() %>" class="commentPK">
+					</div>
+					<div class="commentUpdate">
+					<%if(loginMember!=null&&(bc.getCommentWriter().equals(loginMember.getNickName())
+						||loginMember.getAuth().equals("M"))){ %>
+							<button class="commentUpdateBtn">수정</button>
+							<button class="commentDeleteBtn">삭제</button>
+					<%}%>
+					</div>
+					<hr>
+					<%}%>
+				<div class="recomment">
+					<%for(BoardComment brc:comments){
+						if(bc.getCommentNo()==brc.getCommentNoFK()){%>
+						<div class="commentTop">
+							<h4><%=brc.getCommentWriter() %></h4>
+							<p><%=brc.getCommentDate() %></p>
+						</div>
+						<div class="commentContent">
+							<p><%=brc.getCommentContent() %></p>
+							<input type="hidden" value="<%=brc.getCommentNo() %>" class="commentPK">
+						</div>
+						<%if(loginMember!=null&&(brc.getCommentWriter().equals(loginMember.getNickName())
+									||loginMember.getAuth().equals("M"))){ %>
+							<div class="commentUpdate">
+								<button class="commentUpdateBtn">수정</button>
+								<button class="commentDeleteBtn">삭제</button>
+							</div>
+						<%} %>
+						<hr>
+					<%}
+					}//for문%>
+				</div>
+				<%} //for문
+				}%>
+			</div><!-- comment -->
             </div>
         </div>
+   <%} %>
 </section>
+<script>
+//댓글 삭제
+$(document).on("click",".commentDeleteBtn",e=>{
+	const $commentNo=$(e.target).parent().prev().find(".commentPK");
+	$.ajax({
+		url : "<%=request.getContextPath()%>/service/reportCommentDelete.do",
+		data:{"commentNo":$commentNo.val()},
+		type:"post",
+		success : function(result) {
+			if (result) {
+				alert("삭제됐습니다.");
+				location.reload();
+			}
+		},
+		error : function() {
+			alert("삭제 실패했습니다. 관리자에게 문의하세요.");
+		}
+	});
+});
+
+//댓글 수정
+$(document).on("click",".updateCommentData",e=>{
+	const $div=$(e.target).parent();
+	const newData=$div.find("textarea").val();
+	console.log($div);
+	console.log(newData);
+	$.ajax({
+		url : "<%=request.getContextPath()%>/service/reportcommentUpdate.do",
+		data : {
+			"commentNo":$div.prev().val(),
+			"content":newData
+		},
+		type : "post",
+		success : function(result) {
+			if (result) {
+				alert("수정됐습니다.");
+				$div.parent().find("p").text(newData);
+				$("p").css("display","block");
+				$("button").css("display","block");
+				$div.css("display","none");
+			}
+		},
+		error : function() {
+			alert("수정 실패했습니다. 관리자에게 문의하세요.");
+		}
+	});
+});
+
+//댓글 작성
+$(document).on("click",".commentBtn",e=>{ //동적 태그에도 이벤트 부여
+	const comment=$(e.target).parent().find("textarea");
+	$.ajax({
+		url : "<%=request.getContextPath()%>/service/reportCommentInsert.do",
+		data : {
+			"writer" : "<%=loginMember != null ? loginMember.getUserId() : null%>",
+			"reportNo":<%=r.getReportNo()%>,
+			"commentContent":comment.val(),
+			"commentFK":$(".recomment>.commentWrite").find(".commentFK").val()
+		},
+		type : "post",
+		success : function(result) {
+			if (result) {
+				alert("댓글 등록됐습니다.");
+			}else{
+				alert("등록 실패했습니다.");
+			}
+			comment.val(''); //댓글 등록시 댓글 등록창 초기화
+			location.reload();
+		},
+		error : function() {
+			alert("등록 실패했습니다.");
+		}
+	});
+});
+</script>
+<script src="<%=request.getContextPath()%>/js/service/inquiryContent.js"></script>
 <%@ include file="/views/common/footer.jsp" %>

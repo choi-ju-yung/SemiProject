@@ -1,4 +1,4 @@
-package com.semi.sc.inquiry.controller;
+package com.semi.sc.report.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,22 +16,20 @@ import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 import com.google.gson.Gson;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
-import com.semi.sc.model.dto.Inquiry;
-import com.semi.sc.model.dto.ServiceFile;
-import com.semi.sc.service.BoardService;
-import com.semi.sc.service.InquiryService;
+import com.semi.sc.model.dto.Report;
+import com.semi.sc.model.dto.ReportList;
+import com.semi.sc.service.ReportService;
 
-/**
- * Servlet implementation class InquiryInsertEndServlet
- */
-@WebServlet("/service/inquiryInsertEnd.do")
-public class InquiryInsertEndServlet extends HttpServlet {
+
+@WebServlet("/service/reportProductInsertEnd.do")
+public class ReportProductInsertEndServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+       
+    
+    public ReportProductInsertEndServlet() {
+    }
 
-	public InquiryInsertEndServlet() {
-
-	}
-
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// multipart/form-data 형식의 요청인지 확인
 		if (!(ServletFileUpload.isMultipartContent(request))) {
@@ -41,38 +39,42 @@ public class InquiryInsertEndServlet extends HttpServlet {
 			request.getRequestDispatcher("/views/common/msg.jsp").forward(request, response);
 			return; // multipart타입이 아니면 리턴 처리
 		}
-		String path = request.getServletContext().getRealPath("/upload/inquiry");
+		String path = request.getServletContext().getRealPath("/upload/report");
 		int maxSize = 1024 * 1024 * 200; // 200MB
 		String encode = "UTF-8";
 		DefaultFileRenamePolicy dfr = new DefaultFileRenamePolicy();
 		MultipartRequest mr = new MultipartRequest(request, path, maxSize, encode, dfr);
 		
-		char secret;
-		if(mr.getParameter("secret")!=null) secret=mr.getParameter("secret").charAt(0);
-		else secret='N';
-		
-		Inquiry q=Inquiry.builder()
-				.inquiryTitle(mr.getParameter("title"))
-				.inquiryContent(mr.getParameter("content").replaceAll("\n", "<br>"))
-				.inquiryWriter(mr.getParameter("writer"))
-				.inquirySecret(secret)
+		//report info
+		Report r = Report.builder()
+				.reportCategory("RPODUCT")
+				.reportWriter(mr.getParameter("writer"))
+				.reportTitle(mr.getParameter("title"))
+				.reportContent(mr.getParameter("content"))
 				.build();
-		
+		// file
 		Enumeration<String> files = mr.getFileNames();
 		List<String> filesNames = new ArrayList();
-		while (files.hasMoreElements()) { //파일명 저장
+		while (files.hasMoreElements()) { // 파일명 저장
 			String fileName = files.nextElement();
 			filesNames.add(mr.getFilesystemName(fileName));
 		}
-		
-		int result=new InquiryService().insertInquiry(q, filesNames);
-		response.setContentType("application/json;charset=utf-8");
-		//글과 파일이 저장됐으면 true
-		new Gson().toJson(result>0?true:false,response.getWriter());
+		int result = 0;
+		int productId=Integer.parseInt(mr.getParameter("productId"));
+		// reportList
+		if (mr.getParameter("productId") != null) {
+			
+			result = new ReportService().insertReportProduct(r, filesNames, productId);
+			new Gson().toJson(result > 0 ? true : false, response.getWriter());
+		} else {
+			response.setContentType("application/json;charset=utf-8");
+			// 글과 파일이 저장됐으면 true
+			new Gson().toJson(false, response.getWriter());
+		}
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}

@@ -123,7 +123,7 @@ $(document).on("click",".updateCommentData",e=>{
 	console.log($div);
 	console.log(newData);
 	$.ajax({
-		url : "<%=request.getContextPath()%>/service/commentUpdate.do",
+		url : "<%=request.getContextPath()%>/service/inquiryCommentUpdate.do",
 		data : {
 			"commentNo":$div.prev().val(),
 			"content":newData
