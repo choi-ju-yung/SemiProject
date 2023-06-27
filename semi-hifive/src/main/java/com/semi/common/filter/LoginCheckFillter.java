@@ -22,29 +22,23 @@ import com.semi.member.model.vo.Member;
 @WebFilter(urlPatterns = {
 		"/service/inquiryInsert.do","/service/commentInsert.do","/service/boardInsert.do"
 		,"/service/reportList.do","/service/inquiryContent.do","/service/commentDelete.do"
-		,"/service/commentUpdate.do","/productRegist.do"
+		,"/service/commentUpdate.do","/productRegist.do","/service/reportContent.do"
+
 
 })
 public class LoginCheckFillter extends HttpFilter implements Filter {
-       
-    /**
-     * @see HttpFilter#HttpFilter()
-     */
+
     public LoginCheckFillter() {
         super();
         // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see Filter#destroy()
-	 */
+
 	public void destroy() {
 		// TODO Auto-generated method stub
 	}
 
-	/**
-	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
-	 */
+
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		// TODO Auto-generated method stub
 		// place your code here
@@ -54,7 +48,6 @@ public class LoginCheckFillter extends HttpFilter implements Filter {
 			request.setAttribute("msg", "로그인 후 사용하세요.");
 			request.setAttribute("loc", "/loginView.do");
 			request.getRequestDispatcher("/views/common/msg.jsp").forward(request, response);
-			return;
 		} else {
 			
 		}
@@ -62,9 +55,7 @@ public class LoginCheckFillter extends HttpFilter implements Filter {
 		chain.doFilter(request, response);
 	}
 
-	/**
-	 * @see Filter#init(FilterConfig)
-	 */
+
 	public void init(FilterConfig fConfig) throws ServletException {
 		// TODO Auto-generated method stub
 	}

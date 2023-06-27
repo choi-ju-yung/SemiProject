@@ -199,6 +199,7 @@ public class InquiryDao {
 		return comments;
 	}
 
+	//댓글 추가
 	public int insertComment(Connection conn, BoardComment bc) {
 		PreparedStatement pstmt=null;
 		int result=0;
@@ -209,6 +210,39 @@ public class InquiryDao {
 			pstmt.setString(1, bc.getCommentWriter());
 			pstmt.setInt(2, bc.getBoardNo());
 			pstmt.setString(3, bc.getCommentContent());
+			result=pstmt.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+	//댓글 삭제
+	public int deleteComment(Connection conn, int commentNo) {
+		PreparedStatement pstmt=null;
+		int result=0;
+		try {
+			pstmt=conn.prepareStatement(sql.getProperty("deleteComment"));
+			pstmt.setInt(1, commentNo);
+			result=pstmt.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+	//댓글 수정
+	public int updateComment(Connection conn, int commentNo, String data) {
+		PreparedStatement pstmt=null;
+		int result=0;
+		try {
+			pstmt=conn.prepareStatement(sql.getProperty("updateComment"));
+			pstmt.setString(1, data);
+			pstmt.setInt(2, commentNo);
 			result=pstmt.executeUpdate();
 		}catch(SQLException e) {
 			e.printStackTrace();

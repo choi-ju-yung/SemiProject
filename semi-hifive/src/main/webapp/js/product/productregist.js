@@ -155,12 +155,12 @@ priceValue.addEventListener("keyup", function() {
 const spanTitle = $("#spanTitle");
 // ==== 제목 글자수 세주는 작업=====
 $(".inputTitle").keyup(e => { // 해당 텍스트부분을 입력할 때
-	$(".countTitle").text($(e.target).val().length + "/40");
+	$(".countTitle").text($(e.target).val().length + "/20");
 	const length = $(e.target).val().length;
 	
-	if (length>40) {
-		alert("40글자 이하로 작성하세요");
-		$(e.target).val($(e.target).val().substring(0, 40));
+	if (length>20) {
+		alert("20글자 이하로 작성하세요");
+		$(e.target).val($(e.target).val().substring(0, 20));
 		checkProductRegist.productTitle=false;
 	}
 	
@@ -175,7 +175,7 @@ $(".inputTitle").keyup(e => { // 해당 텍스트부분을 입력할 때
 		checkProductRegist.productTitle=true;
 	}
 	
-	$(".countTitle").text($(e.target).val().length + "/40");
+	$(".countTitle").text($(e.target).val().length + "/20");
 })
 
 
