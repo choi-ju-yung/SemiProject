@@ -388,11 +388,9 @@ List<ProductCommentUser> comments = (List) request.getAttribute("comments");
 					<p>아이폰14pro 128기가</p></a>
 			</div>
 			<div class="rProduct">
-            <a href=""
-              ><img src="./img/연관6.jpg" alt="" />
-              <p>중고폰매입 파손폰매입…</p></a
-            >
-          </div> —>
+            <a href=""><img src="./img/연관6.jpg" alt="" />
+              <p>중고폰매입 파손폰매입…</p></a>
+          </div>
 		</div>
 	</div>
 	<%} else{%>

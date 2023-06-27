@@ -22,18 +22,21 @@ public class ReportService {
 		close(conn);
 		return count;
 	}
+	
 	public List<Report> selectReportList(int cPage, int numPerpage, String loginId) {
 		Connection conn=getConnection();
 		List<Report> reportList=dao.selectReportList(conn, cPage, numPerpage, loginId);
 		close(conn);
 		return reportList;
 	}
+	
 	public List<Product> selectBuyList(String loginId) {
 		Connection conn=getConnection();
 		List<Product> buyList=dao.selectBuyList(conn, loginId);
 		close(conn);
 		return buyList;
 	}
+	
 	public int insertReportBuyList(Report r, List<String> filesNames, List<ReportList> buyList) {
 		Connection conn=getConnection();
 		int result=dao.insertReportBoard(conn, r);
@@ -48,24 +51,28 @@ public class ReportService {
 		else rollback(conn);
 		return result;
 	}
+	
 	public Report selectReportContent(int reportNo) {
 		Connection conn=getConnection();
 		Report r=dao.selectReportContent(conn, reportNo);
 		close(conn);
 		return r;
 	}
+	
 	public List<ServiceFile> selectReportFile(int reportNo) {
 		Connection conn=getConnection();
 		List<ServiceFile> files=dao.selectReportFile(conn, reportNo);
 		close(conn);
 		return files;
 	}
+	
 	public List<BoardComment> selectReportComment(int reportNo) {
 		Connection conn=getConnection();
 		List<BoardComment> comments=dao.selectReportComment(conn, reportNo);
 		close(conn);
 		return comments;
 	}
+	
 	public int insertComment(BoardComment bc) {
 		Connection conn=getConnection();
 		int result=dao.insertComment(conn, bc);
@@ -73,6 +80,7 @@ public class ReportService {
 		else rollback(conn);
 		return result;
 	}
+	
 	public int deleteComment(int commentNo) {
 		Connection conn=getConnection();
 		int result=dao.deleteComment(conn, commentNo);
@@ -80,6 +88,7 @@ public class ReportService {
 		else rollback(conn);
 		return result;
 	}
+	
 	public int updateComment(int commentNo, String data) {
 		Connection conn=getConnection();
 		int result=dao.updateComment(conn, commentNo, data);
@@ -87,16 +96,18 @@ public class ReportService {
 		else rollback(conn);
 		return result;
 	}
+	
 	public Product selectProductInfo(int productId) {
 		Connection conn=getConnection();
 		Product p=dao.selectProductInfo(conn, productId);
 		close(conn);
 		return p;
 	}
+	
 	public int insertReportProduct(Report r, List<String> filesNames, int productId) {
 		Connection conn=getConnection();
 		int result=dao.insertReportBoard(conn, r);
-		int fileresult=0, buyresult=0;
+		int fileresult=0;
 		for(String file:filesNames) {
 			fileresult+=dao.insertReportFile(conn, file);
 		}

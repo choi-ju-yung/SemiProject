@@ -329,6 +329,7 @@ public class ReportDao {
 		return result;
 	}
 
+	//신고글 정보 확인
 	public Product selectProductInfo(Connection conn, int productId) {
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
@@ -351,8 +352,20 @@ public class ReportDao {
 
 	//판매글을 신고 내역에 저장
 	public int insertReportList(Connection conn, Report r, int productId) {
-		
-		return 0;
+		PreparedStatement pstmt=null;
+		int result=0;
+		String query=sql.getProperty("insertReportListByProduct");
+		try {
+			query=query.replaceAll("#PI", productId!=0?String.valueOf(productId):"NULL");
+			pstmt=conn.prepareStatement(query);
+			pstmt.setString(1, r.getReportWriter());
+			result=pstmt.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return result;
 	}
 	
 	
