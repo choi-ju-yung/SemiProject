@@ -14,7 +14,7 @@ import com.semi.sc.service.ReportService;
 /**
  * Servlet implementation class ReportProductInsertServlet
  */
-@WebServlet("/service/reportProduct.do")
+@WebServlet("/service/reportProductInsert.do")
 public class ReportProductInsertServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
