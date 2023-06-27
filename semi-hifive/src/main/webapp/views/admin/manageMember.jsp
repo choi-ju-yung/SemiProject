@@ -12,6 +12,21 @@ List<Member> members = (List) request.getAttribute("members");
 
 
 <section class="info">
+			<div id="search-userId">
+				<form action="<%=request.getContextPath()%>/searchMember.do">
+					<select name="option" id="optionSelecter">
+						<option value="email">이메일</option>
+						<option value="user_id">아이디</option>
+						<option value="user_name">이름</option>
+						<option value="nickName">별명</option>
+					</select>
+					<input type="text" name="searchKeyword" size="25" placeholder="검색할 아이디를 입력하세요" value="">
+					<button class="searchBtn" type="submit">검색</button>
+				</form>
+			</div>
+			
+			
+			
 	
 	<div class="userTable">
 		<table class="table text-center">
@@ -144,9 +159,13 @@ List<Member> members = (List) request.getAttribute("members");
 			url: "deleteCheck",
 			data: {"arr": arr},  
 			success: function(result) {
-				console.log("선택삭제성공");
-				console.log(result);
-
+				if(result==1){
+					alert("성공적으로 삭제되었습니다.");
+					location.replace("/semi-hifive/memberList.do");
+				}else{
+					alert("오류로 인해 삭제가 실패했습니다");
+					location.replace("/semi-hifive/memberList.do");
+				}
 			},
 			error: function() {
 				console.log("선택삭제실패");

@@ -40,11 +40,8 @@ public class DeleteCheckServlet extends HttpServlet {
 		
 		int result = new AdminService().deleteCheckMember(sql);
 		
-		if(result>0) {
-			System.out.println("삭제정상완료");
-		}else {
-			System.out.println("실패");
-		}
+		response.getWriter().print(result);
+		
 	}
 
 	
