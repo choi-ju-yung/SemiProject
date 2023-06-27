@@ -19,7 +19,7 @@ import com.semi.category.model.vo.SubCategory;
 public class CategoryDao {
 	private Properties sql = new Properties();
 	{
-		String path = CategoryDao.class.getResource("/sql/product/category.sql.properties").getPath();
+		String path = CategoryDao.class.getResource("/sql/product/category_sql.properties").getPath();
 		
 		try {
 			sql.load(new FileReader(path));

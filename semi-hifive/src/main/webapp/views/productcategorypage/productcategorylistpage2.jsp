@@ -612,7 +612,8 @@ if (cookies != null) {
     			console.log(loginId)
     			console.log(productId)
     			console.log(data)
-    			if (data.length == 0) {
+    			if (data==null) {
+    				console.log("null 확인");
     				$.ajax({
     		    		url: "<%=request.getContextPath()%>/updatelike",
     		    		dataType: "json",
@@ -622,11 +623,11 @@ if (cookies != null) {
     		    		},
     		    		success: function(data) {
     		    			if (data > 0) {
+    		    				console.log("null success 실행");
     		    				$('.like').prop('checked');
     		    			}
     		    		}
     		    	});
-
     			} else {
     				$.ajax({
     		    		url: "<%=request.getContextPath()%>/deletelike",
