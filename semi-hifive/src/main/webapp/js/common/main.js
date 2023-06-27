@@ -3,7 +3,7 @@ const nextBtn = document.querySelector('.nextBtn');
 const slide = document.querySelector('.slide');
 const slideLength = document.querySelectorAll('.slide li').length;
 let currentSlide = 1;
-const IMAGE_WIDTH = 1000;
+const IMAGE_WIDTH = 1280;
 
 // 다음 버튼 클릭
 nextBtn.addEventListener('click', next);

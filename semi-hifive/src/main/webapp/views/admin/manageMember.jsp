@@ -3,7 +3,7 @@
 <%@ page import="java.util.List,com.semi.member.model.vo.Member"%>
 <%
 List<Member> members = (List) request.getAttribute("members");
-Member loginMember = (Member) session.getAttribute("loginMember");//여기 로그인멤버 
+
 %>
 
  <link rel="stylesheet" href="<%=request.getContextPath()%>/css/admin/manageMember.css" />
@@ -50,11 +50,9 @@ Member loginMember = (Member) session.getAttribute("loginMember");//여기 로�
 					<td><%=m.getDeclareCount()%></td>
 					<td><%=m.getEnrollDate()%></td>
 					<td><%=m.getTemperature()%></td>
-					<td><button type="button" class="btn btn-primary btn-sm"
-							onclick="location.replace('<%=request.getContextPath()%>/userUpdate.do?email=<%=m.getEmail()%>userId=<%=m.getUserId()%>')">수정</button>
+					<td><button id="<%=m.getUserId() %>" type="button" class="updateBtn btn btn-primary btn-sm">수정</button>
 						<button type="button" class="btn btn-danger btn-sm"
-							onclick="location.replace('<%=request.getContextPath()%>/userRemove.do?email=<%=m.getEmail()%>');">삭제</button></td>
-							
+							onclick="location.replace('<%=request.getContextPath()%>/userRemove.do?email=<%=m.getEmail()%>');">삭제</button></td>	
 				</tr>
 				<%
 					}
@@ -70,8 +68,6 @@ Member loginMember = (Member) session.getAttribute("loginMember");//여기 로�
 	</div>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 	<script>
-
-	
 	
 	$().ready(function () {
         $("#userRemoveAll").click(function () {
@@ -92,6 +88,36 @@ Member loginMember = (Member) session.getAttribute("loginMember");//여기 로�
             })
         });
     });
+	
+	$(".updateBtn").click(e=>{
+		const userId = $(e.target)[0].id;
+		var width = '600';
+		var height = '700';
+		let left = Math.ceil((window.screen.width - width) / 2);
+		let top = Math.ceil((window.screen.height - height) / 2);
+		/* 마이페이지 memberdao */
+		open("<%=request.getContextPath()%>/userUpdate.do?userId=" + userId, "_blank", 'width=' + width + ', height=' + height + ', left=' + left + ', top = ' + top);
+	}
+	)
+	
+	/* function updateUser(){	
+		console.log(e);
+		$.ajax({
+			url: "/userUpdate.do",
+			data: { "userId": 
+					""
+			},
+			success: function(result) {
+	
+			
+			},
+			error: function() {
+				console.log("카테고리 선택 오류발생");
+			}
+		})
+	} */
+	
+	
 	</script>
 
 </section>

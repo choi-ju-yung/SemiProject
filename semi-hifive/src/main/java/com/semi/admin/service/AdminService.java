@@ -42,6 +42,15 @@ public class AdminService {
 		close(conn);
 		return result;
 	}
+	//userName,nickName,declareCount,enrollDate,temp,email
+	
+	public int updateMember(String userName,String nickName,String declareCount, String enrollDate, String temp, String email) {
+		Connection conn=getConnection();
+		int result = dao.updateMember(conn,userName,nickName,declareCount,enrollDate,temp,email);
+		close(conn);
+		return result;
+	}
+	
 	
 }
 

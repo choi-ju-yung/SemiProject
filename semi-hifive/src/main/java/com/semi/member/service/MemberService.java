@@ -21,6 +21,15 @@ public class MemberService {
       return m;
    }
    
+   
+   public Member selectByUser(String userId) {
+	      Connection conn=getConnection(); // jdbc 연결객체
+	      Member m=dao.selectByUser(conn,userId);
+	      close(conn);
+	      return m;
+	   }
+   
+   
    // 회원가입 진행시 회원정보 추가하는 서비스
    public int insertMember(Member m) {
       Connection conn = getConnection();
