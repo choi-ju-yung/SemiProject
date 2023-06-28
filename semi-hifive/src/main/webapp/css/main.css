@@ -18,31 +18,32 @@
 }
 /* 이미지 크기 */
 .slide li>img {
-    border-radius: 10px;
+    border-radius: 30px;
     height: 420px;
     width: 1280px;
 }
 div.btnContainer{
-    position : relative;;
+    position : relative;
 }
 /* 슬라이드 버튼 */
 .btn{
-    background-color: rgba(255, 255, 255, 0.329);
+    background-color: transparent;
     width: 50px;
     height: 50px;
-    border-radius: 10px;
     border: 0px;
     font-size: 30px;
+    cursor:pointer;
+    color: #313030;
 }
 .prevBtn{
     position: absolute;
     top: 180px;
-    left : 40px; 
+    left : 10px; 
 }
 .nextBtn{
     position: absolute;
     top: 180px;
-    right: 40px;
+    right: 10px;
 }
 
             /* 배너 */
@@ -55,13 +56,13 @@ div.btnContainer{
             /* 카테고리 */
             .mainCategoryDiv {
                 margin: 15px;
-                margin-top: 80px;
-                margin-bottom: 80px;
+                margin-top: 60px;
+                margin-bottom: 60px;
                 /* border: 1px solid red; */
                 height: 150px;
 
                 display: flex;
-                justify-content: space-between;
+                justify-content: space-around;
                 align-items: center;
             }
 
@@ -71,14 +72,28 @@ div.btnContainer{
                 justify-content: center;
             }
 
-            .categoryBg {
-                width: 100px;
-                height: 100px;
+            .categoryBgAll {
+                width: 95px;
+                height: 95px;
                 background-color: #20c994;
                 border-radius: 35px;
                 display: flex;
                 align-items: center;
                 justify-content: center;
+            }
+            
+            .categoryBg {
+                width: 95px;
+                height: 95px;
+                background-color: #ccc;
+                border-radius: 35px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            
+            .categoryBg:hover{
+            	background-color: #20c994;
             }
 
             .cateIcon {
@@ -88,7 +103,7 @@ div.btnContainer{
 
             .spanDiv {
                 display: flex;
-                margin-top: 8px;
+                margin-top: 10px;
                 justify-content: center;
             }
 

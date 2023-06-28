@@ -38,15 +38,17 @@
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>   
 
+<%@ include file="/views/common/header.jsp" %>
+<section>
       <div id="wraperContainer">
         <div id="leftCategory">
-        <div id="filter">
+        <!-- <div id="filter">
 			<div id="filterMain">
                 <span id="pddfilter"><b>필터</b></span>
 			</div>
 			<div class="plusFilter">
 			</div>	        
-        </div>
+        </div> -->
           <div id="pdcContainer">
             <div class="pdcCategoryMain">
               <span
@@ -68,7 +70,7 @@
                     <div class="pdcCategory">
                     <%for(Category c : selectcategory) {
                     	if(c.getCategoryId().equals("A")){%>
-                      <span><%=c.getCategoryName()%></span>
+                      <span onclick="category_btn('<%=c.getCategoryName()%>')"><%=c.getCategoryName()%></span>
                       <%} } %>
                       <i
                         class="fa fa-plus-square"
@@ -82,7 +84,7 @@
                         <%for(CategorySubCategory sc : categorylist){
                         	if(sc.getCategory().getCategoryId().equals("A")) {%>
                         <ul>
-                          <li><a href='javascript:void(0);'><%=sc.getSubCategory().getSubcategoryName()%></a></li>
+                          <li><a href="<%=request.getContextPath()%>/searchheadersubcategory.do?subcategroyname=<%=sc.getSubCategory().getSubcategoryName()%>"><%=sc.getSubCategory().getSubcategoryName()%></a></li>
                         </ul>
                         <%} }%>
                       </div>
@@ -105,7 +107,7 @@
                         <%for(CategorySubCategory sc : categorylist){
                         	if(sc.getCategory().getCategoryId().equals("B")) {%>
                         <ul>
-                          <li><a href='javascript:void(0);'><%=sc.getSubCategory().getSubcategoryName()%></a></li>
+                          <li><a href="<%=request.getContextPath()%>/searchheadersubcategory.do?subcategroyname=<%=sc.getSubCategory().getSubcategoryName()%>"><%=sc.getSubCategory().getSubcategoryName()%></a></li>
                         </ul>
                         <%} }%>
                       </div>
@@ -127,7 +129,7 @@
                         <%for(CategorySubCategory sc : categorylist){
                         	if(sc.getCategory().getCategoryId().equals("C")) {%>
                         <ul>
-                          <li><a href='javascript:void(0);'><%=sc.getSubCategory().getSubcategoryName()%></a></li>
+                          <li><a href="<%=request.getContextPath()%>/searchheadersubcategory.do?subcategroyname=<%=sc.getSubCategory().getSubcategoryName()%>"><%=sc.getSubCategory().getSubcategoryName()%></a></li>
                         </ul>
                         <%} }%>
                       </div>
@@ -149,7 +151,7 @@
                         <%for(CategorySubCategory sc : categorylist){
                         	if(sc.getCategory().getCategoryId().equals("D")) {%>
                         <ul>
-                          <li><a href='javascript:void(0);'><%=sc.getSubCategory().getSubcategoryName()%></a></li>
+                          <li><a href="<%=request.getContextPath()%>/searchheadersubcategory.do?subcategroyname=<%=sc.getSubCategory().getSubcategoryName()%>"><%=sc.getSubCategory().getSubcategoryName()%></a></li>
                         </ul>
                         <%} }%>
                       </div>
@@ -171,7 +173,7 @@
                        <%for(CategorySubCategory sc : categorylist){
                         	if(sc.getCategory().getCategoryId().equals("E")) {%>
                         <ul>
-                          <li><a href='javascript:void(0);'><%=sc.getSubCategory().getSubcategoryName()%></a></li>
+                          <li><a href="<%=request.getContextPath()%>/searchheadersubcategory.do?subcategroyname=<%=sc.getSubCategory().getSubcategoryName()%>"><%=sc.getSubCategory().getSubcategoryName()%></a></li>
                         </ul>
                         <%} }%>
                       </div>
@@ -193,7 +195,7 @@
                         <%for(CategorySubCategory sc : categorylist){
                         	if(sc.getCategory().getCategoryId().equals("F")) {%>
                         <ul>
-                          <li><a href='javascript:void(0);'><%=sc.getSubCategory().getSubcategoryName()%></a></li>
+                          <li><a href="<%=request.getContextPath()%>/searchheadersubcategory.do?subcategroyname=<%=sc.getSubCategory().getSubcategoryName()%>"><%=sc.getSubCategory().getSubcategoryName()%></a></li>
                         </ul>
                         <%} }%>
                       </div>
@@ -215,7 +217,7 @@
                         <%for(CategorySubCategory sc : categorylist){
                         	if(sc.getCategory().getCategoryId().equals("G")) {%>
                         <ul>
-                          <li><a href='javascript:void(0);'><%=sc.getSubCategory().getSubcategoryName()%></a></li>
+                          <li><a href="<%=request.getContextPath()%>/searchheadersubcategory.do?subcategroyname=<%=sc.getSubCategory().getSubcategoryName()%>"><%=sc.getSubCategory().getSubcategoryName()%></a></li>
                         </ul>
                         <%} }%>
                       </div>
@@ -237,7 +239,7 @@
                         <%for(CategorySubCategory sc : categorylist){
                         	if(sc.getCategory().getCategoryId().equals("H")) {%>
                         <ul>
-                          <li><a href='javascript:void(0);'><%=sc.getSubCategory().getSubcategoryName()%></a></li>
+                          <li><a href="<%=request.getContextPath()%>/searchheadersubcategory.do?subcategroyname=<%=sc.getSubCategory().getSubcategoryName()%>"><%=sc.getSubCategory().getSubcategoryName()%></a></li>
                         </ul>
                         <%} }%>
                       </div>
@@ -259,7 +261,7 @@
                         <%for(CategorySubCategory sc : categorylist){
                         	if(sc.getCategory().getCategoryId().equals("I")) {%>
                         <ul>
-                          <li><a href='javascript:void(0);'><%=sc.getSubCategory().getSubcategoryName()%></a></li>
+                          <li><a href="<%=request.getContextPath()%>/searchheadersubcategory.do?subcategroyname=<%=sc.getSubCategory().getSubcategoryName()%>"><%=sc.getSubCategory().getSubcategoryName()%></a></li>
                         </ul>
                         <%} }%>
                       </div>
@@ -281,7 +283,7 @@
                         <%for(CategorySubCategory sc : categorylist){
                         	if(sc.getCategory().getCategoryId().equals("J")) {%>
                         <ul>
-                          <li><a href='javascript:void(0);'><%=sc.getSubCategory().getSubcategoryName()%></a></li>
+                          <li><a href="<%=request.getContextPath()%>/searchheadersubcategory.do?subcategroyname=<%=sc.getSubCategory().getSubcategoryName()%>"><%=sc.getSubCategory().getSubcategoryName()%></a></li>
                         </ul>
                         <%} }%>
                       </div>
@@ -384,7 +386,7 @@
                     class="prcinput"
                     placeholder="최소값"
                     maxlength="10"
-                    onkeyup="inputNumberFormat(this);"
+                    oninput="inputNumberFormat(this);"
                   />
                   <div class="highlight"></div>
                 </div>
@@ -513,8 +515,66 @@
 		   	 </div>	
           </div>
         </div>
+</section>
+<script>
+//카테고리 클릭시 서블릿으로 이동
+function category_btn(categoryname){
+	window.location.href = "<%=request.getContextPath()%>/headersearchcategory.do?categoryname="+categoryname;
+};
 
-    <script>
+$("#prdCategory label").click(function() {
+    var spanText = $(this).find("span").text();
+
+    if (spanText === "전체") {
+        window.location.href = "<%=request.getContextPath()%>/headercategories.do";
+    } else if (spanText === "미개봉") {
+        window.location.href = "<%=request.getContextPath()%>/statuslist?status=" + spanText;
+    } else if (spanText === "사용감 있음") {
+        window.location.href = "<%=request.getContextPath()%>/statuslist?status=" + spanText;
+    }
+});
+//조건된 가격을 클릭할때 출력하는 함수
+$(".radio-buttons .radio-button").click(function(e) {
+	   
+		var selectedOption = $(this).find("input").val();
+		
+		if(selectedOption === "option0"){
+			window.location.href = "<%=request.getContextPath()%>/categoryproductlist.do"
+		} else if (selectedOption === "option1") {
+			selectedOption = "<= 100000";
+			window.location.href = "<%=request.getContextPath()%>/pricesearch?price="+selectedOption;
+		} else if (selectedOption === "option2") {
+			selectedOption = "BETWEEN 100000 AND 300000";
+			window.location.href = "<%=request.getContextPath()%>/pricesearch?price="+selectedOption;
+		} else if (selectedOption === "option3") {
+			selectedOption = "BETWEEN 300000 AND 500000";
+			window.location.href = "<%=request.getContextPath()%>/pricesearch?price="+selectedOption;
+		} else if (selectedOption === "option4") {
+			selectedOption = "BETWEEN 500000 AND 1000000";
+			window.location.href = "<%=request.getContextPath()%>/pricesearch?price="+selectedOption;
+		} else if (selectedOption === "option5") {
+			selectedOption = "+>= 1000000";
+			window.location.href = "<%=request.getContextPath()%>/pricesearch?price="+selectedOption;
+		}
+	});	
+//input태그에 검색한 가격
+$("#prcBtn").click(function() {
+	    var minPrice = $(".prcinput[name='text'][placeholder='최소값']").val();
+	    var maxPrice = $(".prcinput[name='text'][placeholder='최대값']").val();
+	    if (minPrice && maxPrice) {
+	    	window.location.href = "<%=request.getContextPath()%>/pricesearch?price="+"BETWEEN " + minPrice + " AND " + maxPrice;
+	    } 
+ 	});
+//지역검색클릭
+	$("#gugun1").change(function() {
+	    var selectedLocation = $('#sido1').val() + $(this).val();
+	    window.location.href = "<%=request.getContextPath()%>/areasearch?area="+selectedLocation;
+	  });
+
+</script>
+<script src="<%=request.getContextPath()%>/js/productsearchchartpage/test.js"></script>
+<%@ include file="/views/common/footer.jsp" %>
+  <%--   <script>
     //ajax로 페이징 처리한 페이지 바 선택시 출력해주는 함수
     function changePage(pageNo) {
         $.ajax({
@@ -529,7 +589,7 @@
                 $("section").html(data);
             }
         });
-    }
+    } --%>
     <%-- //대표카테고리 클릭시 출력 ajax
             function searchProduct(Cid){
            		$.ajax({
@@ -553,7 +613,7 @@
           		});
           	} --%>
            
-          	// 왼쪽 카테고리 밑에서 중복 조건 추가
+          	<%-- // 왼쪽 카테고리 밑에서 중복 조건 추가
    			
             $(document).ready(function() { 
             	let conditions = {};
@@ -711,9 +771,9 @@
 			                    }
 			                });
 		            	}
-	         }		
+	         }		 --%>
 	         	
-/* 	       $(document).ready(function() {
+/* 	       <!-- $(document).ready(function() {
 	        // 필터에 넣기
 	        	var currentFilters = 0; // 현재 필터 개수
 				var existingFilter = null; // 기존 필터 객체
@@ -782,8 +842,8 @@
 	        	// 클릭시 조건 삭제 함수
 	        	 	/* var currentFilters = 0; // 현재 필터 개수
 					var existingFilter = null; // 기존 필터 객체 */
-	              
-				function removeKeyFromProduct(conditions) {
+	               -->
+				<%-- function removeKeyFromProduct(conditions) {
 					var currentFilters = 0; // 현재 필터 개수
 					var existingFilter = null; // 기존 필터 객체
 					
@@ -833,11 +893,11 @@
 	           	// 키값으로 여러조건 가져오기 ajax
 	           	function getselectproduct(conditions){
 	           		 console.log(conditions);
-	           		  <%-- $.ajax({
+	           		  $.ajax({
 	           			url: "<%=request.getContextPath()%>/getproduct.do",
 	           			dateType: 'html',
 	           			data:conditions,
-	           			success: function(data){ --%>
+	           			success: function(data){
 	          				if(conditions['categoryname'] == null && conditions['subcategoryname'] == null && conditions['status'] == null && conditions['price'] == null && conditions['area'] == null) {
 	          					$.ajax({
 	          						url: "<%=request.getContextPath()%>/categoryproductlist.do",
@@ -944,29 +1004,10 @@
                existingFilter = null; // 기존 필터 객체 초기화
      }
            $(".plusFiterboxbtn button").on("click", removeKeyFromProduct);
-         
-           //
-           
-           
-
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-
-			
+          --%>
+      
 				
-			// 상품가격클릭시 필터에 적용
+			<!-- // 상품가격클릭시 필터에 적용
 		 		/* $('.radio-label').on('click', function() {
 		 			/* var currentFilters = 0; // 현재 필터 개수
 					var existingFilter = null; // 기존 필터 객체 */
@@ -1069,7 +1110,7 @@
         		getselectproduct(conditions);
         		console.log(conditions); */
              /*  }  */ 
-
+ -->
 
      
 
@@ -1094,7 +1135,7 @@
         
         
         
-/*          function removeKeyFromProduct(conditions) {
+<!-- /*          function removeKeyFromProduct(conditions) {
         	  $(document).on("click", ".plusFiterboxbtn button", function(event) {
         	    event.stopPropagation(); // 이벤트 버블링 방지
 
@@ -1207,7 +1248,7 @@
 				      existingFilter.attr('status', statusTag); // 필터의 태그 속성값 변경
 				      existingFilter.find('.plusFiterboxText').text(statusTag); // 필터의 텍스트 값 업데이트
 			    }
-   		 }); */ 
+   		 }); */  -->
    		<%-- function handleRecentlyClick() {
 				if(conditions['categoryname'] == null && conditions['subcategoryname'] == null && conditions['status'] == null && conditions['price'] == null && conditions['area'] == null){
 	                console.log(conditions);
@@ -1272,5 +1313,3 @@
 		                });
 	            	}
          }		 --%>
-    	</script>
-    <script src="<%=request.getContextPath()%>/js/productsearchchartpage/test.js"></script>
