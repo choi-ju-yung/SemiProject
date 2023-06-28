@@ -15,6 +15,7 @@ import java.util.Properties;
 import com.semi.category.model.vo.Category;
 import com.semi.product.model.vo.Product;
 import com.semi.product.model.vo.ProductFile;
+import com.semi.sc.model.dto.Report;
 
 public class ProductRegistDao {
 	private Properties sql=new Properties(); // Properties 파일객체 만듬
@@ -147,5 +148,64 @@ public class ProductRegistDao {
 	}
 	
 	
+	public Product selectProduct(Connection conn, String productId) {
+		PreparedStatement pstmt = null;
+		ResultSet rs =null;
+		Product p = null;
+		try {
+			pstmt=conn.prepareStatement(
+					sql.getProperty("selectProduct"));
+			pstmt.setString(1, productId);
+			rs=pstmt.executeQuery(); 
+			
+			if(rs.next()) {
+				p = new Product();
+				p = Product.builder()
+			            .productId(rs.getInt("PRODUCT_ID"))
+			            .userId(rs.getString("USER_ID"))
+			            .title(rs.getString("PRODUCT_TITLE"))
+			            .productStatus(rs.getString("PRODUCT_STATUS"))
+			            .price(rs.getInt("PRICE"))
+			            .explanation(rs.getString("EXPLANATION"))
+			            .keyword(rs.getString("KEYWORD"))
+			            .subCategoryName(rs.getString("SUBCATEGORY_NAME"))
+			            .areaName(rs.getString("AREA_NAME"))
+			            .build();
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rs);
+			close(pstmt);
+		}return p;
+	}
+	
+	
+	public List<ProductFile> selectProductFile(Connection conn,String productId){
+		PreparedStatement pstmt = null;
+		ResultSet rs =null;
+		
+		List<ProductFile> pff = new ArrayList();
+		try {
+			pstmt=conn.prepareStatement(
+					sql.getProperty("selectProductFile"));
+			pstmt.setString(1, productId);
+			rs=pstmt.executeQuery(); 
+			
+			while (rs.next()) {
+				pff.add(ProductFile.builder()
+			            .fileNo(rs.getInt("PRODUCT_FILE_NO"))
+			            .productId(rs.getInt("PRODUCT_ID"))
+			            .imageName(rs.getString("PRODUCT_IMAGE_NAME"))
+			            .mainImageYn(rs.getString("MAIN_IMAGE_YN").charAt(0))
+			            .build());
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rs);
+			close(pstmt);
+		}return pff;
+	}
 	
 }
