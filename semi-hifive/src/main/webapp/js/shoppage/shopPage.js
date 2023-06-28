@@ -41,7 +41,7 @@ $(document).on("click","#rsoon", e=>{
                 +"</div>"
               +"</div>"
               +"<a href="+getContextPath()+"/productpage?no="+item.product.productId+">"
-              +"<img src="+getContextPath()+"/upload/productRegist/"+item.productFile.imageName+"alt=''/>"
+               +"<img src='"+getContextPath()+"/upload/productRegist/"+item.productFile.imageName+"'alt=''/>"
                + "<p id='productName'>"+item.product.title+"</p>"
                + "<p id='productPrice'>"+item.product.price+"원"+ "<span>"+item.product.registTime+"</span></p>"
                 +"<p id='productPlace'>"
@@ -88,7 +88,7 @@ $(document).on("click","#psoon", e=>{
                 +"</div>"
               +"</div>"
                +"<a href="+getContextPath()+"/productpage?no="+item.product.productId+">"
-              +"<img src="+getContextPath()+"/upload/productRegist/"+item.productFile.imageName+"alt=''/>"
+            +"<img src='"+getContextPath()+"/upload/productRegist/"+item.productFile.imageName+"'alt=''/>"
                + "<p id='productName'>"+item.product.title+"</p>"
                + "<p id='productPrice'>"+item.product.price+"원"+ "<span>"+item.product.registTime+"</span></p>"
                 +"<p id='productPlace'>"
@@ -135,7 +135,7 @@ $(document).on("click","#hsoon", e=>{
                 +"</div>"
               +"</div>"
               +"<a href="+getContextPath()+"/productpage?no="+item.product.productId+">"
-              +"<img src="+getContextPath()+"/upload/productRegist/"+item.productFile.imageName+"alt=''/>"
+              +"<img src='"+getContextPath()+"/upload/productRegist/"+item.productFile.imageName+"'alt=''/>"
                + "<p id='productName'>"+item.product.title+"</p>"
                + "<p id='productPrice'>"+item.product.price+"원"+ "<span>"+item.product.registTime+"</span></p>"
                 +"<p id='productPlace'>"
@@ -182,7 +182,7 @@ $(document).on("click","#lsoon", e=>{
                 +"</div>"
               +"</div>"
                +"<a href="+getContextPath()+"/productpage?no="+item.product.productId+">"
-              +"<img src="+getContextPath()+"/upload/productRegist/"+item.productFile.imageName+"alt=''/>"
+              +"<img src='"+getContextPath()+"/upload/productRegist/"+item.productFile.imageName+"'alt=''/>"
                + "<p id='productName'>"+item.product.title+"</p>"
                + "<p id='productPrice'>"+item.product.price+"원"+ "<span>"+item.product.registTime+"</span></p>"
                 +"<p id='productPlace'>"
@@ -197,3 +197,10 @@ $(document).on("click","#lsoon", e=>{
 		}		
 	})
 })
+
+$(document).ready(function() {
+	$("#categoryFunction span").click(function() {
+	  $(this).addClass("active");
+	$("#categoryFunction span").not(this).removeClass("active");
+	});
+});

@@ -167,9 +167,9 @@ List<ProductCommentUser> comments = (List) request.getAttribute("comments");
 		<div class="introContainer">
 			<h3>상품정보</h3>
 			<div id="explanation">
-				<pre>
+				<p>
 		<%=p.getProduct().getExplanation()%>
-            </pre>
+            </p>
 			</div>
 			<div id="introTag">
 				<div class="introBox">

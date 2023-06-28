@@ -177,6 +177,10 @@
   color: #20c997;
   cursor: pointer;
 }
+#categoryFunction span.active{
+  color: #20c997;
+  font-weight: bold;
+}
 
 #productImgContainer {
   margin-top: 10px;

@@ -12,6 +12,7 @@ import com.semi.product.model.vo.Product;
 import com.semi.search.dao.SearchDao;
 import com.semi.search.model.vo.Search;
 import com.semi.search.model.vo.SearchCount;
+import com.semi.shop.model.vo.ProductList;
 public class SearchService {
 	
 	SearchDao dao=new SearchDao();
@@ -25,16 +26,16 @@ public class SearchService {
 		return result;
 	}
 
-	public List<Product> searchTitle(String content){
+	public List<ProductList> searchTitle(String content){
 		Connection conn=getConnection();
-		List<Product> searchList=dao.searchTitle(conn,content);
+		List<ProductList> searchList=dao.searchTitle(conn,content);
 		close(conn);
 		return searchList;
 	}
 	
-	public List<Product> searchKeyWord(String content){
+	public List<ProductList> searchKeyWord(String content){
 		Connection conn=getConnection();
-		List<Product> searchList=dao.searchKeyWord(conn,content);
+		List<ProductList> searchList=dao.searchKeyWord(conn,content);
 		close(conn);
 		return searchList;
 	}
@@ -49,6 +50,13 @@ public class SearchService {
 	public List<Search> printSearch(){
 		Connection conn=getConnection();
 		List<Search> searchList=dao.printSearch(conn);
+		close(conn);
+		return searchList;
+	}
+	
+	public List<ProductList> allSoon(String content, String soon){
+		Connection conn=getConnection();
+		List<ProductList> searchList=dao.allSoon(conn,content,soon);
 		close(conn);
 		return searchList;
 	}
