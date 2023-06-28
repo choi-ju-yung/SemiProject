@@ -6,7 +6,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-	List<ProductCategoryTimeList> productlist = (List)request.getAttribute("productlist");
+	List<ProductCategoryTimeList> productlist = (List)request.getAttribute("getselectproduct");
 %>
 <%
 	List<CategorySubCategory> categorylist = (List)request.getAttribute("categorylist");
@@ -14,22 +14,7 @@
 <%
 	List<Category> selectcategory = (List)request.getAttribute("category");
 %>
-<%
-Member loginMember = (Member) session.getAttribute("loginMember");//여기 로그인멤버 
-Cookie[] cookies = request.getCookies(); // 존재하는 쿠키들 다 갖고옴 
-String saveId = null;
-if (cookies != null) {
-   for (Cookie c : cookies) {
-      if (c.getName().equals("saveId")) {
-   saveId = c.getValue();
-   break;
-      }
-   }
-}
-%>
-<script>
-   sessionStorage.setItem("loginId",'<%=loginMember!=null?loginMember.getUserId():""%>');
-</script>
+
     <link rel="stylesheet" href="<%=request.getContextPath()%>/css/productsearchchartpage.css" />
     <link rel="stylesheet" href="<%=request.getContextPath()%>/css/page.css" />
     <link
@@ -53,7 +38,8 @@ if (cookies != null) {
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>   
-
+<%@ include file="/views/common/header.jsp" %>
+<section>
       <div id="wraperContainer">
         <div id="leftCategory">
         <div id="filter">
@@ -440,13 +426,13 @@ if (cookies != null) {
         <div id="productContainer">
           <div id="selectCategory">
             <div id="categoryName">
-              <h4>전체   <span><%=request.getAttribute("totalData")%></span></h4>
+              <h4><span><%=request.getAttribute("totalData")%></span></h4>
             </div>
             <div id="categoryFunction">
-              <span id ="recently" onclick="handleRecentlyClick();">최신순</span>
-              <span id ="popular" onclick="handleRecentlyClick();">인기도순</span>
-              <span id ="desc" onclick="handleDescClick();">최고가순</span>
-              <span id ="asc" onclick="handleAscClick();">최저가순</span>
+              <span id ="recently" >최신순</span>
+              <span id ="popular">인기도순</span>
+              <span id ="desc" >최고가순</span>
+              <span id ="asc">최저가순</span>
             </div>
           </div>
           <div id="contentdata">
@@ -454,8 +440,8 @@ if (cookies != null) {
 	          
 	      		<%for(ProductCategoryTimeList p : productlist){%>
 	            <div id="pimgWraper" onclick="location.assign('<%=request.getContextPath()%>/productpage?no=<%=p.getProductCategoryList().getProductId()%>'); ResentlyProduct('<%=p.getProductCategoryList().getProductId()%>');">
-	              <div class="con-like">
-	                <input title="like" type="checkbox" class="like" onclick="Like_btn('<%=p.getProductCategoryList().getProductId()%>', sessionStorage.getItem('loginId'));"/>
+	              <div class="con-like" onclick="Like_btn('<%=p.getProductCategoryList().getProductId()%>', sessionStorage.getItem('loginId'));" >
+	                <input title="like" type="checkbox" class="like"/>
 	                <div class="checkmark">
 	                  <svg
 	                    viewBox="0 0 24 24"
@@ -496,7 +482,7 @@ if (cookies != null) {
 	                  <span>하마페이</span>
 	                </div>
 	                <img
-	                  src="<%=request.getContextPath() %>/upload/productRegist/<%=p.getProductfile().getImageName()%>"
+	                  src="<%=request.getContextPath()%>/upload/productRegist/<%=p.getProductfile().getImageName()%>"
 	                  alt=""
 	                />
 	               <p id="productName"><%=p.getProductCategoryList().getProductTitle()%></p>
@@ -530,7 +516,7 @@ if (cookies != null) {
           </div>
         </div>
       </div>
-
+</section>
     <script>
     //ajax로 페이징 처리한 페이지 바 선택시 출력해주는 함수
     function changePage(pageNo) {
@@ -547,6 +533,166 @@ if (cookies != null) {
             }
         });
     }
+    // 중첩 카테고리 구현
+    		
+          	// 왼쪽 카테고리 밑에서 중복 조건 추가
+             $(document).ready(function() { 
+   				let conditions = {}; 
+   				let categoryName="";
+   				let subcategoryname="";
+   				 //상품 카테고리 태그 클릭시 출력하는 함수
+   				$(".pdcCategory span").click(function() {
+   					console.log('클릭');
+   					categoryName = $(this).text();
+    				conditions['categoryname'] = "CATEGORY_NAME = '" + categoryName + "'";
+    				
+    				
+    				console.log(conditions);
+    				getselectproduct(conditions);
+    			});
+   				// 서브카테고리
+   				 $(".collapse ul li").click(function(){
+   					console.log('클릭');
+   					 subcategoryname = $(this).text();
+   				  	 var categoryName = $(this).closest(".pdcCategory").find("span").text();
+
+   					 conditions['subcategoryname'] = "SUBCATEGORY_NAME = '" + subcategoryname +"'";
+   					 
+   				  
+   					console.log(conditions);
+   					getselectproduct(conditions);
+    				 });
+   				// 상품상태 태그 클릭시 출력하는 함수
+   				$("#prdCategory label").click(function() {
+    				var spanText = $(this).find("span").text();
+
+    				if (spanText === "전체") {
+      					conditions['status'] = "";
+    				} else if(spanText === "미개봉"){
+      					conditions['status'] = "SELL_STATUS = '" + spanText + "'";
+    				} else if(spanText === "사용감 있음"){
+    					conditions['status'] = "SELL_STATUS = '" + spanText + "'";
+    				}
+    				console.log(conditions);
+    				getselectproduct(conditions);
+   			});
+        	   // 조건된 가격을 클릭할때 출력하는 함수
+        	   $(".radio-buttons .radio-button").click(function(e) {
+        		   
+    				var selectedOption = $(this).find("input").val();
+					console.log(selectedOption);
+    				if(selectedOption === "option0"){
+    					conditions['price']= "";
+        	   		} else if (selectedOption === "option1") {
+      					conditions['price']="PRICE <= 100000 ";
+    				} else if (selectedOption === "option2") {
+    					conditions['price']="PRICE BETWEEN 100000 AND 300000";
+    				} else if (selectedOption === "option3") {
+    					conditions['price']="PRICE BETWEEN 300000 AND 500000";
+    				} else if (selectedOption === "option4") {
+    					conditions['price']="PRICE BETWEEN 500000 AND 1000000";
+    				} else if (selectedOption === "option5") {
+    					conditions['price']="PRICE >= 1000000";
+    				}
+    				console.log(conditions);
+    				getselectproduct(conditions);
+   				});	
+        	   
+        	   // input태그에 검색한 가격
+        	   $("#prcBtn").click(function() {
+        		    var minPrice = $(".prcinput[name='text'][placeholder='최소값']").val();
+        		    var maxPrice = $(".prcinput[name='text'][placeholder='최대값']").val();
+
+        		    
+        		    if (minPrice && maxPrice) {
+        		    	conditions['price']="PRICE BETWEEN " + minPrice + " AND " + maxPrice;
+        		    } 
+        		    console.log(conditions);
+        		    getselectproduct(conditions);
+ 	           	});
+	        	// 지역검색클릭
+	           	$("#gugun1").change(function() {
+	           		
+	           	    var selectedLocation = $('#sido1').val() + $(this).val();
+	           	    if (selectedLocation) {
+	           	    	conditions['area']="AREA_NAME LIKE '%" + selectedLocation + "%'";
+	           	    }
+	           	 	console.log(conditions);
+	           	    getselectproduct(conditions);
+ 	           	  });
+	        	//최신순
+	           	$("#recently").click(function() {
+	           		alert("최신");
+		            		$.ajax({
+			                    url: "<%=request.getContextPath()%>/resently",
+			                    dataType: 'html',
+			                    data: conditions,
+			                    success: function(data) {
+			                        $("#contentdata").html(data);
+			                    }
+			                });
+		            	});
+	           	//최고가순
+				$("#desc").click(function() {
+					alert("고가");
+	         		$.ajax({
+		                    url: "<%=request.getContextPath()%>/maxprice",
+		                    dataType: 'html',
+		                    data: conditions,
+		                    success: function(data) {
+		                        $("#contentdata").html(data);
+		                    }
+		                });
+	         	})
+	           	//최저가순
+	         $("#asc").click(function() {
+	        	 alert("저가");
+		            		$.ajax({
+			                    url: "<%=request.getContextPath()%>/minprice",
+			                    dataType: 'html',
+			                    data: conditions,
+			                    success: function(data) {
+			                        $("#contentdata").html(data);
+			                    }
+			                });
+		            	});
+	         $("#popular").click(function() {
+	        	 alert("인기순");
+			            		$.ajax({
+				                    url: "<%=request.getContextPath()%>/viewcount",
+				                    dataType: 'html',
+				                    data: conditions,
+				                    success: function(data) {
+				                        $("#contentdata").html(data);
+				                    }
+				                });
+			            	});
+	        	function getselectproduct(conditions){
+	           		 
+	           		$.ajax({
+	                    url: "<%=request.getContextPath()%>/ajaxGetproduct.do",
+	                    dataType: 'html',
+	                    data: conditions,
+	                    success: function(data) {
+	                    	$("#contentdata").html(data);
+	                        console.log(conditions['subcategoryname']);
+	                        console.log(conditions['categoryname']);
+	                        if (typeof conditions['subcategoryname']=='undefined' 
+	                        		&& typeof conditions['categoryname'] =='undefined') {
+		          			     $("#categoryName span").text("전체");
+			          		} else if (typeof conditions['subcategoryname']=='undefined'
+			          				&&typeof conditions['subcategoryname']!='undefined') {
+			          			$("#categoryName span").text(categoryName);
+			          		}else {
+			          			$("#categoryName span").text(categoryName + " > " + subcategoryname + "<%=request.getContextPath()%>");
+			          		}
+		               }
+	           	});
+	        }
+	        	
+	      });  
+    
+    
     // 최근 상품 쿠키 저장
    function ResentlyProduct(productId) {
     	$.ajax({
@@ -557,22 +703,8 @@ if (cookies != null) {
     			console.log(data);
     		}
     	});
+    }
     	
-    	
-    	/* var cookieValue = getCookie("productId");
-        if (cookieValue) {
-          $("#cookieValue").text("Stored Cookie Value: " + cookieValue);
-        } else {
-          $("#cookieValue").text("No stored cookie value found.");
-        } */
-    	
-    	
-    	
-    });
-    
-    
-    
-    
     //좋아요 ajax
      function Like_btn(productId, loginId){
     	event.stopPropagation();
@@ -599,7 +731,7 @@ if (cookies != null) {
     		    		success: function(data) {
     		    			if (data > 0) {
     		    				console.log("null success 실행");
-    		    				$('.like').prop('checked');
+    		    				console.log($('.like').prop('checked'));
     		    			}
     		    		}
     		    	});
@@ -615,7 +747,7 @@ if (cookies != null) {
 							console.log(loginId);
 							console.log(productId);
     		    			if (data > 0) {
-    		    				if (!$('.like').prop('checked'));
+    		    				console.log(!$('.like').prop('checked'));
     		    			}
     		    		}
     		    	});
@@ -683,11 +815,11 @@ if (cookies != null) {
           			}
           		});
           	} --%>
-          	let conditions = {};
+          	/* let conditions = {};
           	// 왼쪽 카테고리 밑에서 중복 조건 추가
             $(document).ready(function() { 
    				/* let conditions = {}; */
-   				let categoryName="";
+   				/* let categoryName="";
    				let subcategoryname="";
    				 //상품 카테고리 태그 클릭시 출력하는 함수
    				$(".pdcCategory span").click(function() {
@@ -772,7 +904,7 @@ if (cookies != null) {
 	           	 	console.log(conditions);
 	           	    getselectproduct(conditions);
  	           	 	removeKeyFromProduct(conditions);
- 	           	  });
+ 	           	  }); */
 	         	
 /* 	       $(document).ready(function() {
 	        // 필터에 넣기
@@ -844,7 +976,7 @@ if (cookies != null) {
 	        	 	/* var currentFilters = 0; // 현재 필터 개수
 					var existingFilter = null; // 기존 필터 객체 */
 	              
-				function removeKeyFromProduct(conditions) {
+				/* function removeKeyFromProduct(conditions) {
 					var currentFilters = 0; // 현재 필터 개수
 					var existingFilter = null; // 기존 필터 객체
 					
@@ -854,7 +986,7 @@ if (cookies != null) {
 	                    currentFilters--;// 현재 필터 개수 감소
 	                    existingFilter = null; // 기존 필터 객체 초기화  */
 
-	        		categoryname = $(this).closest(".plusFiterbox").attr("categoryname"); // 삭제할 키 값을 가져옴
+	        	/* 	categoryname = $(this).closest(".plusFiterbox").attr("categoryname"); // 삭제할 키 값을 가져옴
 	        		subcategoryname = $(this).closest(".plusFiterbox").attr("subcategoryname"); // 삭제할 키 값을 가져옴
 	        		status = $(this).closest(".plusFiterbox").attr("status"); // 삭제할 키 값을 가져옴
 	        		price = $(this).closest(".plusFiterbox").attr("price"); // 삭제할 키 값을 가져옴
@@ -876,8 +1008,7 @@ if (cookies != null) {
 	        		getselectproduct(conditions);
 	        		/* }); */
 	        		
-	              }
-					
+/* 	              }/*  */					
 	             <%-- $("#desc").click(function(){
 			        	$.ajax({
     			            url: "<%=request.getContextPath()%>/maxprice",
@@ -894,13 +1025,13 @@ if (cookies != null) {
     			        });
 			        }); --%>
 	           	// 키값으로 여러조건 가져오기 ajax
-	           	function getselectproduct(conditions){
+	           <%-- 	function getselectproduct(conditions){
 	           		 console.log(conditions);
-	           		 <%--  $.ajax({
+	           		  $.ajax({
 	           			url: "<%=request.getContextPath()%>/getproduct.do",
 	           			dateType: 'html',
 	           			data:conditions,
-	           			success: function(data){ --%>
+	           			success: function(data){
 	          				if(conditions['categoryname'] == null && conditions['subcategoryname'] == null && conditions['status'] == null && conditions['price'] == null && conditions['area'] == null) {
 	          					$.ajax({
 	          						url: "<%=request.getContextPath()%>/categoryproductlist.do",
@@ -935,12 +1066,12 @@ if (cookies != null) {
 	    	 	
 	    	 	}); */
 	        	   
-	            }); 
+	            });  --%>
 	    	
            	//필터에 넣어주
          
            //
-           function handleRecentlyClick() {
+ <%--           function handleRecentlyClick() {
 					if(conditions['categoryname'] == null && conditions['subcategoryname'] == null && conditions['status'] == null && conditions['price'] == null && conditions['area'] == null){
 		                console.log(conditions);
 						$.ajax({
@@ -1003,10 +1134,10 @@ if (cookies != null) {
 			                    }
 			                });
 		            	}
-	         }	
+	         }	 --%>
            
            
-var currentFilters = 0; // 현재 필터 개수
+/* var currentFilters = 0; // 현재 필터 개수
 var existingFilters = []; // 기존 필터 객체 배열
 
 function addFilter(categoryName) {
@@ -1019,14 +1150,14 @@ function addFilter(categoryName) {
   $('.plusFilter').append(newFilter); // 필터 컨테이너에 새로운 필터 추가
   existingFilters.push(newFilter); // 기존 필터 객체 배열에 추가
   currentFilters++; // 현재 필터 개수 증가
-}
+} */
 
 /* function updateFilterText(filter, categoryName) {
   filter.attr('categoryName', categoryName);
   filter.find('.plusFiterboxText').text(categoryName);
 } */
 
-function removeFilter(filter) {
+/* function removeFilter(filter) {
   filter.remove();
   existingFilters.splice(existingFilters.indexOf(filter), 1); // 기존 필터 객체 배열에서 제거
   currentFilters--; // 현재 필터 개수 감소
@@ -1071,7 +1202,7 @@ $('.statusbtn span').on('click', function() {
 $(document).on('click', '.plusFiterboxbtn button', function() {
   var filterIndex = $(this).closest('.plusFiterbox').index();
   removeFilter(existingFilters[filterIndex]);
-});
+}); */
            
            
            

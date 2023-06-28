@@ -227,7 +227,7 @@ function HeaderCategoryMenu() {
         url: "<%=request.getContextPath()%>/headercategories.do",
         dataType: 'json',
         success: function(data) {
-           $("#menuList>ul").html("<li><a href='<%=request.getContextPath()%>/categoryproductlist.do' id='category0'>전체</a></li>");
+           $("#menuList>ul").html("<li><a href='<%=request.getContextPath()%>/getproduct.do' id='category0'>전체</a></li>");
             data.main.forEach(function(category,index) {
                 makeCategoryHeader(category.categoryName, index);
                 const subCategory=data.sub.filter(cate=>cate.category.categoryName==category.categoryName);
@@ -270,11 +270,11 @@ function HeaderCategoryMenu() {
     $li.append($a);
     $("#menuList>ul").append($li);
 } */
-
 function makeCategoryHeader(name, index) {
-	   
+	categoryname = "CATEGORY_NAME = '" + name + "'";
     const $li = $("<li>");
-    const $a = $("<a>").attr("href", "<%=request.getContextPath()%>/headersearchcategory.do?categoryname="+name).attr("id", "category" + (index + 1)).text(name);
+     const $a = $("<a>").attr("href", "<%=request.getContextPath()%>/getproduct.do?categoryname="+categoryname).attr("id", "category" + (index + 1)).text(name);
+     <%-- const $a = $("<a>").attr("href", "<%=request.getContextPath()%>/headersearchcategory.do?categoryname="+name).attr("id", "category" + (index + 1)).text(name); --%> 
     $li.append($a);
 	$("#menuList>ul").append($li);
 }
@@ -282,8 +282,10 @@ function makeCatetorySub(subcateList, index) {
     const $div=$("<div>").attr({"id":"sideMenu-category"+(index+1),"class":"sideMenu"});
     const $ul=$("<ul>");
     subcateList.forEach(sub=>{
-           const $a = $("<a>").attr("href", "<%=request.getContextPath()%>/searchheadersubcategory.do?subcategroyname="+sub.subCategory.subcategoryName).text(sub.subCategory.subcategoryName);
-           const $li = $("<li>").append($a);
+    	subcategoryname = "SUBCATEGORY_NAME = '" + sub.subCategory.subcategoryName +"'";
+    	const $a = $("<a>").attr("href", "<%=request.getContextPath()%>/getproduct.do?subcategroyname="+subcategoryname).text(sub.subCategory.subcategoryName);
+<%--            const $a = $("<a>").attr("href", "<%=request.getContextPath()%>/searchheadersubcategory.do?subcategroyname="+sub.subCategory.subcategoryName).text(sub.subCategory.subcategoryName);
+ --%>           const $li = $("<li>").append($a);
            $ul.append($li);
     });
 $div.html($ul);
@@ -291,7 +293,6 @@ $("div#menuList").after($div);
 
 }
 
-    
      /* function makeCatetorySub(subcateList, index) {
        const $div=$("<div>").attr({"id":"sideMenu-category"+(index+1),"class":"sideMenu"});
        const $ul=$("<ul>");

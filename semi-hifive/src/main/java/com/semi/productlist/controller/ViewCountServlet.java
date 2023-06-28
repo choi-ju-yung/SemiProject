@@ -13,16 +13,16 @@ import com.semi.productlist.model.service.ProductCategoryListService;
 import com.semi.productlist.model.vo.ProductCategoryTimeList;
 
 /**
- * Servlet implementation class MinPriceAjax
+ * Servlet implementation class ViewCountServlet
  */
-@WebServlet("/minprice")
-public class MinPriceAjax extends HttpServlet {
+@WebServlet("/viewcount")
+public class ViewCountServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public MinPriceAjax() {
+    public ViewCountServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -71,7 +71,7 @@ public class MinPriceAjax extends HttpServlet {
 	    	condition="1=1";
 	    }
 	    
-	    totalData = new ProductCategoryListService().MinpriceListCount(condition);
+	    totalData = new ProductCategoryListService().ViewCountAndCount(condition);
 		int totalPage = (int)Math.ceil((double)totalData/numPerpage);
 		int pageBarSize = 5;
 		int pageNo = ((cPage-1)/pageBarSize)*pageBarSize + 1;
@@ -98,10 +98,11 @@ public class MinPriceAjax extends HttpServlet {
 		request.setAttribute("pageBar", pageBar);
 		
 		
-		List<ProductCategoryTimeList> getselectproduct = new ProductCategoryListService().MinxpriceList(condition, cPage, numPerpage);
+		List<ProductCategoryTimeList> getselectproduct = new ProductCategoryListService().ViewCount(condition, cPage, numPerpage);
 		
 		request.setAttribute("getselectproduct", getselectproduct);
-		request.getRequestDispatcher("/views/productcategorypage/minprice.jsp").forward(request, response);
+		request.getRequestDispatcher("/views/productcategorypage/viewcount.jsp").forward(request, response);
+	
 	}
 
 	/**

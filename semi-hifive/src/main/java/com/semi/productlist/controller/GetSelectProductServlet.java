@@ -62,18 +62,21 @@ public class GetSelectProductServlet extends HttpServlet {
 		        condition+=categoryNameCondition;
 		    }
 		    if (subCategoryNameCondition != null) {
-		    	condition += (condition.length()>0?" OR ":"")+subCategoryNameCondition;
+		    	condition += (condition.length()>0?" OR ":"")+"R."+subCategoryNameCondition;
 		    }
 		    if (statusCondition != null) {
 		    	condition += (condition.length()>0?" OR ":"")+statusCondition;
 		    }
 		    if (priceCondition != null) {
+		    	priceCondition = priceCondition.replace(",", "");
 		    	condition += (condition.length()>0?" OR ":"")+priceCondition;
 		    }
 		    if (areaCondition != null) {
 		    	condition += (condition.length()>0?" OR ":"")+areaCondition;
 		    }
-		    
+		    if(condition.equals("")) {
+		    	condition="1=1";
+		    }
 		    totalData = new ProductCategoryListService().GetProductConditionCount(condition);
 			int totalPage = (int)Math.ceil((double)totalData/numPerpage);
 			int pageBarSize = 5;
@@ -102,9 +105,14 @@ public class GetSelectProductServlet extends HttpServlet {
 			
 			
 			List<ProductCategoryTimeList> getselectproduct = new ProductCategoryListService().GetProductCondition(condition, cPage, numPerpage);
-			
+			//카테고리와 서브카테고리랑만 join해서 가져오는 List객체
+			List<CategorySubCategory> categorylist = new CategoryService().SubCategoryList();
+			//카테고리만 가져오는 List객체
+			List<Category> category = new CategoryService().Category();
+			request.setAttribute("category", category);
+			request.setAttribute("categorylist", categorylist);
 			request.setAttribute("getselectproduct", getselectproduct);
-			request.getRequestDispatcher("/views/productcategorypage/getselectproduct.jsp").forward(request, response);
+			request.getRequestDispatcher("/views/productcategorypage/productcategorylistpage2.jsp").forward(request, response);
 		}
 
 	/**
