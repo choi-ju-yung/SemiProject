@@ -25,9 +25,6 @@ $(".commentList").click(e => {
 
 $(".okBtn").click(e => {
 	let productId = $(e.target)[0].id;
-	console.log(productId);
-	console.log(buyerId);
-	console.log(userId());
 	
 	let form = $("<form>").attr("method", "post").attr("action", getContextPath() + "mypage/sellListBuyerChoiceEnd.do");
 	let input = $("<input>").attr("type", "hidden").attr("name", "productId").val(productId);
