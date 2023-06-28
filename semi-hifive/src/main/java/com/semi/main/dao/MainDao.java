@@ -16,6 +16,7 @@ import com.semi.main.model.vo.ProductElapsedTime;
 import com.semi.member.model.vo.Member;
 import com.semi.mypage.dao.MypageMemberDao;
 import com.semi.product.model.vo.Product;
+import com.semi.product.model.vo.ProductFile;
 
 public class MainDao {
 	private Properties sql = new Properties();
@@ -71,16 +72,15 @@ public class MainDao {
 	    return ProductElapsedTime.builder()
 	            .product(Product.builder()
 	                    .productId(rs.getInt("product_Id"))
-	                    .userId(rs.getString("user_Id"))
 	                    .title(rs.getString("product_Title"))
 	                    .productStatus(rs.getString("product_Status"))
 	                    .sellStatus(rs.getString("sell_Status"))
 	                    .price(rs.getInt("price"))
-	                    .registTime(rs.getDate("regist_Time"))
 	                    .viewCount(rs.getInt("view_Count"))
-	                    .subCategoryName(rs.getString("subcategory_Name"))
 	                    .build())
 	            .elapsedTime(rs.getLong("elapsed_time"))
+	            .productFile(ProductFile.builder()
+	            		.imageName(rs.getString("product_image_name")).build())
 	            .build();
 	}
 }
