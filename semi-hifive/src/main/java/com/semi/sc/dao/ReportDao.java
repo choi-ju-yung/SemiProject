@@ -199,24 +199,7 @@ public class ReportDao {
 		return result;
 	}
 
-	//신고글 작성된 내역 저장
-	public int insertReportList(Connection conn, ReportList rl) {
-		PreparedStatement pstmt=null;
-		int result=0;
-		String query=sql.getProperty("insertReportList");
-		try {
-			query=query.replaceAll("#PI", rl.getProductId()!=0?String.valueOf(rl.getProductId()):"NULL");
-			query=query.replaceAll("#TI", rl.getTradeId()!=0?String.valueOf(rl.getTradeId()):"NULL");
-			pstmt=conn.prepareStatement(query);
-			pstmt.setString(1, rl.getUserId());
-			result=pstmt.executeUpdate();
-		}catch(SQLException e) {
-			e.printStackTrace();
-		}finally {
-			close(pstmt);
-		}
-		return result;
-	}
+	
 
 	//신고글 내용 불러옴
 	public Report selectReportContent(Connection conn, int reportNo) {
@@ -385,7 +368,6 @@ public class ReportDao {
 			if(rs.next()) {
 				reportProduct=getProduct(rs);
 			}
-			System.out.println(reportProduct);
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}finally {
@@ -393,6 +375,44 @@ public class ReportDao {
 			close(pstmt);
 		}
 		return reportProduct;
+	}
+
+	//거래 내역 아이디로 상품 리스트 조회
+	public Product selectByBuyList(Connection conn, int tradeId) {
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		Product p=null;
+		try {
+			pstmt=conn.prepareStatement(sql.getProperty("selectReportList"));
+			pstmt.setInt(1, tradeId);
+			rs=pstmt.executeQuery();
+			if(rs.next()) {
+				p=getProduct(rs);
+			}
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rs);
+			close(pstmt);
+		}
+		return p;
+	}
+
+	//거래 내역 신고 시 상품 정보 저장
+	public int updateReportBoard(Connection conn, Product p) {
+		PreparedStatement pstmt=null;
+		int result=0;
+		try {
+			pstmt=conn.prepareStatement(sql.getProperty("updateReportBoard"));
+			pstmt.setInt(1, p.getProductId());
+			result=pstmt.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return result;
 	}
 	
 	

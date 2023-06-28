@@ -89,7 +89,7 @@ public class ProductCategoryListServlet extends HttpServlet {
 		request.setAttribute("category", category);
 		request.setAttribute("categorylist", categorylist);
 		request.setAttribute("productlist", productlist);
-		request.getRequestDispatcher("/views/productcategorypage/productcategorylistpage.jsp").forward(request, response);
+		request.getRequestDispatcher("/views/productcategorypage/productcategorylistpage2.jsp").forward(request, response);
 	
 	}
 

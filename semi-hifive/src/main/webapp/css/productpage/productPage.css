@@ -212,7 +212,7 @@ section {
 /*#heartBtn button:hover {
   background-color: rgba(255, 0, 0, 0.2);
 }*/
-#talkBtn button:hover {
+#kakaoBtn button:hover {
   background-color: orange;
 }
 #fraudBtn button:hover {

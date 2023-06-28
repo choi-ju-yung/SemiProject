@@ -20,9 +20,19 @@
                     <div class="nameNdate">
                         <div class="profileName">
                             <h1><%=loginMember.getNickName() %> 님</h1>
+                            <%if(loginMember.getTemperature()<=50){ %>
                             <div class="temperature">
                                 <h4><%=loginMember.getTemperature() %> ℃</h4>
                             </div>
+                            <%} else if(loginMember.getTemperature()<=75) {%>
+                            <div class="temperature orangeTem">
+                                <h4><%=loginMember.getTemperature() %> ℃</h4>
+                            </div>
+                            <%} else if(loginMember.getTemperature()>75){%>
+                            <div class="temperature remTem">
+                                <h4><%=loginMember.getTemperature() %> ℃</h4>
+                            </div>
+                            <%} %>
                         </div>
                         <div class="enrollDate">
                             <h4>가입일</h4>

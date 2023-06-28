@@ -324,6 +324,37 @@ public class ProductDao {
 		}
 		return result;
 	}
+	
+	public int insertPay(Connection conn, int id, String user) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		try {
+			pstmt = conn.prepareStatement(sql.getProperty("insertPay"));
+			pstmt.setInt(1, id);
+			pstmt.setString(2, user);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+	
+	public int updateStatus(Connection conn, int id) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		try {
+			pstmt = conn.prepareStatement(sql.getProperty("updateStatus"));
+			pstmt.setInt(1, id);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
 
 	private ProductCategory getProductCategory(ResultSet rs) throws SQLException {
 		return ProductCategory.builder()

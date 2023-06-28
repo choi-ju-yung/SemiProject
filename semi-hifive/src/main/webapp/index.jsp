@@ -16,12 +16,14 @@ const context = "http://localhost:9090/semi-hifive/";
                $(".productTitle")[i].innerText = e.product.title;
                $(".price")[i].innerText = e.product.price.toLocaleString() + "원";
                $(".productImg img").eq(i).attr("src", context + "upload/productRegist/" + e.productFile.imageName);
+               $(".productLink").eq(i).attr("href", context + "/productpage?no=" + e.product.productId);
+               $(".productTitle").eq(i).attr("href", context + "/productpage?no=" + e.product.productId);
+               $(".checkmark").eq(i).attr("id", e.product.productId);
                if(e.product.productStatus == '미개봉'){
                      $(".statusBtn")[i].innerText = "NEW " + e.product.productStatus;
                } else {
                   $(".statusBtn")[i].innerText = e.product.productStatus;
                }
-               
             })
       },
       error: (r, m, e) => {
@@ -55,7 +57,7 @@ const context = "http://localhost:9090/semi-hifive/";
 
    <!-- 카테고리 -->
    <div class="mainCategoryDiv">
-      <a href="">
+      <a href="<%=request.getContextPath()%>/categoryproductlist.do">
          <div class="categoryLink">
             <div class="categoryBgAll">
                <ion-icon class="cateIcon" name="star"></ion-icon>
@@ -64,7 +66,7 @@ const context = "http://localhost:9090/semi-hifive/";
                <span class="categoryTitle">전체</span>
             </div>
          </div>
-      </a> <a href="">
+      </a> <a href="<%=request.getContextPath() %>/headersearchcategory.do?categoryname=패션의류">
          <div class="categoryLink">
             <div class="categoryBg">
                <ion-icon class="cateIcon" name="shirt"></ion-icon>
@@ -73,7 +75,7 @@ const context = "http://localhost:9090/semi-hifive/";
                <span class="categoryTitle">패션의류</span>
             </div>
          </div>
-      </a> <a href="">
+      </a> <a href="<%=request.getContextPath() %>/headersearchcategory.do?categoryname=패션잡화">
          <div class="categoryLink">
             <div class="categoryBg">
                <ion-icon class="cateIcon" name="sparkles"></ion-icon>
@@ -82,7 +84,7 @@ const context = "http://localhost:9090/semi-hifive/";
                <span class="categoryTitle">패션잡화</span>
             </div>
          </div>
-      </a> <a href="">
+      </a> <a href="<%=request.getContextPath() %>/headersearchcategory.do?categoryname=가전제품">
          <div class="categoryLink">
             <div class="categoryBg">
                <ion-icon class="cateIcon" name="construct"></ion-icon>
@@ -91,7 +93,7 @@ const context = "http://localhost:9090/semi-hifive/";
                <span class="categoryTitle">가전제품</span>
             </div>
          </div>
-      </a> <a href="">
+      </a> <a href="<%=request.getContextPath() %>/headersearchcategory.do?categoryname=PC/모바일">
          <div class="categoryLink">
             <div class="categoryBg">
                <ion-icon class="cateIcon" name="desktop"></ion-icon>
@@ -100,7 +102,7 @@ const context = "http://localhost:9090/semi-hifive/";
                <span class="categoryTitle">PC/모바일</span>
             </div>
          </div>
-      </a> <a href="">
+      </a> <a href="<%=request.getContextPath() %>/headersearchcategory.do?categoryname=가구/인테리어">
          <div class="categoryLink">
             <div class="categoryBg">
                <ion-icon class="cateIcon" name="bed"></ion-icon>
@@ -109,7 +111,7 @@ const context = "http://localhost:9090/semi-hifive/";
                <span class="categoryTitle">가구/인테리어</span>
             </div>
          </div>
-      </a> <a href="">
+      </a> <a href="<%=request.getContextPath() %>/headersearchcategory.do?categoryname=리빙/생활">
          <div class="categoryLink">
             <div class="categoryBg">
                <ion-icon class="cateIcon" name="leaf"></ion-icon>
@@ -118,7 +120,7 @@ const context = "http://localhost:9090/semi-hifive/";
                <span class="categoryTitle">리빙/생활</span>
             </div>
          </div>
-      </a> <a href="">
+      </a> <a href="<%=request.getContextPath() %>/headersearchcategory.do?categoryname=스포츠/레저">
          <div class="categoryLink">
             <div class="categoryBg">
                <ion-icon class="cateIcon" name="golf"></ion-icon>
@@ -127,7 +129,7 @@ const context = "http://localhost:9090/semi-hifive/";
                <span class="categoryTitle">스포츠/레저</span>
             </div>
          </div>
-      </a> <a href="">
+      </a> <a href="<%=request.getContextPath() %>/headersearchcategory.do?categoryname=도서/음반/문구">
          <div class="categoryLink">
             <div class="categoryBg">
                <ion-icon class="cateIcon" name="library"></ion-icon>
@@ -136,7 +138,7 @@ const context = "http://localhost:9090/semi-hifive/";
                <span class="categoryTitle">도서/음반/문구</span>
             </div>
          </div>
-      </a> <a href="">
+      </a> <a href="<%=request.getContextPath() %>/headersearchcategory.do?categoryname=차량/오토바이">
          <div class="categoryLink">
             <div class="categoryBg">
                <ion-icon class="cateIcon" name="speedometer"></ion-icon>
@@ -160,7 +162,9 @@ const context = "http://localhost:9090/semi-hifive/";
          <div class="productAll">
             <div class="product">
                <div class="productImg">
-                  <a href=""><img src="" alt=""></a> <label class="container">
+                  <a class="productLink" href=""><img src="" alt=""></a>
+                     <%if(loginMember != null) {%>
+                     <label class="container">
                      <input id="" class="wishCheck" checked="checked" type="checkbox">
                      <div class="checkmark">
                         <svg viewBox="0 0 256 256">
@@ -172,6 +176,7 @@ const context = "http://localhost:9090/semi-hifive/";
                                         </svg>
                      </div>
                   </label>
+                     <%}%>
                </div>
                <div class="proContent">
                   <h4 class="contentMargin">
@@ -206,8 +211,9 @@ const context = "http://localhost:9090/semi-hifive/";
          <div class="productAll">
             <div class="product">
                <div class="productImg">
-                  <a href=""><img src="" alt=""></a> <label class="container">
+                  <a class="productLink" href=""><img src="" alt=""></a> <label class="container">
                      <input id="" class="wishCheck" checked="checked" type="checkbox">
+                     <%if(loginMember != null) {%>
                      <div class="checkmark">
                         <svg viewBox="0 0 256 256">
                                             <rect fill="none"
@@ -217,6 +223,7 @@ const context = "http://localhost:9090/semi-hifive/";
                               stroke-width="20px" stroke="#FFF" fill="none"></path>
                                         </svg>
                      </div>
+                     <%} %>
                   </label>
                </div>
                <div class="proContent">
@@ -241,5 +248,6 @@ const context = "http://localhost:9090/semi-hifive/";
 
 
 </section>
+<script src="<%=request.getContextPath()%>/js/productsearchchartpage/test.js"></script>
 <script src="<%=request.getContextPath()%>/js/common/main.js"></script>
 <%@ include file="/views/common/footer.jsp"%>

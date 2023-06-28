@@ -87,7 +87,6 @@ List<Category> category = new CategoryService().Category();
 request.setAttribute("category", category);
 request.setAttribute("categorylist", categorylist);
 request.setAttribute("productlist", productlist);
-request.getRequestDispatcher("/views/productcategorypage/resentlylist.jsp").forward(request, response);
 
 }
 	/**
