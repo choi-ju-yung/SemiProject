@@ -37,8 +37,9 @@
 				<div class="proContent">
 					<div class="buyDate">
 						<h5 class="grayFont">
-							<a href="" class="aTag grayFont"><%=mw.getCategory().getCategoryName() %></a> &rsaquo; <a href=""
-								class="aTag grayFont"><%=mw.getSubCategory().getSubcategoryName() %></a>
+							<a href="<%=request.getContextPath() %>/headersearchcategory.do?categoryname=<%=mw.getCategory().getCategoryName() %>
+							" class="aTag grayFont"><%=mw.getCategory().getCategoryName() %></a> &rsaquo;
+							<a href="<%=request.getContextPath() %>/searchheadersubcategory.do?subcategroyname=<%=mw.getProduct().getSubCategoryName() %>" class="aTag grayFont"><%=mw.getSubCategory().getSubcategoryName() %></a>
 						</h5>
 						<p><%=new SimpleDateFormat("yyyy.MM.dd").format(mw.getProduct().getRegistTime())%></p>
 					</div>

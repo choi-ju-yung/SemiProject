@@ -252,6 +252,8 @@ div.btnContainer{
                 font-size: 20px;
                 user-select: none;
                 transition: 100ms;
+                width: auto !important;
+    			display: inline-block;
             }
 
             .checkmark {
