@@ -41,7 +41,7 @@
 						<td class="reportCheck">
 				          <div class="checkContainer">
 				           	 	<label class="list-label">
-				                  <input type="checkbox" name="buyListCk" value="<%=d.getTradeId() %>">
+				                  <input type="checkbox" name="buyListCk" value="<%=d.getTradeId() %>" onclick="checkOnlyOne(this);">
 				                  <div class="buyCk"></div>
 				               	</label>
 				               	<input type="hidden" id="productId" value="<%=d.getProductId() %>">
@@ -76,6 +76,13 @@
 	</div>
 </section>
 <script>
+function checkOnlyOne(element) {
+	  const checkboxes = document.getElementsByName("buyListCk");
+	  checkboxes.forEach((cb) => {
+	    cb.checked = false;
+	  });
+	  element.checked = true; //클릭한 체크박스만 checked로 설정
+	}
 //파일크기 체크
 $(document).on("change","#formFileMultiple",function(){
 	let maxSize = 1024 * 1024 * 200;  // 파일 최대 크기 200MB
