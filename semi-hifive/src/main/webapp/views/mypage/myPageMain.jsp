@@ -15,28 +15,28 @@
         <div class="myPageMainAll">
             <div class="profileMain">
                 <div class="profileInfo">
-                    <img src="<%=request.getContextPath()%>/upload/profileImg/<%=loginMember.getProfileImg()%>" alt=""
+                    <img src="<%=request.getContextPath()%>/upload/profileImg/<%=mypageMember.getMember().getProfileImg()%>" alt=""
                         style="width: 130px; height: 130px; border-radius: 300px; margin-left: 90px; border: #f2f2f2 1px solid;">
                     <div class="nameNdate">
                         <div class="profileName">
-                            <h1><%=loginMember.getNickName() %> 님</h1>
-                            <%if(loginMember.getTemperature()<=50){ %>
+                            <h1><%=mypageMember.getMember().getNickName() %> 님</h1>
+                            <%if(mypageMember.getMember().getTemperature()<=50){ %>
                             <div class="temperature">
-                                <h4><%=loginMember.getTemperature() %> ℃</h4>
+                                <h4><%=mypageMember.getMember().getTemperature() %> ℃</h4>
                             </div>
-                            <%} else if(loginMember.getTemperature()<=75) {%>
+                            <%} else if(mypageMember.getMember().getTemperature()<=75) {%>
                             <div class="temperature orangeTem">
-                                <h4><%=loginMember.getTemperature() %> ℃</h4>
+                                <h4><%=mypageMember.getMember().getTemperature() %> ℃</h4>
                             </div>
-                            <%} else if(loginMember.getTemperature()>75){%>
+                            <%} else if(mypageMember.getMember().getTemperature()>75){%>
                             <div class="temperature remTem">
-                                <h4><%=loginMember.getTemperature() %> ℃</h4>
+                                <h4><%=mypageMember.getMember().getTemperature() %> ℃</h4>
                             </div>
                             <%} %>
                         </div>
                         <div class="enrollDate">
                             <h4>가입일</h4>
-                            <span><%=loginMember.getEnrollDate() %></span>
+                            <span><%=mypageMember.getMember().getEnrollDate() %></span>
                         </div>
                     </div>
                 </div>
