@@ -1,4 +1,4 @@
-package com.semi.search.service;
+package com.semi.search.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -10,9 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.semi.product.model.vo.Product;
-import com.semi.search.controller.SearchController;
 import com.semi.search.model.vo.SearchCount;
+import com.semi.search.service.SearchService;
+import com.semi.shop.model.vo.ProductList;
 
 /**
  * Servlet implementation class SearchFunctionServlet
@@ -36,18 +36,18 @@ public class SearchProductServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String content = request.getParameter("content");
-		List<Product> searchList = new ArrayList();
-		SearchCount searchCount = new SearchController().searchCount(content);
+		List<ProductList> searchList = new ArrayList();
+		SearchCount searchCount = new SearchService().searchCount(content);
 		
 		if (content.length()>2&&content.charAt(1)=='#') {			
-			searchList = new SearchController().searchKeyWord(content);
+			searchList = new SearchService().searchKeyWord(content);
 		} else {
-			searchList = new SearchController().searchTitle(content);
+			searchList = new SearchService().searchTitle(content);
 		}
 		request.setAttribute("content", content);
 		request.setAttribute("searchList", searchList);
 		request.setAttribute("searchCount", searchCount);
-		request.getRequestDispatcher("/views/productsearchchartpage/productsearchchartpage2.jsp").forward(request,response);
+		request.getRequestDispatcher("/views/productSearchPage/productSearchPage.jsp").forward(request,response);
 
 	}
 

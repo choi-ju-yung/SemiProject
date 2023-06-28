@@ -1,6 +1,7 @@
-package com.semi.search.service;
+package com.semi.shop.controller;
 
 import java.io.IOException;
+import java.nio.file.spi.FileSystemProvider;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -9,20 +10,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.semi.search.controller.SearchController;
-import com.semi.search.model.vo.Search;
+import com.google.gson.Gson;
+import com.semi.shop.model.vo.ProductList;
+import com.semi.shop.service.ShopService;
 
 /**
- * Servlet implementation class SearchServlet
+ * Servlet implementation class PsoonServlet
  */
-@WebServlet("/search")
-public class InsertSearchServlet extends HttpServlet {
+@WebServlet("/psoon")
+public class PsoonServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public InsertSearchServlet() {
+    public PsoonServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,10 +33,11 @@ public class InsertSearchServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String content=request.getParameter("content");
-		int result=new SearchController().insertSearch(content);		
-		if(result>0)
-		request.getRequestDispatcher("/searchProduct?content="+content).forward(request, response);	
+		String id=request.getParameter("userId");
+		
+		List<ProductList> psoon=new ShopService().psoon(id);
+		response.setContentType("application/json;charset=utf-8");
+		new Gson().toJson(psoon,response.getWriter());
 	}
 
 	/**
