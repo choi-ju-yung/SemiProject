@@ -1,17 +1,19 @@
 package com.semi.sc.service;
 
+import static com.semi.common.JDBCTemplate.close;
+import static com.semi.common.JDBCTemplate.commit;
+import static com.semi.common.JDBCTemplate.getConnection;
+import static com.semi.common.JDBCTemplate.rollback;
+
 import java.sql.Connection;
-import java.util.Enumeration;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.semi.product.model.vo.Product;
 import com.semi.sc.dao.ReportDao;
 import com.semi.sc.model.dto.BoardComment;
 import com.semi.sc.model.dto.Report;
-import com.semi.sc.model.dto.ReportList;
 import com.semi.sc.model.dto.ServiceFile;
-
-import static com.semi.common.JDBCTemplate.*;
 
 public class ReportService {
 	private ReportDao dao=new ReportDao();
@@ -37,17 +39,17 @@ public class ReportService {
 		return buyList;
 	}
 	
-	public int insertReportBuyList(Report r, List<String> filesNames, List<ReportList> buyList) {
+	public int insertReportBuyList(Report r, List<String> filesNames, List<Product> byBuyList) {
 		Connection conn=getConnection();
 		int result=dao.insertReportBoard(conn, r);
-		int fileresult=0, buyresult=0;
+		int fileresult=0, buyresult=0, pResult=0;
 		for(String file:filesNames) {
 			fileresult+=dao.insertReportFile(conn, file);
 		}
-		for(ReportList rl:buyList) {
-			buyresult+=dao.insertReportList(conn, rl);
+		for(Product p:byBuyList) {
+			pResult+=dao.updateReportBoard(conn, p);
 		}
-		if(result>0&&fileresult==filesNames.size()&&buyresult==buyList.size()) commit(conn);
+		if(result>0&&fileresult==filesNames.size()&&pResult==byBuyList.size()) commit(conn);
 		else rollback(conn);
 		close(conn);
 		return result;
@@ -97,6 +99,7 @@ public class ReportService {
 		int result=dao.updateComment(conn, commentNo, data);
 		if(result>0) commit(conn);
 		else rollback(conn);
+		close(conn);
 		return result;
 	}
 	
@@ -126,6 +129,16 @@ public class ReportService {
 		Product reportProduct=dao.selectReportProductList(conn, reportNo);
 		close(conn);
 		return reportProduct;
+	}
+
+	public List<Product> selectByBuyList(List<Integer> tradeList) {
+		Connection conn=getConnection();
+		List<Product> list=new ArrayList();
+		for(Integer tradeId:tradeList) {
+			list.add(dao.selectByBuyList(conn, tradeId));
+		}
+		close(conn);
+		return list;
 	}
 
 }

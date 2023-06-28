@@ -16,8 +16,8 @@ import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 import com.google.gson.Gson;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
+import com.semi.product.model.vo.Product;
 import com.semi.sc.model.dto.Report;
-import com.semi.sc.model.dto.ReportList;
 import com.semi.sc.service.ReportService;
 
 /**
@@ -66,22 +66,19 @@ public class ReportBuyListInsertEndServlet extends HttpServlet {
 		//reportList
 		if(mr.getParameter("check")!=null) {
 			String[] buyCkArr=(mr.getParameter("check")).split(",");
-			List<ReportList> buyList=new ArrayList();
+			List<Integer> tradeList=new ArrayList();
 			for(int i=0; i<buyCkArr.length;i++) {
-				buyList.add(ReportList.builder()
-						.tradeId(Integer.parseInt(buyCkArr[i]))
-						.userId(r.getReportWriter())
-						.build());
+				tradeList.add(Integer.parseInt(buyCkArr[i]));  //거래 ID 저장
 				r.setTradeId(Integer.parseInt(buyCkArr[i]));
 			}
-			result=new ReportService().insertReportBuyList(r, filesNames, buyList); //거래 ID 저장
+			List<Product> byBuyList=new ReportService().selectByBuyList(tradeList); //거래 ID로 상품 정보 불러옴
+			result=new ReportService().insertReportBuyList(r, filesNames, byBuyList);
 			new Gson().toJson(result>0?true:false,response.getWriter()); 
 		}else {
 			response.setContentType("application/json;charset=utf-8");
 			//글과 파일이 저장됐으면 true
 			new Gson().toJson(false,response.getWriter());
 		}
-		
 		
 	}
 
