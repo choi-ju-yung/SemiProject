@@ -15,7 +15,7 @@
 <script
 	src="https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.umd.min.js"></script>
 <link rel="stylesheet"
-	href="<%=request.getContextPath()%>/css/productsearchchartpage.css" />
+	href="<%=request.getContextPath()%>/css/searchpage/searchPage.css" />
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/css/default.css" />
 <!--  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script> -->
@@ -25,10 +25,10 @@
 <script nomodule
 	src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 <%@ page
-	import="com.semi.product.model.vo.Product,com.semi.search.model.vo.SearchCount,java.util.List"%>
+	import="com.semi.product.model.vo.Product,com.semi.shop.model.vo.ProductList,com.semi.search.model.vo.SearchCount,java.util.List"%>
 <%
 String content = (String) request.getAttribute("content");
-List<Product> searchList = (List) request.getAttribute("searchList");
+List<ProductList> searchList = (List) request.getAttribute("searchList");
 SearchCount searchCount = (SearchCount) request.getAttribute("searchCount");
 %>
 <section>
@@ -296,57 +296,20 @@ SearchCount searchCount = (SearchCount) request.getAttribute("searchCount");
 					</h4>
 				</div>
 				<div id="categoryFunction">
-					<span>최신순</span> <span>인기도순</span> <span>최고가순</span> <span>최저가순</span>
+					<input type="hidden" name="content" value="<%=content%>"> 
+						<span id="rsoon" value="r">최신순</span> 
+						<span id="psoon" value="p">인기도순</span> 
+						<span id="hsoon" value="h">최고가순</span>
+						<span id="lsoon" value="l">최저가순</span>
 				</div>
 			</div>
-			<div id="pimgWraperpricechart">
-				<!--<div class="marketpricearea">
-                <h3>시세조회</h3>
-                <p>검색한 상품이 얼마에 거래되고 있는지 알아보세요</p>
-              </div>-->
-				<div class="marketpricechartarea">
-					<div class="marketpricechart">
-						<div class="marketpricearea">
-							<h3>시세조회</h3>
-							<p>검색한 상품이 얼마에 거래되고 있는지 알아보세요</p>
-						</div>
-						<div class="legend-div" id="legend-div"></div>
-						<canvas class="chartjs" id="marketpricechart" width="900px"
-							height="300px">
 
-
-                </canvas>
-					</div>
-					<!--<div class="marketpricechart">
-                    <div class="charttitle">
-                        <h2>검색한상품명</h2>
-                        <p>
-                        75,000원
-                        </p>
-                    </div>
-                    <div class="pricechart">
-                        <img src="./img/20230510_210058.png" width="400px" height="250px" alt="">
-                        <div class="charttext">
-                           <span class="pricecontent">최근판매가
-                            <span>74,000</span>
-                           </span>
-                           <span class="pricecontent">최고가
-                            <span>85,000</span>
-                           </span>
-                           <span class="pricecontent">최저가
-                            <span>72,000</span>
-                           </span>
-                        </div>
-                    </div> -->
-
-				</div>
-			</div>
 			<%
 			if (searchList.size() > 0) {
 			%>
 			<div id="productImgContainer">
 				<%
-				for (Product sl : searchList) {
+				for (ProductList sl : searchList) {
 				%>
 				<div class="pimgWraper">
 					<div class="con-like">
@@ -374,19 +337,20 @@ SearchCount searchCount = (SearchCount) request.getAttribute("searchCount");
 						</div>
 					</div>
 
-					<a href="">
+					<a
+						href="<%=request.getContextPath()%>/productpage?no=<%=sl.getProduct().getProductId()%>">
 						<div id="payBtn">
 							<span>하마페이</span>
 						</div> <img
-						src="https://upload.wikimedia.org/wikipedia/ko/8/87/Kakaofriends.png"
+						src="<%=request.getContextPath()%>/upload/productRegist/<%=sl.getProductFile().getImageName()%>"
 						alt="" />
 
-						<p id="productName"><%=sl.getTitle()%></p>
-						<p id="productPrice"><%=sl.getPrice()%><span><%=sl.getRegistTime()%></span>
+						<p id="productName"><%=sl.getProduct().getTitle()%></p>
+						<p id="productPrice"><%=sl.getProduct().getPrice()%><span><%=sl.getProduct().getRegistTime()%></span>
 						</p>
 						<p id="productPlace">
 							<i class="bi bi-geo-alt"></i>
-							<%=sl.getAreaName()%></p>
+							<%=sl.getProduct().getAreaName()%></p>
 					</a>
 				</div>
 				<%
@@ -394,7 +358,9 @@ SearchCount searchCount = (SearchCount) request.getAttribute("searchCount");
 				%>
 			</div>
 
-		<%} else { %>
+			<%
+			} else {
+			%>
 			<div id="noProductContainer">
 				<h2>
 					<span>"<%=content%>"
@@ -430,8 +396,7 @@ SearchCount searchCount = (SearchCount) request.getAttribute("searchCount");
 	</div>
 
 	<script></script>
-	<script
-		src="<%=request.getContextPath()%>/js/productsearchchartpage/test.js"></script>
+	<script src="<%=request.getContextPath()%>/js/searchpage/searchPage.js"></script>
 </section>
 
 

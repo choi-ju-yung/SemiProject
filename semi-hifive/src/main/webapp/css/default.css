@@ -24,6 +24,10 @@ header {
 	z-index: 100;
 	background-color: white;
 }
+#recently {
+	width: "68.4px"; 
+	height: "68.4px";
+}
 
 #headerContainer {
 	display: flex;
@@ -340,7 +344,63 @@ section {
 	font-weight: bold;
 }
 /* /categoryNrank/ */
+#printSearch {
+  position: relative;
+  bottom: 10px;	
+  border: 3px solid #20c997;
+  border-radius: 20px;
+  text-align: center;
+  width: 210px;
+  background-color: white;
+}
 
+#printSearch li {
+  font-size: 20px;
+}
+
+#printSearch button {
+  border: none;
+}
+#rankSearch {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  border-radius: 20px;
+  height: 40px;
+  background-color: white;
+}
+#rankAllSearch {
+    position: absolute;
+    top: 123px;
+    margin-left: 1065px;
+    width: 210px;
+    border: 3px solid #20c997;
+    border-radius: 20px;
+    background-color: white;
+    display: none;
+}
+
+#rankAllSearch div{
+    display: flex;
+	justify-content: center;
+    margin-top:15px;
+
+}
+
+#rankAllSearch button{
+    border: none;
+    position: relative;
+    left: 20px;
+}
+
+#rankAllSearch p{
+}
+
+.allCycle {
+  margin-top: 8px;
+  margin-bottom: 8px;
+  margin-left:15px;
+}
 /* 상단메뉴바 */
 input[id="menuIcon"] {
 	display: none;

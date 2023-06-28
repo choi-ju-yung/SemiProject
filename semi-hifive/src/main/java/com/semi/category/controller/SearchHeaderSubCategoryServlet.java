@@ -34,7 +34,7 @@ public class SearchHeaderSubCategoryServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String subcategoryname = request.getParameter("subname");
+		String subcategoryname = request.getParameter("subcategroyname");
 		// 페이징
 		int cPage, numPerpage;
 		try {
@@ -92,6 +92,7 @@ request.setAttribute("categoryandsubcategoryname", categoryandsubcategoryname);
 request.setAttribute("category", category);
 request.setAttribute("categorylist", categorylist);
 request.getRequestDispatcher("/views/productcategorypage/headersearchsubcategory.jsp").forward(request, response);
+
 	}
 
 	/**

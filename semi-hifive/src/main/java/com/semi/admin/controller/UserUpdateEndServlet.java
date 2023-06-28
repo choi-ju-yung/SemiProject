@@ -29,19 +29,25 @@ public class UserUpdateEndServlet extends HttpServlet {
 		String declareCount = request.getParameter("declareCount");
 		String enrollDate = request.getParameter("enrollDate");
 		String temp = request.getParameter("temp");
-		
-		
+
 		System.out.println("두번재 서블릿들어옴");
 		
 		int result = new AdminService().updateMember(userName,nickName,declareCount,enrollDate,temp,email);
 		
+		String msg="";
+		String loc="";
+		
 		if(result==1) {
-			System.out.println("수정됨");
+			msg = "정상적으로 수정되었습니다.";
 		}
 		else {
-			System.out.println("수정안됨");
+			msg = "비밀번호 수정에 실패하였습니다.";
 		}
-		
+		loc = "/";
+		request.setAttribute("script", "opener.location.replace('" + request.getContextPath() + "/memberList.do'); close();");
+		request.setAttribute("msg", msg);
+		request.setAttribute("loc", loc);
+		request.getRequestDispatcher("/views/common/msg.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
