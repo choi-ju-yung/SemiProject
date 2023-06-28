@@ -71,4 +71,31 @@ public class AdminService {
 		close(conn);
 		return count;
 	}
+	
+	public int allBoardRemove() {
+		Connection conn = getConnection();
+		int result = dao.allUserRemove(conn);
+		close(conn);
+		return result;
+	}
+	
+	
+	//체크된 공지사항들 삭제
+	public int deleteCheckBoard(String sql) {
+		Connection conn = getConnection();
+		int result = dao.deleteCheckBoard(conn, sql);
+		close(conn);
+		return result;
+	}
+	
+	
+	
+	//삭제버튼 눌러서 공지사항 삭제
+	public int boardRemove(String boardNo) {
+		Connection conn = getConnection();
+		int result = dao.boardRemove(conn, boardNo);
+		close(conn);
+		return result;
+	}
+	
 }

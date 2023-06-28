@@ -13,16 +13,16 @@ import com.semi.productlist.model.service.ProductCategoryListService;
 import com.semi.productlist.model.vo.ProductCategoryTimeList;
 
 /**
- * Servlet implementation class MinPriceAjax
+ * Servlet implementation class ResentlyAjax
  */
-@WebServlet("/minprice")
-public class MinPriceAjax extends HttpServlet {
+@WebServlet("/resently")
+public class ResentlyAjax extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public MinPriceAjax() {
+    public ResentlyAjax() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -71,7 +71,7 @@ public class MinPriceAjax extends HttpServlet {
 	    	condition="1=1";
 	    }
 	    
-	    totalData = new ProductCategoryListService().MinpriceListCount(condition);
+	    totalData = new ProductCategoryListService().GetProductConditionCount(condition);
 		int totalPage = (int)Math.ceil((double)totalData/numPerpage);
 		int pageBarSize = 5;
 		int pageNo = ((cPage-1)/pageBarSize)*pageBarSize + 1;
@@ -98,10 +98,10 @@ public class MinPriceAjax extends HttpServlet {
 		request.setAttribute("pageBar", pageBar);
 		
 		
-		List<ProductCategoryTimeList> getselectproduct = new ProductCategoryListService().MinxpriceList(condition, cPage, numPerpage);
+		List<ProductCategoryTimeList> getselectproduct = new ProductCategoryListService().GetProductCondition(condition, cPage, numPerpage);
 		
 		request.setAttribute("getselectproduct", getselectproduct);
-		request.getRequestDispatcher("/views/productcategorypage/minprice.jsp").forward(request, response);
+		request.getRequestDispatcher("/views/productcategorypage/resentlylist.jsp").forward(request, response);
 	}
 
 	/**

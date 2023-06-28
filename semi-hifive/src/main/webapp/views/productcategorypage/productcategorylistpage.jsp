@@ -482,7 +482,7 @@
 	                  <span>하마페이</span>
 	                </div>
 	                <img
-	                  src=""
+	                  src="<%=request.getContextPath()%>/upload/productRegist/<%=p.getProductfile().getImageName()%>"
 	                  alt=""
 	                /><%=p.getProductfile().getImageName()%>
 	               <p id="productName"><%=p.getProductCategoryList().getProductTitle()%></p>
@@ -570,6 +570,103 @@ $("#prcBtn").click(function() {
 	    var selectedLocation = $('#sido1').val() + $(this).val();
 	    window.location.href = "<%=request.getContextPath()%>/areasearch?area="+selectedLocation;
 	  });
+	// input태그에 검색한 가격
+	   $("#prcBtn").click(function() {
+		    var minPrice = $(".prcinput[name='text'][placeholder='최소값']").val();
+		    var maxPrice = $(".prcinput[name='text'][placeholder='최대값']").val();
+
+		    
+		    if (minPrice && maxPrice) {
+		    	conditions['price']="PRICE BETWEEN " + minPrice + " AND " + maxPrice;
+		    } 
+		    console.log(conditions);
+		    getselectproduct(conditions);
+		    removeKeyFromProduct(conditions);
+		   
+     	});
+ 	// 지역검색클릭
+    	$("#gugun1").change(function() {
+    		
+    	    var selectedLocation = $('#sido1').val() + $(this).val();
+    	    if (selectedLocation) {
+    	    	conditions['area']="AREA_NAME LIKE '%" + selectedLocation + "%'";
+    	    }
+    	 	console.log(conditions);
+    	    getselectproduct(conditions);
+     	 	removeKeyFromProduct(conditions);
+     		
+     	  });
+ 	//최신순
+    	function handleRecentlyClick() {
+			if(conditions['categoryname'] == null && conditions['subcategoryname'] == null && conditions['status'] == null && conditions['price'] == null && conditions['area'] == null){
+             console.log(conditions);
+				$.ajax({
+                 url: "<%=request.getContextPath()%>/resentlyproductlist",
+                 dataType: 'html',
+                 success: function(data) {
+                     $("#productContainer").html(data);
+                 }
+             });
+         	}else if(conditions['categoryname'] !== null || conditions['subcategoryname'] !== null || conditions['status'] !== null || conditions['price'] !== null || conditions['area'] !== null){
+         		console.log(conditions);
+         		$.ajax({
+	                    url: "<%=request.getContextPath()%>/getproduct.do",
+	                    dataType: 'html',
+	                    data: conditions,
+	                    success: function(data) {
+	                        $("#productContainer").html(data);
+	                    }
+	                });
+         	}
+		}
+//최고가순
+function handleDescClick() {
+  	if(conditions['categoryname'] == null && conditions['subcategoryname'] == null && conditions['status'] == null && conditions['price'] == null && conditions['area'] == null){
+  		console.log(conditions);
+  	$.ajax({
+          url: "<%=request.getContextPath()%>/entiremaxprice",
+          dataType: 'html',
+          success: function(data) {
+              $("#productContainer").html(data);
+          }
+      });
+  	}else if(conditions['categoryname'] !== null || conditions['subcategoryname'] !== null || conditions['status'] !== null || conditions['price'] !== null || conditions['area'] !== null){
+  		console.log(conditions);
+  		$.ajax({
+                 url: "<%=request.getContextPath()%>/maxprice",
+                 dataType: 'html',
+                 data: conditions,
+                 success: function(data) {
+                     $("#productContainer").html(data);
+                 }
+             });
+  	}
+  }
+ 	//최저가순
+  function handleAscClick() {
+  	if(conditions['categoryname'] == null && conditions['subcategoryname'] == null && conditions['status'] == null && conditions['price'] == null && conditions['area'] == null){
+             $.ajax({
+                 url: "<%=request.getContextPath()%>/entireminprice",
+                 dataType: 'html',
+                 success: function(data) {
+                     $("#productContainer").html(data);
+                 }
+             });
+         	}else if(conditions['categoryname'] !== null || conditions['subcategoryname'] !== null || conditions['status'] !== null || conditions['price'] !== null || conditions['area'] !== null){
+         		$.ajax({
+	                    url: "<%=request.getContextPath()%>/minprice",
+	                    dataType: 'html',
+	                    data: conditions,
+	                    success: function(data) {
+	                        $("#productContainer").html(data);
+	                    }
+	                });
+         	}
+  }		 
+	  
+	  
+	  
+	  
 
 </script>
 <script src="<%=request.getContextPath()%>/js/productsearchchartpage/test.js"></script>
@@ -682,7 +779,7 @@ $("#prcBtn").click(function() {
      				
    				});	
         	   
-        	   // input태그에 검색한 가격
+        	  // input태그에 검색한 가격
         	   $("#prcBtn").click(function() {
         		    var minPrice = $(".prcinput[name='text'][placeholder='최소값']").val();
         		    var maxPrice = $(".prcinput[name='text'][placeholder='최대값']").val();
@@ -771,7 +868,7 @@ $("#prcBtn").click(function() {
 			                    }
 			                });
 		            	}
-	         }		 --%>
+	         }		 
 	         	
 /* 	       <!-- $(document).ready(function() {
 	        // 필터에 넣기

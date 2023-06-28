@@ -28,3 +28,10 @@ function prev() {
     }
     slide.style.transform = `translateX(-${IMAGE_WIDTH * (currentSlide - 1)}px)`;
 }
+
+$(".checkmark").click(e=>{
+	let productId = $(e.target).parents("div").first().attr("id");
+	console.log(productId);
+	
+	
+});

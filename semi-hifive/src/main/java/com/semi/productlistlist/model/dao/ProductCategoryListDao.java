@@ -334,7 +334,6 @@ public class ProductCategoryListDao {
 				
 				pstmt.setInt(1, (cPage-1) * numPerpage + 1);
 				pstmt.setInt(2, cPage * numPerpage);
-				
 				rs = pstmt.executeQuery();
 				
 				while(rs.next()) {
@@ -365,6 +364,44 @@ public class ProductCategoryListDao {
 				close(pstmt);
 			}return result;
 		}
+		public List<ProductCategoryTimeList> ViewCount(Connection conn, int cPage, int numPerpage, String conditions) {
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			List<ProductCategoryTimeList> selectgetproduct = new ArrayList<>();
+			try {
+				pstmt = conn.prepareStatement(sql.getProperty("ViewCount").replace("#VIEW#", conditions));
+				pstmt.setInt(1, (cPage-1) * numPerpage + 1);
+				pstmt.setInt(2, cPage * numPerpage);
+				rs = pstmt.executeQuery();
+				while(rs.next()) {
+					selectgetproduct.add(getProduct(rs));
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}finally {
+				close(rs);
+				close(pstmt);
+			}return selectgetproduct;
+		}
+		public int ViewCountAndCount(Connection conn, String conditions ) {
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			int result = 0;
+			try {
+				pstmt = conn.prepareStatement(sql.getProperty("ViewCountAndCount").replace("#VIEW#", conditions));
+				rs = pstmt.executeQuery();
+				if(rs.next()){
+					result = rs.getInt(1);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}finally {
+				close(rs);
+				close(pstmt);
+			}return result;
+		}
+		
+		
 		public List<ProductCategoryTimeList> EntireMaxPrice(Connection conn, int cPage, int numPerpage) {
 			PreparedStatement pstmt = null;
 			ResultSet rs = null;
@@ -406,6 +443,27 @@ public class ProductCategoryListDao {
 				close(pstmt);
 			}return productlist;
 		}
+		public List<ProductCategoryTimeList> EntireViewCount(Connection conn, int cPage, int numPerpage) {
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			List<ProductCategoryTimeList> productlist = new ArrayList<>();
+		
+			try {
+				pstmt = conn.prepareStatement(sql.getProperty("EntireViewCount"));
+				pstmt.setInt(1, (cPage-1) * numPerpage + 1);
+				pstmt.setInt(2, cPage * numPerpage);
+				rs = pstmt.executeQuery();
+				while(rs.next()) {
+					productlist.add(getProduct(rs));
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}finally {
+				close(rs);
+				close(pstmt);
+			}return productlist;
+		}
+		
 		
 		//좋아요 찾는 메소드
 		public WishList Like(Connection conn, String loginId,int productId) {

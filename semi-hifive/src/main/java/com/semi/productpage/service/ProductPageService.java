@@ -136,5 +136,24 @@ public class ProductPageService {
 		close(conn);
 		return result;
 	}
+	
+	public int insertPay(int id, String user) {
+		Connection conn=getConnection();
+		int result=dao.insertPay(conn,id,user);
+		if(result>0) commit(conn);
+		else rollback(conn);
+		close(conn);
+		return result;
+	}
+	
+	public int updateStatus(int id) {
+		Connection conn=getConnection();
+		int result=dao.updateStatus(conn,id);
+		if(result>0) commit(conn);
+		else rollback(conn);
+		close(conn);
+		return result;
+	}
+
 
 }

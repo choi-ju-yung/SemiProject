@@ -55,16 +55,20 @@ public class MaxPriceListAjax extends HttpServlet {
 	        condition+=categoryNameCondition;
 	    }
 	    if (subCategoryNameCondition != null) {
-	    	condition += (condition.length()>0?" OR ":"")+subCategoryNameCondition;
+	    	condition += (condition.length()>0?" OR ":"")+"R."+subCategoryNameCondition;
 	    }
 	    if (statusCondition != null) {
 	    	condition += (condition.length()>0?" OR ":"")+statusCondition;
 	    }
 	    if (priceCondition != null) {
+	    	priceCondition = priceCondition.replace(",", "");
 	    	condition += (condition.length()>0?" OR ":"")+priceCondition;
 	    }
 	    if (areaCondition != null) {
 	    	condition += (condition.length()>0?" OR ":"")+areaCondition;
+	    }
+	    if(condition.equals("")) {
+	    	condition="1=1";
 	    }
 	    
 	    totalData = new ProductCategoryListService().MaxpirceListCount(condition);

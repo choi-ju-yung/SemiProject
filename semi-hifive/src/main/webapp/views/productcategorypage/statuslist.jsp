@@ -481,7 +481,7 @@
 	                  <span>하마페이</span>
 	                </div>
 	                <img
-	                  src=""
+	                  src="<%=request.getContextPath()%>/upload/productRegist/<%=p.getProductfile().getImageName()%>"
 	                  alt=""
 	                />
 	               <p id="productName"><%=p.getProductCategoryList().getProductTitle()%></p>

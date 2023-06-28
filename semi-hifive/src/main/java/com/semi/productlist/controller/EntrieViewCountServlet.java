@@ -13,16 +13,16 @@ import com.semi.productlist.model.service.ProductCategoryListService;
 import com.semi.productlist.model.vo.ProductCategoryTimeList;
 
 /**
- * Servlet implementation class MinPriceAjax
+ * Servlet implementation class EntrieViewCountServlet
  */
-@WebServlet("/minprice")
-public class MinPriceAjax extends HttpServlet {
+@WebServlet("/entrieview")
+public class EntrieViewCountServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public MinPriceAjax() {
+    public EntrieViewCountServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,13 +31,6 @@ public class MinPriceAjax extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String categoryNameCondition = request.getParameter("categoryname");
-		String subCategoryNameCondition = request.getParameter("subcategoryname");
-		String statusCondition = request.getParameter("status");
-		String priceCondition = request.getParameter("price");
-		String areaCondition = request.getParameter("area");
-		String condition="";
-		// 페이징
 		int cPage, numPerpage;
 		try {
 			cPage = Integer.parseInt(request.getParameter("cPage"));
@@ -50,28 +43,7 @@ public class MinPriceAjax extends HttpServlet {
 			numPerpage = 32;
 		}
 		String pageBar = "";
-		int totalData = 0;
-	 	if (categoryNameCondition != null) {
-	        condition+=categoryNameCondition;
-	    }
-	    if (subCategoryNameCondition != null) {
-	    	condition += (condition.length()>0?" OR ":"")+"R."+subCategoryNameCondition;
-	    }
-	    if (statusCondition != null) {
-	    	condition += (condition.length()>0?" OR ":"")+statusCondition;
-	    }
-	    if (priceCondition != null) {
-	    	priceCondition = priceCondition.replace(",", "");
-	    	condition += (condition.length()>0?" OR ":"")+priceCondition;
-	    }
-	    if (areaCondition != null) {
-	    	condition += (condition.length()>0?" OR ":"")+areaCondition;
-	    }
-	    if(condition.equals("")) {
-	    	condition="1=1";
-	    }
-	    
-	    totalData = new ProductCategoryListService().MinpriceListCount(condition);
+		int totalData = new ProductCategoryListService().CategoryProductListCount();
 		int totalPage = (int)Math.ceil((double)totalData/numPerpage);
 		int pageBarSize = 5;
 		int pageNo = ((cPage-1)/pageBarSize)*pageBarSize + 1;
@@ -95,13 +67,15 @@ public class MinPriceAjax extends HttpServlet {
 		} else {
 			pageBar += "<li><a href='javascript:void(0);'onclick='changePage("+ pageNo + ");'&numPerpage=" + numPerpage + "'>&gt;</a></li>";
 		}
+		request.setAttribute("totalData", totalData);
 		request.setAttribute("pageBar", pageBar);
 		
+		List<ProductCategoryTimeList> productlist = new ProductCategoryListService().EntireViewCount(cPage, numPerpage);
 		
-		List<ProductCategoryTimeList> getselectproduct = new ProductCategoryListService().MinxpriceList(condition, cPage, numPerpage);
-		
-		request.setAttribute("getselectproduct", getselectproduct);
-		request.getRequestDispatcher("/views/productcategorypage/minprice.jsp").forward(request, response);
+		request.setAttribute("productlist", productlist);
+		request.getRequestDispatcher("/views/productcategorypage/entireview.jsp").forward(request, response);
+
+	
 	}
 
 	/**
