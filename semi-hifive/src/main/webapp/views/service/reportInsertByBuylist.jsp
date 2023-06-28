@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page import="java.util.List, com.semi.product.model.vo.Product" %>
+<%@ page import="java.util.List, com.semi.sc.model.dto.ReportData" %>
 <%@ include file="/views/common/header.jsp"%>
 <%
-	List<Product> buyList=(List<Product>)request.getAttribute("buyList");
+	List<ReportData> dataList=(List<ReportData>)request.getAttribute("dataList");
 %>
 <section>
 <%@ include file="/views/service/serviceCategory.jsp"%>
@@ -29,21 +29,22 @@
 						<th>거래 날짜</th>
 						<th>체크</th>
 					</tr>
-				<%if(!buyList.isEmpty()){
+				<%if(dataList!=null){
 					int num=0;
-					for(Product p:buyList){
+					for(ReportData d:dataList){
 						num++; %>
 					<tr>
 						<td><%=num %></td>
-						<td><%=p.getUserId() %></td>
-						<td class="productTitle"><%=p.getTitle() %></td>
-						<td><%=p.getRegistTime() %></td>
+						<td><%=d.getBuyerId() %></td>
+						<td class="productTitle"><%=d.getProductTitle() %></td>
+						<td><%=d.getSellDate() %></td>
 						<td class="reportCheck">
 				          <div class="checkContainer">
 				           	 	<label class="list-label">
-				                  <input type="checkbox" id="buyListCk" value="<%=p.getProductId() %>" checked>
+				                  <input type="checkbox" name="buyListCk" value="<%=d.getTradeId() %>">
 				                  <div class="buyCk"></div>
 				               	</label>
+				               	<input type="hidden" id="productId" value="<%=d.getProductId() %>">
 				          </div>
 						</td>
 					</tr>
@@ -103,11 +104,8 @@ function uploadFile(){
     formData.append("writer","<%=loginMember.getUserId()%>");
     formData.append("title",$("#reportTitle").val());
     formData.append("content",$("#reportContent").val());
-    let checkData="";
-    $(".checkContainer").find('input:checked').each(function(index){
-    	checkData+=$(this).val()+",";
-    });
-    formData.append("check",checkData);
+    formData.append("check",$(".buyListCk:checked").val());
+    formData.append("productId",$("#productId").val());
     
     
     $.ajax({

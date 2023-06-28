@@ -9,13 +9,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
 import com.semi.product.model.vo.Product;
 import com.semi.sc.model.dto.BoardComment;
 import com.semi.sc.model.dto.Report;
-import com.semi.sc.model.dto.ReportList;
+import com.semi.sc.model.dto.ReportData;
 import com.semi.sc.model.dto.ServiceFile;
 
 public class ReportDao {
@@ -63,12 +64,16 @@ public class ReportDao {
 	}
 	
 	//거래 리스트 반환 메소드
-	public static Product getTrade(ResultSet rs) throws SQLException{
-		return Product.builder()
-				.title(rs.getString("product_title"))
-				.registTime(rs.getDate("sell_date"))
+	public static ReportData getReportData(ResultSet rs) throws SQLException{
+		return ReportData.builder()
 				.userId(rs.getString("buyer_id"))
-				.productId(rs.getInt("trade_id"))
+				.productTitle(rs.getString("product_title"))
+				.sellDate(rs.getDate("sell_date"))
+				.productId(rs.getInt("product_id"))
+				.tradeId(rs.getInt("trade_id"))
+				.buyerId(rs.getString("nickname"))
+				.price(rs.getInt("price"))
+				.registTime(rs.getDate("regist_time"))
 				.build();
 	}
 	
@@ -83,16 +88,6 @@ public class ReportDao {
 				.build();
 	}
 	
-	//신고 리스트 반환 메소드
-	public static ReportList getReportList(ResultSet rs) throws SQLException{
-		return ReportList.builder()
-				.reportListNo(rs.getInt("report_list_no"))
-				.reportNo(rs.getInt("report_no"))
-				.productId(rs.getInt("product_id"))
-				.tradeId(rs.getInt("trade_id"))
-				.userId(rs.getString("nickname"))
-				.build();
-	}
 	
 	//해당 데이터 갯수
 	public int selectReportCount(Connection conn, String loginId) {
@@ -139,10 +134,10 @@ public class ReportDao {
 	}
 
 	//2주 이내의 거래 리스트
-	public List<Product> selectBuyList(Connection conn, String loginId) {
+	public List<ReportData> selectBuyList(Connection conn, String loginId) {
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
-		List<Product> buyList=new ArrayList();
+		List<ReportData> dataList=new ArrayList();
 		String query=sql.getProperty("selectBuyList");
 		try {
 			query=query.replaceAll("#SS", "'판매완료'");
@@ -150,7 +145,7 @@ public class ReportDao {
 			pstmt.setString(1, loginId);
 			rs=pstmt.executeQuery();
 			while(rs.next()) {
-				buyList.add(getTrade(rs));
+				dataList.add(getReportData(rs));
 			}
 		}catch(SQLException e) {
 			e.printStackTrace();
@@ -158,7 +153,7 @@ public class ReportDao {
 			close(rs);
 			close(pstmt);
 		}
-		return buyList;
+		return dataList;
 	}
 
 	//신고글 저장
@@ -167,13 +162,13 @@ public class ReportDao {
 		int result=0;
 		String query=sql.getProperty("insertReport");
 		try {
-			query=query.replaceAll("#PI", r.getProductId()!=0?String.valueOf(r.getProductId()):"NULL");
 			query=query.replaceAll("#TI", r.getTradeId()!=0?String.valueOf(r.getTradeId()):"NULL");
 			pstmt=conn.prepareStatement(query);
 			pstmt.setString(1, r.getReportWriter());
 			pstmt.setString(2, r.getReportTitle());
 			pstmt.setString(3, r.getReportContent());
 			pstmt.setString(4, r.getReportCategory());
+			pstmt.setInt(5, r.getProductId());
 			result=pstmt.executeUpdate();
 		}catch(SQLException e) {
 			e.printStackTrace();
@@ -399,21 +394,7 @@ public class ReportDao {
 		return p;
 	}
 
-	//거래 내역 신고 시 상품 정보 저장
-	public int updateReportBoard(Connection conn, Product p) {
-		PreparedStatement pstmt=null;
-		int result=0;
-		try {
-			pstmt=conn.prepareStatement(sql.getProperty("updateReportBoard"));
-			pstmt.setInt(1, p.getProductId());
-			result=pstmt.executeUpdate();
-		}catch(SQLException e) {
-			e.printStackTrace();
-		}finally {
-			close(pstmt);
-		}
-		return result;
-	}
+	
 	
 	
 }

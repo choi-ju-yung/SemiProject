@@ -13,6 +13,7 @@ import com.semi.product.model.vo.Product;
 import com.semi.sc.dao.ReportDao;
 import com.semi.sc.model.dto.BoardComment;
 import com.semi.sc.model.dto.Report;
+import com.semi.sc.model.dto.ReportData;
 import com.semi.sc.model.dto.ServiceFile;
 
 public class ReportService {
@@ -32,25 +33,26 @@ public class ReportService {
 		return reportList;
 	}
 	
-	public List<Product> selectBuyList(String loginId) {
+	public List<ReportData> selectBuyList(String loginId) {
 		Connection conn=getConnection();
-		List<Product> buyList=dao.selectBuyList(conn, loginId);
+		List<ReportData> dataList=dao.selectBuyList(conn, loginId);
 		close(conn);
-		return buyList;
+		return dataList;
 	}
 	
-	public int insertReportBuyList(Report r, List<String> filesNames, List<Product> byBuyList) {
+	public int insertReportBuyList(Report r, List<String> filesNames) {
 		Connection conn=getConnection();
 		int result=dao.insertReportBoard(conn, r);
-		int fileresult=0, buyresult=0, pResult=0;
+		int fileresult=0;
 		for(String file:filesNames) {
 			fileresult+=dao.insertReportFile(conn, file);
 		}
-		for(Product p:byBuyList) {
-			pResult+=dao.updateReportBoard(conn, p);
+		if(result>0&&fileresult==filesNames.size()) {
+			commit(conn);
+		}else {
+			rollback(conn);
+			result=0;
 		}
-		if(result>0&&fileresult==filesNames.size()&&pResult==byBuyList.size()) commit(conn);
-		else rollback(conn);
 		close(conn);
 		return result;
 	}

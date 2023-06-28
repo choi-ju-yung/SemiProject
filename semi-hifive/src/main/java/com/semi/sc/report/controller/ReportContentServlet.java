@@ -37,7 +37,9 @@ public class ReportContentServlet extends HttpServlet {
 		Report r=new ReportService().selectReportContent(reportNo);
 		request.setAttribute("report", r);
 		
-		if(!r.getReportWriter().equals(loginId)) { //작성자랑 로그인 사용자가 다른 경우
+		if(!r.getReportWriter().equals(loginId)||
+				!((Member)session.getAttribute("loginMember")).getAuth().equals("M")) {
+			//작성자랑 로그인 사용자가 다르거나 관리자가 아닌 경우
 			request.setAttribute("msg", "잘못된 접근입니다.");
 			request.setAttribute("loc", "/");
 			request.getRequestDispatcher("/views/common/msg.jsp").forward(request, response);
