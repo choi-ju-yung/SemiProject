@@ -119,28 +119,21 @@ public class ReportService {
 		for(String file:filesNames) {
 			fileresult+=dao.insertReportFile(conn, file);
 		}
-		int productresult=dao.insertReportList(conn, r, productId);
-		if(result>0&&fileresult==filesNames.size()&&productresult>0) commit(conn);
-		else rollback(conn);
+		if(result>0&&fileresult==filesNames.size()) {
+			commit(conn);
+		}else {
+			rollback(conn);
+			result=0;
+		}
 		close(conn);
 		return result;
 	}
 
-	public Product selectReportProductList(int reportNo) {
+	public ReportData selectReportData(int reportNo) {
 		Connection conn=getConnection();
-		Product reportProduct=dao.selectReportProductList(conn, reportNo);
+		ReportData rd=dao.selectReportData(conn, reportNo);
 		close(conn);
-		return reportProduct;
-	}
-
-	public List<Product> selectByBuyList(List<Integer> tradeList) {
-		Connection conn=getConnection();
-		List<Product> list=new ArrayList();
-		for(Integer tradeId:tradeList) {
-			list.add(dao.selectByBuyList(conn, tradeId));
-		}
-		close(conn);
-		return list;
+		return rd;
 	}
 
 }

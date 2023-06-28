@@ -333,35 +333,23 @@ public class ReportDao {
 		return p;
 	}
 
-	//판매글을 신고 내역에 저장
-	public int insertReportList(Connection conn, Report r, int productId) {
-		PreparedStatement pstmt=null;
-		int result=0;
-		String query=sql.getProperty("insertReportListByProduct");
-		try {
-			query=query.replaceAll("#PI", productId!=0?String.valueOf(productId):"NULL");
-			pstmt=conn.prepareStatement(query);
-			pstmt.setString(1, r.getReportWriter());
-			result=pstmt.executeUpdate();
-		}catch(SQLException e) {
-			e.printStackTrace();
-		}finally {
-			close(pstmt);
-		}
-		return result;
-	}
-
-	//신고한 정보 불러오는 메소드
-	public Product selectReportProductList(Connection conn, int reportNo) {
+	public ReportData selectReportData(Connection conn, int reportNo) {
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
-		Product reportProduct=null;
+		ReportData rd=null;
 		try {
-			pstmt=conn.prepareStatement(sql.getProperty("selectReportList"));
+			pstmt=conn.prepareStatement(sql.getProperty("selectReportData"));
 			pstmt.setInt(1, reportNo);
 			rs=pstmt.executeQuery();
 			if(rs.next()) {
-				reportProduct=getProduct(rs);
+				rd=ReportData.builder()
+						.userId(rs.getString("report_writer"))
+						.productTitle(rs.getString("product_title"))
+						.productId(rs.getInt("product_id"))
+						.buyerId(rs.getString("nickname"))
+						.price(rs.getInt("price"))
+						.registTime(rs.getDate("regist_time"))
+						.build();
 			}
 		}catch(SQLException e) {
 			e.printStackTrace();
@@ -369,29 +357,7 @@ public class ReportDao {
 			close(rs);
 			close(pstmt);
 		}
-		return reportProduct;
-	}
-
-	//거래 내역 아이디로 상품 리스트 조회
-	public Product selectByBuyList(Connection conn, int tradeId) {
-		PreparedStatement pstmt=null;
-		ResultSet rs=null;
-		Product p=null;
-		try {
-			pstmt=conn.prepareStatement(sql.getProperty("selectReportList"));
-			pstmt.setInt(1, tradeId);
-			rs=pstmt.executeQuery();
-			if(rs.next()) {
-				p=getProduct(rs);
-			}
-			
-		}catch(SQLException e) {
-			e.printStackTrace();
-		}finally {
-			close(rs);
-			close(pstmt);
-		}
-		return p;
+		return rd;
 	}
 
 	
