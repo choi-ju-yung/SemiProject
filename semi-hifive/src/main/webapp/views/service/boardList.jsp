@@ -6,10 +6,7 @@
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/service/boardList.css">
 <%
 	List<Board> boardList=(List)request.getAttribute("boardList"); //게시판 리스트
-	char notice='Y';//게시판 구분하는 기본값 지정	
-	if(boardList!=null&&boardList.get(0).getNoticeYn()=='N'){
-		notice='N'; 
-	}
+	char notice=((String)request.getAttribute("noticeYN")).charAt(0);
 %>
 <section>
 	<%@ include file="/views/service/serviceCategory.jsp" %>
