@@ -28,14 +28,15 @@ public class InquiryContentServlet extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		char secret=request.getParameter("s").charAt(0);
-		
 		HttpSession session = ((HttpServletRequest)request).getSession();
-		Member loginMember = (Member)session.getAttribute("loginMember");
+		String loginId=((String)((Member)session.getAttribute("loginMember")).getNickName());
 		int inquiryNo=Integer.parseInt(request.getParameter("no"));
 		Inquiry q=new InquiryService().selectInquiryContent(inquiryNo);
-		
+		System.out.println(loginId);
+		System.out.println(q.getInquiryWriter());
 		if (secret == 'Y') {// 비밀글
-			if (loginMember.getAuth().equals("U")&&!loginMember.getNickName().equals(q.getInquiryWriter())) { 
+			if (!q.getInquiryWriter().equals(loginId)
+					||!((Member)session.getAttribute("loginMember")).getAuth().equals("M")) { 
 				//작성자랑 일치하거나 관리자 권한이 아닐때
 				request.setAttribute("msg", "조회 권한이 없습니다.");
 				request.setAttribute("loc", "/service/inquiryList.do");
