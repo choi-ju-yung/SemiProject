@@ -4,10 +4,13 @@
 <%@ include file="/views/common/header.jsp"%>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/main.css" />
 <script>
-const context = "http://localhost:9090/semi-hifive/";
+function getContextPath() {
+	var hostIndex = location.href.indexOf(location.host) + location.host.length;
+	return location.href.substring(hostIndex, location.href.indexOf('/', hostIndex + 1));
+};
 
    $.ajax({
-      url:"<%=request.getContextPath()%>/main/mainPage.do",
+      url: getContextPath() + "/main/mainPage.do",
       dataType: 'json',
       success: (data)=> {
          data.forEach((e, i) => {
@@ -15,9 +18,9 @@ const context = "http://localhost:9090/semi-hifive/";
                console.log(i);
                $(".productTitle")[i].innerText = e.product.title;
                $(".price")[i].innerText = e.product.price.toLocaleString() + "원";
-               $(".productImg img").eq(i).attr("src", context + "upload/productRegist/" + e.productFile.imageName);
-               $(".productLink").eq(i).attr("href", context + "/productpage?no=" + e.product.productId);
-               $(".productTitle").eq(i).attr("href", context + "/productpage?no=" + e.product.productId);
+               $(".productImg img").eq(i).attr("src", getContextPath() + "upload/productRegist/" + e.productFile.imageName);
+               $(".productLink").eq(i).attr("href", getContextPath() + "/productpage?no=" + e.product.productId);
+               $(".productTitle").eq(i).attr("href", getContextPath() + "/productpage?no=" + e.product.productId);
                $(".checkmark").eq(i).attr("id", e.product.productId);
                if(e.product.productStatus == '미개봉'){
                      $(".statusBtn")[i].innerText = "NEW " + e.product.productStatus;
