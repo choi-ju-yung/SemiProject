@@ -657,7 +657,7 @@
 			                });
 		            	});
 	         $("#popular").click(function() {
-	        	 alert("인기순");
+	        	 	alert("인기순");
 			            		$.ajax({
 				                    url: "<%=request.getContextPath()%>/viewcount",
 				                    dataType: 'html',
@@ -668,7 +668,6 @@
 				                });
 			            	});
 	        	function getselectproduct(conditions){
-	           		 
 	           		$.ajax({
 	                    url: "<%=request.getContextPath()%>/ajaxGetproduct.do",
 	                    dataType: 'html',
@@ -677,14 +676,14 @@
 	                    	$("#contentdata").html(data);
 	                        if (typeof conditions['subcategoryname']=='undefined' 
 	                        		&& typeof conditions['categoryname'] =='undefined') {
-		          			     $("#categoryName span").text("전체" + " " + '(<%=request.getAttribute("totalData")%>)' + " ");
+		          			     $("#categoryName span").text("전체" + " " + '(<%=request.getAttribute("totalData")%>)');
 			          		} else if (typeof conditions['subcategoryname']=='undefined'
 			          				&&typeof conditions['categoryname']!='undefined') {
-			          			$("#categoryName span").text(categoryName + " " + '(<%=request.getAttribute("totalData")%>)' + " ");
+			          			$("#categoryName span").text(categoryName + " " + '(<%=request.getAttribute("totalData")%>)');
 			          		}else if(typeof conditions['subcategoryname']!='undefined' && typeof conditions['categoryname']=='undefined'){
-			          			$("#categoryName span").text(subcategoryname + " " + '(<%=request.getAttribute("totalData")%>)' + " ");
+			          			$("#categoryName span").text(subcategoryname + " " + '(<%=request.getAttribute("totalData")%>)');
 			          		}else {
-			          			$("#categoryName span").text(categoryName + " > " + subcategoryname + " " + '(<%=request.getAttribute("totalData")%>)' + " ");
+			          			$("#categoryName span").text(categoryName + " > " + subcategoryname + " " + '(<%=request.getAttribute("totalData")%>)');
 			          		}
 		               }
 	           	});
@@ -704,7 +703,7 @@
       localStorage.setItem("recentlyViewed", JSON.stringify(recentlyViewed));
     };
  // 최근 본 상품 출력
-    function showRecentlyViewed().on(click, function(){
+    function showRecentlyViewed(){
         var recentlyViewed = JSON.parse(localStorage.getItem("recentlyViewed")) || [];
         // 최근 본 상품 목록이 없는 경우, 초기화
         if (recentlyViewed.length == 0) {
@@ -722,8 +721,7 @@
             $a.append($img);
             $("#recently").append($a);
         }
-    });
-    
+ }
     	
     //좋아요 ajax
      function Like_btn(productId, loginId){
