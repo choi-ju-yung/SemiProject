@@ -402,8 +402,9 @@ $("#categoryFunction>span").on("click", e=>{
 			var html = "";
 			console.log(soon);			
 			$.each(soon,function(index,item){
+				var price=$.numberWithCommas(parseInt(item.product.price));
 			html +=
-				"<div id='pimgWraper'>"
+				"<div class='pimgWraper'>"
               +"<div class='con-like'>"
                 +"<input title='like' type='checkbox' class='like' />"
                 +"<div class='checkmark'>"
@@ -423,7 +424,7 @@ $("#categoryFunction>span").on("click", e=>{
               +"<a href="+getContextPath()+"/productpage?no="+item.product.productId+">"
               +"<img src='"+getContextPath()+"/upload/productRegist/"+item.productFile.imageName+"'alt=''/>"
                + "<p id='productName'>"+item.product.title+"</p>"
-               + "<p id='productPrice'>"+item.product.price+"원"+ "<span>"+item.product.registTime+"</span></p>"
+               + "<p id='productPrice'>"+price+"원"+ "<span>"+item.product.registTime+"</span></p>"
                 +"<p id='productPlace'>"
                  + "<ion-icon name='location-outline'></ion-icon>"
                   +item.product.areaName
@@ -433,8 +434,19 @@ $("#categoryFunction>span").on("click", e=>{
             })
             $("#productImgContainer").empty();
             $("#productImgContainer").append(html);
+            
+    
+
 		}		
 	})
 })
 
-
+$(function(){
+	var num = $("#tag").text()
+    	//아이디 tag인 태그의 text를 읽어온다 
+	num2 = $.numberWithCommas(parseInt(num));
+  	// 받아온 text값을 정수로 변환하여 numberwithCommas 함수의 인자값으로 넣는다
+})
+$.numberWithCommas = function (x) {
+	  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+	}

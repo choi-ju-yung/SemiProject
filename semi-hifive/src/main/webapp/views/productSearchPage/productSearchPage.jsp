@@ -346,7 +346,9 @@ SearchCount searchCount = (SearchCount) request.getAttribute("searchCount");
 						alt="" />
 
 						<p id="productName"><%=sl.getProduct().getTitle()%></p>
-						<p id="productPrice"><%=sl.getProduct().getPrice()%><span><%=sl.getProduct().getRegistTime()%></span>
+						<%String price=Integer.toString(sl.getProduct().getPrice());
+						  price=price.replaceAll("\\B(?=(\\d{3})+(?!\\d))",",");%>										
+						<p id="productPrice"><%=price%>원<span><%=sl.getProduct().getRegistTime()%></span>
 						</p>
 						<p id="productPlace">
 							<i class="bi bi-geo-alt"></i>
