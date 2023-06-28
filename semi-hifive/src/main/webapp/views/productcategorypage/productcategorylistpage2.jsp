@@ -695,15 +695,35 @@
     
     // 최근 상품 쿠키 저장
    function ResentlyProduct(productId) {
-    	$.ajax({
-    		url: "<%=request.getContextPath()%>/resentlymakecookie",
-    		type: "GET",
-    		data: {'productId':productId},
-    		success: function(data){
-    			console.log(data);
-    		}
-    	});
-    }
+      var viewedProduct = {'productId':productId,  
+    		 'producttitle': productTitle,
+    		 'productimagename':productimagename,
+    		};
+      var recentlyViewed = JSON.parse(localStorage.getItem("recentlyViewed")) || [];
+      recentlyViewed.unshift(viewedProduct);
+      localStorage.setItem("recentlyViewed", JSON.stringify(recentlyViewed));
+    };
+ // 최근 본 상품 출력
+    function showRecentlyViewed().on(click, function(){
+        var recentlyViewed = JSON.parse(localStorage.getItem("recentlyViewed")) || [];
+        // 최근 본 상품 목록이 없는 경우, 초기화
+        if (recentlyViewed.length == 0) {
+            $("#recentlyViewed").empty();
+            return;
+        }
+        // 최근 본 상품 출력
+        $("#recently").empty();
+        for (var i = 0; i < recentlyViewed.length; i++) {
+        	var $productimagename = recentlyViewed[i].productimagename;
+            var $productId = recentlyViewed[i].productId;
+            var $productName = recentlyViewed[i].productTitle;
+            var $a = "<a href='/product/detail/" + productId + "'>" + productName + "</a>";
+            var $img = "<img src='<%=request.getContextPath()%>/upload/productRegist/$productimagename'>"
+            $a.append($img);
+            $("#recently").append($a);
+        }
+    });
+    
     	
     //좋아요 ajax
      function Like_btn(productId, loginId){
