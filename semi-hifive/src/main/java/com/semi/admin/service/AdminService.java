@@ -7,7 +7,9 @@ import java.sql.Connection;
 import java.util.List;
 
 import com.semi.admin.dao.AdminDao;
+import com.semi.admin.model.vo.ReportProductMember;
 import com.semi.member.model.vo.Member;
+import com.semi.sc.model.dto.Report;
 
 public class AdminService {
 
@@ -74,7 +76,7 @@ public class AdminService {
 	
 	public int allBoardRemove() {
 		Connection conn = getConnection();
-		int result = dao.allUserRemove(conn);
+		int result = dao.allBoardRemove(conn);
 		close(conn);
 		return result;
 	}
@@ -98,7 +100,7 @@ public class AdminService {
 		return result;
 	}
 	
-	
+	//게시글 수정
 	public int updateBoard(String boardTitle, String boardContent, String boardDate, String boardCategory, String boardNo) {
 		Connection conn = getConnection();
 		int result = dao.updateBoard(conn, boardTitle, boardContent, boardDate, boardCategory, boardNo);
@@ -106,4 +108,72 @@ public class AdminService {
 		return result;
 	}
 	
+	// 모든 신고글 조회
+	public List<Report> selectReportList(int cPage, int numPerpage){
+		Connection conn = getConnection();
+		List<Report> result = dao.selectReportList(conn,cPage,numPerpage);
+		close(conn);
+		return result;
+	}
+	
+	// 모든 신고글 개수
+	public int selectReportCount() {
+		Connection conn = getConnection();
+		int result = dao.selectMemberCount(conn);
+		close(conn);
+		return result;
+	}
+	
+	// 삭제버튼 눌러서 신고글 삭제
+	public int reportRemove(String reportNo) {
+		Connection conn = getConnection();
+		int result = dao.reportRemove(conn, reportNo);
+		close(conn);
+		return result;
+	}
+	
+	//체크된 신고글들 삭제
+	public int deleteCheckReport(String sql) {
+		Connection conn = getConnection();
+		int result = dao.deleteCheckReport(conn, sql);
+
+		close(conn);
+		return result;
+	}
+	
+	// 신고번호로 해당 상품정보와, 유저정보까지 같이 조인
+	public ReportProductMember reportProductMember(String reportNo) {
+		Connection conn = getConnection();
+		ReportProductMember rpm = dao.reportProductMember(conn, reportNo);
+		close(conn);
+		return rpm;
+	}
+	
+	// 해당 아이디 신고 누적수 1 증가
+	public int increaseDeclareCount(String userId) {
+		Connection conn = getConnection();
+		int result = dao.increaseDeclareCount(conn, userId);
+		close(conn);
+		return result;
+	}
+	
+	// 해당 아이디의 누적 신고수 개수 확인
+	public int selectDeclareCount(String userId) {
+		Connection conn = getConnection();
+		int cnt = dao.selectDeclareCount(conn, userId);
+		close(conn);
+		return cnt;
+	}
+	
+	
+	// 해당아이디의 온도 1감소
+	public int decreaseTemp(String userId) {
+		Connection conn = getConnection();
+		int result1 = dao.decreaseTemp(conn, userId);
+		close(conn);
+		return result1;
+	}
 }
+
+
+

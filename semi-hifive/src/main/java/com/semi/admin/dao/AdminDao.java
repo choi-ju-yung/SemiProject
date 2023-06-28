@@ -13,7 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import com.semi.admin.model.vo.ReportProductMember;
 import com.semi.member.model.vo.Member;
+import com.semi.sc.model.dto.Report;
 
 public class AdminDao {
 	private Properties sql = new Properties();
@@ -229,6 +231,21 @@ public class AdminDao {
 	}
 	
 	
+	public int allBoardRemove(Connection conn) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		try {
+			pstmt = conn.prepareStatement(sql.getProperty("allBoardRemove"));
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+	
 	
 	public int updateBoard(Connection conn,String boardTitle,String boardContent,String boardDate, String boardCategory, String boardNo) {
 		PreparedStatement pstmt = null;
@@ -251,5 +268,174 @@ public class AdminDao {
 		return result;
 	}
 	
+	
+	
+	public List<Report> selectReportList(Connection conn, int cPage, int numPerpage){
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<Report> result = new ArrayList();
+		try {
+			pstmt = conn.prepareStatement(sql.getProperty("selectReportList"));
+			pstmt.setInt(1, (cPage - 1) * numPerpage + 1);
+			pstmt.setInt(2, cPage * numPerpage);
+
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				result.add(Report.builder()
+			            .reportContent(rs.getString("report_content"))
+			            .reportNo(rs.getInt("report_no"))
+			            .reportWriter(rs.getString("report_writer"))
+			            .reportTitle(rs.getString("report_title"))
+			            .reportDate(rs.getDate("report_date"))
+			            .reportCategory(rs.getString("report_category"))
+			            .productId(rs.getInt("product_id"))
+			            .tradeId(rs.getInt("trade_id"))
+			            .build());
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rs);
+			close(pstmt);
+		}
+		return result;
+	}
+	
+	
+	public int selectReportCount(Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		int result = 0;
+		try {
+			pstmt = conn.prepareStatement(sql.getProperty("selectReportCount"));
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				result = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rs);
+			close(pstmt);
+		}
+		return result;
+	}
+	
+	
+	
+	public int reportRemove(Connection conn, String reportNo) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		try {
+			pstmt = conn.prepareStatement(sql.getProperty("reportRemove"));
+			pstmt.setString(1, reportNo);
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+	
+	
+	public int deleteCheckReport(Connection conn, String rsql) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		try {
+			pstmt = conn.prepareStatement(sql.getProperty("deleteCheckReport").replace("#data", rsql));
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+	
+	
+	public ReportProductMember reportProductMember(Connection conn, String reportNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		ReportProductMember r = null;
+		try {
+			pstmt = conn.prepareStatement(sql.getProperty("reportProductMember"));
+			pstmt.setString(1, reportNo);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				// 필요한 데이터들만 빌더해서 갖고옴
+				r = ReportProductMember.builder()
+						.report(Report.builder()
+								.reportNo(rs.getInt("REPORT_NO")).build())
+						.member(Member.builder()
+								.userId(rs.getString("USER_ID"))
+								.declareCount(rs.getInt("DECLARE_COUNT"))
+								.temperature(rs.getDouble("TEMPERATURE")).build()).build();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rs);
+			close(pstmt);
+		}return r;
+	}
+	
+	
+	
+	public int increaseDeclareCount(Connection conn, String userId) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		try {
+			pstmt = conn.prepareStatement(sql.getProperty("increaseDeclareCount"));
+			pstmt.setString(1, userId);
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+	
+	
+	
+	public int selectDeclareCount(Connection conn, String userId) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		int cnt = 0;
+		try {
+			pstmt = conn.prepareStatement(sql.getProperty("selectDeclareCount"));
+			pstmt.setString(1, userId);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				cnt = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rs);
+			close(pstmt);
+		}
+		return cnt;
+	}
+	
+	
+	public int decreaseTemp(Connection conn, String userId) {
+		PreparedStatement pstmt = null;
+		int result1 = 0;
+		try {
+			pstmt = conn.prepareStatement(sql.getProperty("decreaseTemp"));
+			pstmt.setString(1, userId);
+			result1 = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result1;
+	}
 	
 }

@@ -158,7 +158,7 @@ List<Member> members = (List) request.getAttribute("members");
 			url: "deleteCheck",
 			data: {"arr": arr},  
 			success: function(result) {
-				if(result==1){
+				if(result>=1){
 					alert("성공적으로 삭제되었습니다.");
 					location.replace("/semi-hifive/memberList.do");
 				}else{

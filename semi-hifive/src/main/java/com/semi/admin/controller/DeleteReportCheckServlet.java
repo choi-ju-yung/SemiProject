@@ -10,26 +10,34 @@ import javax.servlet.http.HttpServletResponse;
 import com.semi.admin.service.AdminService;
 
 
-@WebServlet("/boardRemove.do")
-public class BoardRemoveServlet extends HttpServlet {
+@WebServlet("/deleteCheckReport")
+public class DeleteReportCheckServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-    public BoardRemoveServlet() {
+    public DeleteReportCheckServlet() {
         super();
+        // TODO Auto-generated constructor stub
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String boardNo = request.getParameter("boardNo");
-		int result = new AdminService().boardRemove(boardNo);
+		String arr[] = request.getParameterValues("arr[]"); // arr[] -> 배열로 넘기려면 []로 받아야함 
 		
-		if(result>=1) {
-			System.out.println("삭제완료");
-			response.sendRedirect("/semi-hifive/boardListAdmin.do");
-//			request.getRequestDispatcher("/boardListAdmin.do").forward(request, response);
-		}else {
-			System.out.println("삭제실패");
-			response.sendRedirect("/semi-hifive/boardListAdmin.do");
+		String sql = "";
+		for(int i=0; i<arr.length; i++) {
+			sql+="'";
+			sql+=arr[i];
+			sql+="'";
+			if(i!=arr.length-1) {
+				sql+=",";
+			}
+			
 		}
+		
+		System.out.println(sql);
+		
+		int result = new AdminService().deleteCheckReport(sql);
+
+		response.getWriter().print(result);
 	}
 
 
