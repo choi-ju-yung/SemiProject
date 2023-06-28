@@ -10,7 +10,7 @@
 	<%@ include file="/views/service/serviceCategory.jsp"%>
 	<div class="ServiceCenter">
 		<div id="reportHead">
-			<h2 class="ServietHead">거래 신고하기</h2>
+			<h2 class="ServietHead">신고하기</h2>
 			<button class="contentBtn"
 				onclick="location.href='<%=request.getContextPath()%>/service/reportBuylistInsert.do'">
 				글쓰기
@@ -22,7 +22,7 @@
 			<table>
 				<%if(!reportList.isEmpty()){ 
 					for(Report r:reportList){%>
-				<tr class="titleList" onclick="location.href='<%=request.getContextPath()%>/service/reportContent.do?no=<%=r.getReportNo() %>&user=<%=r.getReportWriter() %>'">
+				<tr class="titleList" onclick="location.href='<%=request.getContextPath()%>/service/reportContent.do?no=<%=r.getReportNo() %>'">
 					<td><%=r.getReportNo() %></td>
 					<td class="reportTitle">[<%=r.getReportCategory().equals("BUY")?"거래":"판매글"%>]
 					<%=r.getReportTitle() %></td>

@@ -1,4 +1,4 @@
-package com.semi.search.controller;
+package com.semi.search.service;
 
 import static com.semi.common.JDBCTemplate.close;
 import static com.semi.common.JDBCTemplate.commit;
@@ -10,8 +10,10 @@ import java.util.List;
 
 import com.semi.product.model.vo.Product;
 import com.semi.search.dao.SearchDao;
+import com.semi.search.model.vo.Search;
 import com.semi.search.model.vo.SearchCount;
-public class SearchController {
+import com.semi.shop.model.vo.ProductList;
+public class SearchService {
 	
 	SearchDao dao=new SearchDao();
 	
@@ -24,16 +26,16 @@ public class SearchController {
 		return result;
 	}
 
-	public List<Product> searchTitle(String content){
+	public List<ProductList> searchTitle(String content){
 		Connection conn=getConnection();
-		List<Product> searchList=dao.searchTitle(conn,content);
+		List<ProductList> searchList=dao.searchTitle(conn,content);
 		close(conn);
 		return searchList;
 	}
 	
-	public List<Product> searchKeyWord(String content){
+	public List<ProductList> searchKeyWord(String content){
 		Connection conn=getConnection();
-		List<Product> searchList=dao.searchKeyWord(conn,content);
+		List<ProductList> searchList=dao.searchKeyWord(conn,content);
 		close(conn);
 		return searchList;
 	}
@@ -43,5 +45,19 @@ public class SearchController {
 		SearchCount searchCount=dao.searchCount(conn,content);
 		close(conn);
 		return searchCount;
+	}
+	
+	public List<Search> printSearch(){
+		Connection conn=getConnection();
+		List<Search> searchList=dao.printSearch(conn);
+		close(conn);
+		return searchList;
+	}
+	
+	public List<ProductList> allSoon(String content, String soon){
+		Connection conn=getConnection();
+		List<ProductList> searchList=dao.allSoon(conn,content,soon);
+		close(conn);
+		return searchList;
 	}
 }

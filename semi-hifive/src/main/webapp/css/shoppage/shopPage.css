@@ -167,7 +167,7 @@
   font-size: 18px;
 }
 #selectCategory span {
-  color: #afafaf;
+  color: #20c997;
 }
 #categoryFunction span {
   margin-right: 8px;
@@ -177,16 +177,20 @@
   color: #20c997;
   cursor: pointer;
 }
+#categoryFunction span.active{
+  color: #20c997;
+  font-weight: bold;
+}
 
 #productImgContainer {
   margin-top: 10px;
   display: flex;
-  justify-content: space-between;
   flex-wrap: wrap;
 }
 #pimgWraper {
-  height: 370px;
-  /* margin-top: 10px; */
+  height: 350px;
+  width:20%;
+
 }
 #productImgContainer img {
   width: 240px;
@@ -204,11 +208,13 @@
 #productName {
   color: black;
   font-size: 15px;
+  margin-bottom:10px;
 }
 #productPrice {
   color: black;
   font-weight: bold;
   font-size: 17px;
+  margin-bottom:10px;
 }
 #productPrice span {
   font-size: 14px;
@@ -217,8 +223,11 @@
 }
 #productPlace {
   color: #afafaf;
+  margin-bottom:10px;
 }
-#productPlace i {
+#productPlace ion-icon {
+  position:relative;
+  top:2px;	
   color: #20c997;
 }
 
@@ -364,4 +373,16 @@
 .time {
   font-size: 13px;
   color: #afafaf;
+}
+#noRecent{
+	display: grid;
+	justify-content: center;
+}
+#noRecenst h2{
+	margin-left: 50px;
+}
+#noRecent img{
+	margin-top:50px;
+	width: 300px;
+	height: 300px;
 }
