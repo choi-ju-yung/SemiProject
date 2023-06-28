@@ -24,10 +24,11 @@ public class BoardRemoveServlet extends HttpServlet {
 		
 		if(result==1) {
 			System.out.println("삭제완료");
-			request.getRequestDispatcher("/boardListAdmin.do").forward(request, response);
+			response.sendRedirect("/boardListAdmin.do");
+//			request.getRequestDispatcher("/boardListAdmin.do").forward(request, response);
 		}else {
 			System.out.println("삭제실패");
-			request.getRequestDispatcher("/boardListAdmin.do").forward(request, response);
+			response.sendRedirect("/boardListAdmin.do");
 		}
 	}
 

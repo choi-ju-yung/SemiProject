@@ -28,10 +28,12 @@ public class UserRemoveServlet extends HttpServlet {
 		
 		if(result==1) {
 			System.out.println("삭제완료");
-			request.getRequestDispatcher("/memberList.do").forward(request, response);
+			response.sendRedirect("/memberList.do");
+		/*	request.getRequestDispatcher("/memberList.do").forward(request, response);*/
 		}else {
 			System.out.println("삭제실패");
-			request.getRequestDispatcher("/memberList.do").forward(request, response);
+			response.sendRedirect("/memberList.do");
+			/* request.getRequestDispatcher("/memberList.do").forward(request, response); */
 		}
 	}
 
