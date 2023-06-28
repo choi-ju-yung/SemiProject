@@ -26,9 +26,9 @@
                 <div class="accordion-body">
                   <a href="<%=request.getContextPath()%>/memberList.do">회원조회</a>
                 </div>
-                <div class="accordion-body">
+<!--                 <div class="accordion-body">
                     탈퇴한 회원조회
-                  </div>
+                  </div> -->
               </div>
             </div>
             <div class="accordion-item">
@@ -39,7 +39,7 @@
               </h2>
               <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
                 <div class="accordion-body">
-                  공지사항 관리
+                  <a href="<%=request.getContextPath()%>/boardListAdmin.do">공지사항 관리</a>
                 </div>
                 <div class="accordion-body">
                   신고 관리

@@ -48,6 +48,7 @@ public class LoginCheckFillter extends HttpFilter implements Filter {
 			request.setAttribute("msg", "로그인 후 사용하세요.");
 			request.setAttribute("loc", "/loginView.do");
 			request.getRequestDispatcher("/views/common/msg.jsp").forward(request, response);
+			return;
 		} else {
 			
 		}

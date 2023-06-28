@@ -45,12 +45,14 @@ public class ReportProductInsertEndServlet extends HttpServlet {
 		DefaultFileRenamePolicy dfr = new DefaultFileRenamePolicy();
 		MultipartRequest mr = new MultipartRequest(request, path, maxSize, encode, dfr);
 		
+		int productId=Integer.parseInt(mr.getParameter("productId"));
 		//report info
 		Report r = Report.builder()
 				.reportCategory("RPODUCT")
 				.reportWriter(mr.getParameter("writer"))
 				.reportTitle(mr.getParameter("title"))
 				.reportContent(mr.getParameter("content"))
+				.productId(productId)
 				.build();
 		// file
 		Enumeration<String> files = mr.getFileNames();
@@ -60,7 +62,6 @@ public class ReportProductInsertEndServlet extends HttpServlet {
 			filesNames.add(mr.getFilesystemName(fileName));
 		}
 		int result = 0;
-		int productId=Integer.parseInt(mr.getParameter("productId"));
 		// reportList
 		if (mr.getParameter("productId") != null) {
 			

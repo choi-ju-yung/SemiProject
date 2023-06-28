@@ -28,7 +28,7 @@ public class ReportBuyListInsertServlet extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = ((HttpServletRequest)request).getSession();
-		String loginId = ((Member)session.getAttribute("loginMember")).getUserId();
+		String loginId=((String)((Member)session.getAttribute("loginMember")).getUserId());
 		
 		List<Product> buyList=new ReportService().selectBuyList(loginId);
 		request.setAttribute("buyList", buyList);

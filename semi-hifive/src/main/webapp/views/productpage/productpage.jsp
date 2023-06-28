@@ -88,7 +88,7 @@ List<ProductCommentUser> comments = (List) request.getAttribute("comments");
 			<h2 id="productName">
 				<%=p.getProduct().getTitle()%><span id="productStatus"><p><%=p.getProduct().getSellStatus()%></p></span>
 			</h2>
-
+			<input type="hidden" name="kakaoTitle" value="<%=p.getProduct().getTitle()%>">
 			<h2 id="productPrice"><%=p.getProduct().getPrice()%>원
 			</h2>
 			<hr width="695px" color="#eeeeee" noshade />
@@ -147,7 +147,7 @@ List<ProductCommentUser> comments = (List) request.getAttribute("comments");
 						<%}}} %>
 					</button>
 				</div>
-				<div id="talkBtn">
+				<div id="kakaoBtn">
 					<button>
 						<ion-icon name="chatbubbles"></ion-icon>
 						<b> 바로결제</b>
@@ -409,5 +409,11 @@ List<ProductCommentUser> comments = (List) request.getAttribute("comments");
 	<%} %>
 </section>
 <script
-	src="<%=request.getContextPath()%>/js/productpage/productPage.js?v=<%=System.currentTimeMillis()%>"></script>
+	src="<%=request.getContextPath()%>/js/productpage/productPage.js?v=<%=System.currentTimeMillis()%>">
+</script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="https://service.iamport.kr/js/iamport.payment-1.1.5.js"></script>
+<script
+src="<%=request.getContextPath()%>/js/productpage/kakaoPay.js?v=<%=System.currentTimeMillis()%>">
+</script>
 <%@ include file="/views/common/footer.jsp"%>

@@ -29,10 +29,10 @@ if (cookies != null) {
             	<h4><span>   <%=request.getAttribute("totalData")%></span></h4>
             </div>
             <div id="categoryFunction">
-             <span id ="recently" onclick="handleRecentlyClick();">최신순</span>
-              <span id ="popular" onclick="handleRecentlyClick();">인기도순</span>
-              <span id ="desc" onclick="handleDescClick();">최고가순</span>
-              <span id ="asc" onclick="handleAscClick();">최저가순</span>
+             <span id ="recently" >최신순</span>
+              <span id ="popular" >인기도순</span>
+              <span id ="desc" >최고가순</span>
+              <span id ="asc">최저가순</span>
             </div>
           </div>
 		<div id="productImgContainer">
@@ -80,7 +80,7 @@ if (cookies != null) {
                   <span>하마페이</span>
                 </div>
                 <img
-                  src=""
+	              src="<%=request.getContextPath()%>/upload/productRegist/<%=p.getProductfile().getImageName()%>"
                   alt=""
                 /><%=p.getProductfile().getImageName()%>
                 <p id="productName"><%=p.getProductCategoryList().getProductTitle()%></p>
