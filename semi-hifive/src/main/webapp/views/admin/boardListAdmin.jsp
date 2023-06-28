@@ -1,12 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ page import="java.util.List,com.semi.member.model.vo.Member"%>
+    pageEncoding="UTF-8"%>
+<%@ page import="java.util.List,com.semi.sc.model.dto.Board"%>
+
 <%
-List<Member> members = (List) request.getAttribute("members");
-
+List<Board> boards = (List) request.getAttribute("boards");
 %>
-
- <link rel="stylesheet" href="<%=request.getContextPath()%>/css/admin/manageMember.css" />
 <%@ include file="/views/admin/manageMemberHome.jsp"%>
 
 
@@ -15,59 +13,54 @@ List<Member> members = (List) request.getAttribute("members");
 			<div id="search-userId">
 				<form action="<%=request.getContextPath()%>/searchMember.do">
 					<select name="option" id="optionSelecter">
-						<option value="email">이메일</option>
-						<option value="user_id">아이디</option>
-						<option value="user_name">이름</option>
-						<option value="nickName">별명</option>
+						<option value="email">작성자</option>
+						<option value="user_id">제목</option>
+						<option value="user_name">내용</option>
+						<option value="nickName">날짜</option>
 					</select>
-					<input type="text" name="searchKeyword" size="25" placeholder="검색할 아이디를 입력하세요" value="">
+					<input type="text" name="searchKeyword" size="25" placeholder="" value="">
 					<button class="searchBtn" type="submit">검색</button>
 				</form>
 			</div>
 			
 			
-			
-	
 	<div class="userTable">
 		<table class="table text-center">
 			<thead>
 				<tr>
 					<th colspan="1">
-					<th>이메일</th>
-					<th>아이디</th>
-					<th>이름</th>
-					<th>별명</th>
-					<th>신고누적수</th>
-					<th>가입일</th>
-					<th>온도</th>
-					<th>수정/삭제</th>
+					<th>게시물번호</th>
+					<th>작성자</th>
+					<th>제목</th>
+					<th>날짜</th>
+					<th>확인/수정/삭제</th>
 				</tr>
 			</thead>
 			<tbody>
 				<%
-				if (members.isEmpty()) {
+				if (boards.isEmpty()) {
 				%>
 				<tr>
-					<td colspan="7">조회된 회원이 없습니다.</td>
+					<td colspan="6">조회된 공지사항이 없습니다.</td>
 					<%
 					} else {
-					for (Member m : members) {
+					for (Board b : boards) {
 					%>
 				
 				<tr>
 					<td>
-						<input type="checkbox" id="memberChoice" name="deleteCheck" value="<%=m.getUserId()%>"/>
+						<input type="checkbox" id="memberChoice" name="deleteCheck" value="<%=b.getBoardNo()%>"/>
 					</td>
-					<td><%=m.getEmail()%></td>
-					<td><%=m.getUserId()%></td>
-					<td><%=m.getUserName()%></td>
-					<td><%=m.getNickName()%></td>
-					<td><%=m.getDeclareCount()%></td>
-					<td><%=m.getEnrollDate()%></td>
-					<td><%=m.getTemperature()%></td>
-					<td><button id="<%=m.getUserId() %>" type="button" class="updateBtn btn btn-primary btn-sm">수정</button>
+					<td><%=b.getBoardNo()%></td>
+					<td><%=b.getBoardWriter()%></td>
+					<td><%=b.getBoardTitle()%></td>
+					<td><%=b.getBoardDate()%></td>
+					<td>
+
+					<button onclick="location.href='<%=request.getContextPath()%>/service/boardContent.do?boardNo=<%=b.getBoardNo()%>'" type="button" class="btn btn-dark">확인</button>
+					<button id="<%=b.getBoardNo()%>" type="button" class="updateBtn btn btn-primary btn-sm">수정</button>
 						<button type="button" class="deleteBtn btn btn-danger btn-sm"
-							onclick="location.replace('<%=request.getContextPath()%>/userRemove.do?email=<%=m.getEmail()%>');">삭제</button></td>	
+							onclick="location.replace('<%=request.getContextPath()%>/boardRemove.do?boardNo=<%=b.getBoardNo()%>');">삭제</button></td>	
 				</tr>
 				<%
 					}
@@ -78,17 +71,20 @@ List<Member> members = (List) request.getAttribute("members");
 		<div id="pageBar" class="text-center">
 			<%=request.getAttribute("pageBar")%>
 		</div>
-		<button id="userRemoveAll" type="button" class="btn btn-danger">모든회원삭제</button>
+		
+		<button id="userRemoveAll" type="button" class="btn btn-danger">모든공지사항삭제</button>
 		<button id="userRemoveCheck" type="button" class="btn btn-danger">선택삭제</button>
 	</div>
-	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 	<script>
 	
 	$().ready(function () {
         $("#userRemoveAll").click(function () {
             Swal.fire({
-                title: '정말로 모든회원을 삭제하시겠습니까?',
-                text: "회원을 다시 되돌릴 수 없습니다. 신중히 선택하세요.",
+                title: '정말로 모든공지사항을 삭제하시겠습니까?',
+                text: "다시 되돌릴 수 없습니다. 신중히 선택하세요.",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -97,7 +93,7 @@ List<Member> members = (List) request.getAttribute("members");
                 cancelButtonText: '취소'
             }).then((result) => {
                if (result.isConfirmed) {
-                    location.replace("/semi-hifive/allUserRemove.do");
+                    location.replace("/semi-hifive/allBoardRemove.do");
                }
             })
         });
@@ -155,15 +151,15 @@ List<Member> members = (List) request.getAttribute("members");
 		
 		
 		$.ajax({
-			url: "deleteCheck",
+			url: "deleteCheckBoard",
 			data: {"arr": arr},  
 			success: function(result) {
 				if(result==1){
 					alert("성공적으로 삭제되었습니다.");
-					location.replace("/semi-hifive/memberList.do");
+					location.replace("/semi-hifive/boardListAdmin.do");
 				}else{
 					alert("오류로 인해 삭제가 실패했습니다");
-					location.replace("/semi-hifive/memberList.do");
+					location.replace("/semi-hifive/boardListAdmin.do");
 				}
 			},
 			error: function() {
@@ -172,9 +168,8 @@ List<Member> members = (List) request.getAttribute("members");
 		})
 		
 	})
-	
-	
-	
 	</script>
 
 </section>
+
+
