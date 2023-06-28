@@ -63,7 +63,7 @@ public class BoardListByCategoryServlet extends HttpServlet {
 			pageBar += "<li><a href='" + request.getRequestURI() + "?cPage=" + pageNo + "&notice=Y'>&gt;</a></li>";
 		}
 		request.setAttribute("pageBar", pageBar);
-		
+		request.setAttribute("noticeYN","N");
 		List<Board> boards=new BoardService().selectBoardByCategory(cPage, numPerpage, category);
 		request.setAttribute("boardList", boards);
 		request.getRequestDispatcher("/views/service/boardList.jsp").forward(request, response);

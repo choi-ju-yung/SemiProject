@@ -47,9 +47,7 @@ public class InquiryInsertEndServlet extends HttpServlet {
 		DefaultFileRenamePolicy dfr = new DefaultFileRenamePolicy();
 		MultipartRequest mr = new MultipartRequest(request, path, maxSize, encode, dfr);
 		
-		char secret;
-		if(mr.getParameter("secret")!=null) secret=mr.getParameter("secret").charAt(0);
-		else secret='N';
+		char secret=mr.getParameter("secret").charAt(0);
 		
 		Inquiry q=Inquiry.builder()
 				.inquiryTitle(mr.getParameter("title"))

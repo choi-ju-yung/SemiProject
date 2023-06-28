@@ -1,5 +1,12 @@
-const context = "http://localhost:9090/semi-hifive/";
-const userId = sessionStorage.getItem("loginId");
+function getContextPath() {
+	var hostIndex = location.href.indexOf(location.host) + location.host.length;
+	return location.href.substring(hostIndex, location.href.indexOf('/', hostIndex + 1));
+};
+
+function userId(){
+	const userId = sessionStorage.getItem("loginId");
+	return userId;
+}
 
 // 취소 버튼
 $(".resetUpdate").click(function() {
@@ -9,7 +16,7 @@ $(".resetUpdate").click(function() {
 
 // 프로필 사진 삭제
 $(".profileImgDel").on("click", function() {
-	$(".profileImg").attr("src", context + "/images/mypage/profileImg_default.png");
+	$(".profileImg").attr("src", getContextPath() + "/images/mypage/profileImg_default.png");
 });
 
 
@@ -37,10 +44,10 @@ const nowNick = $("#nicknameInput").val();
 $("#nicknameInput").keyup(e => {
 	if (e.target.value.length > 1 && e.target.value.length < 8) {
 		$.ajax({
-			url: context + "/mypage/duplicateNickname.do",
+			url: getContextPath() + "/mypage/duplicateNickname.do",
 			data: {
 				"nickname": $(e.target).val(),
-				"userId": userId,
+				"userId": userId(),
 				"nowNick": nowNick
 			},
 			success: function(data) {
@@ -96,7 +103,7 @@ const fn_updatePassword = () => {
 	let left = Math.ceil((window.screen.width - width) / 2);
 	let top = Math.ceil((window.screen.height - height) / 2);
 
-	open(context + "mypage/updatePassword.do", "_blank", 'width=' + width + ', height=' + height + ', left=' + left + ', top = ' + top);
+	open(getContextPath() + "/mypage/updatePassword.do", "_blank", 'width=' + width + ', height=' + height + ', left=' + left + ', top = ' + top);
 }
 
 // 유저정보 수정

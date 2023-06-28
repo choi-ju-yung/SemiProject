@@ -78,8 +78,8 @@ List<ShopReview> r=(List) request.getAttribute("review");
         </div>
         <hr width="1280px" color="#eeeeee" noshade />
         <div id="shopProductContainer">
-          <div id="selectCategory">
-            <div id="categoryName">
+          <div id="selectCategory2">
+            <div id="categoryName2">
               <h4>전체 (<span><%=s.get(0).getProductCount() %></span>)</h4>
             </div>
             <div id="categoryFunction">
