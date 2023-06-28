@@ -324,12 +324,17 @@ function printSearch() {
 			
 			$.each(data,function(index,item){
 				printsearch+="<li class='allCycle'>"+(index+1)+". "+item.searchKeyword+"</li>"
-				})
-			$("#rankAllSearch").append(printsearch);
+			})
+				$("#rankAllSearch").append(printsearch);
+				
+			let count=0;
 			
-			$("#rankSearch").prepend("<li id='rankCycle'>"+"1. "+data[0].searchKeyword+"</div>")
-			
-			}
+			setInterval(function(){
+				console.log(count);
+				$("#rankSearch").html("<div id='rankCycle'>"+((count++%5)+1)+". "+data[count++%5].searchKeyword+"</div>")			
+			},5000);
+		
+		}
 	})
 }
 
