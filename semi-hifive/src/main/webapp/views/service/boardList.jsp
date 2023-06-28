@@ -6,16 +6,13 @@
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/service/boardList.css">
 <%
 	List<Board> boardList=(List)request.getAttribute("boardList"); //게시판 리스트
-	char notice='Y';//게시판 구분하는 기본값 지정	
-	if(boardList!=null&&boardList.get(0).getNoticeYn()=='N'){
-		notice='N'; 
-	}
+	char notice=((String)request.getAttribute("noticeYN")).charAt(0);
 %>
 <section>
 	<%@ include file="/views/service/serviceCategory.jsp" %>
 	<div class="ServiceCenter">
       <h2 class="ServicetHead"><%=notice=='Y'?"공지사항":"자주하는 질문" %>
-      	<% if(loginMember!=null&&loginMember.getUserId().equals("admin")){ %>
+      	<% if(loginMember!=null&&loginMember.getAuth().equals("M")){ %>
 	      <button class="contentBtn" onclick="location.href='<%=request.getContextPath()%>/service/boardInsert.do'">글 작성</button>
 	      <% } %>
       </h2>
