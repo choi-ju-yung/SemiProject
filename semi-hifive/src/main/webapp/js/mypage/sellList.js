@@ -117,3 +117,14 @@ $("#resBtn").click(e => {
 $("#solBtn").click(e => {
 	location.assign(getContextPath() + "/mypage/solBtn.do?userId=" + userId());
 });
+
+// 상품 수정 링크로 이동
+$(".updateBtn").click(e=>{
+	const productId = $(e.target).next().attr('id');
+	
+	let form = $("<form>").attr("method", "post").attr("action", getContextPath() + "/productUpdate.do");
+	let input = $("<input>").attr("type", "hidden").attr("name", "productId").val(productId);
+	form.append(input);
+	form.appendTo("body").submit();
+	form.submit();
+});
