@@ -102,7 +102,7 @@ public class GetSelectProductServlet extends HttpServlet {
 				pageBar += "<li><a href='javascript:void(0);'onclick='changePage("+ pageNo + ");'&numPerpage=" + numPerpage + "'>&gt;</a></li>";
 			}
 			request.setAttribute("pageBar", pageBar);
-			
+			request.setAttribute("totalData", totalData);
 			
 			List<ProductCategoryTimeList> getselectproduct = new ProductCategoryListService().GetProductCondition(condition, cPage, numPerpage);
 			//카테고리와 서브카테고리랑만 join해서 가져오는 List객체

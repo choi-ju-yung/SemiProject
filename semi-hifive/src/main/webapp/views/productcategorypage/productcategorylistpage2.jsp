@@ -675,16 +675,16 @@
 	                    data: conditions,
 	                    success: function(data) {
 	                    	$("#contentdata").html(data);
-	                        console.log(conditions['subcategoryname']);
-	                        console.log(conditions['categoryname']);
 	                        if (typeof conditions['subcategoryname']=='undefined' 
 	                        		&& typeof conditions['categoryname'] =='undefined') {
-		          			     $("#categoryName span").text("전체");
+		          			     $("#categoryName span").text("전체" + " " + '(<%=request.getAttribute("totalData")%>)' + " ");
 			          		} else if (typeof conditions['subcategoryname']=='undefined'
-			          				&&typeof conditions['subcategoryname']!='undefined') {
-			          			$("#categoryName span").text(categoryName);
+			          				&&typeof conditions['categoryname']!='undefined') {
+			          			$("#categoryName span").text(categoryName + " " + '(<%=request.getAttribute("totalData")%>)' + " ");
+			          		}else if(typeof conditions['subcategoryname']!='undefined' && typeof conditions['categoryname']=='undefined'){
+			          			$("#categoryName span").text(subcategoryname + " " + '(<%=request.getAttribute("totalData")%>)' + " ");
 			          		}else {
-			          			$("#categoryName span").text(categoryName + " > " + subcategoryname + "<%=request.getContextPath()%>");
+			          			$("#categoryName span").text(categoryName + " > " + subcategoryname + " " + '(<%=request.getAttribute("totalData")%>)' + " ");
 			          		}
 		               }
 	           	});

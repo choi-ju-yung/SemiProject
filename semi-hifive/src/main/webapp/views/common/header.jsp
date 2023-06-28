@@ -228,7 +228,8 @@ function HeaderCategoryMenu() {
         dataType: 'json',
         success: function(data) {
            $("#menuList>ul").html("<li><a href='<%=request.getContextPath()%>/getproduct.do' id='category0'>전체</a></li>");
-            data.main.forEach(function(category,index) {
+           $("#categoryName span").text("전체" + " " + '(<%=request.getAttribute("totalData")%>)'); 
+           data.main.forEach(function(category,index) {
                 makeCategoryHeader(category.categoryName, index);
                 const subCategory=data.sub.filter(cate=>cate.category.categoryName==category.categoryName);
                 //console.log(subCategory);
@@ -273,8 +274,9 @@ function HeaderCategoryMenu() {
 function makeCategoryHeader(name, index) {
 	categoryname = "CATEGORY_NAME = '" + name + "'";
     const $li = $("<li>");
-     const $a = $("<a>").attr("href", "<%=request.getContextPath()%>/getproduct.do?categoryname="+categoryname).attr("id", "category" + (index + 1)).text(name);
-     <%-- const $a = $("<a>").attr("href", "<%=request.getContextPath()%>/headersearchcategory.do?categoryname="+name).attr("id", "category" + (index + 1)).text(name); --%> 
+    const $a = $("<a>").attr("href", "<%=request.getContextPath()%>/getproduct.do?categoryname="+categoryname).attr("id", "category" + (index + 1)).text(name);
+<%--     const $categoryName = $("<span>").text(categoryname + " " + '(<%=request.getAttribute("totalData")%>)' + " ");
+ --%>    <%-- const $a = $("<a>").attr("href", "<%=request.getContextPath()%>/headersearchcategory.do?categoryname="+name).attr("id", "category" + (index + 1)).text(name); --%> 
     $li.append($a);
 	$("#menuList>ul").append($li);
 }
