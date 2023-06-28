@@ -23,7 +23,7 @@ public class ChangePasswordServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		String newPass = request.getParameter("pass");
+		String newPass = request.getParameter("password");
 		String email = request.getParameter("email");
 		System.out.println(newPass);
 		System.out.println(email);

@@ -100,13 +100,13 @@ List<Board> boards = (List) request.getAttribute("boards");
     });
 	
 	$(".updateBtn").click(e=>{
-		const userId = $(e.target)[0].id;
+		const boardNo = $(e.target)[0].id;
 		var width = '600';
 		var height = '700';
 		let left = Math.ceil((window.screen.width - width) / 2);
 		let top = Math.ceil((window.screen.height - height) / 2);
 		/* 마이페이지 memberdao */
-		open("<%=request.getContextPath()%>/userUpdate.do?userId=" + userId, "_blank", 'width=' + width + ', height=' + height + ', left=' + left + ', top = ' + top);
+		open("<%=request.getContextPath()%>/boardUpdate.do?boardNo=" + boardNo, "_blank", 'width=' + width + ', height=' + height + ', left=' + left + ', top = ' + top);
 	})
 	
 	

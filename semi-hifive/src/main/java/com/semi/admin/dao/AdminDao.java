@@ -228,4 +228,28 @@ public class AdminDao {
 		return result;
 	}
 	
+	
+	
+	public int updateBoard(Connection conn,String boardTitle,String boardContent,String boardDate, String boardCategory, String boardNo) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		try {
+			pstmt = conn.prepareStatement(sql.getProperty("updateBoard"));
+			pstmt.setString(1, boardTitle);
+			pstmt.setString(2, boardContent);
+			pstmt.setString(3, boardDate);
+			pstmt.setString(4, boardCategory);
+			pstmt.setString(5, boardNo);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+	
+	
 }

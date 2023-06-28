@@ -98,4 +98,12 @@ public class AdminService {
 		return result;
 	}
 	
+	
+	public int updateBoard(String boardTitle, String boardContent, String boardDate, String boardCategory, String boardNo) {
+		Connection conn = getConnection();
+		int result = dao.updateBoard(conn, boardTitle, boardContent, boardDate, boardCategory, boardNo);
+		close(conn);
+		return result;
+	}
+	
 }
