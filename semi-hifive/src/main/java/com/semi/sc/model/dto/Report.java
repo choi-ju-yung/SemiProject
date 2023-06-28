@@ -19,4 +19,6 @@ public class Report {
 	private String reportContent;
 	private Date reportDate;
 	private String reportCategory;
+	private int productId;
+	private int tradeId;
 }

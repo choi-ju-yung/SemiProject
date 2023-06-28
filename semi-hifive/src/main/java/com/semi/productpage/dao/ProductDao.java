@@ -373,6 +373,7 @@ public class ProductDao {
 						.areaName(rs.getString("area_name"))
 						.build())
 				.member(Member.builder()
+						.userId(rs.getString("user_id"))
 						.nickName(rs.getString("nickname"))
 						.profileImg(rs.getString("profile_img"))
 						.temperature(rs.getDouble("temperature"))

@@ -153,13 +153,23 @@ if (cookies != null) {
                
                
                <p>카테고리</p>
-               <div>
-                  <img src="<%=request.getContextPath()%>/images/common/ranking.png"
-                     alt="" id="ranking" height="50px" />
-               </div>
+               
+               <div id="printSearch">
+              <div id="rankSearch">
+                <button>버튼</button>
+              </div>
+         
             </div>
+             
+            </div>
+               
          </div>
          <hr width="1280px" color="#eeeeee" noshade />
+             <div id="rankAllSearch">
+            <div>
+               <p>인기검색어 순</p><button>버튼</button>
+               </div>
+              </div>
       </div>
 
       <div id="itemBox">
@@ -313,7 +323,7 @@ $("div#menuList").after($div);
       const $a = $("<a>").attr("href", href).text(subcategoryName); --%>
 </script>
    <script src="<%=request.getContextPath()%>/js/common/header.js"></script>
-   <script src="<%=request.getContextPath()%>/js/searchpage/searchPage.js"></script>
+  <%--  <script src="<%=request.getContextPath()%>/js/searchpage/searchPage.js"></script> --%>
 
 </body>
 </html>

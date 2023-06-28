@@ -44,16 +44,17 @@ public class ProductPageServlet extends HttpServlet {
 		
 		Cookie[] cookies = request.getCookies();
 
-		String read = Arrays.stream(cookies)
-				.filter(c -> c.getName().equals("viewCount")).findFirst()
-				.orElse(new Cookie("viewCount", "")).getValue();
-
-		boolean isRead = read.contains("|" + no + "|");
-		
+//		String read = Arrays.stream(cookies)
+//				.filter(c -> c.getName().equals("viewCount")).findFirst()
+//				.orElse(new Cookie("viewCount", "")).getValue();
+		String read="";
+		//boolean isRead = read.contains("|" + no + "|");
+		boolean isRead=false;
 		if(!isRead) {
 			Cookie c=new Cookie("viewCount",read+"|"+no+"|");
-			c.setMaxAge(60);
-			response.addCookie(c);
+			c.setMaxAge(60*60);
+			c.setPath("/");
+			//response.addCookie(c);
 		}
 		
 		ProductCategory p = new ProductPageService().selectProduct(no,isRead);

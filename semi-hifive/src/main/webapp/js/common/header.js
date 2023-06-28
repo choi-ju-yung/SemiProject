@@ -91,7 +91,7 @@ $(document).on("click", ".recentTagText", e => {
 })
 
 $(document).on("click", "#submitBtn", e => {
-	content = $("#searchInput").val()	
+	content = $("#searchInput").val()
 	location.href = getContextPath() + "/search?content=" + content;
 })
 
@@ -106,7 +106,7 @@ let textArray = new Array();
 function saveRecentTag() {
 	//item을 localStorage에 저장합니다.
 	typeof (Storage) !== "undefined" &&
-	localStorage.setItem(loginId, JSON.stringify(textArray));	
+		localStorage.setItem(loginId, JSON.stringify(textArray));
 }
 
 function allDeleteRecentTag() {
@@ -203,7 +203,7 @@ var keywordList = [
 	"#가방",
 ];
 
-$(document).ready(function() {
+/*$(document).ready(function() {
 	// input필드에 자동완성 기능을 걸어준다
 	$("#searchInput").autocomplete({
 		source: locList,
@@ -216,7 +216,7 @@ $(document).ready(function() {
 		autoFocus: true,
 	});
 
-});
+});*/
 
 /*$("#searchForm input").autocomplete({
   source: function (request, response) {
@@ -262,18 +262,18 @@ $("#menuList a").mouseenter(function() {
 	console.log(this);
 	$(this).css({ "background-color": "#20c997", color: "white" });
 	$("#sideMenu-" + id).css("display", "block");
-	
-	})
-$(document).on("mouseenter",'#menuList a', function () {
-  const id = $(this).attr("id");
-  $(".sideMenu")
-    .not($("#sideMenu-" + id))
-    .css("display", "none");
-  $("#menuList a")
-    .not($(this))
-    .css({"background-color": "white", color: "#afafaf"});
-  $(this).css({"background-color": "#20c997", color: "white"});
-  $("#sideMenu-" + id).css("display", "block");
+
+})
+$(document).on("mouseenter", '#menuList a', function() {
+	const id = $(this).attr("id");
+	$(".sideMenu")
+		.not($("#sideMenu-" + id))
+		.css("display", "none");
+	$("#menuList a")
+		.not($(this))
+		.css({ "background-color": "white", color: "#afafaf" });
+	$(this).css({ "background-color": "#20c997", color: "white" });
+	$("#sideMenu-" + id).css("display", "block");
 });
 $("#category0").mouseleave(function() {
 	$("#menuList a").css({ "background-color": "white", color: "#afafaf" });
@@ -281,10 +281,10 @@ $("#category0").mouseleave(function() {
 $(".sideMenu").mouseleave(function() {
 	$(".sideMenu").css("display", "none");
 	$("#menuList a").css({ "background-color": "white", color: "#afafaf" });
-	})
-$(document).on("moustleave",".sideMenu", function () {
-  $(".sideMenu").css("display", "none");
-  $("#menuList a").css({"background-color": "white", color: "#afafaf"});
+})
+$(document).on("moustleave", ".sideMenu", function() {
+	$(".sideMenu").css("display", "none");
+	$("#menuList a").css({ "background-color": "white", color: "#afafaf" });
 });
 
 $("section").mouseenter(function() {
@@ -308,3 +308,34 @@ $("section").click(function(e) {
 		}
 	})
 });*/
+
+$(document).ready(function() {
+	printSearch()
+})
+
+var printsearch="";
+function printSearch() {
+	$.ajax({
+		url: getContextPath() + "/printsearch",
+		success: function(data) {
+			
+			$.each(data,function(index,item){
+				printsearch+="<li class='allCycle'>"+(index+1)+". "+item.searchKeyword+"</li>"
+				})
+			$("#rankAllSearch").append(printsearch);
+			
+			$("#rankSearch").prepend("<li id='rankCycle'>"+"1. "+data[0].searchKeyword+"</div>")
+			
+			}
+	})
+}
+
+$("#rankSearch button").on("click" ,function(e){
+	$("#printSearch").css("display","none")	
+	$("#rankAllSearch").css("display","block")	
+})
+
+$("#rankAllSearch button").on("click",function(e){
+	$("#printSearch").css("display","block")	
+	$("#rankAllSearch").css("display","none")	
+})

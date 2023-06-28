@@ -1,7 +1,6 @@
 package com.semi.admin.controller;
 
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,12 +10,12 @@ import javax.servlet.http.HttpServletResponse;
 import com.semi.admin.service.AdminService;
 
 
-@WebServlet("/deleteCheck")
-public class DeleteCheckServlet extends HttpServlet {
+@WebServlet("/deleteCheckBoard")
+public class DeleteCheckBoardServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
- 
-    public DeleteCheckServlet() {
+
+    public DeleteCheckBoardServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,18 +32,14 @@ public class DeleteCheckServlet extends HttpServlet {
 			if(i!=arr.length-1) {
 				sql+=",";
 			}
-			
 		}
-		
-		System.out.println(sql);
-		
-		int result = new AdminService().deleteCheckMember(sql);
+	
+		int result = new AdminService().deleteCheckBoard(sql);
 		
 		response.getWriter().print(result);
-		
 	}
 
-	
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
