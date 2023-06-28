@@ -39,8 +39,6 @@ public class MainPageServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		System.out.println("메인서블릿");
-
 		// 인기상품 -> 상품 등록 시간 포함
 		List<ProductElapsedTime> popularProduct = new MainService().productListAll();
 		
@@ -48,9 +46,10 @@ public class MainPageServlet extends HttpServlet {
 		List<ProductElapsedTime> newProduct = new MainService().productListNew();
 				
 		// 모두 합쳐서 하나의 리스트로 생성하기
-		List mainList = new ArrayList();
-		mainList.add(popularProduct);
-		mainList.add(newProduct);
+		List<ProductElapsedTime> mainList = new ArrayList();
+		mainList.addAll(popularProduct);
+		mainList.addAll(newProduct);
+			
 		System.out.println(mainList);
 		
 		Gson gson = new Gson();

@@ -4,16 +4,25 @@
 <%@ include file="/views/common/header.jsp"%>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/main.css" />
 <script>
+const context = "http://localhost:9090/semi-hifive/";
+
    $.ajax({
       url:"<%=request.getContextPath()%>/main/mainPage.do",
       dataType: 'json',
       success: (data)=> {
-    	  for(let i=0; i < data.length; i++) {
-    		  data[i].forEach((e, index) => {
+    	  data.forEach((e, i) => {
     			  console.log(e);
-    			  $(".productTitle")[index].innerText = e.product.title;
+    			  console.log(i);
+    			  $(".productTitle")[i].innerText = e.product.title;
+    			  $(".price")[i].innerText = e.product.price.toLocaleString() + "원";
+    			  $(".productImg img").eq(i).attr("src", context + "upload/productRegist/" + e.productFile.imageName);
+    			  if(e.product.productStatus == '미개봉'){
+    			  		$(".statusBtn")[i].innerText = "NEW " + e.product.productStatus;
+    			  } else {
+    				  $(".statusBtn")[i].innerText = e.product.productStatus;
+    			  }
+    			  
     		  })
-    	 } 
       },
       error: (r, m, e) => {
             console.log(r);
@@ -26,6 +35,9 @@
 	<div class="slideContainer">
 		<div class="btnContainer">
 			<ul class="slide">
+				<li><img
+					src="https://media.bunjang.co.kr/images/nocrop/1003399005_w2058.jpg"
+					alt="" /></li>
 				<li><img
 					src="https://media.bunjang.co.kr/images/nocrop/1006416046_w1197.jpg"
 					alt="" /></li>
@@ -166,7 +178,7 @@
 							<a href="" class="aTag productTitle">상품명</a>
 						</h4>
 						<div class="PriceNStatus">
-							<h3>000원</h3>
+							<h3 class="price">000원</h3>
 							<div class="statusBtnDiv">
 								<span class="statusBtn">NEW 미개봉</span>
 							</div>
@@ -212,7 +224,7 @@
 							<a href="" class="aTag productTitle">상품명</a>
 						</h4>
 						<div class="PriceNStatus">
-							<h3>000원</h3>
+							<h3 class="price">000원</h3>
 							<div class="statusBtnDiv">
 								<span class="statusBtn">NEW 미개봉</span>
 							</div>
