@@ -314,6 +314,9 @@ $(document).ready(function() {
 })
 
 var printsearch="";
+
+//setInterval( printSearch() , 1000)
+
 function printSearch() {
 	$.ajax({
 		url: getContextPath() + "/printsearch",

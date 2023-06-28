@@ -440,13 +440,3 @@ $("#categoryFunction>span").on("click", e=>{
 		}		
 	})
 })
-
-$(function(){
-	var num = $("#tag").text()
-    	//아이디 tag인 태그의 text를 읽어온다 
-	num2 = $.numberWithCommas(parseInt(num));
-  	// 받아온 text값을 정수로 변환하여 numberwithCommas 함수의 인자값으로 넣는다
-})
-$.numberWithCommas = function (x) {
-	  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-	}
