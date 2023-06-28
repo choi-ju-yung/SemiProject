@@ -4,8 +4,8 @@ function getContextPath() {
 };
 
 function userId(){
-	const userId2 = sessionStorage.getItem("loginId");
-	return userId2;
+	const userId = sessionStorage.getItem("loginId");
+	return userId;
 }
 //const userId = sessionStorage.getItem("loginId");
 

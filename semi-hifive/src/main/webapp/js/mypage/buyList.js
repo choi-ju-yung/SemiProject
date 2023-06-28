@@ -1,5 +1,12 @@
-const context = "http://localhost:9090/semi-hifive/";
-const userId = sessionStorage.getItem("loginId");
+function getContextPath() {
+	var hostIndex = location.href.indexOf(location.host) + location.host.length;
+	return location.href.substring(hostIndex, location.href.indexOf('/', hostIndex + 1));
+};
+
+function userId(){
+	const userId = sessionStorage.getItem("loginId");
+	return userId;
+}
 
 // 모달창 열기, 닫기
 const open = () => {
@@ -41,7 +48,6 @@ $(".okBtn").click(e => {
 	// 좋아요, 보통, 싫어요 선택(super-happy, neutra1, super-sad)
 	const rating = document.getElementsByName('rating');  // 이름값(js)
 	let radioValue;
-
 	for (var i = 0; i < rating.length; i++) {
 		if (rating[i].checked) {
 			radioValue = rating[i].value;
@@ -53,10 +59,10 @@ $(".okBtn").click(e => {
 	let reviewMsg = $(".reviewMsg").val();
 
 	$.ajax({
-		url: context + "mypage/reviewWrite.do",
+		url: getContextPath() + "/mypage/reviewWrite.do",
 		type: "POST",
 		data: {
-			"userId": userId,
+			"userId": userId(),
 			"productId": productId,
 			"radioValue": radioValue,
 			"reviewMsg": reviewMsg
