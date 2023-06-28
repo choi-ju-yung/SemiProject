@@ -154,6 +154,16 @@ public class ProductPageService {
 		close(conn);
 		return result;
 	}
-
+	
+	public int deleteProduct(int id) {
+		Connection conn=getConnection();
+		int result=dao.deleteProduct(conn,id);
+		System.out.println(result);
+		if(result>0) commit(conn);
+		else rollback(conn);
+		close(conn);
+		return result;
+	}
+	
 
 }

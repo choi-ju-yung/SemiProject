@@ -282,8 +282,8 @@ SearchCount searchCount = (SearchCount) request.getAttribute("searchCount");
 			</div>
 		</div>
 		<div id="productContainer">
-			<div id="selectCategory">
-				<div id="categoryName">
+			<div id="selectCategory2">
+				<div id="categoryName2">
 					<h4>
 						<span><%=content%></span>의 검색결과 <span id="seachCount"> <%
  if (searchCount != null) {
@@ -339,9 +339,7 @@ SearchCount searchCount = (SearchCount) request.getAttribute("searchCount");
 
 					<a
 						href="<%=request.getContextPath()%>/productpage?no=<%=sl.getProduct().getProductId()%>">
-						<div id="payBtn">
-							<span>하마페이</span>
-						</div> <img
+						 <img
 						src="<%=request.getContextPath()%>/upload/productRegist/<%=sl.getProductFile().getImageName()%>"
 						alt="" />
 

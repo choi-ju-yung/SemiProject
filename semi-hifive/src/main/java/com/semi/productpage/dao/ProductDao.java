@@ -354,6 +354,22 @@ public class ProductDao {
 		}
 		return result;
 	}
+	
+	public int deleteProduct(Connection conn,int id) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		try {
+			pstmt = conn.prepareStatement(sql.getProperty("deleteProduct"));
+			pstmt.setInt(1, id);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			System.out.println(result);
+		}
+		return result;
+	}
 
 	private ProductCategory getProductCategory(ResultSet rs) throws SQLException {
 		return ProductCategory.builder()

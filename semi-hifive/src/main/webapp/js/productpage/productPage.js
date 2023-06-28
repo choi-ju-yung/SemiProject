@@ -40,14 +40,23 @@ $(document).ready(function() {
 	if (($("#userManner b").text()).substr(0, 4) >= 75) {
 		$("#userManner ion-icon").css("color", "red")
 	}
-	
-	if(loginId.length==0){
-		$("#heartBtn >button").prop("disabled",true)
-	}else{
-			$("#heartBtn >button").prop("disabled",false)
+
+	if (loginId.length == 0) {
+		$("#heartBtn >button").click(function() {
+			alert("로그인 하세요")
+		})
+	} else {
+		$("#heartBtn >button").prop("disabled", false)
 	}
-		
-		
+
+	const hc = $(".heartCheck").val()
+	if (hc == "heartOn") {
+		$("#heartBtn button").addClass("active")
+		/*		$("#heartBtn >button").click(function(){
+					deleteAjaxHeart()
+				})*/
+	}
+
 });
 
 
@@ -199,7 +208,7 @@ function selectAjaxProductComment() {
 				"<div class='cmtContainer'> " +
 				"<div class='cmtProfile'>" +
 				"<a href=''>" +
-				"<img name='userProfile' src='" + getContextPath() + "/images/productpage/comment1.jpg" + "' alt='' />" +
+				"<img name='userProfile' src='" + getContextPath() + "/upload/profileImg/" + ajaxComment.profileImg + "' alt='' />" +
 				"</a>" +
 				"<a href='' class='cmtUser' name='userId' id='tagName'>" + ajaxComment.nickName
 			if (userId == ajaxComment.userId) {
@@ -244,7 +253,7 @@ function selectReAjaxProductComment(cn) {
 				"<div class='reComment'> " +
 				"<div class='cmtProfile'>" +
 				"<a href=''>" +
-				"<img name='userProfile' src='" + getContextPath() + "/images/productpage/profile.jpg" + "' alt='' />" +
+				"<img name='userProfile' src='" + getContextPath() + "/upload/profileImg/" + ajaxReComment.profileImg + "' alt='' />" +
 				"</a>" +
 				"<a href='' class='cmtUser' name='userId' id='tagName'>" + ajaxReComment.nickName
 			if (userId == ajaxReComment.userId) {
@@ -337,7 +346,7 @@ $(document).on("click", "#heartBtn button", e => {
 			console.log(loginId)
 			console.log($("input[name=productId]").val())
 			console.log(result)
-			if (result.length==0) {
+			if (result.length == 0) {
 				updateAjaxHeart();
 
 			} else {
@@ -351,8 +360,8 @@ $(document).on("click", "#heartBtn button", e => {
 		}
 	})
 })
-var hc = Number($("ion-icon[name=heart] b").text());
-
+var hc = Number($("#heartCount").text());
+var hc2 = hc + 1;
 function updateAjaxHeart() {
 	$.ajax({
 		type: "POST",
@@ -390,7 +399,7 @@ function deleteAjaxHeart() {
 			"productId": $("input[name=productId]").val(),
 		},
 		success: function(result) {
-
+			console.log(hc)
 			if (result > 0) {
 				$("#heartBtn button").css("background-color", "#afafaf")
 				$("#heartCount").html(hc)
@@ -405,6 +414,38 @@ function deleteAjaxHeart() {
 		}
 	})
 }
+
+$("#pDelete").click(e => {
+	const id = $("input[name=productId]").val();
+	$.ajax({
+		type: "POST",
+		url: getContextPath() + "/mypage/deleteProduct.do?productId=" + id + "&&userId=" + userId,
+		dataType: "json",
+		data: {
+			"id": id,
+		},
+		success: function(result) {
+			if (result > 0) {
+				if (!confirm('상품을 삭제 하시겠습니까?')) {
+
+				} else {
+					$("section").empty()
+					html +=
+						"<div id=/notProduct'>" +
+						+"<h2><span>존재하지 않는</span> 상품입니다....</h2>"
+						+ "<img src='images/common/hifiveCharacter.png'>"
+						+ "</div>"
+					$("section").html(html)
+				}
+			}
+		}
+	})
+
+
+
+
+})
+
 
 /*$(document).on("click", ".deleteCmt", e => {
 	let deletecommentNo = "";

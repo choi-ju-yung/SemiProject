@@ -43,7 +43,7 @@ public class ProductRegistEndServlet extends HttpServlet {
 
 		HttpSession session = request.getSession();
 		String path=getServletContext().getRealPath("/upload/productRegist");  // ->  /upload/productRegist 안에다 업로드되는 이미지 넣음
-		
+		System.out.println(path);
 		MultipartRequest mr= new MultipartRequest(request, path, 1024*1024*60,"UTF-8",new DefaultFileRenamePolicy()); 
 		// MultipartRequest 객체 사용하려면, 이 서블릿을 요청시킨 form태그에 enctype="multipart/form-data" 를 넣어야함
 		

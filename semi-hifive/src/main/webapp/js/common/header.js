@@ -168,8 +168,8 @@ if (savedRecentTags !== null) {
 	savedRecentTags.forEach(printRecentTag);
 }
 
-//자동완성
-var locList = [
+
+var dataList2 = [
 	"영등포본동",
 	"영등포동",
 	"여의동",
@@ -195,60 +195,118 @@ var locList = [
 	"#가방",
 ];
 
-var keywordList = [
-	"#아이폰",
-	"#노트북",
-	"#스마트폰",
-	"#갤럭시",
-	"#가방",
+
+const CHO_HANGUL = [
+  'ㄱ', 'ㄲ', 'ㄴ', 'ㄷ', 'ㄸ',
+  'ㄹ', 'ㅁ', 'ㅂ','ㅃ', 'ㅅ',
+  'ㅆ', 'ㅇ', 'ㅈ', 'ㅉ', 'ㅊ',
+  'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ',
 ];
 
-/*$(document).ready(function() {
-	// input필드에 자동완성 기능을 걸어준다
-	$("#searchInput").autocomplete({
-		source: locList,
-		focus: function(event, ui) {
-			return false;
-		},
-		select: function(event, ui) { },
-		minLength: 1,
-		delay: 100,
-		autoFocus: true,
-	});
 
-});*/
+const HANGUL_START_CHARCODE = "가".charCodeAt();
 
-/*$("#searchForm input").autocomplete({
-  source: function (request, response) {
-	$.ajax({
-	  url: stat_path + "/locList",
-	  type: "POST",
-	  dataType: "json",
-	  data: {value: request.term},
-	  success: function (data) {
-		response(
-		  $.map(data, function (item) {
-			return {
-			  label: item.AREA_NAME,
-			  value: item.AREA_NAME,
-			  idx: item.IDX,
-			};
-		  })
-		);
-	  },
-	});
-  },
-  focus: function (event, ui) {
-	return false;
-  },
-  select: function (event, ui) {
-	console.log(ui.item.idx);
-  },
-  delay: 100,
-  autoFocus: true,
-});*/
 
-// /검색창/
+const CHO_PERIOD = Math.floor("까".charCodeAt() - "가".charCodeAt());
+const JUNG_PERIOD = Math.floor("개".charCodeAt() - "가".charCodeAt());
+
+
+function combine(cho, jung, jong) {
+  return String.fromCharCode(
+    HANGUL_START_CHARCODE + cho * CHO_PERIOD + jung * JUNG_PERIOD + jong
+  );
+}
+
+
+function makeRegexByCho(search = "") {
+  const regex = CHO_HANGUL.reduce(
+    (acc, cho, index) =>
+      acc.replace(
+        new RegExp(cho, "g"),
+        `[${combine(index, 0, 0)}-${combine(index + 1, 0, -1)}]`
+      ),
+    search
+  );
+
+  return new RegExp(`(${regex})`, "g");
+}
+
+function includeByCho(search, targetWord) {
+  return makeRegexByCho(search).test(targetWord);
+}
+
+
+
+const searchBar=document.querySelector("#searchInput");
+const autoSearch=document.querySelector(".autoSearch");
+let nowIndex2=0;
+
+	
+	
+searchBar.onkeyup=(event)=>{
+	
+const value=searchBar.value.trim()
+	const matchData=value
+	?dataList2.filter((label)=>includeByCho(value,label))
+	:[];
+	
+	switch(event.keyCode){
+
+    case 38:
+      nowIndex2 = Math.max(nowIndex2 - 1, 0);
+      break;
+
+    case 40:
+      nowIndex2 = Math.min(nowIndex2 + 1, matchData.length - 1);
+
+      break;
+
+    case 13:
+      document.querySelector("#search").value = matchData[nowIndex2] || "";
+      nowIndex2 = 0;
+      matchData.length = 0;
+      break;
+
+    default:
+      nowIndex2 = 0;
+      break;
+	}
+
+	//console.log(matchData[nowIndex2])
+	
+	showList2(matchData, value, nowIndex2);
+	
+}
+
+const showList2 = (data, value, nowIndex2) => {
+  const regex = makeRegexByCho(value);
+ 
+  autoSearch.innerHTML = data
+    .map(
+      (label, index) => `
+       <div class='${nowIndex2 === index ? "active" : ""}'>
+        ${label.replace(regex, "<mark>$1</mark>")}
+      </div>
+    `
+    )
+    .join("");
+    
+};
+
+
+$(".autoSearch").on("click",function(e){
+	const text=($(e.target).text()).trim()		
+	console.log(text)
+	location.href = getContextPath() + "/search?content=" + text;
+		    
+})
+
+/*$("#searchInput").on("keydown",function(e){
+	const text=$(".autoSearch>div.active").text().trim()
+	console.log(text)
+	console.log($(e.target).val())
+	$(e.target).val(text)
+})*/
 
 // 상단메뉴바
 $("#menuList a").mouseenter(function() {
@@ -327,18 +385,19 @@ function printSearch() {
 			})
 				$("#rankAllSearch").append(printsearch);
 				
-			let count=0;
+			let count=1;
+			let count2=1;
+			$("#rankSearch").html("<div id=rankCycle>"+"1. "+data[0].searchKeyword+"</div>");
 			
 			setInterval(function(){
-				console.log(count);
-				$("#rankSearch").html("<div id='rankCycle'>"+((count++%5)+1)+". "+data[count++%5].searchKeyword+"</div>")			
+				$("#rankSearch").html("<div id='rankCycle'>"+((count++%10)+1)+". "+data[count2++%10].searchKeyword+"</div>")			
 			},5000);
 		
 		}
 	})
 }
 
-$("#rankSearch button").on("click" ,function(e){
+$("#printSearch button").on("click" ,function(e){
 	$("#printSearch").css("display","none")	
 	$("#rankAllSearch").css("display","block")	
 })

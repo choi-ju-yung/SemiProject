@@ -136,7 +136,9 @@ List<ShopReview> r=(List) request.getAttribute("review");
                   alt=""
                 />
                 <p id="productName"><%=pl.getProduct().getTitle() %></p>
-                <p id="productPrice"><%=pl.getProduct().getPrice()%>원 <span><%=pl.getProduct().getRegistTime()%></span></p>
+                <%String price=Integer.toString(pl.getProduct().getPrice());
+						  price=price.replaceAll("\\B(?=(\\d{3})+(?!\\d))",",");%>		
+                <p id="productPrice"><%=price%>원 <span><%=pl.getProduct().getRegistTime()%></span></p>
                 <p id="productPlace">
                   <ion-icon name="location-outline"></ion-icon>
                   <%=pl.getProduct().getAreaName()%>
