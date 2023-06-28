@@ -100,7 +100,6 @@ public class ProductDao {
 			pstmt = conn.prepareStatement(sql.getProperty("selectProductUser"));
 			pstmt.setInt(1, id);
 			pstmt.setInt(2, id);
-			pstmt.setInt(3, id);
 			rs = pstmt.executeQuery();
 			while (rs.next())
 				list.add(getProductUser(rs));
