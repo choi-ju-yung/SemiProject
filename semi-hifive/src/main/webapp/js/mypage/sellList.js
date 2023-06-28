@@ -1,6 +1,12 @@
-const context = "http://localhost:9090/semi-hifive/";
-// sessionStorage 사용해서 userId 추출하기(header.jsp)
-const userId = sessionStorage.getItem("loginId");
+function getContextPath() {
+	var hostIndex = location.href.indexOf(location.host) + location.host.length;
+	return location.href.substring(hostIndex, location.href.indexOf('/', hostIndex + 1));
+};
+
+function userId(){
+	const userId = sessionStorage.getItem("loginId");
+	return userId;
+}
 
 const open = () => {
 	document.querySelector(".modal").classList.remove("hidden");
@@ -31,9 +37,9 @@ $(".openBtn").click(e => {
 	let productId = $(e.target)[0].id;
 	console.log(productId);
 	$(".modalDelBtn").click(e => {
-		let form = $("<form>").attr("method", "post").attr("action", context + "mypage/deleteProduct.do");
+		let form = $("<form>").attr("method", "post").attr("action", getContextPath() + "/mypage/deleteProduct.do");
 		let input = $("<input>").attr("type", "hidden").attr("name", "productId").val(productId);
-		let input2 = $("<input>").attr("type", "hidden").attr("name", "userId").val(userId);
+		let input2 = $("<input>").attr("type", "hidden").attr("name", "userId").val(userId());
 		form.append(input);
 		form.append(input2);
 		form.appendTo("body").submit();
@@ -66,15 +72,15 @@ $(".selectStatus").change(e => {
 		let left = Math.ceil((window.screen.width - width) / 2);
 		let top = Math.ceil((window.screen.height - height) / 2);
 
-		window.open(context + "mypage/buyerIdChoice.do?userId=" + userId + "&productId=" + productId, "_blank", 'width=' + width + ', height=' + height + ', left=' + left + ', top = ' + top);
+		window.open(getContextPath() + "/mypage/buyerIdChoice.do?userId=" + userId() + "&productId=" + productId, "_blank", 'width=' + width + ', height=' + height + ', left=' + left + ', top = ' + top);
 	}
 
 	$.ajax({
-		url: context + "mypage/ajaxSelect.do",
+		url: getContextPath() + "/mypage/ajaxSelect.do",
 		data: {
 			"selectValue": selectValue,
 			"productId": productId,
-			"userId": userId
+			"userId": userId()
 		},
 		success: (data) => {
 			$(e.target).css({
@@ -97,17 +103,17 @@ $(".selectStatus").change(e => {
 
 // 판매상태 별 이동
 $("#allBtn").click(e => {
-	location.assign(context + "myPage/sellList.do?userId=" + userId);
+	location.assign(getContextPath() + "/myPage/sellList.do?userId=" + userId());
 });
 
 $("#sellBtn").click(e => {
-	location.assign(context + "mypage/sellBtn.do?userId=" + userId);
+	location.assign(getContextPath() + "/mypage/sellBtn.do?userId=" + userId());
 });
 
 $("#resBtn").click(e => {
-	location.assign(context + "mypage/resBtn.do?userId=" + userId);
+	location.assign(getContextPath() + "/mypage/resBtn.do?userId=" + userId());
 });
 
 $("#solBtn").click(e => {
-	location.assign(context + "mypage/solBtn.do?userId=" + userId);
+	location.assign(getContextPath() + "/mypage/solBtn.do?userId=" + userId());
 });

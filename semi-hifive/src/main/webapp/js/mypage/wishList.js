@@ -1,5 +1,12 @@
-const context = "http://localhost:9090/semi-hifive/";
-const userId = sessionStorage.getItem("loginId");
+function getContextPath() {
+	var hostIndex = location.href.indexOf(location.host) + location.host.length;
+	return location.href.substring(hostIndex, location.href.indexOf('/', hostIndex + 1));
+};
+
+function userId(){
+	const userId = sessionStorage.getItem("loginId");
+	return userId;
+};
 
 // 찜목록 판매상태 뱃지 컬러 수정
 $(document).ready(function() {
@@ -25,22 +32,21 @@ $(".wishCheck").click(e => {
 	if (!isChecked) {
 		// 하트가 꺼질 경우(=찜 취소) -> 새로고침 시 상품 사라짐
 		$.ajax({
-			url: context + "/myPage/wishListDel.do", 
-			data: {"userId": userId,
+			url: getContextPath() + "/myPage/wishListDel.do", 
+			data: {"userId": userId(),
 					"productId": productId},
 			success: (data)=> {
 				console.log("삭제 완료");
 			},
 			error: (data)=>{
 				alert("삭제 실패");
-				// 어떻게 안빠지지?
 			}
 		});
 	} else {
 		// 취소한거 다시 찜하기
 		$.ajax({
-			url: context + "/mypage/wishListInsert.do", 
-			data: {"userId": userId,
+			url: getContextPath() + "/mypage/wishListInsert.do", 
+			data: {"userId": userId(),
 					"productId": productId},
 			success: (data)=> {
 				console.log("추가 완료");
