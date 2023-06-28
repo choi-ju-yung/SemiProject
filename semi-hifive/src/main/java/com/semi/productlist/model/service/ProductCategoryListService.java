@@ -118,6 +118,24 @@ public class ProductCategoryListService {
 			close(conn);
 			return list;
 		}
+		public List<ProductCategoryTimeList> EntireViewCount(int cPage, int numPerpage){
+			Connection conn = getConnection();
+			List<ProductCategoryTimeList> list = dao.EntireViewCount(conn, cPage, numPerpage);
+			close(conn);
+			return list;
+		}
+		public List<ProductCategoryTimeList> ViewCount(String conditions, int cPage, int numPerpage) {
+			Connection conn = getConnection();
+			List<ProductCategoryTimeList> selectgetproduct = dao.ViewCount(conn, cPage, numPerpage, conditions);
+			close(conn);
+			return selectgetproduct;
+		}
+		public int ViewCountAndCount(String conditions) {
+			Connection conn = getConnection();
+			int result = dao.ViewCountAndCount(conn,conditions);
+			close(conn);
+			return result;
+		}
 		//좋아요 확인
 		public WishList Like(String loginId, int productId){
 			Connection conn = getConnection();

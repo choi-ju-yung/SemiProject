@@ -9,20 +9,23 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.semi.category.model.vo.Category;
+import com.semi.category.model.vo.CategorySubCategory;
+import com.semi.category.service.CategoryService;
 import com.semi.productlist.model.service.ProductCategoryListService;
 import com.semi.productlist.model.vo.ProductCategoryTimeList;
 
 /**
- * Servlet implementation class MinPriceAjax
+ * Servlet implementation class AjaxGetSelectProductServlet
  */
-@WebServlet("/minprice")
-public class MinPriceAjax extends HttpServlet {
+@WebServlet("/ajaxGetproduct.do")
+public class AjaxGetSelectProductServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public MinPriceAjax() {
+    public AjaxGetSelectProductServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,6 +34,8 @@ public class MinPriceAjax extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+
 		String categoryNameCondition = request.getParameter("categoryname");
 		String subCategoryNameCondition = request.getParameter("subcategoryname");
 		String statusCondition = request.getParameter("status");
@@ -70,8 +75,7 @@ public class MinPriceAjax extends HttpServlet {
 	    if(condition.equals("")) {
 	    	condition="1=1";
 	    }
-	    
-	    totalData = new ProductCategoryListService().MinpriceListCount(condition);
+	    totalData = new ProductCategoryListService().GetProductConditionCount(condition);
 		int totalPage = (int)Math.ceil((double)totalData/numPerpage);
 		int pageBarSize = 5;
 		int pageNo = ((cPage-1)/pageBarSize)*pageBarSize + 1;
@@ -98,10 +102,15 @@ public class MinPriceAjax extends HttpServlet {
 		request.setAttribute("pageBar", pageBar);
 		
 		
-		List<ProductCategoryTimeList> getselectproduct = new ProductCategoryListService().MinxpriceList(condition, cPage, numPerpage);
-		
+		List<ProductCategoryTimeList> getselectproduct = new ProductCategoryListService().GetProductCondition(condition, cPage, numPerpage);
+		//카테고리와 서브카테고리랑만 join해서 가져오는 List객체
+		List<CategorySubCategory> categorylist = new CategoryService().SubCategoryList();
+		//카테고리만 가져오는 List객체
+		List<Category> category = new CategoryService().Category();
+		request.setAttribute("category", category);
+		request.setAttribute("categorylist", categorylist);
 		request.setAttribute("getselectproduct", getselectproduct);
-		request.getRequestDispatcher("/views/productcategorypage/minprice.jsp").forward(request, response);
+		request.getRequestDispatcher("/views/productcategorypage/productcategorylistpage3.jsp").forward(request, response);
 	}
 
 	/**
