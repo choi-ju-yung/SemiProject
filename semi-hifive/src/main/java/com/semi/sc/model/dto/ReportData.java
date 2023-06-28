@@ -11,12 +11,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ReportList {
-
-	private int reportListNo;
-	private int reportNo;
+public class ReportData {
+	private String userId;
 	private int productId;
 	private int tradeId;
-	private String userId;
-	private String reportedUserId;
+	private String productTitle;
+	private int price;
+	private Date registTime;
+	private Date sellDate;
+	private String buyerId;
 }

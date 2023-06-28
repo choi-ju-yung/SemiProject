@@ -11,9 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.semi.member.model.vo.Member;
-import com.semi.product.model.vo.Product;
 import com.semi.sc.model.dto.BoardComment;
 import com.semi.sc.model.dto.Report;
+import com.semi.sc.model.dto.ReportData;
 import com.semi.sc.model.dto.ServiceFile;
 import com.semi.sc.service.ReportService;
 
@@ -37,12 +37,17 @@ public class ReportContentServlet extends HttpServlet {
 		Report r=new ReportService().selectReportContent(reportNo);
 		request.setAttribute("report", r);
 		
-		if(!r.getReportWriter().equals(loginId)) { //작성자랑 로그인 사용자가 다른 경우
+		if(!r.getReportWriter().equals(loginId)&&
+				!((Member)session.getAttribute("loginMember")).getAuth().equals("M")) {
+			//작성자랑 로그인 사용자가 다르거나 관리자가 아닌 경우
 			request.setAttribute("msg", "잘못된 접근입니다.");
 			request.setAttribute("loc", "/");
 			request.getRequestDispatcher("/views/common/msg.jsp").forward(request, response);
 			return;
 		}
+		//신고 대상 정보
+		ReportData rd=new ReportService().selectReportData(reportNo);
+		request.setAttribute("reportData", rd);
 		//첨부파일
 		List<ServiceFile> files=new ReportService().selectReportFile(reportNo);
 		request.setAttribute("files", files);
@@ -50,9 +55,6 @@ public class ReportContentServlet extends HttpServlet {
 		List<BoardComment> comments=new ReportService().selectReportComment(reportNo);
 		request.setAttribute("comments", comments);
 		
-		//신고 내역
-		Product reportProduct=new ReportService().selectReportProductList(reportNo);
-		request.setAttribute("reportProduct", reportProduct);
 		request.getRequestDispatcher("/views/service/reportContent.jsp").forward(request, response);
 	}
 

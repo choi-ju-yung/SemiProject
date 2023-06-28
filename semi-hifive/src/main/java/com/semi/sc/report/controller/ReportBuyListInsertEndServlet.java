@@ -46,13 +46,14 @@ public class ReportBuyListInsertEndServlet extends HttpServlet {
 		String encode = "UTF-8";
 		DefaultFileRenamePolicy dfr = new DefaultFileRenamePolicy();
 		MultipartRequest mr = new MultipartRequest(request, path, maxSize, encode, dfr);
-		
 		//report info
 		Report r=Report.builder()
 				.reportCategory("BUY")
 				.reportWriter(mr.getParameter("writer"))
 				.reportTitle(mr.getParameter("title"))
 				.reportContent(mr.getParameter("content"))
+				.productId(Integer.parseInt(mr.getParameter("productId")))
+				.tradeId(Integer.parseInt(mr.getParameter("check")))
 				.build();
 		//file
 		Enumeration<String> files = mr.getFileNames();
@@ -65,14 +66,7 @@ public class ReportBuyListInsertEndServlet extends HttpServlet {
 		
 		//reportList
 		if(mr.getParameter("check")!=null) {
-			String[] buyCkArr=(mr.getParameter("check")).split(",");
-			List<Integer> tradeList=new ArrayList();
-			for(int i=0; i<buyCkArr.length;i++) {
-				tradeList.add(Integer.parseInt(buyCkArr[i]));  //거래 ID 저장
-				r.setTradeId(Integer.parseInt(buyCkArr[i]));
-			}
-			List<Product> byBuyList=new ReportService().selectByBuyList(tradeList); //거래 ID로 상품 정보 불러옴
-			result=new ReportService().insertReportBuyList(r, filesNames, byBuyList);
+			result=new ReportService().insertReportBuyList(r, filesNames);
 			new Gson().toJson(result>0?true:false,response.getWriter()); 
 		}else {
 			response.setContentType("application/json;charset=utf-8");

@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.semi.member.model.vo.Member;
-import com.semi.product.model.vo.Product;
+import com.semi.sc.model.dto.ReportData;
 import com.semi.sc.service.ReportService;
 
 /**
@@ -30,8 +30,8 @@ public class ReportBuyListInsertServlet extends HttpServlet {
 		HttpSession session = ((HttpServletRequest)request).getSession();
 		String loginId=((String)((Member)session.getAttribute("loginMember")).getUserId());
 		
-		List<Product> buyList=new ReportService().selectBuyList(loginId);
-		request.setAttribute("buyList", buyList);
+		List<ReportData> dataList=new ReportService().selectBuyList(loginId);
+		request.setAttribute("dataList", dataList);
 		request.getRequestDispatcher("/views/service/reportInsertByBuylist.jsp").forward(request, response);
 	}
 
