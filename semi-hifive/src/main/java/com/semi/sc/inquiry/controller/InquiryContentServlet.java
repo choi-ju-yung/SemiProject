@@ -32,11 +32,9 @@ public class InquiryContentServlet extends HttpServlet {
 		String loginId=((String)((Member)session.getAttribute("loginMember")).getNickName());
 		int inquiryNo=Integer.parseInt(request.getParameter("no"));
 		Inquiry q=new InquiryService().selectInquiryContent(inquiryNo);
-		System.out.println(loginId);
-		System.out.println(q.getInquiryWriter());
 		if (secret == 'Y') {// 비밀글
-			if (!q.getInquiryWriter().equals(loginId)
-					||!((Member)session.getAttribute("loginMember")).getAuth().equals("M")) { 
+			if (!(q.getInquiryWriter().equals(loginId))
+					&&((Member)session.getAttribute("loginMember")).getAuth().equals("U")) { 
 				//작성자랑 일치하거나 관리자 권한이 아닐때
 				request.setAttribute("msg", "조회 권한이 없습니다.");
 				request.setAttribute("loc", "/service/inquiryList.do");
