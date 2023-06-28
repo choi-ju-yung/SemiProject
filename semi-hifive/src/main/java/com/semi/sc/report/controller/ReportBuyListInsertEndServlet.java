@@ -71,10 +71,11 @@ public class ReportBuyListInsertEndServlet extends HttpServlet {
 				buyList.add(ReportList.builder()
 						.tradeId(Integer.parseInt(buyCkArr[i]))
 						.userId(r.getReportWriter())
-						.build());	
+						.build());
+				r.setTradeId(Integer.parseInt(buyCkArr[i]));
 			}
-			result=new ReportService().insertReportBuyList(r, filesNames, buyList);
-			new Gson().toJson(result>0?true:false,response.getWriter());
+			result=new ReportService().insertReportBuyList(r, filesNames, buyList); //거래 ID 저장
+			new Gson().toJson(result>0?true:false,response.getWriter()); 
 		}else {
 			response.setContentType("application/json;charset=utf-8");
 			//글과 파일이 저장됐으면 true

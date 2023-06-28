@@ -30,20 +30,19 @@ public class ReportContentServlet extends HttpServlet {
 
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession();
-		String loginId=((String)session.getAttribute("loginId"));
-		if(!request.getParameter("user").equals(loginId)) { //작성자랑 로그인 사용자가 다른 경우
+		HttpSession session = ((HttpServletRequest)request).getSession();
+		String loginId=((String)((Member)session.getAttribute("loginMember")).getNickName());
+		int reportNo=Integer.parseInt(request.getParameter("no"));
+		//신고글
+		Report r=new ReportService().selectReportContent(reportNo);
+		request.setAttribute("report", r);
+		
+		if(!r.getReportWriter().equals(loginId)) { //작성자랑 로그인 사용자가 다른 경우
 			request.setAttribute("msg", "잘못된 접근입니다.");
 			request.setAttribute("loc", "/");
 			request.getRequestDispatcher("/views/common/msg.jsp").forward(request, response);
 			return;
 		}
-		int reportNo=Integer.parseInt(request.getParameter("no"));
-		//신고글
-		Report r=new ReportService().selectReportContent(reportNo);
-		System.out.println(r);
-		request.setAttribute("report", r);
-		
 		//첨부파일
 		List<ServiceFile> files=new ReportService().selectReportFile(reportNo);
 		request.setAttribute("files", files);
@@ -52,7 +51,7 @@ public class ReportContentServlet extends HttpServlet {
 		request.setAttribute("comments", comments);
 		
 		//신고 내역
-		List<Product> reportProduct=new ReportService().selectReportProductList(loginId);
+		Product reportProduct=new ReportService().selectReportProductList(reportNo);
 		request.setAttribute("reportProduct", reportProduct);
 		request.getRequestDispatcher("/views/service/reportContent.jsp").forward(request, response);
 	}

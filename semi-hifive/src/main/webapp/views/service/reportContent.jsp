@@ -7,7 +7,7 @@
 	Report r=(Report)request.getAttribute("report");
 	List<BoardComment> comments=(List)request.getAttribute("comments");
 	List<ServiceFile> files=(List<ServiceFile>)request.getAttribute("files");
-	List<Product> reportProducts=(List<Product>)request.getAttribute("reportProduct");
+	Product reportProduct=(Product)request.getAttribute("reportProduct");
 %>
 <section>
 <%@ include file="/views/service/serviceCategory.jsp" %>
@@ -35,15 +35,14 @@
 						<th>거래 금액</th>
 						<th>거래 날짜</th>
 					</tr>
-				<%if(reportProducts!=null){
-					for(Product p:reportProducts){%>
+				<%if(reportProduct!=null){%>
 					<tr>
-						<td><%=p.getUserId() %></td>
-						<td class="productTitle"><%=p.getTitle() %></td>
-						<td><%=p.getPrice() %>원</td>
-						<td><%=p.getRegistTime() %></td>
+						<td><%=reportProduct.getUserId() %></td>
+						<td class="productTitle"><%=reportProduct.getTitle() %></td>
+						<td><%=reportProduct.getPrice() %>원</td>
+						<td><%=reportProduct.getRegistTime() %></td>
 					</tr>
-					<%}
+					<%
 					}else{%>
 					<tr>
 					<td colspan="4"><h4>신고한 거래 내역이 없습니다.</h4></td>

@@ -121,9 +121,9 @@ public class ReportService {
 		return result;
 	}
 
-	public List<Product> selectReportProductList(String loginId) {
+	public Product selectReportProductList(int reportNo) {
 		Connection conn=getConnection();
-		List<Product> reportProduct=dao.selectReportProductList(conn, loginId);
+		Product reportProduct=dao.selectReportProductList(conn, reportNo);
 		close(conn);
 		return reportProduct;
 	}

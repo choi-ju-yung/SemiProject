@@ -36,6 +36,8 @@ public class ReportDao {
 				.reportTitle(rs.getString("report_title"))
 				.reportDate(rs.getDate("report_date"))
 				.reportCategory(rs.getString("report_category"))
+				.productId(rs.getInt("product_id"))
+				.tradeId(rs.getInt("trade_id"))
 				.build();
 	}
 	
@@ -163,8 +165,11 @@ public class ReportDao {
 	public int insertReportBoard(Connection conn, Report r) {
 		PreparedStatement pstmt=null;
 		int result=0;
+		String query=sql.getProperty("insertReport");
 		try {
-			pstmt=conn.prepareStatement(sql.getProperty("insertReport"));
+			query=query.replaceAll("#PI", r.getProductId()!=0?String.valueOf(r.getProductId()):"NULL");
+			query=query.replaceAll("#TI", r.getTradeId()!=0?String.valueOf(r.getTradeId()):"NULL");
+			pstmt=conn.prepareStatement(query);
 			pstmt.setString(1, r.getReportWriter());
 			pstmt.setString(2, r.getReportTitle());
 			pstmt.setString(3, r.getReportContent());
@@ -369,17 +374,18 @@ public class ReportDao {
 	}
 
 	//신고한 정보 불러오는 메소드
-	public List<Product> selectReportProductList(Connection conn, String loginId) {
+	public Product selectReportProductList(Connection conn, int reportNo) {
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
-		List<Product> reportProduct=new ArrayList();
+		Product reportProduct=null;
 		try {
 			pstmt=conn.prepareStatement(sql.getProperty("selectReportList"));
-			pstmt.setString(1, loginId);
+			pstmt.setInt(1, reportNo);
 			rs=pstmt.executeQuery();
-			while(rs.next()) {
-				reportProduct.add(getProduct(rs));
+			if(rs.next()) {
+				reportProduct=getProduct(rs);
 			}
+			System.out.println(reportProduct);
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}finally {
