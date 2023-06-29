@@ -549,6 +549,7 @@
     // 최근본상품에 추가클릭 함수
     $(".pimgWraper").click(function() {
         var form = $(this).find('form');
+        console.log(form);
         form.submit();
       });
     // 중첩 카테고리 구현
