@@ -23,6 +23,7 @@ if (cookies != null) {
             for (Cookie pc : cookies) {
                 if (pc.getName().equals("recentList")) {
                 	recentList=URLDecoder.decode(pc.getValue(),"UTF-8");
+                	//생성된 쿠키 디코드 해서 문자열로 반환
                 	break;
                 }
             }
@@ -199,22 +200,30 @@ if (cookies != null) {
 //        </a>
 <%--        <div><%=URLDecoder.decode(productTitle,"UTF-8")%></div> --%>
 //        <div>최근본상품이 없습니다.</div>
-const fn_recentlist=function(){
-	console.log("<%=recentList%>");
-  	const recentList=<%=recentList%>;
+$(()=>{
+	if('<%=recentList%>'==""){ 
+		return; //recentList에 저장된 문자열이 없으면 리턴(쿠기 생성 전)
+	}
+  	const recentList='<%=recentList%>';
+  	const map=JSON.parse(recentList);
+  	/* console.log(map);
+  	console.log(recentList);
+  	console.log(typeof recentList); */
 	$("#recently").html("");
 	if(recentList.length>0){
 		$(".rpCount").text(recentList.length);
-		recentList.forEach(e=>{
+		//console.log("if문 실행");
+		map.forEach(e=>{ //객체로 forEach 실행
+			//console.log("for문 실행");
 			const $recentA=$("<a>").attr("href","<%=request.getContextPath()%>/productpage?no="+e.productId);
 			const $recentImg=$("<img>").attr("src","<%=request.getContextPath()%>/upload/productRegist/"+e.productFileName);
 			const $recentDiv=$("<div>").text(e.productTitle);
 			$("#recently").append($recentA).append($recentImg).append($recentDiv);
-		})
+		});
 	}else{
 		$("#recently").append($("<div>최근본상품이 없습니다.</div>"));
 	}
-}; 
+});
 <%--     $(()=>{
     	const recentList=<%=recentList%>;
 	   	console.log(recentList);

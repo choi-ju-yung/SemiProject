@@ -549,8 +549,8 @@
     
     $(".pimgWraper").click(function() {
         var form = $(this).find('form');
+        console.log(form);
         form.submit();
-        fn_recentlist();
       });
     // 중첩 카테고리 구현
           	// 왼쪽 카테고리 밑에서 중복 조건 추가
