@@ -523,7 +523,7 @@
 	          </div>
 	          <div class="pageBar">
 		     	<ul class="page">
-		         <%=request.getAttribute("pageBar") %>
+		         <%=request.getAttribute("pageBar")%>
 		         </ul>
 		   	 </div>	
           </div>
@@ -546,7 +546,7 @@
             }
         });
     }
-    
+    // 최근본상품에 추가클릭 함수
     $(".pimgWraper").click(function() {
         var form = $(this).find('form');
         console.log(form);
@@ -643,7 +643,6 @@
  	           	  });
 	        	//최신순
 	           	$("#recently_span").click(function() {
-	           		alert("최신");
 		            		$.ajax({
 			                    url: "<%=request.getContextPath()%>/resently",
 			                    dataType: 'html',
@@ -655,7 +654,6 @@
 		            	});
 	           	//최고가순
 				$("#desc").click(function() {
-					alert("고가");
 	         		$.ajax({
 		                    url: "<%=request.getContextPath()%>/maxprice",
 		                    dataType: 'html',
@@ -667,7 +665,6 @@
 	         	})
 	           	//최저가순
 	         $("#asc").click(function() {
-	        	 alert("저가");
 		            		$.ajax({
 			                    url: "<%=request.getContextPath()%>/minprice",
 			                    dataType: 'html',
@@ -678,7 +675,6 @@
 			                });
 		            	});
 	         $("#popular").click(function() {
-	        	 	alert("인기순");
 			            		$.ajax({
 				                    url: "<%=request.getContextPath()%>/viewcount",
 				                    dataType: 'html',

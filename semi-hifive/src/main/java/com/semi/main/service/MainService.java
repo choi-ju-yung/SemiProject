@@ -24,4 +24,11 @@ public class MainService {
 		close(conn);
 		return pet;
 	}
+	
+	public List<ProductElapsedTime> wishListByUserId(String userId){
+		Connection conn = getConnection();
+		List<ProductElapsedTime> pet = dao.wishListByUserId(conn, userId);
+		close(conn);
+		return pet;
+	}
 }

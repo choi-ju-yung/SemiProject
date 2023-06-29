@@ -3,7 +3,7 @@ function getContextPath() {
 	return location.href.substring(hostIndex, location.href.indexOf('/', hostIndex + 1));
 };
 
-function userId(){
+function userId() {
 	const userId = sessionStorage.getItem("loginId");
 	return userId;
 }
@@ -64,41 +64,55 @@ $(".selectStatus").change(e => {
 	let productId = $(e.target).children()[0].id;
 	let color = $(e.target).find('option:selected').data('color');
 
+	// 판매완료 선택 시
 	if (selectValue === 'soldOut') {
 		// 새 창 열기
 		var width = '450';
-		var height = '400';
+		var height = '370';
 		// 팝업창 가운데
 		let left = Math.ceil((window.screen.width - width) / 2);
 		let top = Math.ceil((window.screen.height - height) / 2);
 
-		window.open(getContextPath() + "/mypage/buyerIdChoice.do?userId=" + userId() + "&productId=" + productId, "_blank", 'width=' + width + ', height=' + height + ', left=' + left + ', top = ' + top);
+		let openWin = window.open(getContextPath() + "/mypage/buyerIdChoice.do", "_blank", 'width=' + width + ', height=' + height + ', left=' + left + ', top=' + top);
+		openWin.document.getElementById("productId").value = productId;
+
+		// 부모창 데이터 자식창으로 보내기
+		/*var data = {
+			productId: productId
+		};
+
+		var childWindow = window.open(getContextPath() + "/mypage/buyerIdChoice.do", "_blank", 'width=' + width + ', height=' + height + ', left=' + left + ', top=' + top);
+
+		childWindow.postMessage(data, "*");*/
+
+	} else {
+		// 판매중, 예약중 선택 시(바로 변경)
+		$.ajax({
+			url: getContextPath() + "/mypage/ajaxSelect.do",
+			data: {
+				"selectValue": selectValue,
+				"productId": productId,
+				"userId": userId()
+			},
+			success: (data) => {
+				$(e.target).css({
+					border: "2px solid " + color,
+					color: color
+				});
+
+				$("#allBtn").text("전체 " + data.total);
+				$("#sellBtn").text("판매중 " + data.countStatusSell);
+				$("#resBtn").text("예약중 " + data.countStatusRes);
+				$("#solBtn").text("판매완료 " + data.countStatusSol);
+
+				console.log("판매상태 변경 성공");
+			},
+			error: function() {
+				alert("판매상태 변경 실패");
+			}
+		});
 	}
 
-	$.ajax({
-		url: getContextPath() + "/mypage/ajaxSelect.do",
-		data: {
-			"selectValue": selectValue,
-			"productId": productId,
-			"userId": userId()
-		},
-		success: (data) => {
-			$(e.target).css({
-				border: "2px solid " + color,
-				color: color
-			});
-
-			$("#allBtn").text("전체 " + data.total);
-			$("#sellBtn").text("판매중 " + data.countStatusSell);
-			$("#resBtn").text("예약중 " + data.countStatusRes);
-			$("#solBtn").text("판매완료 " + data.countStatusSol);
-
-			console.log("판매상태 변경 성공");
-		},
-		error: function() {
-			alert("판매상태 변경 실패");
-		}
-	});
 })
 
 // 판매상태 별 이동
@@ -119,9 +133,9 @@ $("#solBtn").click(e => {
 });
 
 // 상품 수정 링크로 이동
-$(".updateBtn").click(e=>{
+$(".updateBtn").click(e => {
 	const productId = $(e.target).next().attr('id');
-	
+
 	let form = $("<form>").attr("method", "post").attr("action", getContextPath() + "/productUpdate.do");
 	let input = $("<input>").attr("type", "hidden").attr("name", "productId").val(productId);
 	form.append(input);

@@ -87,7 +87,7 @@ if (cookies != null) {
 				%>
             <div class="headerMain">
                <div class="logo">
-                  <a href="<%=request.getContextPath()%>/index.jsp"> <img
+                  <a href=""> <img
                      src="<%=request.getContextPath()%>/images/common/hifiveLogo.png"
                      alt="" />
                   </a>
@@ -224,6 +224,7 @@ $(()=>{
 		$("#recently").append($("<div>최근본상품이 없습니다.</div>"));
 	}
 });
+
 <%--     $(()=>{
     	const recentList=<%=recentList%>;
 	   	console.log(recentList);
