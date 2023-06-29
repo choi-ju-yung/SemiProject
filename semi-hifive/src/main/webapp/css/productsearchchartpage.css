@@ -551,11 +551,19 @@ width: 15px;
 
 #leftCategory {
   position: absolute;
-  /* display: flex; */
+  height: 600px;
   width: 200px;
   background-color: white;
   z-index: 99;
   margin-top: -13px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+#leftCategory{
+  -ms-overflow-style: none;
+}
+#leftCategory::-webkit-scrollbar{
+  display:none;
 }
 #productContainer {
   margin-left: 200px;
@@ -571,7 +579,6 @@ width: 15px;
   margin-top: 10px;
 }
 #productImgContainer {
-  margin-top: 100px;
   margin-bottom:50px;
 }
 
