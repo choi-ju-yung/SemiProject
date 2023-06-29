@@ -210,8 +210,8 @@ $(()=>{
   	console.log(recentList);
   	console.log(typeof recentList); */
 	$("#recently").html("");
-	if(recentList.length>0){
-		$(".rpCount").text(recentList.length);
+	if(map.length>0){
+		$(".rpCount").text(map.length);
 		//console.log("if문 실행");
 		map.forEach(e=>{ //객체로 forEach 실행
 			//console.log("for문 실행");
