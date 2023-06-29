@@ -551,11 +551,13 @@ width: 15px;
 
 #leftCategory {
   position: absolute;
-  /* display: flex; */
+  height: 500px;
   width: 200px;
   background-color: white;
   z-index: 99;
   margin-top: -13px;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 #productContainer {
   margin-left: 200px;
