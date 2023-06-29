@@ -18,6 +18,14 @@
                     <h2><%=r.getReportTitle() %></h2>
                     <button class="backBtn" onclick="history.back();">뒤로 가기</button>
                 </div>
+                <%if(loginMember!=null&&r.getReportWriter().equals(loginMember.getNickName())
+                	||loginMember.getAuth().equals("M")){ %>
+					<div>
+					<button id="contentDelete"
+					onclick="location.href='<%=request.getContextPath() %>/service/deleteReport.do?no=<%=r.getReportNo()%>'">
+					삭제</button>
+					</div>
+				<%} %>
                 <div class="content">
                     <div class="contentTop">
                         <p>작성자 : <%=r.getReportWriter() %></p>

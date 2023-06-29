@@ -22,6 +22,13 @@
 				<%} %>
 				<button class="backBtn" onclick="history.back();">뒤로 가기</button>
 			</div>
+			<%if(loginMember!=null&&loginMember.getAuth().equals("M")){ %>
+			<div>
+			<button id="contentDelete"
+			onclick="location.href='<%=request.getContextPath() %>/service/deleteBoard.do?no=<%=b.getBoardNo()%>'">
+			삭제</button>
+			</div>
+			<%} %>
 			<div class="content">
 				<input type="hidden" name="boardNo" value="<%=b.getBoardNo()%>">
 				<div class="contentTop">

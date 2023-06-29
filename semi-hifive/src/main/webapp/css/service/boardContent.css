@@ -16,6 +16,23 @@
     /* margin-right: 10px; */
     cursor: pointer;
 }
+/* 글 삭제 버튼 */
+#contentDelete{
+	width: 90px;
+    height: 30px;
+    background-color: #adadad;
+    border: none;
+    color: white;
+    padding: 5px;
+    text-align: center;
+    display: inline-block;
+    font-size: 18px;
+    border-radius: 5px;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
+    position: relative;
+    cursor: pointer;
+}
+
 /* 제목 부분 */
 div.contentTitle{
     display: flex;

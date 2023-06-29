@@ -360,6 +360,21 @@ public class ReportDao {
 		return rd;
 	}
 
+	public int deleteReport(Connection conn, int reportNo) {
+		PreparedStatement pstmt=null;
+		int result=0;
+		try {
+			pstmt=conn.prepareStatement(sql.getProperty("deleteReport"));
+			pstmt.setInt(1, reportNo);
+			result=pstmt.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
 	
 	
 	
