@@ -212,14 +212,14 @@ $(()=>{
   	console.log(recentList);
   	console.log(typeof recentList); */
 	$("#recently").html("");
-	if(recentList.length>0){
-		$(".rpCount").text(recentList.length);
+	if(map.length>0){
+		$(".rpCount").text(map.length);
 		//console.log("if문 실행");
 		map.forEach(e=>{ //객체로 forEach 실행
 			//console.log("for문 실행");
 			const $recentA=$("<a>").attr("href","<%=request.getContextPath()%>/productpage?no="+e.productId);
 			const $recentImg=$("<img>").attr("src","<%=request.getContextPath()%>/upload/productRegist/"+e.productFileName);
-			const $recentDiv=$("<div>").text(e.productTitle);
+			const $recentDiv=$("<div>").attr("class", "resentlyTag").text(e.productTitle);
 			$("#recently").append($recentA).append($recentImg).append($recentDiv);
 		});
 	}else{
