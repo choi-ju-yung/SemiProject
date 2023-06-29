@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.semi.mypage.model.vo.WishList;
 import com.semi.productlist.model.service.ProductCategoryListService;
 import com.semi.productlist.model.vo.ProductCategoryTimeList;
 
@@ -96,10 +97,11 @@ public class ResentlyAjax extends HttpServlet {
 			pageBar += "<li><a href='javascript:void(0);'onclick='changePage("+ pageNo + ");'&numPerpage=" + numPerpage + "'>&gt;</a></li>";
 		}
 		request.setAttribute("pageBar", pageBar);
-		
+		request.setAttribute("totalData", totalData);
 		
 		List<ProductCategoryTimeList> getselectproduct = new ProductCategoryListService().GetProductCondition(condition, cPage, numPerpage);
-		
+		List<WishList> wishlist = new ProductCategoryListService().wishlist();
+		request.setAttribute("wishlist", wishlist);
 		request.setAttribute("getselectproduct", getselectproduct);
 		request.getRequestDispatcher("/views/productcategorypage/resentlylist.jsp").forward(request, response);
 	}

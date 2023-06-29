@@ -431,7 +431,7 @@
               <h4> <span>(<%=request.getAttribute("totalData")%>)</span></h4>
             </div>
             <div id="categoryFunction">
-              <span id ="recently" onclick="handleRecentlyClick();">최신순</span>
+              <span id ="recently_span" onclick="handleRecentlyClick();">최신순</span>
               <span id ="popular" onclick="handleRecentlyClick();">인기도순</span>
               <span id ="desc" onclick="handleDescClick();">최고가순</span>
               <span id ="asc" onclick="handleAscClick();">최저가순</span>

@@ -1,3 +1,4 @@
+<%@page import="java.net.URLDecoder"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
 <%@page import="com.semi.category.model.vo.Category"%>
@@ -15,6 +16,18 @@ if (cookies != null) {
       }
    }
 }
+%>
+<%
+        String recentList="";
+		if (cookies != null) {
+            for (Cookie pc : cookies) {
+                if (pc.getName().equals("recentList")) {
+                	recentList=URLDecoder.decode(pc.getValue(),"UTF-8");
+                	//생성된 쿠키 디코드 해서 문자열로 반환
+                	break;
+                }
+            }
+        }
 %>
 <!DOCTYPE html>
 <html>
@@ -72,7 +85,6 @@ if (cookies != null) {
 				<%
 				}
 				%>
-   
             <div class="headerMain">
                <div class="logo">
                   <a href=""> <img
@@ -178,12 +190,72 @@ if (cookies != null) {
          <div id="recentProduct">
             <p>최근본상품</p>
             <div class="rpCount">0</div>
-            <div id="recently" ><a><img alt="" src=""></a></div>
+            <div id="recently" >
+            
+            </div>
          </div>
       </div>
    </header>
    <script>
-   
+<%--        <a href="<%=request.getContextPath()%>/productpage?no=<%=productId%>"> --%>
+<%--        <img src="<%=request.getContextPath()%>/upload/productRegist/<%=URLDecoder.decode(productFileName,"UTF-8")%>"> --%>
+//        </a>
+<%--        <div><%=URLDecoder.decode(productTitle,"UTF-8")%></div> --%>
+//        <div>최근본상품이 없습니다.</div>
+$(()=>{
+	if('<%=recentList%>'==""){ 
+		return; //recentList에 저장된 문자열이 없으면 리턴(쿠기 생성 전)
+	}
+  	const recentList='<%=recentList%>';
+  	const map=JSON.parse(recentList);
+  	/* console.log(map);
+  	console.log(recentList);
+  	console.log(typeof recentList); */
+	$("#recently").html("");
+	if(recentList.length>0){
+		$(".rpCount").text(recentList.length);
+		//console.log("if문 실행");
+		map.forEach(e=>{ //객체로 forEach 실행
+			//console.log("for문 실행");
+			const $recentA=$("<a>").attr("href","<%=request.getContextPath()%>/productpage?no="+e.productId);
+			const $recentImg=$("<img>").attr("src","<%=request.getContextPath()%>/upload/productRegist/"+e.productFileName);
+			const $recentDiv=$("<div>").text(e.productTitle);
+			$("#recently").append($recentA).append($recentImg).append($recentDiv);
+		});
+	}else{
+		$("#recently").append($("<div>최근본상품이 없습니다.</div>"));
+	}
+});
+
+<%--     $(()=>{
+    	const recentList=<%=recentList%>;
+	   	console.log(recentList);
+	   	$("#recently").html("");
+	   	if(recentList.length>0){
+	   		$(".rpCount").text(recentList.length);
+	   		// 최대 개수만큼 순회하면서 태그를 생성
+	        for (let i = 0; i < 3; i++) {
+	            const e = recentList[i];
+	            const $recentA = $("<a>").attr("href", "<%=request.getContextPath()%>/productpage?no=" + e.productId);
+	            const $recentImg = $("<img>").attr("src", "<%=request.getContextPath()%>/upload/productRegist/" + e.productFileName);
+	            const $recentDiv = $("<div>").text(e.productTitle);
+	            $("#recently").append($recentA).append($recentImg).append($recentDiv);
+	        }
+	     	// 최대 개수보다 많은 경우, 가장 오래된 태그를 삭제하고 새로운 태그를 추가
+	        for (let i = 3; i < recentList.length; i++) {
+	        	$("#recently").children().first().remove();
+	            
+	            const e = recentList[i];
+	            const $recentA = $("<a>").attr("href", "<%=request.getContextPath()%>/productpage?no=" + e.productId);
+	            const $recentImg = $("<img>").attr("src", "<%=request.getContextPath()%>/upload/productRegist/" + e.productFileName);
+	            const $recentDiv = $("<div>").text(e.productTitle);
+	            $("#recently").append($recentA).append($recentImg).append($recentDiv);
+	        }
+	   	}else{
+	   		$("#recently").append($("<div>최근본상품이 없습니다.</div>"));
+	   	}
+	   	
+}); --%>
 //전체 선택페이지 서블릿
 <%-- function ProductList_btn() {
    $.ajax({
@@ -240,7 +312,7 @@ function HeaderCategoryMenu() {
         dataType: 'json',
         success: function(data) {
            $("#menuList>ul").html("<li><a href='<%=request.getContextPath()%>/getproduct.do' id='category0'>전체</a></li>");
-           $("#categoryName span").text("전체" + " " + '(<%=request.getAttribute("totalData")%>)'); 
+           $("#categoryName span").text("전체"); 
            data.main.forEach(function(category,index) {
                 makeCategoryHeader(category.categoryName, index);
                 const subCategory=data.sub.filter(cate=>cate.category.categoryName==category.categoryName);
@@ -284,20 +356,20 @@ function HeaderCategoryMenu() {
     $("#menuList>ul").append($li);
 } */
 function makeCategoryHeader(name, index) {
-	categoryname = "CATEGORY_NAME = '" + name + "'";
+	var categoryname = "CATEGORY_NAME = '" + name + "'";
     const $li = $("<li>");
     const $a = $("<a>").attr("href", "<%=request.getContextPath()%>/getproduct.do?categoryname="+categoryname).attr("id", "category" + (index + 1)).text(name);
-<%--     const $categoryName = $("<span>").text(categoryname + " " + '(<%=request.getAttribute("totalData")%>)' + " ");
- --%>    <%-- const $a = $("<a>").attr("href", "<%=request.getContextPath()%>/headersearchcategory.do?categoryname="+name).attr("id", "category" + (index + 1)).text(name); --%> 
+    <%-- const $a = $("<a>").attr("href", "<%=request.getContextPath()%>/headersearchcategory.do?categoryname="+name).attr("id", "category" + (index + 1)).text(name); --%> 
     $li.append($a);
 	$("#menuList>ul").append($li);
 }
 function makeCatetorySub(subcateList, index) {
+	console.log(subcateList);
     const $div=$("<div>").attr({"id":"sideMenu-category"+(index+1),"class":"sideMenu"});
     const $ul=$("<ul>");
     subcateList.forEach(sub=>{
-    	subcategoryname = "SUBCATEGORY_NAME = '" + sub.subCategory.subcategoryName +"'";
-    	const $a = $("<a>").attr("href", "<%=request.getContextPath()%>/getproduct.do?subcategroyname="+subcategoryname).text(sub.subCategory.subcategoryName);
+    	var subcategoryname = "SUBCATEGORY_NAME = '" + sub.subCategory.subcategoryName +"'";
+    	const $a = $("<a>").attr("href", "<%=request.getContextPath()%>/getproduct.do?subcategoryname="+subcategoryname).text(sub.subCategory.subcategoryName);
 <%--            const $a = $("<a>").attr("href", "<%=request.getContextPath()%>/searchheadersubcategory.do?subcategroyname="+sub.subCategory.subcategoryName).text(sub.subCategory.subcategoryName);
  --%>           const $li = $("<li>").append($a);
            $ul.append($li);
@@ -326,6 +398,3 @@ $("div#menuList").after($div);
 </script>
    <script src="<%=request.getContextPath()%>/js/common/header.js"></script>
   <%--  <script src="<%=request.getContextPath()%>/js/searchpage/searchPage.js"></script> --%>
-
-</body>
-</html>

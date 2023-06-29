@@ -22,12 +22,13 @@ public class BoardRemoveServlet extends HttpServlet {
 		String boardNo = request.getParameter("boardNo");
 		int result = new AdminService().boardRemove(boardNo);
 		
-		if(result==1) {
+		if(result>=1) {
 			System.out.println("삭제완료");
-			request.getRequestDispatcher("/boardListAdmin.do").forward(request, response);
+			response.sendRedirect("/semi-hifive/boardListAdmin.do");
+//			request.getRequestDispatcher("/boardListAdmin.do").forward(request, response);
 		}else {
 			System.out.println("삭제실패");
-			request.getRequestDispatcher("/boardListAdmin.do").forward(request, response);
+			response.sendRedirect("/semi-hifive/boardListAdmin.do");
 		}
 	}
 

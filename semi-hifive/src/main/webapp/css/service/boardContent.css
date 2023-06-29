@@ -16,22 +16,63 @@
     /* margin-right: 10px; */
     cursor: pointer;
 }
+/* 글 삭제 버튼 */
+#contentDelete{
+	width: 90px;
+    height: 30px;
+    background-color: #adadad;
+    border: none;
+    color: white;
+    padding: 5px;
+    text-align: center;
+    display: inline-block;
+    font-size: 18px;
+    border-radius: 5px;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
+    position: relative;
+    cursor: pointer;
+}
+
 /* 제목 부분 */
 div.contentTitle{
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
+/* 신고 내역 */
+.productContainer{
+    background-color: rgb(229, 229, 229);
+	border-radius: 10px;
+	border: none;
+	padding: 10px 5px;
+}
+div.reportList>table{
+    margin-top: 5px;
+    padding: 10px;
+    width: 100%;
+    align-items: center;
+}
+div.reportList td{
+    padding-bottom: 10px;
+    text-align: center;
+}
+.reportList .productTitle{
+	width:550px;
+	text-align: left;
+}
+.reportList td:last-child{
+	width:150px;
+}
+.reportList td:first-child{
+	width:150px;
+}
 /* 글 본문 */
 div.content{
     margin-top: 10px;
     margin-bottom: 10px;
-    /* padding: 10px; */
     width: 1050px;
     height: 800px;
     overflow: auto;
-    /* border: 1px solid black; */
-    /* border-radius: 10px; */
 }
 /* 본문 글 상단에 작성자, 작성일 */
 div.contentTop{

@@ -21,4 +21,5 @@ public class Report {
 	private String reportCategory;
 	private int productId;
 	private int tradeId;
+	private String completed;
 }

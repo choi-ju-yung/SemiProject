@@ -22,6 +22,13 @@
 				<%} %>
 				<button class="backBtn" onclick="history.back();">뒤로 가기</button>
 			</div>
+			<%if(loginMember!=null&&loginMember.getAuth().equals("M")){ %>
+			<div>
+			<button id="contentDelete"
+			onclick="location.href='<%=request.getContextPath() %>/service/deleteBoard.do?no=<%=b.getBoardNo()%>'">
+			삭제</button>
+			</div>
+			<%} %>
 			<div class="content">
 				<input type="hidden" name="boardNo" value="<%=b.getBoardNo()%>">
 				<div class="contentTop">
@@ -36,12 +43,14 @@
 				}%>
 			</div>
 			<%if(b.getNoticeYn()=='Y'){ %>
-			<div class="commentWrite">
-				<textarea name="boardComment" class="boardComment" cols="120"
-					rows="5" placeholder="댓글을 작성하세요."></textarea>
-				<button class="commentBtn">댓글 작성</button>
-				<input type="hidden" value="0" class="commentFK">
-			</div>
+				<%if(loginMember!=null){ %>
+				<div class="commentWrite">
+					<textarea name="boardComment" class="boardComment" cols="120"
+						rows="5" placeholder="댓글을 작성하세요."></textarea>
+					<button class="commentBtn">댓글 작성</button>
+					<input type="hidden" value="0" class="commentFK">
+				</div>
+				<%} %>
 			<div class="comment">
 			<%if(comments!=null){
 				for(BoardComment bc:comments){
@@ -54,7 +63,9 @@
 						<p>
 							<%=bc.getCommentContent() %>
 						</p>
+						<%if(loginMember!=null){ %>
 						<button class="recommentBtn">댓글</button>
+						<%} %>
 						<input type="hidden" value="<%=bc.getCommentNo() %>" class="commentPK">
 					</div>
 					<div class="commentUpdate">

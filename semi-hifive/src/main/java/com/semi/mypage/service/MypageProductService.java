@@ -144,6 +144,14 @@ public class MypageProductService {
 		close(conn);
 		return mw;
 	}
+	
+	// 찜목록 리스트(페이징x)
+		public List<MemberWishList> selectWishListAllByUserId(String userId) {
+			Connection conn = getConnection();
+			List<MemberWishList> mw = dao.selectWishListAllByUserId(conn, userId);
+			close(conn);
+			return mw;
+		}
 
 	// 판매자 온도 수정
 	public int sellerScore(String productId, double changeTem) {

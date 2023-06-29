@@ -49,7 +49,7 @@
                 </div>
                 <div class="buttonNcategory">
                     <div class="updateDelete">
-                        <button>수정</button>
+                        <button class="updateBtn">수정</button>
                         <button class="delMem openBtn" id="<%=p.getProduct().getProductId() %>">삭제</button>
                     </div>
                     <div class="selectNow">

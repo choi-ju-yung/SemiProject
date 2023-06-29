@@ -71,7 +71,11 @@ function uploadFile(){
     formData.append("writer","<%=loginMember.getUserId()%>");
     formData.append("title",$("#contentTitle").val());
     formData.append("content",$("#inquiryContent").val());
-    formData.append("secret",$("input#secretCheck").val());
+    if($("#secretCheck:checked").length>0){
+    	formData.append("secret","Y");
+    }else{
+    	formData.append("secret","N");
+    }
     
     $.ajax({
         url : "<%=request.getContextPath()%>/service/inquiryInsertEnd.do",

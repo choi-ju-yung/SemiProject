@@ -1,5 +1,8 @@
 package com.semi.main.model.vo;
 
+import java.util.List;
+
+import com.semi.mypage.model.vo.WishList;
 import com.semi.product.model.vo.Product;
 import com.semi.product.model.vo.ProductFile;
 
@@ -16,4 +19,6 @@ public class ProductElapsedTime {
 	private Product product;
 	private long elapsedTime;
 	private ProductFile productFile;
+	//private List<String> likeMembers;
+	private WishList wishList;
 }
