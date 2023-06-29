@@ -71,6 +71,7 @@ public class ViewCountServlet extends HttpServlet {
 	    	condition="1=1";
 	    }
 	    
+	    System.out.println(condition);
 	    totalData = new ProductCategoryListService().ViewCountAndCount(condition);
 		int totalPage = (int)Math.ceil((double)totalData/numPerpage);
 		int pageBarSize = 5;
