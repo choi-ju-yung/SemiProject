@@ -25,14 +25,31 @@ header {
 	background-color: white;
 }
 #recently a img{
+	cursor: pointer;
 	width: "68.4px"; 
 	height: "68.4px";
 }
-#recently{
-text-overflow: ellipsis; 
-white-space: nowrap; 
-overflow: hidden;
+#recently a{
+	display: block;
+    width: 100%;
+    margin-bottom: 5px;
+    border: 1px solid transparent;
+    position: relative;
+    font-size: 13px;
 }
+.resentlyTag{
+	margin-bottom: 10px;
+	text-overflow: ellipsis; 
+	white-space: nowrap; 
+	overflow: hidden;
+    text-overflow: ellipsis;
+    position: absolute;
+	display: none;
+}
+#recently:hover + .resentlyTag {
+  display: block;
+}
+
 #headerContainer {
 	display: flex;
 	flex-direction: column;

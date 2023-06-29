@@ -217,7 +217,7 @@ $(()=>{
 			//console.log("for문 실행");
 			const $recentA=$("<a>").attr("href","<%=request.getContextPath()%>/productpage?no="+e.productId);
 			const $recentImg=$("<img>").attr("src","<%=request.getContextPath()%>/upload/productRegist/"+e.productFileName);
-			const $recentDiv=$("<div>").text(e.productTitle);
+			const $recentDiv=$("<div>").attr("class", "resentlyTag").text(e.productTitle);
 			$("#recently").append($recentA).append($recentImg).append($recentDiv);
 		});
 	}else{
