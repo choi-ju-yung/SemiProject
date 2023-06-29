@@ -15,6 +15,7 @@ import java.util.Properties;
 
 import com.semi.admin.model.vo.ReportProductMember;
 import com.semi.member.model.vo.Member;
+import com.semi.product.model.vo.Product;
 import com.semi.sc.model.dto.Report;
 
 public class AdminDao {
@@ -290,6 +291,7 @@ public class AdminDao {
 			            .reportCategory(rs.getString("report_category"))
 			            .productId(rs.getInt("product_id"))
 			            .tradeId(rs.getInt("trade_id"))
+			            .completed(rs.getString("COMPLETED"))
 			            .build());
 			}
 		} catch (SQLException e) {
@@ -436,6 +438,163 @@ public class AdminDao {
 			close(pstmt);
 		}
 		return result1;
+	}
+	
+	
+	public int changeComplete(Connection conn, String reportNo) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		try {
+			pstmt = conn.prepareStatement(sql.getProperty("changeComplete"));
+			pstmt.setString(1, reportNo);
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+	
+	
+	public List<Report> completeSelectReportList(Connection conn, int cPage, int numPerpage){
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<Report> result = new ArrayList();
+		try {
+			pstmt = conn.prepareStatement(sql.getProperty("completeSelectReportList"));
+			pstmt.setInt(1, (cPage - 1) * numPerpage + 1);
+			pstmt.setInt(2, cPage * numPerpage);
+
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				result.add(Report.builder()
+			            .reportContent(rs.getString("report_content"))
+			            .reportNo(rs.getInt("report_no"))
+			            .reportWriter(rs.getString("report_writer"))
+			            .reportTitle(rs.getString("report_title"))
+			            .reportDate(rs.getDate("report_date"))
+			            .reportCategory(rs.getString("report_category"))
+			            .productId(rs.getInt("product_id"))
+			            .tradeId(rs.getInt("trade_id"))
+			            .completed(rs.getString("COMPLETED"))
+			            .build());
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rs);
+			close(pstmt);
+		}
+		return result;
+	}
+	
+	
+	
+	public int completeSelectReportCount(Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		int result = 0;
+		try {
+			pstmt = conn.prepareStatement(sql.getProperty("completeSelectReportCount"));
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				result = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rs);
+			close(pstmt);
+		}
+		return result;
+	}
+	
+	
+	public List<Product> selectProdcutList(Connection conn, int cPage, int numPerpage){
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<Product> result = new ArrayList();
+		try {
+			pstmt = conn.prepareStatement(sql.getProperty("selectProdcutList"));
+			pstmt.setInt(1, (cPage - 1) * numPerpage + 1);
+			pstmt.setInt(2, cPage * numPerpage);
+
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				result.add(Product.builder()
+			            .productId(rs.getInt("PRODUCT_ID"))
+			            .userId(rs.getString("USER_ID"))
+			            .title(rs.getString("PRODUCT_TITLE"))
+			            .productStatus(rs.getString("PRODUCT_STATUS"))
+			            .price(rs.getInt("PRICE"))
+			            .registTime(rs.getDate("REGIST_TIME"))
+			            .explanation(rs.getString("EXPLANATION"))
+			            .keyword(rs.getString("KEYWORD"))
+			            .subCategoryName(rs.getString("SUBCATEGORY_NAME"))
+			            .areaName(rs.getString("AREA_NAME"))
+			            .build());
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rs);
+			close(pstmt);
+		}
+		return result;
+	}
+	
+	
+	public int selectProductCount(Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		int result = 0;
+		try {
+			pstmt = conn.prepareStatement(sql.getProperty("selectProductCount"));
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				result = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rs);
+			close(pstmt);
+		}
+		return result;
+	}
+	
+	
+	public int productRemove(Connection conn, String no) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		try {
+			pstmt = conn.prepareStatement(sql.getProperty("productRemove"));
+			pstmt.setString(1, no);
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+	
+	
+	public int deleteCheckProduct(Connection conn, String psql) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		try {
+			pstmt = conn.prepareStatement(sql.getProperty("deleteCheckProduct").replace("#data", psql));
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
 	}
 	
 }

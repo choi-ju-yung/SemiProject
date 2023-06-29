@@ -19,28 +19,19 @@ import com.semi.product.model.vo.Product;
 import com.semi.product.model.vo.ProductFile;
 import com.semi.productregist.service.ProductRegistService;
 
-@WebServlet("/productRegistEnd.do")
-public class ProductRegistEndServlet extends HttpServlet {
+
+@WebServlet("/productUpdateEnd.do")
+public class ProductUpdateEndServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+       
 
-	public ProductRegistEndServlet() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+    public ProductUpdateEndServlet() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
 
-	
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
 
-		/*
-		 * if (!(ServletFileUpload.isMultipartContent(request))) { // 해당 타입이 맞으면 true,
-		 * 아니면 false를 반환 request.setAttribute("msg", "잘못된 접근입니다. 관리자에게 문의하세요.");
-		 * request.setAttribute("loc", "/"); //해당 페이지로 다시 돌아감
-		 * request.getRequestDispatcher("/views/common/msg.jsp").forward(request,
-		 * response); return; // multipart타입이 아니면 리턴 처리 }
-		 */
-		
-
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		String path=getServletContext().getRealPath("/upload/productRegist");  // ->  /upload/productRegist 안에다 업로드되는 이미지 넣음
 		
@@ -48,10 +39,11 @@ public class ProductRegistEndServlet extends HttpServlet {
 		// MultipartRequest 객체 사용하려면, 이 서블릿을 요청시킨 form태그에 enctype="multipart/form-data" 를 넣어야함
 		
 		String replacePrice = mr.getParameter("price"); 
-		replacePrice = replacePrice.replace(",",""); // ,있는 돈 문자열을 ,를 ""로 대체함
 		
+		replacePrice = replacePrice.replace(",",""); // ,있는 돈 문자열을 ,를 ""로 대체함
+		 	
 		Member m = (Member) session.getAttribute("loginMember");// 세션에서 현재로그인한 정보 갖고옴
-		String productId = mr.getParameter("productId");
+		int productId=Integer.parseInt(mr.getParameter("productId"));
 		String userId = m.getUserId();
 		String title = mr.getParameter("title");
 		String subCate = mr.getParameter("subCate");
@@ -76,20 +68,21 @@ public class ProductRegistEndServlet extends HttpServlet {
 			// builder 함수 사용시 마지막에 .build() 해줘야함
 		}
 		
-		 Product p = Product.builder().title(title).productStatus(state).price(price).explanation(explan)
+		 Product p = Product.builder().productId(productId).title(title).productStatus(state).price(price).explanation(explan)
 				 .keyword(tag).areaName(place).subCategoryName(subCate).files(files).build();
 		 // Product 객체 안에 멤버변수들을 builder를 통해서 넣어줌 (마지막에는 files 멤버변수도 builder를 통해서 해당맞는 타입의 값을 넣어줌)
 		 // Product 클래스안에 결국 ProudctFile 값들도 들어있는것임 
 		 // 그러기 때문에 Product만 객체만 넣어줘도 됨
 		 
-		 int result = new ProductRegistService().insertProduct(p,userId); // 상품등록 및 상품이미지첨부파일 데이터 추가 하는 작업
+		 int result = new ProductRegistService().updateProduct(p,userId); // 상품등록 및 상품이미지첨부파일 데이터 추가 하는 작업
 		 
-		 response.getWriter().print(result); // 해당 반환되는 0 또는 1의 값을 다시 js로 반환됨 (ajax이기 때문에 해줘야함)-> js에서 정수 값을 통해 분기처리	
+		 response.getWriter().print(result); // 해당 반환되는 0 또는 1의 값을 다시 js로 반환됨 (ajax이기 때문에 해줘야함)-> js에서 정수 값을 통해 분기처리
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
+
 }

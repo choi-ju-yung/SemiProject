@@ -6,6 +6,7 @@
 List<Category> categorys = (List) request.getAttribute("categorys");
 Product p = (Product)request.getAttribute("p");
 List<ProductFile> pf = (List)request.getAttribute("pf");
+//out.println(p);
 %>
 
 <link rel="stylesheet"
@@ -49,7 +50,13 @@ List<ProductFile> pf = (List)request.getAttribute("pf");
 
 
 			<ul class="image-preview">
-
+				<%if(pf.size()>0){
+					for(ProductFile f:pf) {%>
+					<li>
+						<img src="<%=request.getContextPath() %>/upload/productRegist/<%=f.getImageName() %>" data-file="<%=f.getImageName() %>">
+					</li>
+					<%}
+				}%>
 			</ul>
 
 			<div class="explane">
@@ -147,13 +154,23 @@ List<ProductFile> pf = (List)request.getAttribute("pf");
 			</h4>
 			<input type="text" id="searchTag" placeholder="연관 태그를 입력해주세요" autocomplete="on">
 			<div id="relativeTagDiv">
-			
+				<%if(p.getKeyword()!=null){ 
+					String[] keywords=p.getKeyword().split(",");
+					for(String k :keywords){%>
+						<li>
+							<label><%=k %></label>
+							<img height="15" width="15" src="http://localhost:9090/semi-hifive/images/productregist/xbtn.png">
+						</li>
+					<%} 
+				}%>
 			</div>
 		</div>
 
-		<div class="autocomplete"></div>
-
-
+		<div class="autocomplete">
+		
+		</div>
+			<!-- li>label><img height="15" width="15" src="http://localhost:9090/semi-hifive/images/productregist/xbtn.png"> -->
+			
 		<br>
 		<div class="pp">
 			<p>- 태그는 최대 5개까지 선택 가능합니다.</p>
@@ -165,9 +182,9 @@ List<ProductFile> pf = (List)request.getAttribute("pf");
 		</div>
 		<hr>
 
-
+		<input type="hidden" name="productId" class="inputProductId" value=<%=p.getProductId()%>>
 		<div class="fix">
-			<button type="button" onclick="productRegist()">등록하기</button>  		
+			<button type="button" onclick="productUpdate()">수정하기</button>  		
 			<!-- form안의 버튼은 submit	이 가능함 -->
 			<!-- button type="button" -> 자동으로 submit되는걸 방지하고 다른 동작을 실행시키고 싶을 때-->
 		</div>
@@ -182,23 +199,31 @@ List<ProductFile> pf = (List)request.getAttribute("pf");
 		} else {
 		%>
 
-		<script>
-		   $(document).ready(function() {  // 로딩됬을때 라디오체크버튼 설정
-			   if(<%=p.getProductStatus()%>=="미개봉"){
-				   $(":radio[name='state'][value='미개봉']").attr('checked', true);
-			   }else{
-				   $(":radio[name='state'][value='사용감있음']").attr('checked', true);
-			   }
-			   
-		   });
 		
-			location.href ="<%=request.getContextPath()%>/productRegist.do"
-		</script>
 		<!-- 여기부분이 직접 검색해서 들어갔을 때 들어가짐  -->
 		<%
 		}
 		%>
+		<script>
+		   $(document).ready(function() {  // 로딩됬을때 라디오체크버튼 설정
+			   
+			   if('<%=p.getProductStatus()%>'=="미개봉"){
+				   $("input[value='미개봉']").prop('checked', true);
+			   }else{
+				   $("input[value='사용감 있음']").prop('checked', true);
+			   }
+		   });
+		
+ <%-- location.href ="<%=request.getContextPath()%>/productRegist.do" --%>
+		</script>
 <!-- 	</form> -->
+<script>
+	$(()=>{
+		$("#relativeTagDiv").find("label").each((i,e)=>{
+			registTagList.push(e.innerText);	
+		});
+	})
+</script>
 </section>
 
 

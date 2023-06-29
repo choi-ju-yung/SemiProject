@@ -9,6 +9,7 @@ import java.util.List;
 import com.semi.admin.dao.AdminDao;
 import com.semi.admin.model.vo.ReportProductMember;
 import com.semi.member.model.vo.Member;
+import com.semi.product.model.vo.Product;
 import com.semi.sc.model.dto.Report;
 
 public class AdminService {
@@ -173,6 +174,65 @@ public class AdminService {
 		close(conn);
 		return result1;
 	}
+	
+	// 신고처리된 신고글 처리여부로 바꿔줌
+	public int changeComplete(String reportNo) {
+		Connection conn = getConnection();
+		int result0 = dao.changeComplete(conn,reportNo);
+		close(conn);
+		return result0;
+	}
+	
+	// 신고처리된 신고글 불러오기
+	public List<Report> completeSelectReportList(int cPage, int numPerpage){
+		Connection conn = getConnection();
+		List<Report> result = dao.completeSelectReportList(conn,cPage,numPerpage);
+		close(conn);
+		return result;
+	}
+	
+	// 신고처리된 신고글 개수
+	public int completeSelectReportCount() {
+		Connection conn = getConnection();
+		int result = dao.completeSelectReportCount(conn);
+		close(conn);
+		return result;
+	}
+	
+	
+	// 모든 상품게시글 조회
+	public List<Product> selectProdcutList(int cPage, int numPerpage){
+		Connection conn = getConnection();
+		List<Product> result = dao.selectProdcutList(conn,cPage,numPerpage);
+		close(conn);
+		return result;
+	}
+	
+	
+	// 모든 상품게시글 개수
+	public int selectProductCount(){
+		Connection conn = getConnection();
+		int result = dao.selectProductCount(conn);
+		close(conn);
+		return result;
+	}
+	
+	// 해당 아이디로 상품게시글 삭제
+	public int productRemove(String no) {
+		Connection conn = getConnection();
+		int result = dao.productRemove(conn, no);
+		close(conn);
+		return result;
+	}
+	
+	// 체크한 상품들 다 삭제
+	public int deleteCheckProduct(String sql) {
+		Connection conn = getConnection();
+		int result = dao.deleteCheckProduct(conn, sql);
+		close(conn);
+		return result;
+	}
+	
 }
 
 

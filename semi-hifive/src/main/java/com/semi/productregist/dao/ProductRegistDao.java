@@ -40,7 +40,7 @@ public class ProductRegistDao {
 					sql.getProperty("selectAll"));
 
 			rs=pstmt.executeQuery(); 
-			
+		
 			while(rs.next()) {
 				Category c=new Category();
 				c.setCategoryId(rs.getString("CATEGORY_ID"));
@@ -208,4 +208,64 @@ public class ProductRegistDao {
 		}return pff;
 	}
 	
+	
+	
+	public int updateProduct(Connection conn, Product p, String userId){
+		PreparedStatement pstmt = null;
+		int result = 0;
+		try {
+			pstmt=conn.prepareStatement(sql.getProperty("updateProduct"));
+			pstmt.setString(1, p.getTitle());
+			pstmt.setString(2, p.getProductStatus());
+			pstmt.setInt(3, p.getPrice());
+			pstmt.setString(4, p.getExplanation());
+			pstmt.setString(5, p.getKeyword());
+			pstmt.setString(6, p.getSubCategoryName());
+			pstmt.setString(7, p.getAreaName());
+			pstmt.setInt(8, p.getProductId());
+			
+			result=pstmt.executeUpdate(); 
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}return result;
+	}
+	
+	
+	public int deleteProductFile(Connection conn, Product p) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		try {
+			pstmt=conn.prepareStatement(sql.getProperty("deleteProductFile"));
+			pstmt.setInt(1, p.getProductId());
+
+			result=pstmt.executeUpdate(); 
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}return result;
+	}
+	
+	
+	public int updateInsertProductFile(Connection conn, ProductFile f) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		try {
+			// ProudctFile 안의  상품아이디는 SEQ_PRODUCT_ID.CURRVAL 를 통해서 넣어줌 (현재 시퀀스값)
+			pstmt=conn.prepareStatement(sql.getProperty("updateInsertProductFile"));
+			pstmt.setInt(1,f.getProductId());
+			pstmt.setString(2, f.getImageName());
+			pstmt.setString(3, String.valueOf(f.getMainImageYn()));
+			
+			result=pstmt.executeUpdate(); 
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}return result;
+
+	
+	}
 }
