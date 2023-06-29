@@ -42,7 +42,7 @@
                   <a href="<%=request.getContextPath()%>/boardListAdmin.do">공지사항 관리</a>
                 </div>
                 <div class="accordion-body">
-                  신고 관리
+                  <a href="<%=request.getContextPath()%>/reportListAdmin.do">신고 관리</a>
                 </div>
                 <div class="accordion-body">
                   1:1 문의 관리

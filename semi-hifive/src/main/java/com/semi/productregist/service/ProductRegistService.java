@@ -58,5 +58,19 @@ public class ProductRegistService {
 	}
 	
 	
+	public Product selectProduct(String productId) {
+		Connection conn = getConnection(); // jdbc 연결객체
+		Product p = dao.selectProduct(conn,productId);
+		close(conn);
+		return p;
+	}
+	
+	
+	public List<ProductFile> selectProductFile(String productId){
+		Connection conn = getConnection(); // jdbc 연결객체
+		List<ProductFile> pf = dao.selectProductFile(conn,productId);
+		close(conn);
+		return pf;
+	}
 	
 }

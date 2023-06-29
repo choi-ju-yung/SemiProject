@@ -136,4 +136,13 @@ public class ReportService {
 		return rd;
 	}
 
+	public int deleteReport(int reportNo) {
+		Connection conn=getConnection();
+		int result=dao.deleteReport(conn, reportNo);
+		if(result>0) commit(conn);
+		else rollback(conn);
+		close(conn);
+		return result;
+	}
+
 }

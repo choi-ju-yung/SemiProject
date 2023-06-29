@@ -41,7 +41,7 @@
 						<td class="reportCheck">
 				          <div class="checkContainer">
 				           	 	<label class="list-label">
-				                  <input type="checkbox" name="buyListCk" value="<%=d.getTradeId() %>" onclick="checkOnlyOne(this);">
+				                  <input type="checkbox" name="buyListCk" class="buyList" value="<%=d.getTradeId() %>" onclick="checkOnlyOne(this);">
 				                  <div class="buyCk"></div>
 				               	</label>
 				               	<input type="hidden" id="productId" value="<%=d.getProductId() %>">
@@ -70,7 +70,7 @@
 		</div>
 		<div id="fileList"></div>
 		<div class="serviceInsertBtn">
-			<button class="serviceCancelBtn">취소</button>
+			<input type="reset" class="serviceCancelBtn" value="취소">
 			<input type="button" onclick="uploadFile();" class="serviceSubmitBtn" value="완료">
 		</div>
 	</div>
@@ -111,7 +111,7 @@ function uploadFile(){
     formData.append("writer","<%=loginMember.getUserId()%>");
     formData.append("title",$("#reportTitle").val());
     formData.append("content",$("#reportContent").val());
-    formData.append("check",$(".buyListCk:checked").val());
+    formData.append("check",$(".buyList:checked").val());
     formData.append("productId",$("#productId").val());
     
     

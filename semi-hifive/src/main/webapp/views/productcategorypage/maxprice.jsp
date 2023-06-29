@@ -2,17 +2,59 @@
 <%@page import="com.semi.productlist.model.vo.ProductCategoryTimeList"%>
 <%@page import="com.semi.category.model.vo.Category"%>
 <%@ page import="com.semi.member.model.vo.Member"%>
+<%@page import="com.semi.mypage.model.vo.WishList"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
 	List<ProductCategoryTimeList> gd = (List)request.getAttribute("getselectproduct"); 
-%> 
+	List<WishList> wishlist = (List)request.getAttribute("wishlist");
+%>
+<%
+Member loginMember = (Member) session.getAttribute("loginMember");//여기 로그인멤버 
+Cookie[] cookies = request.getCookies(); // 존재하는 쿠키들 다 갖고옴 
+String saveId = null;
+if (cookies != null) {
+   for (Cookie c : cookies) {
+      if (c.getName().equals("saveId")) {
+   saveId = c.getValue();
+   break;
+      }
+   }
+}
+%>
+<%
+        String productId = null;
+		String productFileName = null;
+		String productTitle = null;
+		if (cookies != null) {
+            for (Cookie pc : cookies) {
+                if (pc.getName().equals("productId")) {
+                	productId = pc.getValue();	
+                }else if(pc.getName().equals("productFileName")){
+                	productFileName = pc.getValue();
+                }else if(pc.getName().equals("productTitle")){
+                	productTitle = pc.getValue();
+                }
+            }
+        }
+%>  
 		<div id="productImgContainer">
 		<%for(ProductCategoryTimeList p : gd){%>
-            <div id="pimgWraper" onclick="location.href='<%=request.getContextPath()%>/productpage?no=<%=p.getProductCategoryList().getProductId()%>';">
-              <div class="con-like">
-                <input title="like" type="checkbox" class="like" />
+             <div class="pimgWraper" class="<%=p.getProductCategoryList().getProductId()%>">
+	            <form action="<%=request.getContextPath() %>/resentlymakecookie" method="post">
+		            <input type="hidden" name="no" value="<%=p.getProductCategoryList().getProductId()%>">
+		            <input type="hidden" name="filename" value="<%=p.getProductfile().getImageName()%>">
+		            <input type="hidden" name="producttitle" value="<%=p.getProductCategoryList().getProductTitle()%>">
+	            </form>
+	            	<%if (loginMember != null){ %>
+		               <div class="con-like" >
+		               <% for (WishList w : wishlist) {
+    						if (w.getProductId() == p.getProductCategoryList().getProductId()) { %>
+		                <input title="like" type="checkbox" class="like" checked="checked" id="<%=p.getProductCategoryList().getProductId()%>"/>
+	                	<%}else{%>
+			                <input title="like" type="checkbox" class="like" id="<%=p.getProductCategoryList().getProductId()%>"/>
+	                	<% } }%>
                 <div class="checkmark">
                   <svg
                     viewBox="0 0 24 24"
@@ -46,16 +88,16 @@
                     <polygon points="80,80 70,70" class="poly"></polygon>
                   </svg>
                 </div>
+                <%}%>
               </div>
-
              
                 <div id="payBtn">
                   <span>하마페이</span>
                 </div>
                 <img
-                  src="<%=request.getContextPath()%>/upload/productRegist/<%=p.getProductfile().getImageName()%>"
+                  src="<%=request.getContextPath()%>/upload/productRegist/"
                   alt=""
-                /><%=p.getProductfile().getImageName()%>
+                />
                 <p id="productName"><%=p.getProductCategoryList().getProductTitle()%></p>
                 <p id="productPrice"><%=p.getProductCategoryList().getPrice()%>
                 <span><%if(p.getElapsedTime() < 60){%>
@@ -82,4 +124,38 @@
 	     	<ul class="page">
 	         	<%=request.getAttribute("pageBar") %>
 	        </ul>
-	   	</div>	
+	   	</div>
+<script>
+//좋아요 ajax
+$('.like').click((e) => {
+	event.stopPropagation();
+	console.log("확인")
+    let isChecked = $(e.target).prop('checked');
+	let productId = $(e.target).attr("id");
+	if(!isChecked) {
+		$.ajax({
+    		url: "<%=request.getContextPath()%>/deletelike",
+    		dataType: "json",
+    		data: {
+    			"loginId": loginId,
+    			"productId": productId,
+    		},
+    		success: function(data) {
+        			console.log('삭제됨?');
+    		}
+    	});
+	}else {
+		$.ajax({
+    		url: "<%=request.getContextPath()%>/updatelike",
+    		dataType: "json",
+    		data: {
+    			"loginId": loginId,
+    			"productId": productId,
+    		},
+    		success: function(data){
+    			console.log('추가됨?');
+    		}
+    	});
+	}
+});
+</script>	   		

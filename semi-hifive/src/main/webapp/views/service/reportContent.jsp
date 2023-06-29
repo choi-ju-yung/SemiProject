@@ -18,12 +18,20 @@
                     <h2><%=r.getReportTitle() %></h2>
                     <button class="backBtn" onclick="history.back();">뒤로 가기</button>
                 </div>
+                <%if(loginMember!=null&&r.getReportWriter().equals(loginMember.getNickName())
+                	||loginMember.getAuth().equals("M")){ %>
+					<div>
+					<button id="contentDelete"
+					onclick="location.href='<%=request.getContextPath() %>/service/deleteReport.do?no=<%=r.getReportNo()%>'">
+					삭제</button>
+					</div>
+				<%} %>
                 <div class="content">
                     <div class="contentTop">
                         <p>작성자 : <%=r.getReportWriter() %></p>
                         <p><%=r.getReportDate() %></p>
                     </div>
-                    <div class="productContainer">
+            <div class="productContainer">
 			<div>
 				<h4 style="padding-left: 10px;">신고한 판매글</h4>
 			</div>
@@ -51,6 +59,7 @@
 				</table>
 			</div><!-- reportList -->
 		</div><!-- buyliseContainer -->
+		<br>
                     <p><%=r.getReportContent() %></p>
                     <%if(files!=null){
 						for(ServiceFile sf:files){%>

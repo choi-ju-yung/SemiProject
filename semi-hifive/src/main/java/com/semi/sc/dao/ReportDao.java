@@ -39,6 +39,7 @@ public class ReportDao {
 				.reportCategory(rs.getString("report_category"))
 				.productId(rs.getInt("product_id"))
 				.tradeId(rs.getInt("trade_id"))
+				.completed(rs.getString("completed"))
 				.build();
 	}
 	
@@ -358,6 +359,21 @@ public class ReportDao {
 			close(pstmt);
 		}
 		return rd;
+	}
+
+	public int deleteReport(Connection conn, int reportNo) {
+		PreparedStatement pstmt=null;
+		int result=0;
+		try {
+			pstmt=conn.prepareStatement(sql.getProperty("deleteReport"));
+			pstmt.setInt(1, reportNo);
+			result=pstmt.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return result;
 	}
 
 	

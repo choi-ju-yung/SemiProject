@@ -657,7 +657,29 @@ public class ProductCategoryListDao {
 							}return result;
 						}
 		
-		public List<ProductCategoryTimeList> Test(Connection conn, int cPage, int numPerpage, String test) {
+		public List<WishList> wishlist(Connection conn){
+			PreparedStatement pstmt = null;
+		    ResultSet rs = null;
+		    List<WishList> selectgetproduct = new ArrayList<>();
+		    
+		    try {
+			    pstmt = conn.prepareStatement(sql.getProperty("Wishlist"));
+				rs = pstmt.executeQuery();
+				while(rs.next()) {
+					selectgetproduct.add(getWishList(rs));
+				}
+						
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}finally {
+				close(rs);
+				close(pstmt);
+			}return selectgetproduct;
+		}
+						
+						
+						
+	public List<ProductCategoryTimeList> Test(Connection conn, int cPage, int numPerpage, String test) {
 			PreparedStatement pstmt = null;
 		    ResultSet rs = null;
 		    List<ProductCategoryTimeList> selectgetproduct = new ArrayList<>();

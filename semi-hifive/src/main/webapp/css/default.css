@@ -24,11 +24,15 @@ header {
 	z-index: 100;
 	background-color: white;
 }
-#recently {
+#recently a img{
 	width: "68.4px"; 
 	height: "68.4px";
 }
-
+#recently{
+text-overflow: ellipsis; 
+white-space: nowrap; 
+overflow: hidden;
+}
 #headerContainer {
 	display: flex;
 	flex-direction: column;
@@ -516,7 +520,6 @@ input[id="menuIcon"]:checked+label>span:nth-child(3) {
 #itemBox {
 	border: 2px solid #eeeeee;
 	width: 105px;
-	height: 200px;
 	position: fixed;
 	right: calc(50% - 797px);
 	text-align: center;

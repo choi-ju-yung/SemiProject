@@ -154,7 +154,7 @@ List<Board> boards = (List) request.getAttribute("boards");
 			url: "deleteCheckBoard",
 			data: {"arr": arr},  
 			success: function(result) {
-				if(result==1){
+				if(result>=1){
 					alert("성공적으로 삭제되었습니다.");
 					location.replace("/semi-hifive/boardListAdmin.do");
 				}else{
