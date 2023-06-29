@@ -219,7 +219,7 @@ section {
 .productBtn {
 	margin-top: 43px;
 	display: flex;
-	justify-content: space-between;
+	justify-content: space-evenly;
 }
 
 .productBtn button {
