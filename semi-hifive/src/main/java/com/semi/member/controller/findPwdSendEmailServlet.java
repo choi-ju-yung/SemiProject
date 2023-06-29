@@ -118,12 +118,11 @@ public class findPwdSendEmailServlet extends HttpServlet {
 			t.sendMessage(msg, msg.getAllRecipients());
 			t.close();
 			
-			int result = new MemberService().updatePassword(inputEmail, cNumber); // 패스워드 임시번호로 변경
-			if(result==1) {
-				System.out.println("비밀번호 변경완료");
-			}else {
-				System.out.println("비밀번호 변경실패");
-			}
+			/*
+			 * int result = new MemberService().updatePassword(inputEmail, cNumber); // 패스워드
+			 * 임시번호로 변경 if(result==1) { System.out.println("비밀번호 변경완료"); }else {
+			 * System.out.println("비밀번호 변경실패"); }
+			 */
 			
 			
 			int result2 = new MemberService().insertCertification(inputEmail, cNumber); // 인증번호 컬럼 추가

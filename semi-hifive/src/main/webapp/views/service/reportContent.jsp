@@ -1,13 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="com.semi.sc.model.dto.*, com.semi.product.model.vo.Product" %>
+<%@ page import="com.semi.sc.model.dto.*, com.semi.sc.model.dto.ReportData" %>
 <%@ include file="/views/common/header.jsp" %>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/service/boardContent.css">
 <%
 	Report r=(Report)request.getAttribute("report");
 	List<BoardComment> comments=(List)request.getAttribute("comments");
 	List<ServiceFile> files=(List<ServiceFile>)request.getAttribute("files");
-	Product reportProduct=(Product)request.getAttribute("reportProduct");
+	ReportData rd=(ReportData)request.getAttribute("reportData");
 %>
 <section>
 <%@ include file="/views/service/serviceCategory.jsp" %>
@@ -18,12 +18,20 @@
                     <h2><%=r.getReportTitle() %></h2>
                     <button class="backBtn" onclick="history.back();">뒤로 가기</button>
                 </div>
+                <%if(loginMember!=null&&r.getReportWriter().equals(loginMember.getNickName())
+                	||loginMember.getAuth().equals("M")){ %>
+					<div>
+					<button id="contentDelete"
+					onclick="location.href='<%=request.getContextPath() %>/service/deleteReport.do?no=<%=r.getReportNo()%>'">
+					삭제</button>
+					</div>
+				<%} %>
                 <div class="content">
                     <div class="contentTop">
                         <p>작성자 : <%=r.getReportWriter() %></p>
                         <p><%=r.getReportDate() %></p>
                     </div>
-                    <div class="productContainer">
+            <div class="productContainer">
 			<div>
 				<h4 style="padding-left: 10px;">신고한 판매글</h4>
 			</div>
@@ -33,14 +41,14 @@
 						<th>거래자</th>
 						<th>거래 게시물</th>
 						<th>거래 금액</th>
-						<th>거래 날짜</th>
+						<th>판매글 등록 날짜</th>
 					</tr>
-				<%if(reportProduct!=null){%>
+				<%if(rd!=null){%>
 					<tr>
-						<td><%=reportProduct.getUserId() %></td>
-						<td class="productTitle"><%=reportProduct.getTitle() %></td>
-						<td><%=reportProduct.getPrice() %>원</td>
-						<td><%=reportProduct.getRegistTime() %></td>
+						<td><%=rd.getBuyerId() %></td>
+						<td class="productTitle"><%=rd.getProductTitle() %></td>
+						<td><%=rd.getPrice() %>원</td>
+						<td><%=rd.getRegistTime() %></td>
 					</tr>
 					<%
 					}else{%>
@@ -51,6 +59,7 @@
 				</table>
 			</div><!-- reportList -->
 		</div><!-- buyliseContainer -->
+		<br>
                     <p><%=r.getReportContent() %></p>
                     <%if(files!=null){
 						for(ServiceFile sf:files){%>

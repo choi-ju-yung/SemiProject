@@ -12,7 +12,7 @@
 	<%@ include file="/views/service/serviceCategory.jsp" %>
 	<div class="ServiceCenter">
       <h2 class="ServicetHead"><%=notice=='Y'?"공지사항":"자주하는 질문" %>
-      	<% if(loginMember!=null&&loginMember.getUserId().equals("admin")){ %>
+      	<% if(loginMember!=null&&loginMember.getAuth().equals("M")){ %>
 	      <button class="contentBtn" onclick="location.href='<%=request.getContextPath()%>/service/boardInsert.do'">글 작성</button>
 	      <% } %>
       </h2>

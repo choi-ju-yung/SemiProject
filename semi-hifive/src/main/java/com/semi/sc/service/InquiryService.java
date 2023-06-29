@@ -91,4 +91,13 @@ public class InquiryService {
 		return result;
 	}
 
+	public int deleteInquiry(int inquiryNo) {
+		Connection conn=getConnection();
+		int result=dao.deleteInquiry(conn, inquiryNo);
+		if(result>0) commit(conn);
+		else rollback(conn);
+		close(conn);
+		return result;
+	}
+
 }

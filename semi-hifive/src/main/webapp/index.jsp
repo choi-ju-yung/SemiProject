@@ -1,24 +1,25 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
-<%@ page import="com.semi.main.model.vo.ProductElapsedTime"%>
+<%@ page import="com.semi.main.model.vo.ProductElapsedTime, com.semi.mypage.model.vo.MemberWishList"%>
 <%@ include file="/views/common/header.jsp"%>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/main.css" />
 <script>
-const context = "http://localhost:9090/semi-hifive/";
+function getContextPath() {
+	var hostIndex = location.href.indexOf(location.host) + location.host.length;
+	return location.href.substring(hostIndex, location.href.indexOf('/', hostIndex + 1));
+};
 
    $.ajax({
-      url:"<%=request.getContextPath()%>/main/mainPage.do",
+      url: getContextPath() + "/main/mainPage.do",
       dataType: 'json',
       success: (data)=> {
          data.forEach((e, i) => {
-               console.log(e);
-               console.log(i);
                $(".productTitle")[i].innerText = e.product.title;
                $(".price")[i].innerText = e.product.price.toLocaleString() + "원";
-               $(".productImg img").eq(i).attr("src", context + "upload/productRegist/" + e.productFile.imageName);
-               $(".productLink").eq(i).attr("href", context + "/productpage?no=" + e.product.productId);
-               $(".productTitle").eq(i).attr("href", context + "/productpage?no=" + e.product.productId);
-               $(".checkmark").eq(i).attr("id", e.product.productId);
+               $(".productImg img").eq(i).attr("src", getContextPath() + "/upload/productRegist/" + e.productFile.imageName);
+               $(".productLink").eq(i).attr("href", getContextPath() + "/productpage?no=" + e.product.productId);
+               $(".productTitle").eq(i).attr("href", getContextPath() + "/productpage?no=" + e.product.productId);
+               $(".wishCheck").eq(i).attr("id", e.product.productId);
                if(e.product.productStatus == '미개봉'){
                      $(".statusBtn")[i].innerText = "NEW " + e.product.productStatus;
                } else {
@@ -30,8 +31,38 @@ const context = "http://localhost:9090/semi-hifive/";
             console.log(r);
             console.log(m);
          }
-      });
+   });
 </script>
+<%
+	/* List<MemberWishList> loginWishList = (List) session.getAttribute("loginWishList"); //로그인멤버 wishList
+	List<ProductElapsedTime> popularProduct = (List) request.getAttribute("popularProduct");
+	List<ProductElapsedTime> newProduct = (List) request.getAttribute("newProduct");
+	System.out.println(popularProduct);
+	System.out.println(newProduct);
+
+	
+	boolean isWish = false;
+	if(loginMember!=null && !loginWishList.isEmpty()){
+		for(MemberWishList mw : loginWishList){
+				System.out.println(popularProduct);
+			if(popularProduct==null){
+				for(ProductElapsedTime pp : popularProduct){
+					if(pp.getProduct().getProductId() == mw.getProduct().getProductId()){
+					System.out.println("ㅇㅇ");
+						isWish = true;
+					}
+				}
+			}
+			if(newProduct!=null && !newProduct.isEmpty()){
+				for(ProductElapsedTime np : newProduct){
+					if(np.getProduct().getProductId() == mw.getProduct().getProductId()){
+						isWish = true;
+					}
+				}
+			} 
+		}
+	} */
+%>
 <section>
    <!-- 광고배너 -->
    <div class="slideContainer">
@@ -163,9 +194,9 @@ const context = "http://localhost:9090/semi-hifive/";
             <div class="product">
                <div class="productImg">
                   <a class="productLink" href=""><img src="" alt=""></a>
-                     <%if(loginMember != null) {%>
+                     <%if(loginMember == null) {%>
                      <label class="container">
-                     <input id="" class="wishCheck" checked="checked" type="checkbox">
+                     <input id="" class="notLogin" type="checkbox">
                      <div class="checkmark">
                         <svg viewBox="0 0 256 256">
                                             <rect fill="none"
@@ -176,7 +207,20 @@ const context = "http://localhost:9090/semi-hifive/";
                                         </svg>
                      </div>
                   </label>
-                     <%}%>
+                     <% } else {%>
+                     <label class="container">
+                     <input id="" class="wishCheck" type="checkbox">
+                     <div class="checkmark">
+                        <svg viewBox="0 0 256 256">
+                                            <rect fill="none"
+                              height="256" width="256"></rect>
+                                            <path
+                              d="M224.6,51.9a59.5,59.5,0,0,0-43-19.9,60.5,60.5,0,0,0-44,17.6L128,59.1l-7.5-7.4C97.2,28.3,59.2,26.3,35.9,47.4a59.9,59.9,0,0,0-2.3,87l83.1,83.1a15.9,15.9,0,0,0,22.6,0l81-81C243.7,113.2,245.6,75.2,224.6,51.9Z"
+                              stroke-width="20px" stroke="#FFF" fill="none"></path>
+                                        </svg>
+                     </div>
+                  </label>
+                     <% }%>
                </div>
                <div class="proContent">
                   <h4 class="contentMargin">
@@ -211,9 +255,9 @@ const context = "http://localhost:9090/semi-hifive/";
          <div class="productAll">
             <div class="product">
                <div class="productImg">
-                  <a class="productLink" href=""><img src="" alt=""></a> <label class="container">
-                     <input id="" class="wishCheck" checked="checked" type="checkbox">
-                     <%if(loginMember != null) {%>
+                  <a class="productLink" href=""><img src="" alt=""></a> <%if(loginMember == null) {%>
+                     <label class="container">
+                     <input id="" class="notLogin" type="checkbox">
                      <div class="checkmark">
                         <svg viewBox="0 0 256 256">
                                             <rect fill="none"
@@ -223,8 +267,21 @@ const context = "http://localhost:9090/semi-hifive/";
                               stroke-width="20px" stroke="#FFF" fill="none"></path>
                                         </svg>
                      </div>
-                     <%} %>
                   </label>
+                     <%} else {%>
+                     <label class="container">
+                     <input id="" class="wishCheck" type="checkbox" >
+                     <div class="checkmark">
+                        <svg viewBox="0 0 256 256">
+                                            <rect fill="none"
+                              height="256" width="256"></rect>
+                                            <path
+                              d="M224.6,51.9a59.5,59.5,0,0,0-43-19.9,60.5,60.5,0,0,0-44,17.6L128,59.1l-7.5-7.4C97.2,28.3,59.2,26.3,35.9,47.4a59.9,59.9,0,0,0-2.3,87l83.1,83.1a15.9,15.9,0,0,0,22.6,0l81-81C243.7,113.2,245.6,75.2,224.6,51.9Z"
+                              stroke-width="20px" stroke="#FFF" fill="none"></path>
+                                        </svg>
+                     </div>
+                  </label>
+                     <%}%>
                </div>
                <div class="proContent">
                   <h4 class="contentMargin">

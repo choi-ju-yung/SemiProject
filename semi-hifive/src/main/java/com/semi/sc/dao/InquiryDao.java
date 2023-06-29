@@ -251,6 +251,21 @@ public class InquiryDao {
 		}
 		return result;
 	}
+
+	public int deleteInquiry(Connection conn, int inquiryNo) {
+		PreparedStatement pstmt=null;
+		int result=0;
+		try {
+			pstmt=conn.prepareStatement(sql.getProperty("deleteInquiry"));
+			pstmt.setInt(1, inquiryNo);
+			result=pstmt.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return result;
+	}
 	
 	
 	

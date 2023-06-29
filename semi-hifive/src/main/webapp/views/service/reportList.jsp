@@ -26,8 +26,8 @@
 					<td><%=r.getReportNo() %></td>
 					<td class="reportTitle">[<%=r.getReportCategory().equals("BUY")?"거래":"판매글"%>]
 					<%=r.getReportTitle() %></td>
-					<td><%=r.getReportDate() %></td>
 					<td><%=r.getReportWriter() %></td>
+					<td><%=r.getReportDate() %></td>
 				</tr>
 				<tr class="tableLine"><td colspan="5"></td></tr>
 				<%}%>

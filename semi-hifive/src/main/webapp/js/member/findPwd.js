@@ -78,6 +78,7 @@ const newPassword = document.getElementById("newPassword");
 
 
 const newPasswordButton = document.getElementById("newPasswordButton");
+
 newPasswordButton.addEventListener("click", function() {
 	/*	if($("#newPassword").val() == $("#newPasswordCheck").val()){
 			alert("변경되었습니다.");
@@ -101,7 +102,7 @@ newPasswordButton.addEventListener("click", function() {
 
 		$.ajax({
 			url: "changePassword.do",
-			data: { "pass": $("#newPassword").val(),
+			data: { "password": $("#newPassword").val(),
 					"email": hiddenEmail.value},
 			success: function(result) {
 				console.log("서블릿으로이동성공");

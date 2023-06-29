@@ -108,7 +108,8 @@ List<ProductCommentUser> comments = (List) request.getAttribute("comments");
 					<b> <%=p.getProduct().getRegistTime()%></b>
 				</div>
 				<div id="ban">
-					<a href=""><ion-icon name="ban"></ion-icon> <b> 신고하기</b> </a>
+					<a href="<%=request.getContextPath()%>/service/reportProductInsert.do?no=<%=p.getProduct().getProductId() %>">
+					<ion-icon name="ban"></ion-icon> <b> 신고하기</b> </a>
 				</div>
 			</div>
 			<div class="productDetail">

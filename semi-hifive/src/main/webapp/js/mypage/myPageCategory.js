@@ -1,3 +1,15 @@
+
+function getContextPath() {
+	var hostIndex = location.href.indexOf(location.host) + location.host.length;
+	return location.href.substring(hostIndex, location.href.indexOf('/', hostIndex + 1));
+};
+
+function userId(){
+	const userId = sessionStorage.getItem("loginId");
+	return userId;
+}
+//const userId = sessionStorage.getItem("loginId");
+
 $(".goToStoreBtn").mouseover(e => {
 	$(".goToStoreIcon").css("color", "white");
 	$(".goToStore").css("color", "white");
@@ -11,5 +23,5 @@ $(".goToStoreBtn").mouseleave(e => {
 });
 
 $(".goToStoreBtn").click(e=>{
-	location.assign(context + "/shop?id=" + userId);
+	location.assign(getContextPath() + "/shop?id=" + userId());
 });

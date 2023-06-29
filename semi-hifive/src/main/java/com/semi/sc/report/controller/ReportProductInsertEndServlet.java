@@ -17,7 +17,6 @@ import com.google.gson.Gson;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.semi.sc.model.dto.Report;
-import com.semi.sc.model.dto.ReportList;
 import com.semi.sc.service.ReportService;
 
 

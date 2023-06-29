@@ -1,5 +1,12 @@
-const userId = sessionStorage.getItem("loginId");
-const context = "http://localhost:9090/semi-hifive/";
+function getContextPath() {
+	var hostIndex = location.href.indexOf(location.host) + location.host.length;
+	return location.href.substring(hostIndex, location.href.indexOf('/', hostIndex + 1));
+};
+
+function userId(){
+	const userId = sessionStorage.getItem("loginId");
+	return userId;
+};
 
 $(".closeBtn").click(e => {
 	window.close();
@@ -18,13 +25,10 @@ $(".commentList").click(e => {
 
 $(".okBtn").click(e => {
 	let productId = $(e.target)[0].id;
-	console.log(productId);
-	console.log(buyerId);
-	console.log(userId);
 	
-	let form = $("<form>").attr("method", "post").attr("action", context + "mypage/sellListBuyerChoiceEnd.do");
+	let form = $("<form>").attr("method", "post").attr("action", getContextPath() + "mypage/sellListBuyerChoiceEnd.do");
 	let input = $("<input>").attr("type", "hidden").attr("name", "productId").val(productId);
-	let input2 = $("<input>").attr("type", "hidden").attr("name", "userId").val(userId);
+	let input2 = $("<input>").attr("type", "hidden").attr("name", "userId").val(userId());
 	let input3 = $("<input>").attr("type", "hidden").attr("name", "buyerId").val(buyerId);
 	form.append(input);
 	form.append(input2);

@@ -23,7 +23,7 @@
 				<select class="QASelect" name="QACategory">
 					<option value="" selected disabled>필수 선택</option>
 					<option value="회원정보">회원정보</option>
-					<option value="거래">거래</option>
+					<option value="판매">판매</option>
 					<option value="구매">구매</option>
 					<option value="기타">기타</option>
 				</select>

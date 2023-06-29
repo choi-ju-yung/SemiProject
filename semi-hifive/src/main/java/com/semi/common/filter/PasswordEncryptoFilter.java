@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 
 
 @WebFilter(urlPatterns={"/enrollMemberEnd.do","/login.do","/mypage/updatePasswordEnd.do",
-		"/changePassword.do",""})
+		"/changePassword.do","/findPwdSendEmail","/mypage/deleteUserCheck.do"})
 public class PasswordEncryptoFilter extends HttpFilter implements Filter {
        
 

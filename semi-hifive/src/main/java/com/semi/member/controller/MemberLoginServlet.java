@@ -13,6 +13,8 @@ import javax.servlet.http.HttpSession;
 
 import com.semi.member.model.vo.Member;
 import com.semi.member.service.MemberService;
+import com.semi.mypage.model.vo.MemberWishList;
+import com.semi.mypage.service.MypageProductService;
 import com.semi.search.model.vo.Search;
 import com.semi.search.service.SearchService;
 
@@ -52,9 +54,7 @@ public class MemberLoginServlet extends HttpServlet {
 		
 		// loginMember null을 기준으로 로그인처리 여부를 결정할 수 있음
 		if(loginMember!=null) {
-
-
-	
+				
 				HttpSession session=request.getSession();
 				session.setAttribute("loginMember", loginMember);
 
