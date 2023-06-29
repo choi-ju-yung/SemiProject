@@ -39,6 +39,7 @@ public class ReportDao {
 				.reportCategory(rs.getString("report_category"))
 				.productId(rs.getInt("product_id"))
 				.tradeId(rs.getInt("trade_id"))
+				.completed(rs.getString("completed"))
 				.build();
 	}
 	
