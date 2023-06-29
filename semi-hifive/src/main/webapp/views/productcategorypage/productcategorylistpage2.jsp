@@ -42,6 +42,7 @@
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>   
 <%@ include file="/views/common/header.jsp" %>
+
 <section>
       <div id="wraperContainer">
         <div id="leftCategory">
@@ -1458,6 +1459,13 @@ $(document).on('click', '.plusFiterboxbtn button', function() {
 			    }
    		 }); */ 
 				
+		<%if(request.getParameter("choice")!=null&&request.getParameter("choice").equals("popular")){%>
+			$(()=>{
+				console.log($("#popular"));
+				$("#popular").click();
+				$("#popular").addClass("active");
+			});	
+		<%}%>
     	</script>
     <script src="<%=request.getContextPath()%>/js/productsearchchartpage/test.js"></script>
  <%@ include file="/views/common/footer.jsp" %>

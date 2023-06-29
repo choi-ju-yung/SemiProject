@@ -35,7 +35,6 @@ bg.forEach(e => {
 // 상품 삭제하기
 $(".openBtn").click(e => {
 	let productId = $(e.target)[0].id;
-	console.log(productId);
 	$(".modalDelBtn").click(e => {
 		let form = $("<form>").attr("method", "post").attr("action", getContextPath() + "/mypage/deleteProduct.do");
 		let input = $("<input>").attr("type", "hidden").attr("name", "productId").val(productId);
@@ -46,6 +45,14 @@ $(".openBtn").click(e => {
 		form.submit();
 	});
 })
+
+
+// 변경 전 value
+let nowStatus;
+$(".selectStatus").focus(e=>{
+	nowStatus = $(e.target).val();
+});
+
 
 // 판매중, 예약중, 판매완료 데이터 변경 ajax
 $(".selectStatus").change(e => {
@@ -73,8 +80,10 @@ $(".selectStatus").change(e => {
 		let left = Math.ceil((window.screen.width - width) / 2);
 		let top = Math.ceil((window.screen.height - height) / 2);
 
-		let openWin = window.open(getContextPath() + "/mypage/buyerIdChoice.do", "_blank", 'width=' + width + ', height=' + height + ', left=' + left + ', top=' + top);
-		openWin.document.getElementById("productId").value = productId;
+		window.open(getContextPath() + "/mypage/buyerIdChoice.do?userId=" + userId() + "&productId=" + productId, "_blank", 'width=' + width + ', height=' + height + ', left=' + left + ', top=' + top);
+		$("#sellTarget").val(productId);
+		$("#nowStatus").val(nowStatus);
+		//openWin.document.getElementById("target").value = productId;
 
 		// 부모창 데이터 자식창으로 보내기
 		/*var data = {

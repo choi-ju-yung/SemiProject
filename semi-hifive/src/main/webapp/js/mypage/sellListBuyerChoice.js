@@ -8,18 +8,31 @@ function userId(){
 	return userId;
 };
 
-const productId = opener.document.getElementById("productId").value;
-console.log(productId);
+$(window).on('beforeunload', function() {
+	const productId = opener.document.getElementById("sellTarget").value;
+	const nowStatus = opener.document.getElementById("nowStatus").value;
+	
+	alert("거래자를 선택해주세요.");
+	
+	opener.$(".selectStatus").each((i,e)=>{
+		if(e.id==productId) {
+			$(e).val(nowStatus);
+		}
+	})
+});
 
 $(".closeBtn").click(e => {
-	alert("거래자를 선택해주세요.");
-	opener.$(".selectStatus").val("reservation").css({
-			"border": "2px solid #FFD800",
-			"color": "#FFD800"
-		})
-		console.log(productId);
-	//window.close();
+	const productId = opener.document.getElementById("sellTarget").value;
+	const nowStatus = opener.document.getElementById("nowStatus").value;
 	
+	alert("거래자를 선택해주세요.");
+	
+	opener.$(".selectStatus").each((i,e)=>{
+		if(e.id==productId) {
+			$(e).val(nowStatus);
+		}
+	})
+	window.close();
 });
 
 let buyerId;
@@ -44,9 +57,11 @@ $(".okBtn").click(e => {
 			"userId": userId()
 		},
 		success: (data) => {
-			$(e.target).css({
-				border: "2px solid " + color,
-				color: color
+			$(e.target).prop({
+				"disabled":disabled
+				}).css({
+				border: "2px solid #cccccc",
+				color: "#cccccc"
 			});
 
 			$("#allBtn").text("전체 " + data.total);

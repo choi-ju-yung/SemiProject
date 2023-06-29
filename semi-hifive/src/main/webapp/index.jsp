@@ -70,36 +70,6 @@ function getContextPath() {
          }
    });
 </script>
-<%
-/* List<MemberWishList> loginWishList = (List) session.getAttribute("loginWishList"); //로그인멤버 wishList
-List<ProductElapsedTime> popularProduct = (List) request.getAttribute("popularProduct");
-List<ProductElapsedTime> newProduct = (List) request.getAttribute("newProduct");
-System.out.println(popularProduct);
-System.out.println(newProduct);
-
-
-boolean isWish = false;
-if(loginMember!=null && !loginWishList.isEmpty()){
-	for(MemberWishList mw : loginWishList){
-	System.out.println(popularProduct);
-		if(popularProduct==null){
-	for(ProductElapsedTime pp : popularProduct){
-		if(pp.getProduct().getProductId() == mw.getProduct().getProductId()){
-		System.out.println("ㅇㅇ");
-	isWish = true;
-		}
-	}
-		}
-		if(newProduct!=null && !newProduct.isEmpty()){
-	for(ProductElapsedTime np : newProduct){
-		if(np.getProduct().getProductId() == mw.getProduct().getProductId()){
-	isWish = true;
-		}
-	}
-		} 
-	}
-} */
-%>
 <section>
 	<!-- 광고배너 -->
 	<div class="slideContainer">
@@ -230,7 +200,7 @@ if(loginMember!=null && !loginWishList.isEmpty()){
 	<div class="popularProDiv">
 		<div class="proTitleDiv">
 			<h1 class="proTitle">인기상품</h1>
-			<button class="moreBtn">더보기</button>
+			<button class="moreBtn poMoreBtn">더보기</button>
 		</div>
 		<div class="productDiv">
 			<%
@@ -298,7 +268,7 @@ if(loginMember!=null && !loginWishList.isEmpty()){
 	<div class="popularProDiv">
 		<div class="proTitleDiv">
 			<h1 class="proTitle">최신상품</h1>
-			<button class="moreBtn">더보기</button>
+			<button class="moreBtn newMoreBtn">더보기</button>
 		</div>
 		<div class="productDiv">
 			<%
