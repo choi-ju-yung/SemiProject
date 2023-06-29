@@ -158,10 +158,10 @@ List<ShopReview> r=(List) request.getAttribute("review");
           %>
           <div class="shopReview">
             <div class="srProfile">
-              <a href="">
+              <a href="<%=request.getContextPath()%>/shop?id=<%=sr.getMember().getUserId()%>">
                 <img src="<%=request.getContextPath()%>/upload/profileImg/<%=sr.getMember().getProfileImg() %>" alt="" />
               </a>
-              <a href="" class="srUser"><p><%=sr.getMember().getNickName() %></p></a>
+              <a href="<%=request.getContextPath()%>/shop?id=<%=sr.getMember().getUserId()%>" class="srUser"><p><%=sr.getMember().getNickName() %></p></a>
             </div>
             <p class="sr"><%=sr.getReview().getReviewMsg() %></p>
             <span class="time"><%=sr.getReview().getReviewDate() %></span>

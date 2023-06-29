@@ -390,6 +390,12 @@ public class ProductDao {
 				.category(Category.builder()
 						.categoryName(rs.getString("category_name"))
 						.build())
+				.member(Member.builder()
+						.userId(rs.getString("user_id"))
+						.nickName(rs.getString("nickname"))
+						.profileImg(rs.getString("profile_img"))
+						.temperature(rs.getDouble("temperature"))
+						.build())
 				.build();
 	}
 	

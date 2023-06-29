@@ -82,7 +82,7 @@ if (cookies != null) {
                </div>
                <div class="searchBar">
                   <div class="searchDetail">
-                     <form id="searchForm" class="form" autocomplete="off">
+                     <form id="searchForm" class="form" autocomplete="off" method="post">
                         <input required id="searchInput" maxlength="10" type="text"
                            placeholder="상품명, #키워드 검색" onfocus="this.placeholder = ''"
                         onblur="this.placeholder = '상품명, #키워드 검색'">

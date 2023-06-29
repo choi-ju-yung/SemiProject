@@ -67,7 +67,7 @@ $("#searchInput").on("keyup", function(e) {
 		}
 	} else {
 		$("#recentHead").text("최근검색어");
-		$("#recentList").css("display", "block");
+		//$("#recentList").css("display", "block");
 		$("#allDeleteBtn").css("display", "block");
 		$(".ui-autocomplete").css("display", "none");
 		$("#resetBtn").css("display", "none");
@@ -80,6 +80,7 @@ $("#searchInput").on("keyup", function(e) {
 
 $(document).on("keydown", "#searchInput", e => {
 	if (e.which == 13) {
+		//$("#recentList").css("display", "none");
 		content = $(e.target).val();
 		location.href = getContextPath() + "/search?content=" + content;
 	}
@@ -114,7 +115,8 @@ function allDeleteRecentTag() {
 	localStorage.removeItem(loginId);
 	console.log(localStorage);
 	recentList.innerHTML = "<p id='notRecent'>최근검색어 내역이 없습니다.</p>";
-	saveRecentTag();
+	//textArray=[];
+//	saveRecentTag();
 }
 
 function deleteRecentTag(e) {
@@ -294,19 +296,19 @@ const showList2 = (data, value, nowIndex2) => {
 };
 
 
-$(".autoSearch").on("click",function(e){
-	const text=($(e.target).text()).trim()		
+$(document).on("click", ".autoSearch div", function(e){
+	const text=$(this).text().trim()		
 	console.log(text)
-	location.href = getContextPath() + "/search?content=" + text;
-		    
+	location.href = getContextPath() + "/search?content=" + text;		    
 })
 
-/*$("#searchInput").on("keydown",function(e){
-	const text=$(".autoSearch>div.active").text().trim()
-	console.log(text)
-	console.log($(e.target).val())
-	$(e.target).val(text)
-})*/
+$("#searchInput").on("keydown",function(e){
+	const content=$(".autoSearch>div.active").text().trim()
+	console.log(content)
+	if (e.which == 13) {
+		location.href = getContextPath() + "/search?content=" + content;
+	}
+})
 
 // 상단메뉴바
 $("#menuList a").mouseenter(function() {

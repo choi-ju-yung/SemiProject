@@ -109,12 +109,15 @@ List<ProductCommentUser> comments = (List) request.getAttribute("comments");
 
 				</div>
 				<div class="pControll">
-					<a href="" id="pChange">수정하기</a> <a href="" id="pDelete">삭제하기</a>
+				<%if(loginMember!=null&&loginMember.getUserId().equals(p.getMember().getUserId())){ %>
+				<a href="javascript:void(0);" id="pDelete">상품 삭제하기</a>
+				<%} %>
 				</div>
 			</div>
 			<h2 id="productName">
 				<%=p.getProduct().getTitle()%><span id="productStatus"><p><%=p.getProduct().getSellStatus()%></p></span>
 			</h2>
+			<input type="hidden" name="sellStatus" value="<%=p.getProduct().getSellStatus()%>">
 			<input type="hidden" name="kakaoTitle"
 				value="<%=p.getProduct().getTitle()%>">
 			<h2 id="productPrice"><%=p.getProduct().getPrice()%>원
@@ -264,31 +267,44 @@ List<ProductCommentUser> comments = (List) request.getAttribute("comments");
 			<div class="shopProfile">
 				<div id="profile">
 					<a
-						href="<%=request.getContextPath()%>/shop?id=<%=users.get(0).getMember().getUserId()%>"><img
-						src="<%=request.getContextPath()%>/upload/profileImg/<%=users.get(0).getMember().getProfileImg()%>"
+						href="<%=request.getContextPath()%>/shop?id=<%=p.getMember().getUserId()%>"><img
+						src="<%=request.getContextPath()%>/upload/profileImg/<%=p.getMember().getProfileImg()%>"
 						alt="" /></a>
 				</div>
 				<div id="userInfo">
 					<a id="userName"
-						href="<%=request.getContextPath()%>/shop?id=<%=users.get(0).getMember().getUserId()%>"><p><%=users.get(0).getMember().getNickName()%></p></a>
+						href="<%=request.getContextPath()%>/shop?id=<%=p.getMember().getUserId()%>"><p><%=p.getMember().getNickName()%></p></a>
 					<a id="userProduct"
-						href="<%=request.getContextPath()%>/shop?id=<%=users.get(0).getMember().getUserId()%>"><p>
+						href="<%=request.getContextPath()%>/shop?id=<%=p.getMember().getUserId()%>"><p>
 							상품
-							<%=users.get(0).getCount()%></p></a>
+							<%if(users.size()==0){ %>
+							0
+							<%}else{ %>
+							<%=users.get(0).getCount()%>
+							<%} %>
+							</p>
+							</a>
 				</div>
 				<div id="userManner">
 					<ion-icon name="thermometer-outline"></ion-icon>
-					<b><%=users.get(0).getMember().getTemperature()%>℃</b>
+					<b><%=p.getMember().getTemperature()%>℃</b>
 				</div>
 			</div>
 			<div id="otherProduct">
 				<div id="opContent">
 					<p>
-						<%=users.get(0).getMember().getNickName()%>님의 판매 상품 <strong
-							style="color: #20c997"><%=users.get(0).getCount()%></strong>
+						<%=p.getMember().getNickName()%>님의 판매 상품 <strong
+							style="color: #20c997">
+							<%if(users.size()==0){ %>
+							0
+							<%}else{ %>
+							<%=users.get(0).getCount()%>
+							<%} %>
+							
+							</strong>
 					</p>
 					<a
-						href="<%=request.getContextPath()%>/shop?id=<%=users.get(0).getMember().getUserId()%>">더보기
+						href="<%=request.getContextPath()%>/shop?id=<%=p.getMember().getUserId()%>">더보기
 						<ion-icon name="chevron-forward-sharp"></ion-icon>
 					</a>
 				</div>
@@ -315,7 +331,7 @@ List<ProductCommentUser> comments = (List) request.getAttribute("comments");
 					</div>
 					<%
 					}
-					} else {
+					} else if(users.size() <3){
 					for (int i = 0; i < users.size(); i++) {
 					%>
 					<div class="opProduct">
@@ -334,8 +350,10 @@ List<ProductCommentUser> comments = (List) request.getAttribute("comments");
 					</div>
 					<%
 					}
-					}
+					}else if(users.size()==0){
 					%>
+					<p>판매중인 상품이 없습니다.</p>
+					<%} %>
 				</div>
 			</div>
 		</div>
@@ -376,11 +394,11 @@ List<ProductCommentUser> comments = (List) request.getAttribute("comments");
 		%>
 		<div class="cmtContainer">
 			<div class="cmtProfile">
-				<a href=""> <img name="userProfile"
+				<a href="<%=request.getContextPath()%>/shop?id=<%=pc.getProductComment().getUserId()%>"> <img name="userProfile"
 					src="<%=request.getContextPath()%>/upload/profileImg/<%=pc.getMember().getProfileImg()%>"
 					alt="" />
 				</a> <input type="hidden" name="pUserId"
-					value="<%=p.getProduct().getUserId()%>"> <a href=""
+					value="<%=p.getProduct().getUserId()%>"> <a href="<%=request.getContextPath()%>/shop?id=<%=pc.getProductComment().getUserId()%>"
 					class="cmtUser" name="userId" id="tagName"> <%=pc.getMember().getNickName()%>
 					<%
 					if (pc.getProduct().getUserId().equals(p.getProduct().getUserId())) {
@@ -422,10 +440,10 @@ List<ProductCommentUser> comments = (List) request.getAttribute("comments");
 		<div id="arrow"></div>
 		<div class="reComment">
 			<div class="cmtProfile">
-				<a href=""> <img
+				<a href="<%=request.getContextPath()%>/shop?id=<%=pc.getProductComment().getUserId()%>"> <img
 					src="<%=request.getContextPath()%>/upload/profileImg/<%=pc.getMember().getProfileImg()%>"
 					alt="" />
-				</a> <a href="" class="cmtUser"><%=pc.getMember().getNickName()%> <%
+				</a> <a href="<%=request.getContextPath()%>/shop?id=<%=pc.getProductComment().getUserId()%>" class="cmtUser"><%=pc.getMember().getNickName()%> <%
  if (pc.getProductComment().getUserId().equals(p.getProduct().getUserId())) {
  %>
 					<span id="rcmtWriter">작성자</span> <%

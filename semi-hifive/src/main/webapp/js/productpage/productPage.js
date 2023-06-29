@@ -18,7 +18,7 @@
 		$(".cmtBtn").css({ color: "white", "background-color": "#20c997" });
 	}
 }*/
-
+const userId = sessionStorage.getItem("userId")
 
 $(document).ready(function() {
 	$(".textContainer").find("textarea").keyup();
@@ -41,13 +41,13 @@ $(document).ready(function() {
 		$("#userManner ion-icon").css("color", "red")
 	}
 
-	if (loginId.length == 0) {
+	/*if (loginId.length == 0) {
 		$("#heartBtn >button").click(function() {
 			alert("로그인 하세요")
 		})
 	} else {
 		$("#heartBtn >button").prop("disabled", false)
-	}
+	}*/
 
 	const hc = $(".heartCheck").val()
 	if (hc == "heartOn") {
@@ -56,7 +56,23 @@ $(document).ready(function() {
 					deleteAjaxHeart()
 				})*/
 	}
-
+	
+	if(loginId==userId){
+		$("#kakaoBtn>button").prop("disabled", true)
+	}
+	
+	const sellStatus=$("input[name=sellStatus]").val()
+	console.log(sellStatus)
+	if(sellStatus=="판매완료"||loginId==userId||loginId.length==0){
+		$("#kakaoBtn>button").css("background-color","#afafaf")
+		$("#heartBtn>button").css("background-color","#afafaf")
+		$("#kakaoBtn").unbind('click')
+		$("#heartBtn button").off()
+		$("#heartBtn button").attr("disabled", true)
+		$("#kakaoBtn button").attr("disabled", true)
+		$("#kakaoBtn b").attr("disabled", true)
+	}
+	
 });
 
 
@@ -128,7 +144,7 @@ function getContextPath() {
 
 //AJAX JSON
 //const loginId = sessionStorage.getItem("loginId");
-const userId = sessionStorage.getItem("userId");
+;
 var cc = Number(sessionStorage.getItem("commentCount"));
 //댓글 작성
 
@@ -207,10 +223,10 @@ function selectAjaxProductComment() {
 			html +=
 				"<div class='cmtContainer'> " +
 				"<div class='cmtProfile'>" +
-				"<a href=''>" +
+				"<a href='"+getContextPath()+"/shop?id="+ajaxComment.userId+"'>" +
 				"<img name='userProfile' src='" + getContextPath() + "/upload/profileImg/" + ajaxComment.profileImg + "' alt='' />" +
 				"</a>" +
-				"<a href='' class='cmtUser' name='userId' id='tagName'>" + ajaxComment.nickName
+				"<a href='"+getContextPath()+"/shop?id="+ajaxComment.userId+"'class='cmtUser' name='userId' id='tagName'>" + ajaxComment.nickName
 			if (userId == ajaxComment.userId) {
 				html +=
 					"<span id='rcmtWriter'>" + " 작성자" + "</span>"
@@ -252,10 +268,10 @@ function selectReAjaxProductComment(cn) {
 				"<div id='arrow'></div>" +
 				"<div class='reComment'> " +
 				"<div class='cmtProfile'>" +
-				"<a href=''>" +
+				"<a href='"+getContextPath()+"/shop?id="+ajaxReComment.userId+"'>" +
 				"<img name='userProfile' src='" + getContextPath() + "/upload/profileImg/" + ajaxReComment.profileImg + "' alt='' />" +
 				"</a>" +
-				"<a href='' class='cmtUser' name='userId' id='tagName'>" + ajaxReComment.nickName
+				"<a href='"+getContextPath()+"/shop?id="+ajaxReComment.userId+"' class='cmtUser' name='userId' id='tagName'>" + ajaxReComment.nickName
 			if (userId == ajaxReComment.userId) {
 				html +=
 					"<span id='rcmtWriter'>" + " 작성자" + "</span>"
@@ -333,35 +349,42 @@ function updatetAjaxProductComment(cn) {
 	})
 }
 
-$(document).on("click", "#heartBtn button", e => {
-	$.ajax({
-		type: "POST",
-		url: getContextPath() + "/ajaxHeart",
-		dataType: "json",
-		data: {
-			"loginId": loginId,
-			"productId": $("input[name=productId]").val(),
-		},
-		success: function(result) {
-			console.log(loginId)
-			console.log($("input[name=productId]").val())
-			console.log(result)
-			if (result.length == 0) {
-				updateAjaxHeart();
-
-			} else {
-				deleteAjaxHeart();
-			}
-		},
-		error: function() {
-
-		}, complete: function() {
-
-		}
-	})
+$(document).on("click", "#heartBtn button", function(e){
+	console.log($(this).attr('class'));
+	if($(this).attr('class')=='active'){
+		deleteAjaxHeart();
+	}else{
+		updateAjaxHeart();
+	}
+	$(this).toggleClass('active');
+	
+//	$.ajax({
+//		type: "POST",
+//		url: getContextPath() + "/ajaxHeart",
+//		dataType: "json",
+//		data: {
+//			"loginId": loginId,
+//			"productId": $("input[name=productId]").val(),
+//		},
+//		success: function(result) {
+//			console.log(loginId)
+//			console.log($("input[name=productId]").val())
+//			console.log(result)
+//			if (result.length == 0) {
+//				updateAjaxHeart();
+//
+//			} else {
+//				deleteAjaxHeart();
+//			}
+//		},
+//		error: function() {
+//
+//		}, complete: function() {
+//
+//		}
+//	})
 })
-var hc = Number($("#heartCount").text());
-var hc2 = hc + 1;
+
 function updateAjaxHeart() {
 	$.ajax({
 		type: "POST",
@@ -372,11 +395,10 @@ function updateAjaxHeart() {
 			"productId": $("input[name=productId]").val(),
 		},
 		success: function(result) {
-			console.log(hc)
 			console.log($("#heartCount").html())
 			if (result > 0) {
 				$("#heartBtn button").css("background-color", "rgba(255,0,0,0.2)")
-				$("#heartCount").html(hc + 1)
+				$("#heartCount").html(result);
 				$('#heartBtn button').mouseover(function() {
 					$(this).css("background-color", "#afafaf");
 				})
@@ -399,50 +421,42 @@ function deleteAjaxHeart() {
 			"productId": $("input[name=productId]").val(),
 		},
 		success: function(result) {
-			console.log(hc)
-			if (result > 0) {
-				$("#heartBtn button").css("background-color", "#afafaf")
-				$("#heartCount").html(hc)
-				$('#heartBtn button').mouseover(function() {
-					$(this).css("background-color", "rgba(255,0,0,0.2)");
-				})
-				$('#heartBtn button').mouseout(function() {
-					$(this).css("background-color", "#afafaf");
-				})
-			}
+			$("#heartBtn button").css("background-color", "#afafaf")
+			$("#heartCount").html(result)
+			$('#heartBtn button').mouseover(function() {
+				$(this).css("background-color", "rgba(255,0,0,0.2)");
+			})
+			$('#heartBtn button').mouseout(function() {
+				$(this).css("background-color", "#afafaf");
+			})
 
 		}
 	})
 }
 
 $("#pDelete").click(e => {
-	const id = $("input[name=productId]").val();
-	$.ajax({
-		type: "POST",
-		url: getContextPath() + "/mypage/deleteProduct.do?productId=" + id + "&&userId=" + userId,
-		dataType: "json",
-		data: {
-			"id": id,
-		},
-		success: function(result) {
-			if (result > 0) {
-				if (!confirm('상품을 삭제 하시겠습니까?')) {
-
-				} else {
-					$("section").empty()
-					html +=
-						"<div id=/notProduct'>" +
+	const id = $("input[name=ajaxProductId]").val();
+	console.log(id)
+	if (confirm('상품을 삭제 하시겠습니까?')) {
+		$.ajax({
+			type: "POST",
+			url: getContextPath() + "/deleteproduct",
+			dataType: "json",
+			data: {
+				"productId": id,
+			},
+			success: function(result) {
+				if (result > 0) {
+					$("section").empty();
+					const html ="<div id='notProduct'>" 
 						+"<h2><span>존재하지 않는</span> 상품입니다....</h2>"
 						+ "<img src='images/common/hifiveCharacter.png'>"
 						+ "</div>"
-					$("section").html(html)
+					$("section").append(html)
 				}
 			}
-		}
-	})
-
-
-
+		})
+	}
 
 })
 

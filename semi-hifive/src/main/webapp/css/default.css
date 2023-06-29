@@ -260,15 +260,16 @@ section {
 .autoSearch{
 	position:relative;
 	left:20px;
-	bottom:36px;
+	bottom:28px;
 	font-size:17px;	
 	width:590px;	
 }
 
 .autoSearch div{
-	margin-top:8px;
+	margin-top:12px;
 }
 .autoSearch mark{
+	background: white;
 	color:#20c997;
 	padding:0px !important;
 }
