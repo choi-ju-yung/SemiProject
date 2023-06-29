@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.semi.category.model.vo.Category;
 import com.semi.category.model.vo.CategorySubCategory;
 import com.semi.category.service.CategoryService;
+import com.semi.mypage.model.vo.WishList;
 import com.semi.productlist.model.service.ProductCategoryListService;
 import com.semi.productlist.model.vo.ProductCategoryTimeList;
 
@@ -100,13 +101,15 @@ public class AjaxGetSelectProductServlet extends HttpServlet {
 			pageBar += "<li><a href='javascript:void(0);'onclick='changePage("+ pageNo + ");'&numPerpage=" + numPerpage + "'>&gt;</a></li>";
 		}
 		request.setAttribute("pageBar", pageBar);
-		
+		request.setAttribute("totalData", totalData);
 		
 		List<ProductCategoryTimeList> getselectproduct = new ProductCategoryListService().GetProductCondition(condition, cPage, numPerpage);
 		//카테고리와 서브카테고리랑만 join해서 가져오는 List객체
 		List<CategorySubCategory> categorylist = new CategoryService().SubCategoryList();
 		//카테고리만 가져오는 List객체
 		List<Category> category = new CategoryService().Category();
+		List<WishList> wishlist = new ProductCategoryListService().wishlist();
+		request.setAttribute("wishlist", wishlist);
 		request.setAttribute("category", category);
 		request.setAttribute("categorylist", categorylist);
 		request.setAttribute("getselectproduct", getselectproduct);

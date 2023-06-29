@@ -39,7 +39,8 @@ public class SellListBuyerChoiceServlet extends HttpServlet {
 		List<MemberComment> mc = new MypageProductService().commentList(productId, userId);
 		request.setAttribute("comments", mc);
 		request.setAttribute("productId", productId);
-		
+		System.out.println(mc);
+		System.out.println(productId);
 		ReviewTrade rt = new MypageProductService().selectReviewByProductId(productId);
 		System.out.println(rt);
 		

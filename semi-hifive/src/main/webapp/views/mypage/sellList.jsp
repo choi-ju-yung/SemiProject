@@ -31,6 +31,8 @@
 
         <!-- 판매내역 목록 div -->
         <div class="productAll">
+            <input type="hidden" id="sellTarget" name="target">
+            <input type="hidden" id="nowStatus" name="target1">
         <% if(!product.isEmpty()) {
                         	for(ProductList p : product){
         %>
@@ -53,7 +55,8 @@
                         <button class="delMem openBtn" id="<%=p.getProduct().getProductId() %>">삭제</button>
                     </div>
                     <div class="selectNow">
-                        <select class="<%=p.getProduct().getSellStatus().equals("판매중")?"selectIng":p.getProduct().getSellStatus().equals("예약중")?"selectRes":"selectSol"%> selectStatus">
+                        <select id="<%=p.getProduct().getProductId() %>" class="<%=p.getProduct().getSellStatus().equals("판매중")?"selectIng":p.getProduct().getSellStatus().equals("예약중")?"selectRes":"selectSol"%> selectStatus"
+                        	<%=p.getProduct().getSellStatus().equals("판매완료")?"disabled":""%>>
                             <option id="<%=p.getProduct().getProductId() %>" value="sell" data-color="#20C997" <%=p.getProduct().getSellStatus().equals("판매중")?"selected":""%>>판매중</option>
                             <option id="<%=p.getProduct().getProductId() %>" value="reservation" data-color="#FFD800" <%=p.getProduct().getSellStatus().equals("예약중")?"selected":""%>>예약중</option>
                             <option id="<%=p.getProduct().getProductId() %>" value="soldOut" data-color="#cccccc" <%=p.getProduct().getSellStatus().equals("판매완료")?"selected":""%>>판매완료</option>

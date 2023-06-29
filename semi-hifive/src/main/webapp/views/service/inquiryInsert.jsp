@@ -71,7 +71,7 @@ function uploadFile(){
     formData.append("writer","<%=loginMember.getUserId()%>");
     formData.append("title",$("#contentTitle").val());
     formData.append("content",$("#inquiryContent").val());
-    if($("#secretCheck").checked){
+    if($("#secretCheck:checked").length>0){
     	formData.append("secret","Y");
     }else{
     	formData.append("secret","N");

@@ -24,9 +24,30 @@ header {
 	z-index: 100;
 	background-color: white;
 }
-#recently {
+#recently a img{
+	cursor: pointer;
 	width: "68.4px"; 
 	height: "68.4px";
+}
+#recently a{
+	display: block;
+    width: 100%;
+    margin-bottom: 5px;
+    border: 1px solid transparent;
+    position: relative;
+    font-size: 13px;
+}
+.resentlyTag{
+	margin-bottom: 10px;
+	text-overflow: ellipsis; 
+	white-space: nowrap; 
+	overflow: hidden;
+    text-overflow: ellipsis;
+    position: absolute;
+	display: none;
+}
+#recently:hover + .resentlyTag {
+  display: block;
 }
 
 #headerContainer {
@@ -516,7 +537,6 @@ input[id="menuIcon"]:checked+label>span:nth-child(3) {
 #itemBox {
 	border: 2px solid #eeeeee;
 	width: 105px;
-	height: 200px;
 	position: fixed;
 	right: calc(50% - 797px);
 	text-align: center;

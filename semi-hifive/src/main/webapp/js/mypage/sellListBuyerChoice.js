@@ -8,7 +8,30 @@ function userId(){
 	return userId;
 };
 
+$(window).on('beforeunload', function() {
+	const productId = opener.document.getElementById("sellTarget").value;
+	const nowStatus = opener.document.getElementById("nowStatus").value;
+	
+	alert("거래자를 선택해주세요.");
+	
+	opener.$(".selectStatus").each((i,e)=>{
+		if(e.id==productId) {
+			$(e).val(nowStatus);
+		}
+	})
+});
+
 $(".closeBtn").click(e => {
+	const productId = opener.document.getElementById("sellTarget").value;
+	const nowStatus = opener.document.getElementById("nowStatus").value;
+	
+	alert("거래자를 선택해주세요.");
+	
+	opener.$(".selectStatus").each((i,e)=>{
+		if(e.id==productId) {
+			$(e).val(nowStatus);
+		}
+	})
 	window.close();
 });
 
@@ -25,8 +48,13 @@ $(".commentList").click(e => {
 
 $(".okBtn").click(e => {
 	let productId = $(e.target)[0].id;
+	console.log(productId);
+	console.log(buyerId);
+	console.log(userId());
 	
-	let form = $("<form>").attr("method", "post").attr("action", getContextPath() + "mypage/sellListBuyerChoiceEnd.do");
+	/*$("#solBtn").text("판매완료 " + data.countStatusSol);*/
+	
+	let form = $("<form>").attr("method", "post").attr("action", getContextPath() + "/mypage/sellListBuyerChoiceEnd.do");
 	let input = $("<input>").attr("type", "hidden").attr("name", "productId").val(productId);
 	let input2 = $("<input>").attr("type", "hidden").attr("name", "userId").val(userId());
 	let input3 = $("<input>").attr("type", "hidden").attr("name", "buyerId").val(buyerId);
@@ -35,4 +63,5 @@ $(".okBtn").click(e => {
 	form.append(input3);
 	form.appendTo("body").submit();
 	form.submit();
+		
 })

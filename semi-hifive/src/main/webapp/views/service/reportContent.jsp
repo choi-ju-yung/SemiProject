@@ -31,7 +31,7 @@
                         <p>작성자 : <%=r.getReportWriter() %></p>
                         <p><%=r.getReportDate() %></p>
                     </div>
-                    <div class="productContainer">
+            <div class="productContainer">
 			<div>
 				<h4 style="padding-left: 10px;">신고한 판매글</h4>
 			</div>
@@ -59,6 +59,7 @@
 				</table>
 			</div><!-- reportList -->
 		</div><!-- buyliseContainer -->
+		<br>
                     <p><%=r.getReportContent() %></p>
                     <%if(files!=null){
 						for(ServiceFile sf:files){%>

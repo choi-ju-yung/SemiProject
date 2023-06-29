@@ -25,7 +25,7 @@
         <div class="listCon" style="overflow-x:hidden; width:340px; height:200px;">
         <%if(!mc.isEmpty()) {
         	for(MemberComment m : mc){%>
-            <div id="<%=m.getMember().getUserId() %>" class="commentList">
+        	<div id="<%=m.getMember().getUserId() %>" class="commentList">
                 <img src="<%=request.getContextPath() %>/upload/profileImg/<%=m.getMember().getProfileImg() %>" alt="" class="profileImg">
                 <p><%=m.getMember().getNickName() %></p>
             </div>
