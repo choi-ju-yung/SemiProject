@@ -206,7 +206,12 @@ public class ProductCategoryListService {
 					close(conn);
 					return result;
 				}
-		
+				public List<WishList> wishlist(){
+					Connection conn = getConnection();
+					List<WishList> list = dao.wishlist(conn);
+					close(conn);
+					return list;
+				}
 	
 	public List<ProductCategoryTimeList> Test(String test, int cPage, int numPerpage) {
 		Connection conn = getConnection();

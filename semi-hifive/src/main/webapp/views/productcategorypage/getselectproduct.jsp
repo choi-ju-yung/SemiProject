@@ -74,7 +74,7 @@ if (cookies != null) {
                   </svg>
                 </div>
               </div>
-
+              
              
                 <div id="payBtn">
                   <span>하마페이</span>
@@ -82,7 +82,7 @@ if (cookies != null) {
                 <img
 	              src="<%=request.getContextPath()%>/upload/productRegist/<%=p.getProductfile().getImageName()%>"
                   alt=""
-                /><%=p.getProductfile().getImageName()%>
+                />
                 <p id="productName"><%=p.getProductCategoryList().getProductTitle()%></p>
                 <p id="productPrice"><%=p.getProductCategoryList().getPrice()%>
                 <span><%if(p.getElapsedTime() < 60){%>

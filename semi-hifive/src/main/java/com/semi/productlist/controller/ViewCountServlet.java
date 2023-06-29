@@ -96,7 +96,7 @@ public class ViewCountServlet extends HttpServlet {
 			pageBar += "<li><a href='javascript:void(0);'onclick='changePage("+ pageNo + ");'&numPerpage=" + numPerpage + "'>&gt;</a></li>";
 		}
 		request.setAttribute("pageBar", pageBar);
-		
+		request.setAttribute("totalData", totalData);
 		
 		List<ProductCategoryTimeList> getselectproduct = new ProductCategoryListService().ViewCount(condition, cPage, numPerpage);
 		
