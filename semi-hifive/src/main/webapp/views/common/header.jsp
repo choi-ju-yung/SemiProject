@@ -94,22 +94,20 @@ if (cookies != null) {
                </div>
                <div class="searchBar">
                   <div class="searchDetail">
-                     <form id="searchForm" class="form" autocomplete="off" method="post">
-                        <input required id="searchInput" maxlength="10" type="text"
+                     <form action="<%=request.getContextPath()%>/search" method="post" id="searchForm" class="form" autocomplete="off" >
+                        <input required id="searchInput" maxlength="10" type="text" 
                            placeholder="상품명, #키워드 검색" onfocus="this.placeholder = ''"
                         onblur="this.placeholder = '상품명, #키워드 검색'">
                         <button type="reset" id="resetBtn">
                      <ion-icon name="close"></ion-icon>
-                     </button>
-                     </form>
-                     
-                     <button type="submit" form="searchForm" id="submitBtn">
+                     </button>              
+                     </form>                    
+                    <button type="submit" form="searchForm" id="submitBtn">
                         <img
                            src="<%=request.getContextPath()%>/images/common/magnifier.png"
                            alt="" />
                      </button>
                   </div>
-
                   <div class="searchpage">
 
                      <div class="searchbody">

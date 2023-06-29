@@ -403,7 +403,7 @@ $("#categoryFunction>span").on("click", e=>{
 				"soon":$(e.target).attr("value")},
 		success:function(soon){
 			var html = "";
-			console.log(soon);			
+			console.log(soon);
 			$.each(soon,function(index,item){
 				var price=numberWithCommas(parseInt(item.product.price));
 			html +=
