@@ -29,22 +29,6 @@ if (cookies != null) {
    }
 }
 %>
-<%
-        String productId = null;
-		String productFileName = null;
-		String productTitle = null;
-		if (cookies != null) {
-            for (Cookie pc : cookies) {
-                if (pc.getName().equals("productId")) {
-                	productId = pc.getValue();	
-                }else if(pc.getName().equals("productFileName")){
-                	productFileName = pc.getValue();
-                }else if(pc.getName().equals("productTitle")){
-                	productTitle = pc.getValue();
-                }
-            }
-        }
-%>
 	          <div id="productImgContainer">
 	          
 	      		<%for(ProductCategoryTimeList p : getselectproduct){%>
@@ -95,9 +79,8 @@ if (cookies != null) {
 	                    <polygon points="80,80 70,70" class="poly"></polygon>
 	                  </svg>
 	                </div>
-	                <%}%>
 	              </div>
-	
+	  			<%}%>
 	             
 	                <div id="payBtn">
 	                  <span>하마페이</span>

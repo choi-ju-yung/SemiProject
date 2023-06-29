@@ -86,9 +86,8 @@ if (cookies != null) {
                     <polygon points="80,80 70,70" class="poly"></polygon>
                   </svg>
                 </div>
-                <%}%>
               </div>
-             
+              <%}%>
                 <div id="payBtn">
                   <span>하마페이</span>
                 </div>

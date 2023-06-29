@@ -86,7 +86,7 @@ if (cookies != null) {
 				%>
             <div class="headerMain">
                <div class="logo">
-                  <a href="<%=request.getContextPath()%>/index.jsp"> <img
+                  <a href=""> <img
                      src="<%=request.getContextPath()%>/images/common/hifiveLogo.png"
                      alt="" />
                   </a>
@@ -199,9 +199,9 @@ if (cookies != null) {
 //        </a>
 <%--        <div><%=URLDecoder.decode(productTitle,"UTF-8")%></div> --%>
 //        <div>최근본상품이 없습니다.</div>
-const fn_recentlist=function(){
-	console.log("<%=recentList%>");
-  	const recentList=<%=recentList%>;
+$(()=>{
+  	const recentList='<%=recentList%>';
+  	console.log(recentList);
 	$("#recently").html("");
 	if(recentList.length>0){
 		$(".rpCount").text(recentList.length);
@@ -214,7 +214,7 @@ const fn_recentlist=function(){
 	}else{
 		$("#recently").append($("<div>최근본상품이 없습니다.</div>"));
 	}
-}; 
+}); 
 <%--     $(()=>{
     	const recentList=<%=recentList%>;
 	   	console.log(recentList);
