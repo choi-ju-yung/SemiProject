@@ -1,5 +1,12 @@
 
-const context = "http://localhost:9090/semi-hifive";
+const context = "http://:9090/semi-hifive";
+
+
+function getContextPath() {
+   var hostIndex = location.href.indexOf(location.host) + location.host.length;
+   return location.href.substring(hostIndex, location.href.indexOf('/', hostIndex + 1));
+};
+
 
 
 const checkProductRegist = {  // 상품등록할 때, 각 부분마다 정상적으로 처리됬는지 구분하는 객체 (다 true일경우에만 상품등록됨)
@@ -675,10 +682,10 @@ function productUpdate() {  // 상품수정 버튼 클릭됬을 때,
 		success: function(result) {
 			if(result>=1) { // db는 결과값이 정수로 나옴 // 입력성공
 					alert("수정 성공");
-					location.replace("http://localhost:9090/semi-hifive/");
+					location.replace(getContextPath());
 			}else{ 
 					alert("수정 실패");
-					location.replace("http://localhost:9090/semi-hifive/"+"productUpdate.do");
+					location.replace(getContextPath()+"productUpdate.do");
 			}
 		},
 		error: function() {
