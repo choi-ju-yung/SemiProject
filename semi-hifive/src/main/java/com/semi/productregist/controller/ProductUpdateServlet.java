@@ -27,9 +27,10 @@ public class ProductUpdateServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String productId = request.getParameter("productId");
-		System.out.println(productId);
+		
 		
 		Product p = new ProductRegistService().selectProduct(productId);
+		
 		List<ProductFile> pf = new ProductRegistService().selectProductFile(productId);
 		List<Category> categorys = new ProductRegistService().selectAll();
 		

@@ -28,17 +28,18 @@ public class ReportProcessServlet extends HttpServlet {
 		
 		ReportProductMember rpm = new AdminService().reportProductMember(reportNo); // 반환형은 3개의 객체클래스를 담은 클래스이다
 		
-		/* int reportNo1 = rpm.getReport().getReportNo(); */
+		int reportNo1 = rpm.getReport().getReportNo(); 
 		String userId = rpm.getMember().getUserId();
 		int declareCount = rpm.getMember().getDeclareCount();
 		double temp = rpm.getMember().getTemperature();
 		System.out.println(declareCount);
 		
+		int result0 = 0;
 		int result = new AdminService().increaseDeclareCount(userId);
 		if(result>=1) {
-			System.out.println("누적카운트증가성공");
+			result0 = new AdminService().changeComplete(reportNo);
 		}else{
-			System.out.println("카운트증가 실패!!");
+			return;
 		}
 		
 		int cnt = new AdminService().selectDeclareCount(userId);
@@ -52,7 +53,8 @@ public class ReportProcessServlet extends HttpServlet {
 			}
 		}
 		
-		// 여기서 해당 처리된 신고글은 삭제!
+		response.sendRedirect("/semi-hifive/reportListAdmin.do");
+		
 
 	}
 

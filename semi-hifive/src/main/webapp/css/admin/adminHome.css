@@ -1,6 +1,6 @@
 @charset "UTF-8";
 
-.sidebar{
+		.sidebar{
             border: 0;
             background-color: #2B3856;
             display: block;
@@ -37,4 +37,16 @@
         	margin-top: 20px;
         }
         
-        
+		a {
+		  text-decoration: none;
+		  color:black;
+		}
+		
+		a:visited { 
+			color:black; 
+		}
+		
+		.front{
+			display: flex;
+			justify-content: space-around;
+		}

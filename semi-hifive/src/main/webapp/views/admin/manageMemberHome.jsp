@@ -11,8 +11,9 @@
 </head>
 <body>  
     <aside class="sidebar">
-      <div>
-        <h3 class="text-white text-center mt-4 mb-4"><a href="<%=request.getContextPath()%>//adminMode.do">Home</a></h3>
+      <div class="front">
+        <h3 class="text-lime text-center mt-4 mb-4"><a href="<%=request.getContextPath()%>/adminMode.do">Home</a></h3>
+        <h3 class="text-white text-center mt-4 mb-4"><a href="<%=request.getContextPath()%>/index.jsp">사용자페이지</a></h3>
       </div>
       <div class="menubal ">
         <div class="accordion" id="accordionPanelsStayOpenExample">
@@ -22,7 +23,7 @@
                   회원관리
                 </button>
               </h2>
-              <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+              <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingOne">
                 <div class="accordion-body">
                   <a href="<%=request.getContextPath()%>/memberList.do">회원조회</a>
                 </div>
@@ -42,10 +43,10 @@
                   <a href="<%=request.getContextPath()%>/boardListAdmin.do">공지사항 관리</a>
                 </div>
                 <div class="accordion-body">
-                  <a href="<%=request.getContextPath()%>/reportListAdmin.do">신고 관리</a>
+                  <a href="<%=request.getContextPath()%>/reportListAdmin.do">처리되지 않은 신고글</a>
                 </div>
                 <div class="accordion-body">
-                  1:1 문의 관리
+                  <a href="<%=request.getContextPath()%>/completeReportList.do">처리된 신고글</a>
                 </div>
               </div>
             </div>
@@ -57,7 +58,7 @@
               </h2>
               <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
                 <div class="accordion-body">
-                    상품 게시물 관리
+                    <a href="<%=request.getContextPath()%>/productAdmin.do">상품 게시물 관리</a>
                   </div>
                 </div>
               </div>

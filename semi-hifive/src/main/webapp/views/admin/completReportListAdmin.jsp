@@ -23,7 +23,6 @@ List<Report> reports = (List) request.getAttribute("reports");
 					<th>신고글내용</th>
 					<th>신고글등록날짜</th>
 					<th>신고글카테고리</th>
-					<th>신고처리</th>
 					<th>글확인</th>
 					<th>삭제</th>
 				</tr>
@@ -50,13 +49,10 @@ List<Report> reports = (List) request.getAttribute("reports");
 					<td><%=r.getReportContent()%></td>
 					<td><%=r.getReportDate()%></td>
 					<td><%=r.getReportCategory()%></td>
-										<td>
-					<button type="button" class="processBtn btn btn-dark"
-							onclick="location.replace('<%=request.getContextPath()%>/reportProcess.do?reportNo=<%=r.getReportNo()%>');">처리</button></td>	
-						</td>
+
 
 					<td>
-					<button type="button" class="conBtn btn btn-dark"
+					<button type="button" class="btn btn-dark"
 							onclick="location.replace('<%=request.getContextPath()%>/service/reportContent.do?no=<%=r.getReportNo()%>');">확인</button></td>	
 						</td>
 					<td>
@@ -101,16 +97,12 @@ List<Report> reports = (List) request.getAttribute("reports");
 			$("#userRemoveAll").hide();
 			$(".updateBtn").hide();
 			$(".deleteBtn").hide();
-			$(".conBtn").hide();
-			$(".processBtn").hide();
 		}
 		else{
 			$("#userRemoveCheck").hide();
 			$("#userRemoveAll").show();
 			$(".updateBtn").show();
 			$(".deleteBtn").show();
-			$(".conBtn").show();
-			$(".processBtn").show();
 		}
 	
 	    });
