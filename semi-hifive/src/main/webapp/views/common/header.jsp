@@ -87,7 +87,7 @@ if (cookies != null) {
 				%>
             <div class="headerMain">
                <div class="logo">
-                  <a href=""> <img
+                  <a href="<%=request.getContextPath()%>/index.jsp"> <img
                      src="<%=request.getContextPath()%>/images/common/hifiveLogo.png"
                      alt="" />
                   </a>
