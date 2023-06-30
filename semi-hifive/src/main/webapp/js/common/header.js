@@ -67,21 +67,28 @@ $("#searchInput").on("keyup", function(e) {
 		}
 	} else {
 		$("#recentHead").text("최근검색어");
-		$("#recentList").css("display", "block");
+		//$("#recentList").css("display", "block");
 		$("#allDeleteBtn").css("display", "block");
 		$(".ui-autocomplete").css("display", "none");
 		$("#resetBtn").css("display", "none");
 	}
 });
 
-/*$(document).on("click", "#resetBtn", e => {
+$(document).on("click", "#resetBtn", e => {
 	$(e.target).css("display", "none");
-})*/
+})
 
 $(document).on("keydown", "#searchInput", e => {
 	if (e.which == 13) {
+		//$("#recentList").css("display", "none");
 		content = $(e.target).val();
-		location.href = getContextPath() + "/search?content=" + content;
+		console.log(content.substr(0,1))
+		if(content.substr(0,1)=="#"){			
+			location.href = getContextPath() + "/search?content=" + encodeURIComponent(content);	
+		}
+		console.log(content)
+		console.log(encodeURIComponent(content))
+		location.href = getContextPath() + "/search?content=" + encodeURIComponent(content);
 	}
 })
 
@@ -114,7 +121,8 @@ function allDeleteRecentTag() {
 	localStorage.removeItem(loginId);
 	console.log(localStorage);
 	recentList.innerHTML = "<p id='notRecent'>최근검색어 내역이 없습니다.</p>";
-	saveRecentTag();
+	//textArray=[];
+//	saveRecentTag();
 }
 
 function deleteRecentTag(e) {
@@ -168,87 +176,133 @@ if (savedRecentTags !== null) {
 	savedRecentTags.forEach(printRecentTag);
 }
 
-//자동완성
-var locList = [
-	"영등포본동",
-	"영등포동",
-	"여의동",
-	"당산1동",
-	"당산2동",
-	"도림동",
-	"문래동",
-	"양평1동",
-	"양평2동",
-	"신길1동",
-	"신길2동",
-	"신길3동",
-	"신길4동",
-	"신길5동",
-	"신길6동",
-	"신길7동",
-	"대림1동",
-	"대림2동",
-	"#아이폰",
-	"#노트북",
-	"#스마트폰",
-	"#갤럭시",
-	"#가방",
+
+var dataList2 = [
+	"아이폰",
+	"맥북",
+	"팝니다",
+	"가방",
+	"컴퓨터",
+	"노트북",
+	"갤럭시",
+	"아이스아메리카노",
+	"아이팟",
+	"아이코스",
+	
 ];
 
-var keywordList = [
-	"#아이폰",
-	"#노트북",
-	"#스마트폰",
-	"#갤럭시",
-	"#가방",
+
+const CHO_HANGUL = [
+  'ㄱ', 'ㄲ', 'ㄴ', 'ㄷ', 'ㄸ',
+  'ㄹ', 'ㅁ', 'ㅂ','ㅃ', 'ㅅ',
+  'ㅆ', 'ㅇ', 'ㅈ', 'ㅉ', 'ㅊ',
+  'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ',
 ];
 
-/*$(document).ready(function() {
-	// input필드에 자동완성 기능을 걸어준다
-	$("#searchInput").autocomplete({
-		source: locList,
-		focus: function(event, ui) {
-			return false;
-		},
-		select: function(event, ui) { },
-		minLength: 1,
-		delay: 100,
-		autoFocus: true,
-	});
 
-});*/
+const HANGUL_START_CHARCODE = "가".charCodeAt();
 
-/*$("#searchForm input").autocomplete({
-  source: function (request, response) {
-	$.ajax({
-	  url: stat_path + "/locList",
-	  type: "POST",
-	  dataType: "json",
-	  data: {value: request.term},
-	  success: function (data) {
-		response(
-		  $.map(data, function (item) {
-			return {
-			  label: item.AREA_NAME,
-			  value: item.AREA_NAME,
-			  idx: item.IDX,
-			};
-		  })
-		);
-	  },
-	});
-  },
-  focus: function (event, ui) {
-	return false;
-  },
-  select: function (event, ui) {
-	console.log(ui.item.idx);
-  },
-  delay: 100,
-  autoFocus: true,
-});*/
 
-// /검색창/
+const CHO_PERIOD = Math.floor("까".charCodeAt() - "가".charCodeAt());
+const JUNG_PERIOD = Math.floor("개".charCodeAt() - "가".charCodeAt());
+
+
+function combine(cho, jung, jong) {
+  return String.fromCharCode(
+    HANGUL_START_CHARCODE + cho * CHO_PERIOD + jung * JUNG_PERIOD + jong
+  );
+}
+
+
+function makeRegexByCho(search = "") {
+  const regex = CHO_HANGUL.reduce(
+    (acc, cho, index) =>
+      acc.replace(
+        new RegExp(cho, "g"),
+        `[${combine(index, 0, 0)}-${combine(index + 1, 0, -1)}]`
+      ),
+    search
+  );
+
+  return new RegExp(`(${regex})`, "g");
+}
+
+function includeByCho(search, targetWord) {
+  return makeRegexByCho(search).test(targetWord);
+}
+
+
+
+const searchBar=document.querySelector("#searchInput");
+const autoSearch=document.querySelector(".autoSearch");
+let nowIndex2=0;
+
+	
+	
+searchBar.onkeyup=(event)=>{
+	
+const value=searchBar.value.trim()
+	const matchData=value
+	?dataList2.filter((label)=>includeByCho(value,label))
+	:[];
+	
+	switch(event.keyCode){
+
+    case 38:
+      nowIndex2 = Math.max(nowIndex2 - 1, 0);
+      break;
+
+    case 40:
+      nowIndex2 = Math.min(nowIndex2 + 1, matchData.length - 1);
+
+      break;
+
+    case 13:
+     // document.querySelector("#search").value = matchData[nowIndex2] || "";
+      nowIndex2 = 0;
+      matchData.length = 0;
+      break;
+
+    default:
+      nowIndex2 = 0;
+      break;
+	}
+
+	//console.log(matchData[nowIndex2])
+	
+	showList2(matchData, value, nowIndex2);
+	
+}
+
+const showList2 = (data, value, nowIndex2) => {
+  const regex = makeRegexByCho(value);
+ 
+  autoSearch.innerHTML = data
+    .map(
+      (label, index) => `
+       <div class='${nowIndex2 === index ? "active" : ""}'>
+        ${label.replace(regex, "<mark>$1</mark>")}
+      </div>
+    `
+    )
+    .join("");
+    
+};
+
+
+$(document).on("click", ".autoSearch div", function(e){
+	const text=$(this).text().trim()		
+	console.log(text)
+	location.href = getContextPath() + "/search?content=" + text;		    
+})
+
+$("#searchInput").on("keydown",function(e){
+	const content=$(".autoSearch>div.active").text().trim()
+	console.log(content)
+	if (e.which == 13) {
+		location.href = getContextPath() + "/search?content=" + content;
+	}
+})
 
 // 상단메뉴바
 $("#menuList a").mouseenter(function() {
@@ -323,17 +377,25 @@ function printSearch() {
 		success: function(data) {
 			
 			$.each(data,function(index,item){
-				printsearch+="<li class='allCycle'>"+(index+1)+". "+item.searchKeyword+"</li>"
-				})
-			$("#rankAllSearch").append(printsearch);
+				printsearch+="<li class='allCycle'><span>"+(index+1)+".</span> "+item.searchKeyword+"</li><hr>"
+			})
+				$("#rankAllSearch").append(printsearch);
+				
+			let count=1;
+			let count2=1;
+			$("#rankSearch").html("<div id=rankCycle><span> 1. </span>"+data[0].searchKeyword+"</div>");
 			
-			$("#rankSearch").prepend("<li id='rankCycle'>"+"1. "+data[0].searchKeyword+"</div>")
-			
-			}
+			setInterval(function(){
+				$("#rankSearch").html("<div id='rankCycle'><span>"+((count++%10)+1)+".</span> "+data[count2++%10].searchKeyword+"</div>")
+					$("#rankCycle").slideToggle(1800)		
+			},2000);
+			$
+		
+		}
 	})
 }
 
-$("#rankSearch button").on("click" ,function(e){
+$("#printSearch button").on("click" ,function(e){
 	$("#printSearch").css("display","none")	
 	$("#rankAllSearch").css("display","block")	
 })

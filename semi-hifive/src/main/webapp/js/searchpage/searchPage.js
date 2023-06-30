@@ -388,6 +388,9 @@ $(document).ready(function() {
 	});
 });
 
+function numberWithCommas(x) {     
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); 
+} 
 $("#categoryFunction>span").on("click", e=>{
 	console.log($("input[name=content]").val())
 	console.log($(e.target).attr("value"))
@@ -400,9 +403,9 @@ $("#categoryFunction>span").on("click", e=>{
 				"soon":$(e.target).attr("value")},
 		success:function(soon){
 			var html = "";
-			console.log(soon);			
+			console.log(soon);
 			$.each(soon,function(index,item){
-				var price=$.numberWithCommas(parseInt(item.product.price));
+				var price=numberWithCommas(parseInt(item.product.price));
 			html +=
 				"<div class='pimgWraper'>"
               +"<div class='con-like'>"
@@ -426,7 +429,7 @@ $("#categoryFunction>span").on("click", e=>{
                + "<p id='productName'>"+item.product.title+"</p>"
                + "<p id='productPrice'>"+price+"원"+ "<span>"+item.product.registTime+"</span></p>"
                 +"<p id='productPlace'>"
-                 + "<ion-icon name='location-outline'></ion-icon>"
+                 + "<i class='bi bi-geo-alt'></i>"
                   +item.product.areaName
                 +"</p>"
               +"</a>"

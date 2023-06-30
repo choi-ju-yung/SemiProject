@@ -1,4 +1,9 @@
 $("#kakaoBtn").click(function () {
+		console.log(loginId)
+		if(loginId.length==0){
+			alert("로그인하세요")
+			return false;
+		}else{
 		var IMP = window.IMP; // 생략가능
 		IMP.init('imp01205556'); 
 		
@@ -37,4 +42,5 @@ $("#kakaoBtn").click(function () {
 			}
 			alert(msg);
 		});
+		}
 	});

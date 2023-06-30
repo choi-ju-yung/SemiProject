@@ -1,4 +1,4 @@
-package com.semi.search.controller;
+ package com.semi.search.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;

@@ -27,7 +27,6 @@ header {
 .imgrecently{
 	width: 68.4px; 
 	height: 68.4px;
-	cursor: pointer;
 }
 #recently{
 	width: 100%;
@@ -87,6 +86,10 @@ section {
 	margin: 0 auto;
 }
 
+.banner{
+	position:relative;
+	top:188px;
+}
 .loginSerivce {
 	display: flex;
 	justify-content: right;
@@ -149,11 +152,13 @@ section {
 .searchDetail button {
 	border: none;
 }
-#searchForm{
-	display:flex;
-}
-#submitBtn {
 
+#searchForm {
+	display: flex;
+}
+
+#submitBtn {
+	
 }
 
 #submitBtn img {
@@ -168,12 +173,11 @@ section {
 }
 
 #resetBtn {
-	display:none;
+	display: none;
 	width: 18px;
 	height: 18px;
 	color: #afafaf;
-	margin-bottom:4px;
-
+	margin-bottom: 4px;
 }
 
 #resetBtn ion-icon {
@@ -285,47 +289,28 @@ section {
 	left: 5px;
 }
 
-.ui-helper-hidden {
-	display: block;
+
+.autoSearch>div.active{
+	background-color:#eeeeee;
+}
+.autoSearch>div.active mark{
+	background-color:#eeeeee;
+}
+.autoSearch{
+	position:relative;
+	left:20px;
+	bottom:28px;
+	font-size:17px;	
+	width:590px;	
 }
 
-.ui-autocomplete {
-	/* position: relative; */
-	top: 15px !important;
-	left: 0px !important;
+.autoSearch div{
+	margin-top:12px;
 }
-
-/* .ui-widget.ui-widget-content {
-  border: 3px solid #20c997;
-  border-top: none;
-  border-radius: "20px";
-} */
-.ui-menu .ui-menu-item-wrapper {
-	margin-left: 15px;
-	margin-bottom: 15px;
-	font-size: 16px;
-}
-
-.ui-menu-item div.ui-state-hover, .ui-menu-item div.ui-state-active {
-	background-color: none;
-}
-
-.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active,
-	a.ui-button:active, .ui-button:active, .ui-button.ui-state-active:hover
-	{
-	border: none;
-	background: none;
-	font-weight: normal;
-	color: black;
-}
-
-.ui-menu .ui-state-focus, .ui-menu .ui-state-active {
-	font-weight: bold;
-	color: #20c997;
-	margin-left: 15px;
-	margin-bottom: 15px;
-	margin-top: 0px;
-	margin-right: 0px;
+.autoSearch mark{
+	background: white;
+	color:#20c997;
+	padding:0px !important;
 }
 /* /검색창 */
 
@@ -382,61 +367,79 @@ section {
 }
 /* /categoryNrank/ */
 #printSearch {
-  position: relative;
-  bottom: 10px;	
-  border: 3px solid #20c997;
-  border-radius: 20px;
-  text-align: center;
-  width: 210px;
-  background-color: white;
+	position: relative;
+	bottom: 10px;
+	border: 3px solid #20c997;
+	text-align: center;
+	width: 210px;
+	background-color: white;
+	display: flex;
+	justify-content: center;
 }
 
 #printSearch li {
-  font-size: 20px;
+	font-size: 20px;
 }
 
 #printSearch button {
-  border: none;
+	border: none;
+	position: absolute;
+	top: 12px;
+	left: 160px;
+	background-color:white;
 }
+
 #rankSearch {
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-  border-radius: 20px;
-  height: 40px;
-  background-color: white;
+	display: flex;
+	align-items: center;
+	justify-content: space-evenly;
+	border-radius: 20px;
+	height: 40px;
+	background-color: white;
 }
+
 #rankAllSearch {
-    position: absolute;
-    top: 123px;
-    margin-left: 1065px;
-    width: 210px;
-    border: 3px solid #20c997;
-    border-radius: 20px;
-    background-color: white;
-    display: none;
+	position: absolute;
+	top: 123px;
+	margin-left: 1065px;
+	width: 210px;
+	border: 3px solid #20c997;
+	background-color: white;
+	display: none;
 }
 
-#rankAllSearch div{
-    display: flex;
+#rankCycle span{
+	color:#20c997;	
+}
+
+#rankAllSearch span{
+	color:#20c997;
+}
+
+#rankAllSearch div {
+	display: flex;
 	justify-content: center;
-    margin-top:15px;
-
+	margin-top: 15px;
+	margin-bottom:15px;
 }
 
-#rankAllSearch button{
-    border: none;
-    position: relative;
-    left: 20px;
+#rankAllSearch button {
+	border: none;
+	position: relative;
+	left: 20px;
+	background-color:white;
+	bottom:4px;
+	background-color:white;
 }
 
-#rankAllSearch p{
+#rankAllSearch hr {
+
 }
 
 .allCycle {
-  margin-top: 8px;
-  margin-bottom: 8px;
-  margin-left:15px;
+	margin-top: 4px;
+	/* margin-bottom: 12px; */
+	margin-left: 25px;
 }
 /* 상단메뉴바 */
 input[id="menuIcon"] {
@@ -556,6 +559,7 @@ input[id="menuIcon"]:checked+label>span:nth-child(3) {
 	position: fixed;
 	right: calc(50% - 797px);
 	text-align: center;
+	top:250px;
 }
 
 #recentProduct p {

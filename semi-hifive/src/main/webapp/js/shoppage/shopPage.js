@@ -10,6 +10,10 @@ $(".radio-input input").on("change", function () {
   }
 });
 
+function numberWithCommas(x) {     
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); 
+} 
+
 $(document).on("click","#rsoon", e=>{
 	console.log($("input[name=userId]").val())
 	$.ajax({
@@ -22,6 +26,7 @@ $(document).on("click","#rsoon", e=>{
 			console.log(rsoon);
 			
 			$.each(rsoon,function(index,item){
+			var price=numberWithCommas(parseInt(item.product.price));
 			html +=
 				"<div id='pimgWraper'>"
               +"<div class='con-like'>"
@@ -43,7 +48,7 @@ $(document).on("click","#rsoon", e=>{
               +"<a href="+getContextPath()+"/productpage?no="+item.product.productId+">"
                +"<img src='"+getContextPath()+"/upload/productRegist/"+item.productFile.imageName+"'alt=''/>"
                + "<p id='productName'>"+item.product.title+"</p>"
-               + "<p id='productPrice'>"+item.product.price+"원"+ "<span>"+item.product.registTime+"</span></p>"
+               + "<p id='productPrice'>"+price+"원"+ "<span>"+item.product.registTime+"</span></p>"
                 +"<p id='productPlace'>"
                  + "<ion-icon name='location-outline'></ion-icon>"
                   +item.product.areaName
@@ -69,6 +74,7 @@ $(document).on("click","#psoon", e=>{
 			console.log(psoon);
 			
 			$.each(psoon,function(index,item){
+				var price=numberWithCommas(parseInt(item.product.price));
 			html +=
 				"<div id='pimgWraper'>"
               +"<div class='con-like'>"
@@ -90,7 +96,7 @@ $(document).on("click","#psoon", e=>{
                +"<a href="+getContextPath()+"/productpage?no="+item.product.productId+">"
             +"<img src='"+getContextPath()+"/upload/productRegist/"+item.productFile.imageName+"'alt=''/>"
                + "<p id='productName'>"+item.product.title+"</p>"
-               + "<p id='productPrice'>"+item.product.price+"원"+ "<span>"+item.product.registTime+"</span></p>"
+               + "<p id='productPrice'>"+price+"원"+ "<span>"+item.product.registTime+"</span></p>"
                 +"<p id='productPlace'>"
                  + "<ion-icon name='location-outline'></ion-icon>"
                   +item.product.areaName
@@ -116,6 +122,7 @@ $(document).on("click","#hsoon", e=>{
 			console.log(hsoon.product);
 			console.log(hsoon.productfile);
 			$.each(hsoon,function(index,item){
+			var price=numberWithCommas(parseInt(item.product.price));
 			html +=
 				"<div id='pimgWraper'>"
               +"<div class='con-like'>"
@@ -137,7 +144,7 @@ $(document).on("click","#hsoon", e=>{
               +"<a href="+getContextPath()+"/productpage?no="+item.product.productId+">"
               +"<img src='"+getContextPath()+"/upload/productRegist/"+item.productFile.imageName+"'alt=''/>"
                + "<p id='productName'>"+item.product.title+"</p>"
-               + "<p id='productPrice'>"+item.product.price+"원"+ "<span>"+item.product.registTime+"</span></p>"
+               + "<p id='productPrice'>"+price+"원"+ "<span>"+item.product.registTime+"</span></p>"
                 +"<p id='productPlace'>"
                  + "<ion-icon name='location-outline'></ion-icon>"
                   +item.product.areaName
@@ -163,6 +170,7 @@ $(document).on("click","#lsoon", e=>{
 			console.log(lsoon);
 			
 			$.each(lsoon,function(index,item){
+			var price=numberWithCommas(parseInt(item.product.price));
 			html +=
 				"<div id='pimgWraper'>"
               +"<div class='con-like'>"
@@ -184,7 +192,7 @@ $(document).on("click","#lsoon", e=>{
                +"<a href="+getContextPath()+"/productpage?no="+item.product.productId+">"
               +"<img src='"+getContextPath()+"/upload/productRegist/"+item.productFile.imageName+"'alt=''/>"
                + "<p id='productName'>"+item.product.title+"</p>"
-               + "<p id='productPrice'>"+item.product.price+"원"+ "<span>"+item.product.registTime+"</span></p>"
+               + "<p id='productPrice'>"+price+"원"+ "<span>"+item.product.registTime+"</span></p>"
                 +"<p id='productPlace'>"
                  + "<ion-icon name='location-outline'></ion-icon>"
                   +item.product.areaName
