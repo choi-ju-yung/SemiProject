@@ -215,10 +215,13 @@ $(()=>{
 		//console.log("if문 실행");
 		map.forEach(e=>{ //객체로 forEach 실행
 			//console.log("for문 실행");
-			const $recentA=$("<a>").attr("href","<%=request.getContextPath()%>/productpage?no="+e.productId);
-			const $recentImg=$("<img>").attr("src","<%=request.getContextPath()%>/upload/productRegist/"+e.productFileName);
+			const $recentA=$("<a>").attr("class", "recentlyLink").attr("href","<%=request.getContextPath()%>/productpage?no="+e.productId);
+			const $recentImg=$("<img>").attr("class", "imgrecently").attr("src","<%=request.getContextPath()%>/upload/productRegist/"+e.productFileName);
+			/* const $jbrecentDiv = $("<div>").attr("class", "jbrecentDiv"); */
+			/* const $jbrecentDivText=$("<div>").attr("class", "jbrecentDivText"); */
 			const $recentDiv=$("<div>").attr("class", "resentlyTag").text(e.productTitle);
-			$("#recently").append($recentA).append($recentImg).append($recentDiv);
+			$("#recently").append($recentA).append($recentImg).append($recentDiv)/* .append($jbrecentDivText); */
+			/* $jbrecentDivText.append($recentDiv); */
 		});
 	}else{
 		$("#recently").append($("<div>최근본상품이 없습니다.</div>"));
