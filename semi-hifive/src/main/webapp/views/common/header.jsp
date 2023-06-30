@@ -94,22 +94,20 @@ if (cookies != null) {
                </div>
                <div class="searchBar">
                   <div class="searchDetail">
-                     <form id="searchForm" class="form">
-                        <input required id="searchInput" maxlength="10" type="text"
+                     <form action="<%=request.getContextPath()%>/search" method="post" id="searchForm" class="form" autocomplete="off" >
+                        <input required id="searchInput" maxlength="10" type="text" 
                            placeholder="상품명, #키워드 검색" onfocus="this.placeholder = ''"
                         onblur="this.placeholder = '상품명, #키워드 검색'">
                         <button type="reset" id="resetBtn">
                      <ion-icon name="close"></ion-icon>
-                     </button>
-                     </form>
-                     
-                     <button type="submit" form="searchForm" id="submitBtn">
+                     </button>              
+                     </form>                    
+                    <button type="submit" form="searchForm" id="submitBtn">
                         <img
                            src="<%=request.getContextPath()%>/images/common/magnifier.png"
                            alt="" />
                      </button>
                   </div>
-
                   <div class="searchpage">
 
                      <div class="searchbody">
@@ -123,6 +121,9 @@ if (cookies != null) {
                            <ul id="recentList">
 
                            </ul>
+                        </div>
+                        <div class="autoSearch">
+                        	
                         </div>
                      </div>               
                   </div>
@@ -168,9 +169,8 @@ if (cookies != null) {
                
                <div id="printSearch">
               <div id="rankSearch">
-                <button>버튼</button>
               </div>
-         
+         <button><ion-icon name="chevron-down-outline"></ion-icon></button>
             </div>
              
             </div>
@@ -179,7 +179,7 @@ if (cookies != null) {
          <hr width="1280px" color="#eeeeee" noshade />
              <div id="rankAllSearch">
             <div>
-               <p>인기검색어 순</p><button>버튼</button>
+               <p>인기검색어 순</p><button><ion-icon name="chevron-up-outline"></ion-icon></button>
                </div>
               </div>
       </div>

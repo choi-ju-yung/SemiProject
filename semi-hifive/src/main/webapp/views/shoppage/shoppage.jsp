@@ -136,7 +136,9 @@ List<ShopReview> r=(List) request.getAttribute("review");
                   alt=""
                 />
                 <p id="productName"><%=pl.getProduct().getTitle() %></p>
-                <p id="productPrice"><%=pl.getProduct().getPrice()%>원 <span><%=pl.getProduct().getRegistTime()%></span></p>
+                <%String price=Integer.toString(pl.getProduct().getPrice());
+						  price=price.replaceAll("\\B(?=(\\d{3})+(?!\\d))",",");%>		
+                <p id="productPrice"><%=price%>원 <span><%=pl.getProduct().getRegistTime()%></span></p>
                 <p id="productPlace">
                   <ion-icon name="location-outline"></ion-icon>
                   <%=pl.getProduct().getAreaName()%>
@@ -156,10 +158,10 @@ List<ShopReview> r=(List) request.getAttribute("review");
           %>
           <div class="shopReview">
             <div class="srProfile">
-              <a href="">
+              <a href="<%=request.getContextPath()%>/shop?id=<%=sr.getMember().getUserId()%>">
                 <img src="<%=request.getContextPath()%>/upload/profileImg/<%=sr.getMember().getProfileImg() %>" alt="" />
               </a>
-              <a href="" class="srUser"><p><%=sr.getMember().getNickName() %></p></a>
+              <a href="<%=request.getContextPath()%>/shop?id=<%=sr.getMember().getUserId()%>" class="srUser"><p><%=sr.getMember().getNickName() %></p></a>
             </div>
             <p class="sr"><%=sr.getReview().getReviewMsg() %></p>
             <span class="time"><%=sr.getReview().getReviewDate() %></span>

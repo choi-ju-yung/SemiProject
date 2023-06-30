@@ -122,7 +122,11 @@ public class ProductPageService {
 	public int updateAjaxHeart(String loginId, int id) {
 		Connection conn=getConnection();
 		int result=dao.updateAjaxHeart(conn,loginId,id);
-		if(result>0) commit(conn);
+		if(result>0) {
+			commit(conn);
+			List<WishListCount> w=dao.wishListCount(conn,id);
+			result=w.get(0).getCount();
+		}
 		else rollback(conn);
 		close(conn);
 		return result;
@@ -131,7 +135,11 @@ public class ProductPageService {
 	public int deleteAjaxHeart(String loginId, int id) {
 		Connection conn=getConnection();
 		int result=dao.deleteAjaxHeart(conn,loginId,id);
-		if(result>0) commit(conn);
+		if(result>0) {
+			commit(conn);
+			List<WishListCount> w=dao.wishListCount(conn,id);
+			result=w.size()>0?w.get(0).getCount():0;
+		}
 		else rollback(conn);
 		close(conn);
 		return result;
@@ -154,6 +162,16 @@ public class ProductPageService {
 		close(conn);
 		return result;
 	}
-
+	
+	public int deleteProduct(int id) {
+		Connection conn=getConnection();
+		int result=dao.deleteProduct(conn,id);
+		System.out.println(result);
+		if(result>0) commit(conn);
+		else rollback(conn);
+		close(conn);
+		return result;
+	}
+	
 
 }

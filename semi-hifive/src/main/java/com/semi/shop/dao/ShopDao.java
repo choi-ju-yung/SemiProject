@@ -230,7 +230,8 @@ public class ShopDao {
 	private ShopReview getShopReview(ResultSet rs) throws SQLException {
 		return ShopReview.builder()
 				
-				.member(Member.builder()						
+				.member(Member.builder()	
+						.userId(rs.getString("user_id"))
 						.nickName(rs.getString("nickname"))
 						.profileImg(rs.getString("profile_img"))
 						.enrollDate(rs.getDate("enroll_date"))
