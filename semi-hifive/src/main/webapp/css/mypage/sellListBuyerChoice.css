@@ -69,6 +69,8 @@
 	margin: 15px;
 	width: 270px;
 	margin-left: 30px;
+	cursor: pointer;
+	z-index:1;
 }
 
 .commentList p {

@@ -33,6 +33,7 @@ public class SellListBuyerChoiceEndServlet extends HttpServlet {
 		String userId = request.getParameter("userId");
 		String buyerId = request.getParameter("buyerId");
 		
+		int result1 = new MypageProductService().changeSelectValue("판매완료", productId);
 		int result = new MypageProductService().insertTrade(productId, buyerId);
 		
 		String msg;

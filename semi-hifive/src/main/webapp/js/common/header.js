@@ -74,15 +74,21 @@ $("#searchInput").on("keyup", function(e) {
 	}
 });
 
-/*$(document).on("click", "#resetBtn", e => {
+$(document).on("click", "#resetBtn", e => {
 	$(e.target).css("display", "none");
-})*/
+})
 
 $(document).on("keydown", "#searchInput", e => {
 	if (e.which == 13) {
 		//$("#recentList").css("display", "none");
 		content = $(e.target).val();
-		location.href = getContextPath() + "/search?content=" + content;
+		console.log(content.substr(0,1))
+		if(content.substr(0,1)=="#"){			
+			location.href = getContextPath() + "/search?content=" + encodeURIComponent(content);	
+		}
+		console.log(content)
+		console.log(encodeURIComponent(content))
+		location.href = getContextPath() + "/search?content=" + encodeURIComponent(content);
 	}
 })
 
@@ -172,29 +178,17 @@ if (savedRecentTags !== null) {
 
 
 var dataList2 = [
-	"영등포본동",
-	"영등포동",
-	"여의동",
-	"당산1동",
-	"당산2동",
-	"도림동",
-	"문래동",
-	"양평1동",
-	"양평2동",
-	"신길1동",
-	"신길2동",
-	"신길3동",
-	"신길4동",
-	"신길5동",
-	"신길6동",
-	"신길7동",
-	"대림1동",
-	"대림2동",
-	"#아이폰",
-	"#노트북",
-	"#스마트폰",
-	"#갤럭시",
-	"#가방",
+	"아이폰",
+	"맥북",
+	"팝니다",
+	"가방",
+	"컴퓨터",
+	"노트북",
+	"갤럭시",
+	"아이스아메리카노",
+	"아이팟",
+	"아이코스",
+	
 ];
 
 
@@ -264,7 +258,7 @@ const value=searchBar.value.trim()
       break;
 
     case 13:
-      document.querySelector("#search").value = matchData[nowIndex2] || "";
+     // document.querySelector("#search").value = matchData[nowIndex2] || "";
       nowIndex2 = 0;
       matchData.length = 0;
       break;
@@ -383,17 +377,19 @@ function printSearch() {
 		success: function(data) {
 			
 			$.each(data,function(index,item){
-				printsearch+="<li class='allCycle'>"+(index+1)+". "+item.searchKeyword+"</li>"
+				printsearch+="<li class='allCycle'><span>"+(index+1)+".</span> "+item.searchKeyword+"</li><hr>"
 			})
 				$("#rankAllSearch").append(printsearch);
 				
 			let count=1;
 			let count2=1;
-			$("#rankSearch").html("<div id=rankCycle>"+"1. "+data[0].searchKeyword+"</div>");
+			$("#rankSearch").html("<div id=rankCycle><span> 1. </span>"+data[0].searchKeyword+"</div>");
 			
 			setInterval(function(){
-				$("#rankSearch").html("<div id='rankCycle'>"+((count++%10)+1)+". "+data[count2++%10].searchKeyword+"</div>")			
-			},5000);
+				$("#rankSearch").html("<div id='rankCycle'><span>"+((count++%10)+1)+".</span> "+data[count2++%10].searchKeyword+"</div>")
+					$("#rankCycle").slideToggle(1800)		
+			},2000);
+			$
 		
 		}
 	})

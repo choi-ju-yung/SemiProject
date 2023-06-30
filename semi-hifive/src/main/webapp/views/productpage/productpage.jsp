@@ -205,12 +205,12 @@ List<ProductCommentUser> comments = (List) request.getAttribute("comments");
 						<b> 바로결제</b>
 					</button>
 				</div>
-				<div id="fraudBtn">
+				<!-- <div id="fraudBtn">
 					<button>
 						<ion-icon name="call"></ion-icon>
 						<b> 사기조회</b>
 					</button>
-				</div>
+				</div> -->
 			</div>
 		</div>
 	</div>

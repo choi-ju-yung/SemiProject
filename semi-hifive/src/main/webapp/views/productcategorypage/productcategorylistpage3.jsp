@@ -118,6 +118,12 @@ if (cookies != null) {
 		         </ul>
 		   	 </div>	
 <script>
+//최근본상품에 추가클릭 함수
+$(".pimgWraper").click(function() {
+    var form = $(this).find('form');
+    console.log(form);
+    form.submit();
+  });
 //좋아요 ajax
 $('.like').click((e) => {
 	event.stopPropagation();

@@ -26,15 +26,32 @@ header {
 }
 
 #recently a img{
+	cursor: pointer;
 	width: "68.4px"; 
 
 	height: "68.4px";
 }
-#recently{
-text-overflow: ellipsis; 
-white-space: nowrap; 
-overflow: hidden;
+#recently a{
+	display: block;
+    width: 100%;
+    margin-bottom: 5px;
+    border: 1px solid transparent;
+    position: relative;
+    font-size: 13px;
 }
+.resentlyTag{
+	margin-bottom: 10px;
+	text-overflow: ellipsis; 
+	white-space: nowrap; 
+	overflow: hidden;
+    text-overflow: ellipsis;
+    position: absolute;
+	display: none;
+}
+#recently:hover + .resentlyTag {
+  display: block;
+}
+
 #headerContainer {
 	display: flex;
 	flex-direction: column;
@@ -56,6 +73,10 @@ section {
 	margin: 0 auto;
 }
 
+.banner{
+	position:relative;
+	top:188px;
+}
 .loginSerivce {
 	display: flex;
 	justify-content: right;
@@ -336,7 +357,6 @@ section {
 	position: relative;
 	bottom: 10px;
 	border: 3px solid #20c997;
-	border-radius: 20px;
 	text-align: center;
 	width: 210px;
 	background-color: white;
@@ -371,15 +391,23 @@ section {
 	margin-left: 1065px;
 	width: 210px;
 	border: 3px solid #20c997;
-	border-radius: 20px;
 	background-color: white;
 	display: none;
+}
+
+#rankCycle span{
+	color:#20c997;	
+}
+
+#rankAllSearch span{
+	color:#20c997;
 }
 
 #rankAllSearch div {
 	display: flex;
 	justify-content: center;
 	margin-top: 15px;
+	margin-bottom:15px;
 }
 
 #rankAllSearch button {
@@ -391,14 +419,14 @@ section {
 	background-color:white;
 }
 
-#rankAllSearch p {
-	
+#rankAllSearch hr {
+
 }
 
 .allCycle {
-	margin-top: 8px;
-	margin-bottom: 8px;
-	margin-left: 15px;
+	margin-top: 4px;
+	/* margin-bottom: 12px; */
+	margin-left: 25px;
 }
 /* 상단메뉴바 */
 input[id="menuIcon"] {
@@ -518,6 +546,7 @@ input[id="menuIcon"]:checked+label>span:nth-child(3) {
 	position: fixed;
 	right: calc(50% - 797px);
 	text-align: center;
+	top:250px;
 }
 
 #recentProduct p {

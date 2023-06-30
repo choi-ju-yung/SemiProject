@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.semi.mypage.model.vo.WishList;
 import com.semi.productlist.model.service.ProductCategoryListService;
 import com.semi.productlist.model.vo.ProductCategoryTimeList;
 
@@ -101,6 +102,8 @@ public class ViewCountServlet extends HttpServlet {
 		
 		List<ProductCategoryTimeList> getselectproduct = new ProductCategoryListService().ViewCount(condition, cPage, numPerpage);
 		
+		List<WishList> wishlist = new ProductCategoryListService().wishlist();
+		request.setAttribute("wishlist",wishlist);
 		request.setAttribute("getselectproduct", getselectproduct);
 		request.getRequestDispatcher("/views/productcategorypage/viewcount.jsp").forward(request, response);
 	

@@ -94,22 +94,20 @@ if (cookies != null) {
                </div>
                <div class="searchBar">
                   <div class="searchDetail">
-                     <form id="searchForm" class="form" autocomplete="off" method="post">
-                        <input required id="searchInput" maxlength="10" type="text"
+                     <form action="<%=request.getContextPath()%>/search" method="post" id="searchForm" class="form" autocomplete="off" >
+                        <input required id="searchInput" maxlength="10" type="text" 
                            placeholder="상품명, #키워드 검색" onfocus="this.placeholder = ''"
                         onblur="this.placeholder = '상품명, #키워드 검색'">
                         <button type="reset" id="resetBtn">
                      <ion-icon name="close"></ion-icon>
-                     </button>
-                     </form>
-                     
-                     <button type="submit" form="searchForm" id="submitBtn">
+                     </button>              
+                     </form>                    
+                    <button type="submit" form="searchForm" id="submitBtn">
                         <img
                            src="<%=request.getContextPath()%>/images/common/magnifier.png"
                            alt="" />
                      </button>
                   </div>
-
                   <div class="searchpage">
 
                      <div class="searchbody">
@@ -212,14 +210,14 @@ $(()=>{
   	console.log(recentList);
   	console.log(typeof recentList); */
 	$("#recently").html("");
-	if(recentList.length>0){
-		$(".rpCount").text(recentList.length);
+	if(map.length>0){
+		$(".rpCount").text(map.length);
 		//console.log("if문 실행");
 		map.forEach(e=>{ //객체로 forEach 실행
 			//console.log("for문 실행");
 			const $recentA=$("<a>").attr("href","<%=request.getContextPath()%>/productpage?no="+e.productId);
 			const $recentImg=$("<img>").attr("src","<%=request.getContextPath()%>/upload/productRegist/"+e.productFileName);
-			const $recentDiv=$("<div>").text(e.productTitle);
+			const $recentDiv=$("<div>").attr("class", "resentlyTag").text(e.productTitle);
 			$("#recently").append($recentA).append($recentImg).append($recentDiv);
 		});
 	}else{

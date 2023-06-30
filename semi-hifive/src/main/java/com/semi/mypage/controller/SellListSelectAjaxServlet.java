@@ -44,6 +44,7 @@ public class SellListSelectAjaxServlet extends HttpServlet {
 		} else {
 			selectValue = "판매완료";
 		}
+		
 		int result = new MypageProductService().changeSelectValue(selectValue, productId);
 		
 		// 판매상태 카운트(전체)
@@ -56,9 +57,6 @@ public class SellListSelectAjaxServlet extends HttpServlet {
 		int countStatusRes = new MypageProductService().countSellStatusSell(userId, reserve);
 		String soldOut = "판매완료";
 		int countStatusSol = new MypageProductService().countSellStatusSell(userId, soldOut);
-//		request.setAttribute("countStatusSell", countStatusSell);
-//		request.setAttribute("countStatusRes", countStatusRes);
-//		request.setAttribute("countStatusSol", countStatusSol);
 //		
 		Map jsonData=Map.of("total", total, "countStatusSell", countStatusSell, 
 				"countStatusRes", countStatusRes, "countStatusSol", countStatusSol);

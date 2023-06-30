@@ -8,18 +8,31 @@ function userId(){
 	return userId;
 };
 
-const productId = opener.document.getElementById("productId").value;
-console.log(productId);
+$(window).on('beforeunload', function() {
+	const productId = opener.document.getElementById("sellTarget").value;
+	const nowStatus = opener.document.getElementById("nowStatus").value;
+	
+	alert("거래자를 선택해주세요.");
+	
+	opener.$(".selectStatus").each((i,e)=>{
+		if(e.id==productId) {
+			$(e).val(nowStatus);
+		}
+	})
+});
 
 $(".closeBtn").click(e => {
-	alert("거래자를 선택해주세요.");
-	opener.$(".selectStatus").val("reservation").css({
-			"border": "2px solid #FFD800",
-			"color": "#FFD800"
-		})
-		console.log(productId);
-	//window.close();
+	const productId = opener.document.getElementById("sellTarget").value;
+	const nowStatus = opener.document.getElementById("nowStatus").value;
 	
+	alert("거래자를 선택해주세요.");
+	
+	opener.$(".selectStatus").each((i,e)=>{
+		if(e.id==productId) {
+			$(e).val(nowStatus);
+		}
+	})
+	window.close();
 });
 
 let buyerId;
@@ -35,34 +48,13 @@ $(".commentList").click(e => {
 
 $(".okBtn").click(e => {
 	let productId = $(e.target)[0].id;
+	console.log(productId);
+	console.log(buyerId);
+	console.log(userId());
 	
-	$.ajax({
-		url: getContextPath() + "/mypage/ajaxSelect.do",
-		data: {
-			"selectValue": "soldOut",
-			"productId": productId,
-			"userId": userId()
-		},
-		success: (data) => {
-			$(e.target).css({
-				border: "2px solid " + color,
-				color: color
-			});
-
-			$("#allBtn").text("전체 " + data.total);
-			$("#sellBtn").text("판매중 " + data.countStatusSell);
-			$("#resBtn").text("예약중 " + data.countStatusRes);
-			$("#solBtn").text("판매완료 " + data.countStatusSol);
-
-			console.log("판매상태 변경 성공");
-		},
-		error: function() {
-			alert("판매상태 변경 실패");
-		}
-	});
+	/*$("#solBtn").text("판매완료 " + data.countStatusSol);*/
 	
-	
-	let form = $("<form>").attr("method", "post").attr("action", getContextPath() + "mypage/sellListBuyerChoiceEnd.do");
+	let form = $("<form>").attr("method", "post").attr("action", getContextPath() + "/mypage/sellListBuyerChoiceEnd.do");
 	let input = $("<input>").attr("type", "hidden").attr("name", "productId").val(productId);
 	let input2 = $("<input>").attr("type", "hidden").attr("name", "userId").val(userId());
 	let input3 = $("<input>").attr("type", "hidden").attr("name", "buyerId").val(buyerId);
@@ -71,4 +63,5 @@ $(".okBtn").click(e => {
 	form.append(input3);
 	form.appendTo("body").submit();
 	form.submit();
+		
 })

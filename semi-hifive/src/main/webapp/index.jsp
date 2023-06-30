@@ -3,6 +3,17 @@
 <%@ page
 	import="com.semi.main.model.vo.ProductElapsedTime, com.semi.mypage.model.vo.MemberWishList"%>
 <%@ include file="/views/common/header.jsp"%>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
+	crossorigin="anonymous" />
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+	crossorigin="anonymous">
+	
+</script>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/main.css" />
 <script>
 function getContextPath() {
@@ -70,39 +81,8 @@ function getContextPath() {
          }
    });
 </script>
-<%
-/* List<MemberWishList> loginWishList = (List) session.getAttribute("loginWishList"); //로그인멤버 wishList
-List<ProductElapsedTime> popularProduct = (List) request.getAttribute("popularProduct");
-List<ProductElapsedTime> newProduct = (List) request.getAttribute("newProduct");
-System.out.println(popularProduct);
-System.out.println(newProduct);
-
-
-boolean isWish = false;
-if(loginMember!=null && !loginWishList.isEmpty()){
-	for(MemberWishList mw : loginWishList){
-	System.out.println(popularProduct);
-		if(popularProduct==null){
-	for(ProductElapsedTime pp : popularProduct){
-		if(pp.getProduct().getProductId() == mw.getProduct().getProductId()){
-		System.out.println("ㅇㅇ");
-	isWish = true;
-		}
-	}
-		}
-		if(newProduct!=null && !newProduct.isEmpty()){
-	for(ProductElapsedTime np : newProduct){
-		if(np.getProduct().getProductId() == mw.getProduct().getProductId()){
-	isWish = true;
-		}
-	}
-		} 
-	}
-} */
-%>
-<section>
-	<!-- 광고배너 -->
-	<div class="slideContainer">
+<div class="banner">
+<!-- <div class="slideContainer">
 		<div class="btnContainer">
 			<ul class="slide">
 				<li><img
@@ -121,10 +101,93 @@ if(loginMember!=null && !loginWishList.isEmpty()){
 			<button class="prevBtn btn"><</button>
 			<button class="nextBtn btn">></button>
 		</div>
-	</div>
+	</div> -->
+		 <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-indicators">
+            <button
+              type="button"
+              data-bs-target="#carouselExampleIndicators"
+              data-bs-slide-to="0"
+              class="active"
+              aria-current="true"
+              aria-label="Slide 1"
+            ></button>
+            <button
+              type="button"
+              data-bs-target="#carouselExampleIndicators"
+              data-bs-slide-to="1"
+              aria-label="Slide 2"
+            ></button>
+            <button
+              type="button"
+              data-bs-target="#carouselExampleIndicators"
+              data-bs-slide-to="2"
+              aria-label="Slide 3"
+            ></button>
+            <button
+              type="button"
+              data-bs-target="#carouselExampleIndicators"
+              data-bs-slide-to="3"
+              aria-label="Slide 4"
+            ></button>
+          </div>
+          <div class="carousel-inner">
+            <div class="carousel-item active" data-bs-interval="4000">
+              <img
+                src="./images/common/banner1.gif"
+                class="d-block w-100"
+                alt="..."
+              />
+            </div>
+            <div class="carousel-item" data-bs-interval="4000">
+              <img
+                src="./images/common/banner2.png"
+                class="d-block w-100"
+                alt="..."
+              />
+            </div>
+            <div class="carousel-item" data-bs-interval="4000">
+              <img
+                src="https://media.bunjang.co.kr/images/nocrop/1006977703_w1197.jpg"
+                class="d-block w-100"
+                alt="..."
+              />
+            </div>
+            <div class="carousel-item" data-bs-interval="4000">
+              <img
+                src="https://media.bunjang.co.kr/images/nocrop/1007175998_w1197.jpg"
+                class="d-block w-100"
+                alt="..."
+              />
+            </div>
+          </div>
+          <button
+            class="carousel-control-prev"
+            type="button"
+            data-bs-target="#carouselExampleIndicators"
+            data-bs-slide="prev"
+          >
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button
+            class="carousel-control-next"
+            type="button"
+            data-bs-target="#carouselExampleIndicators"
+            data-bs-slide="next"
+          >
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+</div>
+<section>
+	<!-- 광고배너 -->
+	
 
 	<!-- 카테고리 -->
 	<div class="mainCategoryDiv">
+	<div class="cate1">
 		<a href="<%=request.getContextPath()%>/categoryproductlist.do">
 			<div class="categoryLink">
 				<div class="categoryBgAll">
@@ -174,7 +237,10 @@ if(loginMember!=null && !loginWishList.isEmpty()){
 					<span class="categoryTitle">PC/모바일</span>
 				</div>
 			</div>
-		</a> <a
+		</a> 
+		</div>
+		<div class="cate2">
+		<a
 			href="<%=request.getContextPath()%>/headersearchcategory.do?categoryname=가구/인테리어">
 			<div class="categoryLink">
 				<div class="categoryBg">
@@ -225,12 +291,13 @@ if(loginMember!=null && !loginWishList.isEmpty()){
 				</div>
 			</div>
 		</a>
+		</div>
 	</div>
 	<!-- 인기상품 -->
 	<div class="popularProDiv">
 		<div class="proTitleDiv">
 			<h1 class="proTitle">인기상품</h1>
-			<button class="moreBtn">더보기</button>
+			<button class="moreBtn poMoreBtn">더보기</button>
 		</div>
 		<div class="productDiv">
 			<%
@@ -298,7 +365,7 @@ if(loginMember!=null && !loginWishList.isEmpty()){
 	<div class="popularProDiv">
 		<div class="proTitleDiv">
 			<h1 class="proTitle">최신상품</h1>
-			<button class="moreBtn">더보기</button>
+			<button class="moreBtn newMoreBtn">더보기</button>
 		</div>
 		<div class="productDiv">
 			<%
