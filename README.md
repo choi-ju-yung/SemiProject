@@ -1,5 +1,6 @@
-## 프로젝트 이름 및 로고 
-![image](https://github.com/choi-ju-yung/SemiProject/assets/112717817/75f974cc-fec5-4220-a718-9fbaa2652c32)
+![중고-거래-HiFive-Chrome-2023-08-26-22-01-20](https://github.com/choi-ju-yung/SemiProject/assets/112717817/b76a6ade-ac56-4518-b86d-212213c3447e)## 프로젝트 이름 및 로고 
+![image](https://github.com/choi-ju-yung/SemiProject/assets/112717817/fb4a0d6c-a619-4991-a4cb-01875d309d1d)
+
 <br>
 
 
@@ -21,12 +22,13 @@
 <br>
 
 ### ⚙️ 개발 환경
-![image](https://github.com/choi-ju-yung/SemiProject/assets/112717817/25d1576a-0ca2-474b-bff9-0bf59fda3c2a)
+![image](https://github.com/choi-ju-yung/SemiProject/assets/112717817/2b8bbe6c-3db2-49e9-99d4-ac1bb09b62dc)
+
 <br>
 <br>
 
 ## :page_with_curl: 배포 주소
-[http://14.36.141.71:10005/GDJ64_workit_final/](http://14.36.141.71:10005/semi-hifive/)
+http://14.36.141.71:10005/semi-hifive/
 <br>
 <br>
 
@@ -36,7 +38,8 @@
 <summary>회원가입 신청 보기</summary>
 <div markdown="1">
   
-![중고 거래 HiFive - 개인 - Microsoft_ Edge 2023-08-24 06-22-54](https://github.com/choi-ju-yung/SemiProject/assets/112717817/eb644c5c-063e-4272-84ba-6872bdb09836)
+![중고-거래-HiFive-Chrome-2023-08-26-21-57-33](https://github.com/choi-ju-yung/SemiProject/assets/112717817/205e1715-4bc7-4991-8b81-d691adc5fee6)
+
 </div>
 </details>
 
@@ -44,7 +47,8 @@
 <summary>로그인 보기</summary>
 <div markdown="1">
   
-![중고 거래 HiFive - 개인 - Microsoft_ Edge 2023-08-24 06-23-49](https://github.com/choi-ju-yung/SemiProject/assets/112717817/3ed22a68-6791-4240-a7e6-ab2716bee23a)
+![중고-거래-HiFive-Chrome-2023-08-26-21-58-37](https://github.com/choi-ju-yung/SemiProject/assets/112717817/d0ae1c56-dd91-4e42-8a11-dfed55f1cd87)
+
 </div>
 </details>
 
@@ -52,7 +56,8 @@
 <summary>아이디찾기 보기</summary>
 <div markdown="1">
   
-![중고 거래 HiFive - 개인 - Microsoft_ Edge 2023-08-24 06-24-16](https://github.com/choi-ju-yung/SemiProject/assets/112717817/25d95d39-e3a5-4041-9ed0-059e546c2d8e)
+![중고-거래-HiFive-Chrome-2023-08-26-21-59-00](https://github.com/choi-ju-yung/SemiProject/assets/112717817/96a80265-6e26-4640-85d5-a58fbd86bd06)
+
 </div>
 </details>
 
@@ -60,7 +65,8 @@
 <summary>비밀번호찾기 보기</summary>
 <div markdown="1">
   
-![중고 거래 HiFive - 개인 - Microsoft_ Edge 2023-08-24 06-25-31](https://github.com/choi-ju-yung/SemiProject/assets/112717817/dedd84a4-ac05-45ad-9f37-1d334d40d27c)
+![중고-거래-HiFive-Chrome-2023-08-26-21-59-22](https://github.com/choi-ju-yung/SemiProject/assets/112717817/048d3391-ab77-4ce6-a6b3-d785e5af7eb1)
+
 </div>
 </details>
 
@@ -68,7 +74,8 @@
 <summary>상품등록보기</summary>
 <div markdown="1"> 
   
-![중고-거래-HiFive-개인-Microsoft_-Edge-2023-08-24-06-41-22](https://github.com/choi-ju-yung/SemiProject/assets/112717817/f213e8a5-8596-4523-9184-5ab7a425a198)
+![중고-거래-HiFive-Chrome-2023-08-26-22-00-24](https://github.com/choi-ju-yung/SemiProject/assets/112717817/40d147e6-98d2-4e91-a225-fd97812f86e7)
+
 </div>
 </details>
 
@@ -76,7 +83,8 @@
 <summary>상품수정보기</summary>
 <div markdown="1"> 
   
-![중고 거래 HiFive - 개인 - Microsoft_ Edge 2023-08-24 06-29-08](https://github.com/choi-ju-yung/SemiProject/assets/112717817/d748419a-9a06-4e1a-bb0e-7479b33997cb)
+![중고-거래-HiFive-Chrome-2023-08-26-22-01-20](https://github.com/choi-ju-yung/SemiProject/assets/112717817/35f25ef9-8765-4324-9498-3117cd8aa8b8)
+
 </div>
 </details>
 
@@ -84,7 +92,8 @@
 <summary>관리자페이지 보기</summary>
 <div markdown="1"> 
   
-![중고-거래-HiFive-개인-Microsoft_-Edge-2023-08-24-06-40-58](https://github.com/choi-ju-yung/SemiProject/assets/112717817/874733b9-02fd-4c4f-a956-eb9fd0118043)
+![중고-거래-HiFive-Chrome-2023-08-26-22-28-10](https://github.com/choi-ju-yung/SemiProject/assets/112717817/eddf0522-cb43-4e56-bd64-a7459723d33b)
+
 </div>
 </details>
 
