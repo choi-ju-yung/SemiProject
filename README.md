@@ -27,11 +27,6 @@
 <br>
 <br>
 
-## :page_with_curl: 배포 주소
-http://14.36.141.71:10005/semi-hifive/
-<br>
-<br>
-
 ## 📌 내 기능 실행화면
 
 <details>
